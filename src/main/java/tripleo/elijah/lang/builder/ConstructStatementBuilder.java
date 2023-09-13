@@ -19,7 +19,7 @@ public class ConstructStatementBuilder extends ElBuilder {
 	private Context _context;
 	private String constructorName = null;
 
-	public ConstructStatementBuilder(Qualident q, ExpressionList o) {
+	public ConstructStatementBuilder(final Qualident q, final ExpressionList o) {
 		super();
 		this.q = q;
 		this.o = o;
@@ -31,11 +31,11 @@ public class ConstructStatementBuilder extends ElBuilder {
 	}
 
 	@Override
-	protected void setContext(Context context) {
+	protected void setContext(final Context context) {
 		_context = context;
 	}
 
-	public void setConstructorName(String aConstructorName) {
+	public void setConstructorName(final String aConstructorName) {
 		constructorName = aConstructorName;
 	}
 }

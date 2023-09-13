@@ -14,9 +14,7 @@
  */
 package tripleo.elijah.lang;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class ClassInheritance {
 
@@ -27,7 +25,7 @@ public class ClassInheritance {
 	public ClassInheritance() {
 	}
 
-	public List<TypeName> tns = new ArrayList<TypeName>();
+	public final List<TypeName> tns = new ArrayList<TypeName>();
 
 	public void add(final TypeName tn) {
 		tns.add(tn);

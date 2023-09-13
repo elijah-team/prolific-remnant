@@ -8,15 +8,15 @@
  */
 package tripleo.elijah.lang.builder;
 
-import tripleo.elijah.lang.IExpression;
+import tripleo.elijah.lang.*;
 
 /**
  * Created 5/8/21 6:13 AM
  */
 public class BaseScope2 extends BaseScope {
 	@Override
-	public void statementWrapper(IExpression expr) {
-		StatementWrapperBuilder swb = new StatementWrapperBuilder(expr);
+	public void statementWrapper(final IExpression expr) {
+		final StatementWrapperBuilder swb = new StatementWrapperBuilder(expr);
 		bs.add(swb);
 	}
 }

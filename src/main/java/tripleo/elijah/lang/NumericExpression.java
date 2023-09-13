@@ -14,16 +14,16 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
-import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.diagnostic.Locatable;
-import tripleo.elijah.util.NotImplementedException;
+import antlr.*;
+import org.jetbrains.annotations.*;
+import tripleo.elijah.diagnostic.*;
+import tripleo.elijah.util.*;
 
-import java.io.File;
+import java.io.*;
 
 public class NumericExpression implements IExpression, Locatable {
 
-	int carrier;
+	final   int   carrier;
 	private Token n;
 
 	public NumericExpression(final int aCarrier) {
@@ -31,7 +31,7 @@ public class NumericExpression implements IExpression, Locatable {
 	}
 
 	public NumericExpression(final @NotNull Token n) {
-		this.n = n;
+		this.n  = n;
 		carrier = Integer.parseInt(n.getText());
 	}
 
@@ -136,7 +136,7 @@ public class NumericExpression implements IExpression, Locatable {
 	@Override
 	public File getFile() {
 		if (token() != null) {
-			String filename = token().getFilename();
+			final String filename = token().getFilename();
 			if (filename != null)
 				return new File(filename);
 		}

@@ -8,11 +8,10 @@
  */
 package tripleo.elijah.contexts;
 
+import org.jetbrains.annotations.*;
 import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.expand.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 8/21/20 11:53 PM
@@ -21,8 +20,6 @@ public class FuncExprContext extends FunctionContext {
 
 	private final FuncExpr carrier;
 	private final Context _parent;
-	public List<FunctionPrelimInstruction> functionPrelimInstructions = new ArrayList<FunctionPrelimInstruction>();
-	private int functionPrelimInstructionsNumber = 1;
 
 	public FuncExprContext(final Context cur, final FuncExpr pc) {
 		super(cur, pc);
@@ -40,7 +37,7 @@ public class FuncExprContext extends FunctionContext {
 			) continue;
 			if (item instanceof OS_Element2) {
 				if (((OS_Element2) item).name().equals(name)) {
-					Result.add(name, level, (OS_Element) item, this);
+					Result.add(name, level, item, this);
 				}
 			} else if (item instanceof VariableSequence) {
 //				System.out.println("[FunctionContext#lookup] VariableSequence "+item);
@@ -50,7 +47,7 @@ public class FuncExprContext extends FunctionContext {
 				}
 			}
 		}
-		for (final FormalArgListItem arg : carrier.getArgs()) {
+		for (final @NotNull FormalArgListItem arg : carrier.getArgs()) {
 			if (arg.name().equals(name)) {
 				Result.add(name, level, arg, this);
 			}

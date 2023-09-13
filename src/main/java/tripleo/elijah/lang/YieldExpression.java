@@ -8,8 +8,8 @@
  */
 package tripleo.elijah.lang;
 
-import tripleo.elijah.gen.ICodeGen;
-import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.lang2.*;
+import tripleo.elijah.util.*;
 
 public class YieldExpression /*extends BasicBinaryExpression*/ implements OS_Element, StatementItem {
 
@@ -19,7 +19,7 @@ public class YieldExpression /*extends BasicBinaryExpression*/ implements OS_Ele
 	}
 
 	@Override
-	public void visitGen(ICodeGen visit) {
+	public void visitGen(final ElElementVisitor visit) {
 		visit.visitYield(this);
 	}
 

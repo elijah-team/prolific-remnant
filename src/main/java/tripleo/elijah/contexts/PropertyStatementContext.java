@@ -10,15 +10,15 @@ package tripleo.elijah.contexts;
 
 import tripleo.elijah.lang.*;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 12/26/20 2:24 AM
  */
 public class PropertyStatementContext extends Context {
 
-	public PropertyStatement carrier;
-	private final Context _parent;
+	public final  PropertyStatement carrier;
+	private final Context           _parent;
 
 	public PropertyStatementContext(final Context aParent, final OS_Element element) {
 		this._parent = aParent;

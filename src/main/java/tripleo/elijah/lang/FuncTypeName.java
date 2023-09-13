@@ -1,8 +1,8 @@
 package tripleo.elijah.lang;
 
-import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.*;
 
-import java.io.File;
+import java.io.*;
 
 /**
  * Created 8/16/20 2:16 AM
@@ -22,8 +22,8 @@ public class FuncTypeName implements TypeName {
 	}
 
 	public void argList(final FormalArgList op) {
-		TypeNameList tnl = new TypeNameList();
-		for (FormalArgListItem fali : op.falis) {
+		final TypeNameList tnl = new TypeNameList();
+		for (final FormalArgListItem fali : op.falis) {
 			final TypeName tn = fali.typeName();
 			if (tn != null)
 				tnl.add(tn);

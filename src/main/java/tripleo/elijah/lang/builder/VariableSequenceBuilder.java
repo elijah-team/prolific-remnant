@@ -10,8 +10,7 @@ package tripleo.elijah.lang.builder;
 
 import tripleo.elijah.lang.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 12/22/20 11:48 PM
@@ -25,7 +24,7 @@ public class VariableSequenceBuilder extends ElBuilder {
 	private Context _context;
 	List<Triple> triples = new ArrayList<Triple>();
 
-	public void defaultModifiers(TypeModifiers modifiers) {
+	public void defaultModifiers(final TypeModifiers modifiers) {
 		def = modifiers;
 	}
 
@@ -37,38 +36,26 @@ public class VariableSequenceBuilder extends ElBuilder {
 //		_tn = null;
 	}
 
-	static class Triple {
-		IExpression _initial;
-		IdentExpression _name;
-		TypeName _tn;
-
-		public Triple(IExpression _initial, IdentExpression _name, TypeName _tn) {
-			this._initial = _initial;
-			this._name = _name;
-			this._tn = _tn;
-		}
-	}
-
-	public void setName(IdentExpression i) {
+	public void setName(final IdentExpression i) {
 		_name = i;
 	}
 
-	public void setTypeName(TypeName tn) {
+	public void setTypeName(final TypeName tn) {
 		_tn = tn;
 	}
 
-	public void setInitial(IExpression expr) {
+	public void setInitial(final IExpression expr) {
 		_initial = expr;
 	}
 
 	@Override
 	protected VariableSequence build() {
-		VariableSequence variableSequence = new VariableSequence(_context);
+		final VariableSequence variableSequence = new VariableSequence(_context);
 		variableSequence.defaultModifiers(def);
 		if (_name != null)
 			next(); // create singular entry
-		for (Triple triple : triples) {
-			VariableStatement vs = variableSequence.next();
+		for (final Triple triple : triples) {
+			final VariableStatement vs = variableSequence.next();
 			if (triple._tn != null)
 				vs.setTypeName(triple._tn);
 			vs.initial(triple._initial);
@@ -82,8 +69,20 @@ public class VariableSequenceBuilder extends ElBuilder {
 	}
 
 	@Override
-	protected void setContext(Context context) {
+	protected void setContext(final Context context) {
 		_context = context;
+	}
+
+	static class Triple {
+		IExpression _initial;
+		IdentExpression _name;
+		TypeName _tn;
+
+		public Triple(final IExpression _initial, final IdentExpression _name, final TypeName _tn) {
+			this._initial = _initial;
+			this._name = _name;
+			this._tn = _tn;
+		}
 	}
 }
 

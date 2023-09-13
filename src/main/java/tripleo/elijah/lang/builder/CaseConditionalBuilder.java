@@ -10,8 +10,7 @@ package tripleo.elijah.lang.builder;
 
 import tripleo.elijah.lang.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 12/23/20 5:50 AM
@@ -20,28 +19,18 @@ public class CaseConditionalBuilder extends ElBuilder {
 	private Context _context;
 	private IExpression expr;
 	private BaseScope baseScope;
-	private List<Part> parts = new ArrayList<Part>();
-
-	class Part {
-		IExpression expr;
-		BaseScope scope;
-
-		public Part(IExpression expr, BaseScope baseScope) {
-			this.expr = expr;
-			this.scope = baseScope;
-		}
-	}
+    private final List<Part> parts = new ArrayList<Part>();
 
 	@Override
 	protected CaseConditional build() {
-		CaseConditional caseConditional = new CaseConditional(_parent, _context);
+		final CaseConditional caseConditional = new CaseConditional(_parent, _context);
 		caseConditional.expr(expr);
-		for (Part part : parts) {
-			Scope3 scope3 = new Scope3(caseConditional);
-			for (ElBuilder item : part.scope.items()) {
+		for (final Part part : parts) {
+			final Scope3 scope3 = new Scope3(caseConditional);
+			for (final ElBuilder item : part.scope.items()) {
 				item.setParent(caseConditional);
 				item.setContext(caseConditional.getContext());
-				OS_Element built = item.build();
+				final OS_Element built = item.build();
 				scope3.add(built);
 			}
 //			Scope sc = caseConditional.scope(part.expr);
@@ -52,21 +41,30 @@ public class CaseConditionalBuilder extends ElBuilder {
 	}
 
 	@Override
-	protected void setContext(Context context) {
+	protected void setContext(final Context context) {
 		_context = context;
 	}
 
-	public void expr(IExpression expr) {
+	public void expr(final IExpression expr) {
 		this.expr = expr;
 	}
 
-
-	public BaseScope scope(IExpression expr) {
+	public BaseScope scope(final IExpression expr) {
 		final BaseScope baseScope = new BaseScope() {
 		};
 		final Part p = new Part(expr, baseScope);
 		parts.add(p);
 		return baseScope;
+	}
+
+	class Part {
+		IExpression expr;
+		BaseScope scope;
+
+		public Part(final IExpression expr, final BaseScope baseScope) {
+			this.expr = expr;
+			this.scope = baseScope;
+		}
 	}
 }
 

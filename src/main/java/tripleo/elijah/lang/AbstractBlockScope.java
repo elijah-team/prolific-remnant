@@ -1,6 +1,6 @@
 package tripleo.elijah.lang;
 
-import antlr.Token;
+import antlr.*;
 
 /**
  * Created 8/30/20 2:54 PM
@@ -21,7 +21,7 @@ public abstract class AbstractBlockScope implements Scope {
 		if (aItem instanceof FunctionItem)
 			_element.add((OS_Element) aItem);
 		else
-			System.err.println(String.format("adding false FunctionItem %s", aItem.getClass().getName()));
+			System.err.printf("adding false FunctionItem %s%n", aItem.getClass().getName());
 	}
 
 	@Override

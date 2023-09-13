@@ -1,26 +1,25 @@
 package tripleo.elijah.lang.imports;
 
-import tripleo.elijah.contexts.ImportContext;
+import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.*;
-import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 8/7/20 2:09 AM
  */
 public class AssigningImportStatement extends _BaseImportStatement {
-	final OS_Element parent;
+	final         OS_Element parent;
 	private final List<Part> _parts = new ArrayList<Part>();
-	private Context _ctx;
+	private       Context    _ctx;
 
 	public static class Part { // public for ImportStatementBuilder
-		IdentExpression name;
-		Qualident value;
+		final IdentExpression name;
+		final Qualident       value;
 
-		public Part(IdentExpression i1, Qualident q1) {
-			name = i1;
+		public Part(final IdentExpression i1, final Qualident q1) {
+			name  = i1;
 			value = q1;
 		}
 	}

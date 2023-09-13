@@ -8,13 +8,11 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
-import tripleo.elijah.contexts.WithContext;
-import tripleo.elijah.gen.ICodeGen;
+import antlr.*;
+import tripleo.elijah.contexts.*;
+import tripleo.elijah.lang2.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 8/30/20 1:51 PM
@@ -37,7 +35,7 @@ public class WithStatement implements OS_Element, OS_Container, FunctionItem, St
 	}
 
 	@Override
-	public void visitGen(final ICodeGen visit) {
+	public void visitGen(final ElElementVisitor visit) {
 		visit.visitWithStatement(this);
 	}
 
@@ -84,7 +82,7 @@ public class WithStatement implements OS_Element, OS_Container, FunctionItem, St
 		_items.add((FunctionItem) anElement);
 	}
 
-	public void scope(Scope3 sco) {
+	public void scope(final Scope3 sco) {
 		scope3 = sco;
 	}
 

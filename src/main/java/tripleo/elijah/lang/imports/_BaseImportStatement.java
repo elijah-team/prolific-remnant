@@ -8,9 +8,7 @@
  */
 package tripleo.elijah.lang.imports;
 
-import tripleo.elijah.lang.AccessNotation;
-import tripleo.elijah.lang.El_Category;
-import tripleo.elijah.lang.ImportStatement;
+import tripleo.elijah.lang.*;
 
 /**
  * Created 3/26/21 4:55 AM
@@ -22,12 +20,12 @@ public abstract class _BaseImportStatement implements ImportStatement {
 	private El_Category category;
 
 	@Override
-	public void setCategory(El_Category aCategory) {
+	public void setCategory(final El_Category aCategory) {
 		category = aCategory;
 	}
 
 	@Override
-	public void setAccess(AccessNotation aNotation) {
+	public void setAccess(final AccessNotation aNotation) {
 		access_note = aNotation;
 	}
 

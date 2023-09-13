@@ -8,14 +8,10 @@
  */
 package tripleo.elijah.lang.builder;
 
-import antlr.Token;
-import tripleo.elijah.lang.AccessNotation;
-import tripleo.elijah.lang.Documentable;
-import tripleo.elijah.lang.InvariantStatement;
-import tripleo.elijah.lang.OS_Element;
+import antlr.*;
+import tripleo.elijah.lang.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 12/23/20 2:47 AM
@@ -34,11 +30,11 @@ public class NamespaceScope extends ClassOrNamespaceScope implements Documentabl
 	private final List<OS_Element> _items = new ArrayList<OS_Element>();
 
 	@Override
-	public void addDocString(Token s1) {
+	public void addDocString(final Token s1) {
 		_docstrings.add(s1);
 	}
 
-	public void addAccess(AccessNotation acs) {
+	public void addAccess(final AccessNotation acs) {
 		// _items.add(acs);
 	}
 

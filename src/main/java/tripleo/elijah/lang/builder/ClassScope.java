@@ -8,27 +8,26 @@
  */
 package tripleo.elijah.lang.builder;
 
-import tripleo.elijah.lang.AccessNotation;
-import tripleo.elijah.lang.Documentable;
+import tripleo.elijah.lang.*;
 
 /**
  * Created 12/22/20 8:38 PM
  */
 public class ClassScope extends ClassOrNamespaceScope implements Documentable {
 
-	public void addAccess(AccessNotation acs) {
+	public void addAccess(final AccessNotation acs) {
 		// TODO find something to do with this
 		// _items.add(acs);
 	}
 
 	public FunctionDefBuilder funcDef() {
-		FunctionDefBuilder functionDefBuilder = new FunctionDefBuilder();
+		final FunctionDefBuilder functionDefBuilder = new FunctionDefBuilder();
 		add(functionDefBuilder);
 		return functionDefBuilder;
 	}
 
 	public TypeAliasBuilder typeAlias() {
-		TypeAliasBuilder typeAliasBuilder = new TypeAliasBuilder();
+		final TypeAliasBuilder typeAliasBuilder = new TypeAliasBuilder();
 		add(typeAliasBuilder);
 		return typeAliasBuilder;
 	}

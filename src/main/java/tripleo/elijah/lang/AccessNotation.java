@@ -8,10 +8,10 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
-import tripleo.elijah.gen.ICodeGen;
-import tripleo.elijah.util.NotImplementedException;
-import tripleo.elijjah.ElijjahTokenTypes;
+import antlr.*;
+import tripleo.elijah.lang2.*;
+import tripleo.elijah.util.*;
+import tripleo.elijjah.*;
 
 /**
  * Created 9/22/20 1:39 AM
@@ -39,7 +39,7 @@ public class AccessNotation implements OS_Element {
 	}
 
 	@Override
-	public void visitGen(ICodeGen visit) {
+	public void visitGen(final ElElementVisitor visit) {
 		visit.visitAccessNotation(this);
 	}
 

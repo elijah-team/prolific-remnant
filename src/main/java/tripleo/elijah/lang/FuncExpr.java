@@ -8,12 +8,11 @@
  */
 package tripleo.elijah.lang;
 
-import tripleo.elijah.contexts.FuncExprContext;
-import tripleo.elijah.gen.ICodeGen;
-import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.contexts.*;
+import tripleo.elijah.lang2.*;
+import tripleo.elijah.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Tripleo
@@ -67,7 +66,7 @@ public class FuncExpr extends BaseFunctionDef implements IExpression, OS_Element
 		return mFal.falis;
 	}
 
-	public void setArgList(FormalArgList argList) {
+	public void setArgList(final FormalArgList argList) {
 		mFal = argList;
 	}
 
@@ -116,7 +115,7 @@ public class FuncExpr extends BaseFunctionDef implements IExpression, OS_Element
 	}
 
 	@Override
-	public void visitGen(final ICodeGen visit) {
+	public void visitGen(final ElElementVisitor visit) {
 		visit.visitFuncExpr(this);
 	}
 

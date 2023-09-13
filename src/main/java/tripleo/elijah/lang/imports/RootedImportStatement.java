@@ -1,11 +1,10 @@
 package tripleo.elijah.lang.imports;
 
-import tripleo.elijah.contexts.ImportContext;
+import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.*;
-import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 8/7/20 2:09 AM
@@ -78,7 +77,7 @@ public class RootedImportStatement extends _BaseImportStatement {
 		_ctx = ctx;
 	}
 
-	public void setImportList(QualidentList qil) {
+	public void setImportList(final QualidentList qil) {
 		importList = qil;
 	}
 }

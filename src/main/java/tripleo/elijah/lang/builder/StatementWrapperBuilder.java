@@ -8,10 +8,7 @@
  */
 package tripleo.elijah.lang.builder;
 
-import tripleo.elijah.lang.Context;
-import tripleo.elijah.lang.IExpression;
-import tripleo.elijah.lang.OS_Element;
-import tripleo.elijah.lang.StatementWrapper;
+import tripleo.elijah.lang.*;
 
 /**
  * Created 12/23/20 1:04 AM
@@ -20,7 +17,7 @@ public class StatementWrapperBuilder extends ElBuilder {
 	private final IExpression expr;
 	private Context _context;
 
-	public StatementWrapperBuilder(IExpression expr) {
+	public StatementWrapperBuilder(final IExpression expr) {
 		this.expr = expr;
 	}
 
@@ -30,7 +27,7 @@ public class StatementWrapperBuilder extends ElBuilder {
 	}
 
 	@Override
-	protected void setContext(Context context) {
+	protected void setContext(final Context context) {
 		_context = context;
 	}
 }

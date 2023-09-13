@@ -8,9 +8,10 @@
  */
 package tripleo.elijah.lang;
 
-import tripleo.elijah.contexts.NamespaceContext;
-import tripleo.elijah.gen.ICodeGen;
-import tripleo.elijah.util.NotImplementedException;
+import org.jetbrains.annotations.*;
+import tripleo.elijah.contexts.*;
+import tripleo.elijah.lang2.*;
+import tripleo.elijah.util.*;
 
 /**
  * @author Tripleo(sb)
@@ -70,17 +71,18 @@ public class NamespaceStatement extends _CommonNC implements Documentable, Modul
 	public InvariantStatement invariantStatement() {
 		throw new NotImplementedException();
 	}
-	
+
 	public FunctionDef funcDef() {
 		return new FunctionDef(this, getContext());
 	}
-	
+
 	public ProgramClosure XXX() {
-		return new ProgramClosure() {};
+		return new ProgramClosure() {
+		};
 	}
 
 	@Override // OS_Element
-	public void visitGen(final ICodeGen visit) {
+	public void visitGen(final @NotNull ElElementVisitor visit) {
 		visit.visitNamespaceStatement(this);
 	}
 
@@ -110,7 +112,7 @@ public class NamespaceStatement extends _CommonNC implements Documentable, Modul
 		if (anElement instanceof ClassItem)
 			items.add((ClassItem) anElement);
 		else
-			System.err.println(String.format("[NamespaceStatement#add] not a ClassItem: %s", anElement));
+			System.err.printf("[NamespaceStatement#add] not a ClassItem: %s%n", anElement);
 	}
 
 	public void postConstruct() {
@@ -123,6 +125,11 @@ public class NamespaceStatement extends _CommonNC implements Documentable, Modul
 		} else {
 			setType(NamespaceTypes.NAMED);
 		}
+	}
+
+	public OS_Type getOS_Type() {
+//		return new OS_Type(OS_Type.Type.);
+		return null; // TODO
 	}
 
 	// region ClassItem

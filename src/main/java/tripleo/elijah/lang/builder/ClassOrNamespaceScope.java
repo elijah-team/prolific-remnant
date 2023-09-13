@@ -9,35 +9,33 @@
 
 package tripleo.elijah.lang.builder;
 
-import tripleo.elijah.lang.IExpression;
-import tripleo.elijah.lang.IdentExpression;
+import tripleo.elijah.lang.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 12/23/20 2:54 AM
  */
 public abstract class ClassOrNamespaceScope extends BaseScope {
 
-	public void addProp(PropertyStatementBuilder ps) {
+	public void addProp(final PropertyStatementBuilder ps) {
 		add(ps);
 	}
+
+	public void addInvariantStatementPart(final IdentExpression i1, final IExpression expr) {
+		isps.add(new IspPart(i1, expr));
+	}
+
+	List<IspPart> isps = new ArrayList<IspPart>();
 
 	static class IspPart {
 		final IdentExpression ident;
 		final IExpression expr;
 
-		public IspPart(IdentExpression i1, IExpression expr) {
+		public IspPart(final IdentExpression i1, final IExpression expr) {
 			this.ident = i1;
 			this.expr = expr;
 		}
-	}
-
-	List<IspPart> isps = new ArrayList<IspPart>();
-
-	public void addInvariantStatementPart(IdentExpression i1, IExpression expr) {
-		isps.add(new IspPart(i1, expr));
 	}
 
 }

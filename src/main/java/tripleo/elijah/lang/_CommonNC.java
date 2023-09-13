@@ -8,22 +8,21 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
+import antlr.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 3/29/21 5:11 PM
  */
 abstract class _CommonNC {
 	protected final List<ClassItem> items = new ArrayList<ClassItem>();
-	private final List<String> mDocs = new ArrayList<String>();
-	public Attached _a = new Attached();
-	protected IdentExpression nameToken;
-	protected OS_Package _packageName;
+	public final    Attached        _a    = new Attached();
+	private final   List<String>    mDocs = new ArrayList<String>();
+	private final List<AccessNotation> accesses = new ArrayList<AccessNotation>();
+	protected       IdentExpression nameToken;
 	List<AnnotationClause> annotations = null;
-	private List<AccessNotation> accesses = new ArrayList<AccessNotation>();
+	protected       OS_Package      _packageName;
 
 	public void setPackageName(final OS_Package aPackageName) {
 		_packageName = aPackageName;
@@ -38,7 +37,7 @@ abstract class _CommonNC {
 	}
 
 	public List<ClassItem> getItems() {
-		return items ;
+		return items;
 	}
 
 	public String getName() {
@@ -75,23 +74,23 @@ abstract class _CommonNC {
 		accesses.add(acs);
 	}
 
-	public void walkAnnotations(AnnotationWalker annotationWalker) {
+	public void walkAnnotations(final AnnotationWalker annotationWalker) {
 		if (annotations == null) return;
-		for (AnnotationClause annotationClause : annotations) {
-			for (AnnotationPart annotationPart : annotationClause.aps) {
+		for (final AnnotationClause annotationClause : annotations) {
+			for (final AnnotationPart annotationPart : annotationClause.aps) {
 				annotationWalker.annotation(annotationPart);
 			}
 		}
 	}
 
-	public boolean hasItem(OS_Element element) {
+	public boolean hasItem(final OS_Element element) {
 		if (!(element instanceof ClassItem)) return false;
 		return items.contains(element);
 	}
 
-	public void addAnnotations(List<AnnotationClause> as) {
+	public void addAnnotations(final List<AnnotationClause> as) {
 		if (as == null) return;
-		for (AnnotationClause annotationClause : as) {
+		for (final AnnotationClause annotationClause : as) {
 			addAnnotation(annotationClause);
 		}
 	}
@@ -100,11 +99,11 @@ abstract class _CommonNC {
 	private AccessNotation access_note;
 	private El_Category category;
 
-	public void setCategory(El_Category aCategory) {
+	public void setCategory(final El_Category aCategory) {
 		category = aCategory;
 	}
 
-	public void setAccess(AccessNotation aNotation) {
+	public void setAccess(final AccessNotation aNotation) {
 		access_note = aNotation;
 	}
 

@@ -8,11 +8,11 @@
  */
 package tripleo.elijah.lang;
 
-import tripleo.elijah.contexts.IfConditionalContext;
-import tripleo.elijah.gen.ICodeGen;
+import org.jetbrains.annotations.*;
+import tripleo.elijah.contexts.*;
+import tripleo.elijah.lang2.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class IfConditional implements StatementItem, FunctionItem, OS_Element {
 
@@ -34,12 +34,12 @@ public class IfConditional implements StatementItem, FunctionItem, OS_Element {
 	public IfConditional(final IfConditional ifExpression) {
 //		this.sibling = ifExpression;
 		//
-		this._ctx = new IfConditionalContext(ifExpression._ctx, this, true);
+		this._ctx    = new IfConditionalContext(ifExpression._ctx, this, true);
 		this._parent = ifExpression._parent;
 	}
-	
+
 	@Override
-	public void visitGen(final ICodeGen visit) {
+	public void visitGen(final ElElementVisitor visit) {
 		visit.visitIfConditional(this);
 	}
 
@@ -64,7 +64,7 @@ public class IfConditional implements StatementItem, FunctionItem, OS_Element {
 	}
 
 	public IfConditional elseif() {
-		final IfConditional elseifpart = new IfConditional(this);
+		final @NotNull IfConditional elseifpart = new IfConditional(this);
 		parts.add(elseifpart);
 		return elseifpart;
 	}
@@ -91,7 +91,7 @@ public class IfConditional implements StatementItem, FunctionItem, OS_Element {
 		_ctx = ifConditionalContext;
 	}
 
-	public void scope(Scope3 sco) {
+	public void scope(final Scope3 sco) {
 		scope3 = sco;
 	}
 

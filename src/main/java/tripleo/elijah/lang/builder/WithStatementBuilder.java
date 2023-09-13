@@ -8,30 +8,27 @@
  */
 package tripleo.elijah.lang.builder;
 
-import tripleo.elijah.lang.Context;
-import tripleo.elijah.lang.OS_Element;
-import tripleo.elijah.lang.VariableStatement;
-import tripleo.elijah.lang.WithStatement;
+import tripleo.elijah.lang.*;
 
 /**
  * Created 12/23/20 4:57 AM
  */
 public class WithStatementBuilder extends ElBuilder {
-	private Context _context;
-	private VariableSequenceBuilder _sb = new VariableSequenceBuilder();
-	private WithStatementScope _scope = new WithStatementScope();
+    private final VariableSequenceBuilder _sb = new VariableSequenceBuilder();
+    private final WithStatementScope _scope = new WithStatementScope();
+    private Context _context;
 
-	@Override
-	protected WithStatement build() {
-		WithStatement withStatement = new WithStatement(_parent);
-		for (VariableSequenceBuilder.Triple triple : _sb.triples) {
-			VariableStatement vs = withStatement.nextVarStmt();
-			vs.setName(triple._name);
-			vs.initial(triple._initial);
-			vs.setTypeName(triple._tn);
-		}
-		for (ElBuilder builder : _scope.items()) {
-			OS_Element built;
+    @Override
+    protected WithStatement build() {
+        final WithStatement withStatement = new WithStatement(_parent);
+        for (final VariableSequenceBuilder.Triple triple : _sb.triples) {
+            final VariableStatement vs = withStatement.nextVarStmt();
+            vs.setName(triple._name);
+            vs.initial(triple._initial);
+            vs.setTypeName(triple._tn);
+        }
+		for (final ElBuilder builder : _scope.items()) {
+			final OS_Element built;
 			builder.setParent(_parent);
 			builder.setContext(_context);
 			built = builder.build();
@@ -42,7 +39,7 @@ public class WithStatementBuilder extends ElBuilder {
 	}
 
 	@Override
-	protected void setContext(Context context) {
+	protected void setContext(final Context context) {
 		_context = context;
 	}
 

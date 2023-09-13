@@ -8,8 +8,8 @@
  */
 package tripleo.elijah.comp.functionality.f202;
 
-import org.jetbrains.annotations.Contract;
-import tripleo.elijah.stages.logging.ElLog;
+import org.jetbrains.annotations.*;
+import tripleo.elijah.stages.logging.*;
 
 /**
  * Created 8/11/21 5:58 AM
@@ -17,7 +17,7 @@ import tripleo.elijah.stages.logging.ElLog;
 public class DefaultGetLogNameBehavior implements GetLogNameBehavior {
 	@Contract(pure = true)
 	@Override
-	public String getLogName(ElLog deduceLog) {
+	public String getLogName(final ElLog deduceLog) {
 		final String s1 = deduceLog.getFileName();
 		final String s2 = s1.replace(System.getProperty("file.separator"), "~~");
 

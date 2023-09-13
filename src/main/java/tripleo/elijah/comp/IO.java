@@ -8,26 +8,18 @@
  */
 package tripleo.elijah.comp;
 
-import org.jetbrains.annotations.NotNull;
-import tripleo.util.io.CharSink;
-import tripleo.util.io.CharSource;
-import tripleo.util.io.FileCharSink;
+import org.jetbrains.annotations.*;
+import tripleo.util.io.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
 
 public class IO {
 
 	// exists, delete, isType ....
 
-	final List<File> recordedreads  = new ArrayList<File>();
+	public final List<File> recordedreads = new ArrayList<File>();
 	final List<File> recordedwrites = new ArrayList<File>();
 	
 	public boolean recordedRead(final File file) {

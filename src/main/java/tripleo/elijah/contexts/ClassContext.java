@@ -8,36 +8,42 @@
  */
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.gen.ICodeGen;
+import org.jetbrains.annotations.*;
 import tripleo.elijah.lang.*;
+import tripleo.elijah.lang2.*;
 
-import java.util.List;
+import java.util.*;
+
+import static tripleo.elijah.contexts.ClassInfo.ClassInfoType.*;
 
 
 /**
  * @author Tripleo
- *
+ * <p>
  * Created 	Mar 26, 2020 at 6:04:02 AM
  */
 public class ClassContext extends Context {
 
-	private final ClassStatement carrier;
-	private final Context _parent;
+	public final  Map<TypeName, ClassStatement> _inheritance = new HashMap<>();
+	private final ClassStatement                carrier;
+	private final Context                       _parent;
+	private       boolean                       _didInheritance;
 
 	public ClassContext(final Context aParent, final ClassStatement cls) {
 		_parent = aParent;
 		carrier = cls;
 	}
 
-	@Override public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final List<Context> alreadySearched, final boolean one) {
+	@Override
+	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final List<Context> alreadySearched, final boolean one) {
 		alreadySearched.add(carrier.getContext());
-		for (final ClassItem item: carrier.getItems()) {
+		for (final ClassItem item : carrier.getItems()) {
 			if (!(item instanceof ClassStatement) &&
-				!(item instanceof NamespaceStatement) &&
-				!(item instanceof BaseFunctionDef) &&
-				!(item instanceof VariableSequence) &&
-				!(item instanceof AliasStatement) &&
-				!(item instanceof PropertyStatement)
+			  !(item instanceof NamespaceStatement) &&
+			  !(item instanceof BaseFunctionDef) &&
+			  !(item instanceof VariableSequence) &&
+			  !(item instanceof AliasStatement) &&
+			  !(item instanceof PropertyStatement)
 			) continue;
 			if (item instanceof OS_Element2) {
 				if (((OS_Element2) item).name().equals(name)) {
@@ -52,36 +58,27 @@ public class ClassContext extends Context {
 				}
 			}
 		}
-		for (final TypeName tn1 : carrier.classInheritance().tns) {
-//			System.out.println("1001 "+tn);
-			final NormalTypeName tn = (NormalTypeName)tn1;
-			final OS_Element best;
-			if (!tn.hasResolvedElement()) {
-				final LookupResultList tnl = tn.getContext().lookup(tn.getName());
-//	    		System.out.println("1002 "+tnl.results());
-				best = tnl.chooseBest(null);
-			} else
-				best = tn.getResolvedElement();
-			if (best != null) {
-				tn.setResolvedElement(best);
-				final LookupResultList lrl2 = best.getContext().lookup(name);
-				final OS_Element best2 = lrl2.chooseBest(null);
-				if (best2 != null)
-					Result.add(name, level, best2, this);
-			}
-//			System.out.println("1003 "+name+" "+Result.results());
+
+		for (final Map.Entry<TypeName, ClassStatement> entry : inheritance().entrySet()) {
+			final ClassStatement   best  = entry.getValue();
+			final LookupResultList lrl2  = best.getContext().lookup(name);
+			final OS_Element       best2 = lrl2.chooseBest(null);
+
+			if (best2 != null)
+				Result.add(name, level, best2, this, new ClassInfo(best, INHERITED));
 		}
-		for (TypeName tn1 : carrier.getGenericPart()) {
+
+		for (final TypeName tn1 : carrier.getGenericPart()) {
 			if (tn1 instanceof NormalTypeName) {
-				final NormalTypeName tn = (NormalTypeName) tn1;
-				final String name1 = tn.getName(); // TODO this may return a string with DOTs in it.
+				final NormalTypeName tn    = (NormalTypeName) tn1;
+				final String         name1 = tn.getName(); // TODO this may return a string with DOTs in it.
 				if (name1.equals(name)) {
 //					LookupResultList lrl = tn.getContext().lookup(name);
 //					OS_Element best = lrl.chooseBest(null);
 //					if (best == null) {
 //						throw new AssertionError();
 //					} else
-						Result.add(name, level, new OS_TypeNameElement(tn1), this);
+					Result.add(name, level, new OS_TypeNameElement(tn1), this, new ClassInfo(tn, GENERIC));
 				}
 			} else {
 				// TODO probable error
@@ -95,23 +92,54 @@ public class ClassContext extends Context {
 		return Result;
 	}
 
-	@Override public Context getParent() {
+	@Override
+	public Context getParent() {
 		return _parent;
 	}
 
+	public Map<TypeName, ClassStatement> inheritance() {
+		if (!_didInheritance) {
+			for (final TypeName tn1 : carrier.classInheritance().tns) {
+//				System.out.println("1001 "+tn);
+				final NormalTypeName       tn  = (NormalTypeName) tn1;
+				final @Nullable OS_Element best;
+				final LookupResultList     tnl = tn.getContext().lookup(tn.getName());
+//	    		System.out.println("1002 "+tnl.results());
+				best = tnl.chooseBest(null);
+
+				if (best != null) {
+					_inheritance.put(tn1, (ClassStatement) best);
+				}
+
+//				System.out.println("1003 "+name+" "+Result.results());
+				_didInheritance = true;
+			}
+		}
+		return _inheritance;
+	}
+
+	public ClassStatement getCarrier() {
+		return carrier;
+	}
+
+	/**
+	 * An Element that only holds a {@link TypeName}.
+	 * <p>
+	 * NOTE: It seems to be connected to {@link ClassContext}
+	 */
 	public class OS_TypeNameElement implements OS_Element {
-		private TypeName typeName;
+		private final TypeName typeName;
 
 		public TypeName getTypeName() {
 			return typeName;
 		}
 
-		public OS_TypeNameElement(TypeName aTypeName) {
+		public OS_TypeNameElement(final TypeName aTypeName) {
 			typeName = aTypeName;
 		}
 
 		@Override
-		public void visitGen(ICodeGen visit) {
+		public void visitGen(final ElElementVisitor visit) {
 			visit.visitTypeNameElement(this);
 		}
 

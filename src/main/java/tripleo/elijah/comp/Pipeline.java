@@ -8,23 +8,30 @@
  */
 package tripleo.elijah.comp;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 8/21/21 10:09 PM
  */
 public class Pipeline {
-	List<PipelineMember> pls = new ArrayList<>();
+	private final List<PipelineMember> pls = new ArrayList<>();
+	private final ErrSink              errSink;
 
-	public void add(PipelineMember aPipelineMember) {
+	public Pipeline(final ErrSink aErrSink) {
+		errSink = aErrSink;
+	}
+
+	public void add(final PipelineMember aPipelineMember) {
 		pls.add(aPipelineMember);
 	}
 
-
-	public void run() throws Exception {
-		for (PipelineMember pl : pls) {
-			pl.run();
+	public void run() {
+		try {
+			for (final PipelineMember pl : pls) {
+				pl.run();
+			}
+		} catch (final Exception e) {
+			errSink.exception(e);
 		}
 	}
 }

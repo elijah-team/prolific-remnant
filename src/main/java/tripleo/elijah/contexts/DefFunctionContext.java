@@ -8,11 +8,10 @@
  */
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.lang.Context;
-import tripleo.elijah.lang.DefFunctionDef;
-import tripleo.elijah.lang.LookupResultList;
+import org.jetbrains.annotations.*;
+import tripleo.elijah.lang.*;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Tripleo
@@ -42,7 +41,7 @@ public class DefFunctionContext extends Context {
 	}
 
 	@Override
-	public Context getParent() {
+	public @Nullable Context getParent() {
 		return null;
 	}
 

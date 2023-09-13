@@ -8,11 +8,10 @@
  */
 package tripleo.elijah.lang;
 
-import tripleo.elijah.contexts.LoopContext;
-import tripleo.elijah.gen.ICodeGen;
+import tripleo.elijah.contexts.*;
+import tripleo.elijah.lang2.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Loop implements  StatementItem, FunctionItem, OS_Element {
 
@@ -66,8 +65,8 @@ private IExpression expr;
 private final Attached _a = new Attached();
 
 	public List<StatementItem> getItems() {
-		List<StatementItem> collection = new ArrayList<StatementItem>();
-		for (OS_Element element : scope3.items()) {
+		final List<StatementItem> collection = new ArrayList<StatementItem>();
+		for (final OS_Element element : scope3.items()) {
 			if (element instanceof FunctionItem)
 				collection.add((StatementItem) element);
 		}
@@ -76,18 +75,18 @@ private final Attached _a = new Attached();
 	}
 
 	@Override // OS_Element
-	public void visitGen(final ICodeGen visit) {
+	public void visitGen(final ElElementVisitor visit) {
 		visit.visitLoop(this);
 	}
 
 	public String getIterName() {
 		return iterName.getText();
 	}
-	
+
 	public LoopTypes getType() {
 		return type;
 	}
-	
+
 	public IExpression getToPart() {
 		return topart;
 	}
@@ -108,7 +107,7 @@ private final Attached _a = new Attached();
 		return iterName;
 	}
 
-	public void scope(Scope3 sco) {
+	public void scope(final Scope3 sco) {
 		scope3 = sco;
 	}
 

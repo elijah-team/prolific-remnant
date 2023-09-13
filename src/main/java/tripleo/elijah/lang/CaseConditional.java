@@ -11,15 +11,12 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
-import tripleo.elijah.contexts.CaseContext;
-import tripleo.elijah.contexts.SingleIdentContext;
-import tripleo.elijah.gen.ICodeGen;
-import tripleo.elijah.util.NotImplementedException;
+import antlr.*;
+import tripleo.elijah.contexts.*;
+import tripleo.elijah.lang2.*;
+import tripleo.elijah.util.*;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Tripleo
@@ -31,21 +28,21 @@ public class CaseConditional implements OS_Element, StatementItem, FunctionItem 
     private final OS_Element parent;
     private IExpression expr;
 	private SingleIdentContext _ctx = null;
-	private HashMap<IExpression, CaseScope> scopes = new LinkedHashMap<IExpression, CaseScope>();
-	private CaseScope default_case_scope = null;
+    private final HashMap<IExpression, CaseScope> scopes = new LinkedHashMap<IExpression, CaseScope>();
+    private CaseScope default_case_scope = null;
 	private CaseContext __ctx = null; // TODO look into removing this
 
 	public CaseConditional(final OS_Element parent, final Context parentContext) {
-        this.parent = parent;
-        this._ctx = new SingleIdentContext(parentContext, this);
-    }
+		this.parent = parent;
+		this._ctx   = new SingleIdentContext(parentContext, this);
+	}
 
-    public void expr(final IExpression expr) {
+	public void expr(final IExpression expr) {
 		this.expr = expr;
 	}
 
 	@Override
-	public void visitGen(final ICodeGen visit) {
+	public void visitGen(final ElElementVisitor visit) {
 		visit.visitCaseConditional(this);
 	}
 
@@ -85,7 +82,7 @@ public class CaseConditional implements OS_Element, StatementItem, FunctionItem 
 		__ctx = ctx;
 	}
 
-	public void scope(Scope3 sco, IExpression expr1) {
+	public void scope(final Scope3 sco, final IExpression expr1) {
 		addScopeFor(expr1, new CaseScope(expr1, sco));
 	}
 
@@ -95,7 +92,7 @@ public class CaseConditional implements OS_Element, StatementItem, FunctionItem 
 		private final Scope3 cscope3;
 		private boolean _isDefault = false;
 
-		public CaseScope(final IExpression expression, Scope3 aScope3) {
+		public CaseScope(final IExpression expression, final Scope3 aScope3) {
 			this.expr = expression;
 			this.cscope3 = aScope3;
 		}
@@ -120,7 +117,7 @@ public class CaseConditional implements OS_Element, StatementItem, FunctionItem 
 		}
 
 		@Override
-		public void visitGen(final ICodeGen visit) {
+		public void visitGen(final ElElementVisitor visit) {
 			visit.visitCaseScope(this);
 		}
 

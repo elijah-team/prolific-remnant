@@ -8,14 +8,10 @@
  */
 package tripleo.elijah.lang.builder;
 
-import tripleo.elijah.contexts.IfConditionalContext;
-import tripleo.elijah.lang.Context;
-import tripleo.elijah.lang.IExpression;
-import tripleo.elijah.lang.IfConditional;
-import tripleo.elijah.lang.Scope3;
+import tripleo.elijah.contexts.*;
+import tripleo.elijah.lang.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 12/23/20 1:40 AM
@@ -31,44 +27,28 @@ public class IfConditionalBuilder extends ElBuilder {
 	}
 
 	public Doublet new_expr() {
-		Doublet doublet = new Doublet();
+		final Doublet doublet = new Doublet();
 		doubles.add(doublet);
 		return doublet;
 	}
 
-	public static class Doublet {
-		IExpression expr;
-		List<ElBuilder> items = new ArrayList<ElBuilder>();
-		IfConditionalScope _scope = new IfConditionalScope();
-
-		public void expr(IExpression expr) {
-			this.expr = expr;
-		}
-
-		public BaseScope scope() {
-			return _scope;
-		}
-	}
-
-	List<Doublet> doubles = new ArrayList<Doublet>();
-
 	@Override
 	protected IfConditional build() {
-		IfConditional ifConditional = new IfConditional(_parent);
+		final IfConditional ifConditional = new IfConditional(_parent);
 		ifConditional.setContext(new IfConditionalContext(_context, ifConditional));
 		ifConditional.expr(base_expr.expr);
-		Scope3 scope3 = new Scope3(ifConditional);
-		for (ElBuilder item : base_expr.items) {
+		final Scope3 scope3 = new Scope3(ifConditional);
+		for (final ElBuilder item : base_expr.items) {
 			item.setParent(ifConditional);
 			item.setContext(ifConditional.getContext());
 			scope3.add(item.build());
 		}
 		ifConditional.scope(scope3);
-		for (Doublet aDouble : doubles) {
-			IfConditional ifConditional2 = new IfConditional(ifConditional);
+		for (final Doublet aDouble : doubles) {
+			final IfConditional ifConditional2 = new IfConditional(ifConditional);
 			ifConditional.expr(aDouble.expr);
-			Scope3 scope31 = new Scope3(ifConditional);
-			for (ElBuilder item : aDouble.items) {
+			final Scope3 scope31 = new Scope3(ifConditional);
+			for (final ElBuilder item : aDouble.items) {
 				item.setParent(ifConditional2);
 				item.setContext(ifConditional2.getContext());
 				scope31.add(item.build());
@@ -79,9 +59,25 @@ public class IfConditionalBuilder extends ElBuilder {
 		return ifConditional;
 	}
 
+	List<Doublet> doubles = new ArrayList<Doublet>();
+
 	@Override
-	protected void setContext(Context context) {
+	protected void setContext(final Context context) {
 		_context = context;
+	}
+
+	public static class Doublet {
+		IExpression expr;
+		List<ElBuilder> items = new ArrayList<ElBuilder>();
+		IfConditionalScope _scope = new IfConditionalScope();
+
+		public void expr(final IExpression expr) {
+			this.expr = expr;
+		}
+
+		public BaseScope scope() {
+			return _scope;
+		}
 	}
 }
 

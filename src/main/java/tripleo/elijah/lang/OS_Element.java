@@ -8,16 +8,17 @@
  */
 package tripleo.elijah.lang;
 
-import org.jetbrains.annotations.Contract;
-import tripleo.elijah.gen.ICodeGen;
+import org.jetbrains.annotations.*;
+import tripleo.elijah.lang2.*;
 
 public interface OS_Element {
-	void visitGen(ICodeGen visit);
+	void visitGen(ElElementVisitor visit);
 
 	@Contract(pure = true)
 	Context getContext();
 
 	@Contract(pure = true)
+	@Nullable
 	OS_Element getParent();
 }
 

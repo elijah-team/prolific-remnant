@@ -8,9 +8,9 @@
  */
 package tripleo.elijah.lang;
 
-import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.gen.ICodeGen;
-import tripleo.elijah.util.NotImplementedException;
+import org.jetbrains.annotations.*;
+import tripleo.elijah.lang2.*;
+import tripleo.elijah.util.*;
 
 public class AliasStatement implements ModuleItem, ClassItem, FunctionItem, OS_Element2, Resolvable {
 	private final OS_Element parent;
@@ -48,7 +48,7 @@ public class AliasStatement implements ModuleItem, ClassItem, FunctionItem, OS_E
 	}
 
 	@Override // OS_Element
-	public void visitGen(final ICodeGen visit) {
+	public void visitGen(final ElElementVisitor visit) {
 		visit.visitAliasStatement(this);
 	}
 
@@ -88,12 +88,12 @@ public class AliasStatement implements ModuleItem, ClassItem, FunctionItem, OS_E
 	private El_Category category;
 
 	@Override
-	public void setCategory(El_Category aCategory) {
+	public void setCategory(final El_Category aCategory) {
 		category = aCategory;
 	}
 
 	@Override
-	public void setAccess(AccessNotation aNotation) {
+	public void setAccess(final AccessNotation aNotation) {
 		access_note = aNotation;
 	}
 

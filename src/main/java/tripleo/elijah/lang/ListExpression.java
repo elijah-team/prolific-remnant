@@ -8,12 +8,11 @@
  */
 package tripleo.elijah.lang;
 
-import antlr.Token;
-import tripleo.elijah.diagnostic.Locatable;
+import antlr.*;
+import tripleo.elijah.diagnostic.*;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /*
  * Created on Sep 1, 2005 8:28:55 PM
@@ -34,34 +33,31 @@ public class ListExpression extends AbstractExpression implements Locatable {
 		return false;
 	}
 
-	@Override
-	public void setType(OS_Type deducedExpression) {
-
+	public final Syntax syntax = new Syntax();
+@Override
+	public OS_Type getType() {
+		return null;
 	}
 
 	@Override
-	public OS_Type getType() {
+	public void setType(final OS_Type deducedExpression) {
+
+	}
+	@Override
+	public File getFile() {
+		if (syntax.startToken != null) {
+			final String filename = syntax.startToken.getFilename();
+			if (filename != null)
+				return new File(filename);
+		}
 		return null;
 	}
 
 	// region Syntax
 
-	public class Syntax {
-		Token startToken;
-		Token endToken;
-		List<Token> commas = new ArrayList<Token>();
 
-		public void start_and_end(Token startToken, Token endToken) {
-			this.startToken = startToken;
-			this.endToken = endToken;
-		}
 
-		public void comma(Token t) {
-			commas.add(t);
-		}
-	}
 
-	public Syntax syntax = new Syntax();
 
 	// endregion
 
@@ -95,14 +91,19 @@ public class ListExpression extends AbstractExpression implements Locatable {
 		return 0;
 	}
 
-	@Override
-	public File getFile() {
-		if (syntax.startToken != null) {
-			String filename = syntax.startToken.getFilename();
-			if (filename != null)
-				return new File(filename);
+public class Syntax {
+		Token startToken;
+		Token endToken;
+		final List<Token> commas = new ArrayList<Token>();
+
+		public void start_and_end(final Token startToken, final Token endToken) {
+			this.startToken = startToken;
+			this.endToken   = endToken;
 		}
-		return null;
+
+		public void comma(final Token t) {
+			commas.add(t);
+		}
 	}
 
 	// endregion

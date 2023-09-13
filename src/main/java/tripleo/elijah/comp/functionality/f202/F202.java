@@ -8,36 +8,34 @@
  */
 package tripleo.elijah.comp.functionality.f202;
 
-import tripleo.elijah.comp.Compilation;
-import tripleo.elijah.comp.ErrSink;
-import tripleo.elijah.stages.logging.ElLog;
-import tripleo.elijah.stages.logging.LogEntry;
+import tripleo.elijah.comp.*;
+import tripleo.elijah.stages.logging.*;
 
-import java.io.File;
-import java.util.Collection;
+import java.io.*;
+import java.util.*;
 
 /**
  * Created 8/11/21 5:46 AM
  */
 public class F202 {
-	private final ErrSink errSink;
-	GetLogDirectoryBehavior gld;
-	GetLogNameBehavior      gln;
-	ProcessLogEntryBehavior ple;
-	ProgressBehavior        pre;
+	final         GetLogDirectoryBehavior gld;
+	final         GetLogNameBehavior      gln;
+	final         ProcessLogEntryBehavior ple;
+	final         ProgressBehavior        pre;
+	private final ErrSink                 errSink;
 
-	public F202(ErrSink aErrSink, Compilation c) {
+	public F202(final ErrSink aErrSink, final Compilation c) {
 		errSink = aErrSink;
-		gld = new DefaultGetLogDirectoryBehavior(c);
-		gln = new DefaultGetLogNameBehavior();
-		ple = new DefaultProcessLogEntryBehavior();
-		pre = new DefaultProgressBehavior();
+		gld     = new DefaultGetLogDirectoryBehavior(c);
+		gln     = new DefaultGetLogNameBehavior();
+		ple     = new DefaultProcessLogEntryBehavior();
+		pre     = new DefaultProgressBehavior();
 	}
 
-	public void processLogs(Collection<ElLog> aElLogs) {
+	public void processLogs(final Collection<ElLog> aElLogs) {
 		if (aElLogs.size() == 0) return; // TODO progress message? should be impossible anyway
 
-		ElLog firstLog = aElLogs.iterator().next();
+		final ElLog firstLog = aElLogs.iterator().next();
 
 		final String s2  = gln.getLogName(firstLog);
 		final File file2 = gld.getLogDirectory();
@@ -48,10 +46,10 @@ public class F202 {
 
 		ple.initialize(psf, s1, errSink);
 		ple.start();
-		for (ElLog elLog : aElLogs) {
+		for (final ElLog elLog : aElLogs) {
 			ple.processPhase(elLog.getPhase());
 
-			for (LogEntry entry : elLog.getEntries()) {
+			for (final LogEntry entry : elLog.getEntries()) {
 				ple.processLogEntry(entry);
 			}
 

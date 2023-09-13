@@ -11,13 +11,11 @@
  */
 package tripleo.elijah.lang;
 
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.*;
+import tripleo.elijah.contexts.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
+import java.util.*;
+import java.util.function.*;
 
 /**
  * @author Tripleo(sb)
@@ -34,6 +32,14 @@ public class LookupResultList {
 				return; // TODO hack for bad algorithm
 		}
 		_results.add(new LookupResult(name, element, level, aContext));
+	}
+
+	public void add(final String name, final int level, final OS_Element element, final Context aContext, final ContextInfo aImportInfo) {
+		for (final LookupResult result : _results) {
+			if (result.getElement() == element)
+				return; // TODO hack for bad algorithm
+		}
+		_results.add(new LookupResult(name, element, level, aContext, aImportInfo));
 	}
 
 	@Nullable
@@ -65,9 +71,9 @@ public class LookupResultList {
 		return null; //throw new NotImplementedException();
 	}
 
-	private List<LookupResult> getMaxScoredResults(final List<Predicate<OS_Element>> l) {
+	private List<LookupResult> getMaxScoredResults(final @NotNull List<Predicate<OS_Element>> l) {
 		final Map<LookupResult, Integer> new_results = new HashMap<LookupResult, Integer>();
-		int maxScore = 0;
+		int                              maxScore    = 0;
 
 		for (final LookupResult lookupResult : _results) {
 			int score = 0;

@@ -8,11 +8,10 @@
  */
 package tripleo.elijah.ci;
 
-import antlr.Token;
-import tripleo.elijah.lang.IExpression;
+import antlr.*;
+import tripleo.elijah.lang.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 9/6/20 12:06 PM
@@ -50,7 +49,7 @@ public class LibraryStatementPart {
 		return ci;
 	}
 
-	public void setInstructions(CompilerInstructions instructions) {
+	public void setInstructions(final CompilerInstructions instructions) {
 		ci = instructions;
 	}
 

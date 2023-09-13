@@ -11,9 +11,9 @@
  */
 package tripleo.elijah.lang;
 
-import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.*;
 
-import java.io.File;
+import java.io.*;
 
 /**
  * Created 8/16/20 7:42 AM
@@ -56,7 +56,7 @@ public class GenericTypeName implements TypeName {
 		return Type.GENERIC;
 	}
 
-	public void setConstraint(TypeName aConstraint) {
+	public void setConstraint(final TypeName aConstraint) {
 		constraint = aConstraint;
 	}
 

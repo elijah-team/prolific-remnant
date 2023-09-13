@@ -10,7 +10,7 @@ package tripleo.elijah.contexts;
 
 import tripleo.elijah.lang.*;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 10/6/20 4:22 PM
@@ -27,7 +27,7 @@ public class MatchConditionalContext extends Context {
 		alreadySearched.add(carrier.getContext());
 
 		if (carrier instanceof MatchConditional.MatchArm_TypeMatch) {
-			MatchConditional.MatchArm_TypeMatch carrier2 = (MatchConditional.MatchArm_TypeMatch) carrier;
+			final MatchConditional.MatchArm_TypeMatch carrier2 = (MatchConditional.MatchArm_TypeMatch) carrier;
 			if (name.equals(carrier2.getIdent().getText()))
 				Result.add(name, level, carrier2, this);
 		}
