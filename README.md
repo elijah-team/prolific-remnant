@@ -21,10 +21,8 @@ Instructions
 
 ```shell
 git clone https://github.com/elijah-team/prolific-remnant
-cd prolific-remnant
-mkdir COMP
-nix-shell -p maven jdk-17
-mvn test
+mkdir prolific-remnant/COMP
+( cd prolific-remnant && nix-shell -p maven jdk17 --pure --command "mvn test")
 ```
 
 Goals
