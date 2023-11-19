@@ -267,8 +267,9 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>src/main-mal/</source>
-                                <source>src/main-undertow/java/</source>
+                                <source>src-mal/java/</source>
+                                <source>src-undertow/java/</source>
+                                <source>src-cef/java/</source>
                             </sources>
                         </configuration>
                     </execution>
