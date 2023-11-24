@@ -121,6 +121,8 @@ public interface Compilation {
 
 	ICompilationAccess2 getCompilationAccess2();
 
+	void feedCmdLine(List<String> stringList, CompilerController compilerController);
+
 	enum CompilationAlways {
 		;
 

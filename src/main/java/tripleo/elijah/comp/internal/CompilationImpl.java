@@ -162,6 +162,23 @@ public class CompilationImpl implements Compilation {
 	}
 
 	@Override
+	public void feedCmdLine(List<String> args, CompilerController compilerController) {
+		final List<CompilerInput> inputs = args.stream()
+				.map(s -> {
+					final CompilerInput input = new CompilerInput(s);
+					if (s.equals(input.getInp())) {
+						input.setSourceRoot();
+					} else {
+						assert false;
+					}
+					return input;
+				})
+				.collect(Collectors.toList());
+
+		feedInputs(inputs, compilerController);
+	}
+
+	@Override
 	public Map<String, CompilerInstructions> fn2ci() {
 		return getFn2ci();
 	}
