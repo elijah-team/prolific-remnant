@@ -51,14 +51,7 @@ public record CompilerInput(
 		}
 		throw new IllegalStateException("compilation not set");
 	}
-
-	public void setDirectory(File f) {
-		if (oc.isPresent()) {
-			oc.get().get(this).setDirectory(f);
-		}
-		throw new IllegalStateException("compilation not set");
-	}
-
+	
 	public void setArg() {
 		if (oc.isPresent()) {
 			oc.get().get(this).setArg();
