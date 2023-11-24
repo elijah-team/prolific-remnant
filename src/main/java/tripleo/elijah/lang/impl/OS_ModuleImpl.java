@@ -22,6 +22,7 @@ import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang2.ElElementVisitor;
 import tripleo.elijah.util.NotImplementedException;
 import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
+import tripleo.elijjah.p.PIndexingStatement;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -242,7 +243,11 @@ public class OS_ModuleImpl implements OS_Element, OS_Container, tripleo.elijah.l
 
 	@Override
 	public void setIndexingStatement(final IndexingStatement i) {
-		indexingStatement = i;
+		if (i instanceof PIndexingStatement p) {
+			indexingStatement = p.build();
+		} else {
+			indexingStatement = i;
+		}
 	}
 
 	/**

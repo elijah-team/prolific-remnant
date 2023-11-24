@@ -16,6 +16,7 @@ import tripleo.elijah.lang.imports.QualifiedImportStatement;
 import tripleo.elijah.lang.imports.RootedImportStatement;
 import tripleo.elijah.lang.types.OS_BuiltinType;
 import tripleo.elijah.lang2.BuiltInTypes;
+import tripleo.elijjah.p.PIndexingStatement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -3987,7 +3988,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 		try {      // for error handling
 			match(LITERAL_indexing);
 			if (inputState.guessing == 0) {
-				idx = new IndexingStatementImpl(out.module());
+				idx = new PIndexingStatement(out);
 			}
 			{
 				_loop7:
