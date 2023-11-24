@@ -308,6 +308,9 @@ public class CompilationImpl implements Compilation {
 	@Override
 	public @NotNull CompilationClosure getCompilationClosure() {
 		return new CompilationClosure() {
+			@Override public void compilerInputWatcher_Event(CN_CompilerInputWatcher.e aE, CompilerInput aInput, Object aO) {
+				getCompilation().compilerInputWatcher_Event(aE, aInput, aO);
+			}
 
 			@Override
 			public ErrSink errSink() {
