@@ -12,7 +12,7 @@ import tripleo.elijah.nextgen.output.NG_OutputItem;
 import tripleo.elijah.nextgen.outputstatement.EG_Naming;
 import tripleo.elijah.nextgen.outputstatement.EG_SequenceStatement;
 import tripleo.elijah.nextgen.outputstatement.EG_Statement;
-import tripleo.elijah.nextgen.outputtree.EOT_OutputFile;
+import tripleo.elijah.nextgen.outputtree.EOT_FileNameProvider;
 import tripleo.elijah.stages.gen_c.GenerateC;
 import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
 import tripleo.elijah.stages.gen_fn.EvaClass;
@@ -105,7 +105,7 @@ public class WPIS_GenerateOutputs implements WP_Indiviual_Step {
 
 		List<EIT_Input> inputs();
 
-		EOT_OutputFile.FileNameProvider getFilenameProvider();
+		EOT_FileNameProvider getFilenameProvider();
 	}
 
 	@FunctionalInterface
@@ -116,7 +116,7 @@ public class WPIS_GenerateOutputs implements WP_Indiviual_Step {
 	// TODO 09/04 Duplication madness
 	static class MyWriteable implements Writeable {
 		private final          Collection<EG_Statement>        value;
-		private final          EOT_OutputFile.FileNameProvider filename;
+		private final EOT_FileNameProvider filename;
 		private final @NotNull List<EG_Statement>              list;
 		private final @NotNull EG_SequenceStatement            statement;
 		@Getter
@@ -154,7 +154,7 @@ public class WPIS_GenerateOutputs implements WP_Indiviual_Step {
 		}
 
 		@Override
-		public EOT_OutputFile.FileNameProvider getFilenameProvider() {
+		public EOT_FileNameProvider getFilenameProvider() {
 			return this.filename;
 		}
 	}

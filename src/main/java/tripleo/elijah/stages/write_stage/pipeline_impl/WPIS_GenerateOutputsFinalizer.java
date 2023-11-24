@@ -8,6 +8,7 @@ import tripleo.elijah.comp.i.ICompilationAccess2;
 import tripleo.elijah.nextgen.output.NG_OutputItem;
 import tripleo.elijah.nextgen.output.NG_OutputStatement;
 import tripleo.elijah.nextgen.outputstatement.*;
+import tripleo.elijah.nextgen.outputtree.EOT_FileNameProvider;
 import tripleo.elijah.nextgen.outputtree.EOT_OutputFile;
 import tripleo.elijah.nextgen.outputtree.EOT_OutputType;
 import tripleo.elijah.stages.gen_generic.GenerateResult;
@@ -30,7 +31,7 @@ public enum WPIS_GenerateOutputsFinalizer {
 				GenerateResult.TY oxt = ox.getTy();
 				String            oxb = ox.getText();
 
-				EOT_OutputFile.FileNameProvider s = o.outName(aOutputStrategyC, oxt);
+				EOT_FileNameProvider s = o.outName(aOutputStrategyC, oxt);
 
 				var or = new NG_OutputRequest(s, ox, ox, o);
 				aOrs1.add(or);
@@ -61,7 +62,7 @@ public enum WPIS_GenerateOutputsFinalizer {
 		}
 
 		for (WPIS_GenerateOutputs.Writeable writable : writables) {
-			final EOT_OutputFile.FileNameProvider filename   = writable.getFilenameProvider();
+			final EOT_FileNameProvider filename   = writable.getFilenameProvider();
 			final EG_Statement                    statement0 = writable.statement();
 			final List<EG_Statement>              list2      = relist3(statement0);
 			final EG_Statement                    statement;
