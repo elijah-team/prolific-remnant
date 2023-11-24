@@ -232,7 +232,16 @@ public class USE {
 
 				parseElijjahFile(inp);
 
-				c.reports().addInput(inp, Finally.Out2.ELIJAH);
+				// TODO 11/24 supplier<calculated<>>
+				var nameable = new Finally.Nameable() {
+					@Override
+					public String getName() {
+						return inp.file().toString();
+					}
+				};
+
+				final Finally.Input input2 = new Finally.Input(nameable, Finally.Out2.ELIJAH);
+				c.reports().addInput(input2);
 			}
 		}
 	}
