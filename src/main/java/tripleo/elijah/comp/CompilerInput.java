@@ -51,7 +51,7 @@ public record CompilerInput(
 		}
 		throw new IllegalStateException("compilation not set");
 	}
-	
+
 	public void setArg() {
 		if (oc.isPresent()) {
 			oc.get().get(this).setArg();
@@ -75,6 +75,10 @@ public record CompilerInput(
         }
         return oc.get().get(this).printableString();
     }
+
+	public String getInp() {
+		return inp;
+	}
 
 	public enum Ty {NULL, SOURCE_ROOT, ARG}
 
