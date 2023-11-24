@@ -31,7 +31,10 @@ import tripleo.elijah.stages.write_stage.pipeline_impl.*;
 import tripleo.elijah.util.NotImplementedException;
 import tripleo.elijah.util.Operation;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -46,7 +49,7 @@ public class WritePipeline implements PipelineMember, Consumer<Supplier<Generate
 	public final @NotNull  WritePipelineSharedState                                                 st;
 	private final @NotNull CompletedItemsHandler                                                    cih;
 	private final @NotNull DoubleLatch<GenerateResult>                                              latch;
-	private                HashMap<WP_Indiviual_Step, Pair<WP_Flow.FlowStatus, Operation<Boolean>>> ops;
+	private                Map<WP_Indiviual_Step, Pair<WP_Flow.FlowStatus, Operation<Boolean>>> ops;
 
 	@Override
 	public void accept(final @NotNull Supplier<GenerateResult> aGenerateResultSupplier) {
