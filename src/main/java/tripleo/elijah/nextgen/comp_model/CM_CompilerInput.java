@@ -21,6 +21,7 @@ public class CM_CompilerInput {
     public CM_CompilerInput(final CompilerInput aCompilerInput, final CompilationImpl aCompilation) {
         carrier = aCompilerInput;
         comp = aCompilation;
+        inp = carrier.inp();
     }
 
     public boolean inpSameAs(final String aS) {

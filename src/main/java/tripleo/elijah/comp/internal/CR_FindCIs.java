@@ -101,18 +101,18 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 								   final @NotNull File f) {
 		c.getCompilation().addCompilerInputWatcher(new CN_CompilerInputWatcher() {
 			@Override
-			public void event(final e aEvent, final Object aO) {
+			public void event(final e aEvent, final CompilerInput aCompilerInput, final Object aObject) {
 				switch (aEvent) {
 					case ACCEPT_CI -> {
-						final Maybe<ILazyCompilerInstructions> mci = (Maybe<ILazyCompilerInstructions>) aO;
+						final Maybe<ILazyCompilerInstructions> mci = (Maybe<ILazyCompilerInstructions>) aObject;
 						input.accept_ci(mci);
 					}
 					case IS_EZ -> {
-						final CM_CompilerInput cm = (CM_CompilerInput) aO;
+						final CM_CompilerInput cm = (CM_CompilerInput) aObject;
 						cm.onIsEz();
 					}
 					default -> {
-						System.err.println("~~ [11/24 111] " + aEvent + " " + aO);
+						System.err.println("~~ [11/24 111] " + aEvent + " " + aCompilerInput);
 					}
 				}
 			}

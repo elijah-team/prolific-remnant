@@ -46,8 +46,6 @@ public class CW_inputIsDirectory {
 				final ILazyCompilerInstructions ilci = ILazyCompilerInstructions.of(ez_file);
 				final Maybe<ILazyCompilerInstructions> m3 = new Maybe<>(ilci, null);
 				c.compilerInputWatcher_Event(CN_CompilerInputWatcher.e.ACCEPT_CI, input, m3);
-				input.accept_ci(m3); // TDOO 11/24 move this??
-				assert false;
 			}
 			default -> {
 				//final Diagnostic d_toomany = new TooManyEz_UseFirst();
