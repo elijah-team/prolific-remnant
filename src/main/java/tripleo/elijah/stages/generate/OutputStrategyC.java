@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.ci.i.CompilerInstructions;
 import tripleo.elijah.ci.LibraryStatementPart;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.nextgen.outputstatement.ReasonedStringListStatement;
 import tripleo.elijah.nextgen.outputtree.EOT_FileNameProvider;
@@ -83,9 +84,10 @@ public class OutputStrategyC {
 		}
 		String filename;
 		if (generatedNamespace.getNamespaceStatement().getKind() == NamespaceTypes.MODULE) {
-			final String moduleFileName = generatedNamespace.module().getFileName();
-			File         moduleFile     = new File(moduleFileName);
+			final CM_Filename moduleFileName = generatedNamespace.module().getFileName();
+			File         moduleFile     = moduleFileName.fileOf();
 			filename = moduleFile.getName();
+			assert false; // FIXME 11/24 smelly
 			filename = strip_elijah_extension(filename);
 
 			if (generatedNamespace.getCode() != 0) {
@@ -259,7 +261,7 @@ public class OutputStrategyC {
 		}
 		case PER_MODULE -> {
 			OS_Module mod = aEvaClass.module();
-			File      f   = new File(mod.getFileName());
+			File      f   = (mod.getFileName().fileOf());
 			String    ff  = f.getName();
 			name0 = strip_elijah_extension(ff);
 		}
