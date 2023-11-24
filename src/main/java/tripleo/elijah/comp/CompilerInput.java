@@ -9,72 +9,73 @@ import java.io.File;
 import java.util.Optional;
 
 public record CompilerInput(
-		String                           inp,
+		String inp,
 		Optional<Compilation> oc
 ) {
 
 	public void accept_ci(final Maybe<ILazyCompilerInstructions> mci) {
 		if (oc.isEmpty()) {
 			throw new IllegalStateException("compilation not set");
+		} else {
+			oc.get().get(this).accept_ci(mci);
 		}
-
-		oc.get().get(this).accept_ci(mci);
 	}
 
 	public Maybe<ILazyCompilerInstructions> acceptance_ci() {
 		if (oc.isEmpty()) {
 			throw new IllegalStateException("compilation not set");
+		} else {
+			return oc.get().get(this).acceptance_ci();
 		}
-
-		return oc.get().get(this).acceptance_ci();
-    }
+	}
 
 	public boolean isNull() {
 		if (oc.isEmpty()) {
 			throw new IllegalStateException("compilation not set");
-		}
+		} else
 
-		return oc.get().get(this).getTy() == Ty.NULL;
+			return oc.get().get(this).getTy() == Ty.NULL;
 	}
 
 	public boolean isSourceRoot() {
 		if (oc.isEmpty()) {
 			throw new IllegalStateException("compilation not set");
-		}
+		} else
 
-		return oc.get().get(this).getTy() == Ty.SOURCE_ROOT;
+			return oc.get().get(this).getTy() == Ty.SOURCE_ROOT;
 	}
 
 	public void setSourceRoot() {
-		if (oc.isPresent()) {
+		if (oc.isEmpty()) {
+			throw new IllegalStateException("compilation not set");
+		} else {
 			oc.get().get(this).setSourceRoot();
 		}
-		throw new IllegalStateException("compilation not set");
 	}
 
 	public void setArg() {
 		if (oc.isPresent()) {
 			oc.get().get(this).setArg();
-		}
-		throw new IllegalStateException("compilation not set");
+		} else
+			throw new IllegalStateException("compilation not set");
 	}
 
 	public void accept_hash(final String hash) {
 		if (oc.isPresent()) {
 			oc.get().get(this).accept_hash(hash);
-		}
-		throw new IllegalStateException("compilation not set");
+		} else
+			throw new IllegalStateException("compilation not set");
 	}
 
 	@Override
 	public String toString() {
-        if (oc.isEmpty()) {
-            return MoreObjects.toStringHelper(this)
-                    .add("inp", inp)
-                    .toString();
-        }
-        return oc.get().get(this).printableString();
-    }
+		if (oc.isEmpty()) {
+			return MoreObjects.toStringHelper(this)
+					.add("inp", inp)
+					.toString();
+		}
+		return oc.get().get(this).printableString();
+	}
 
 	public String getInp() {
 		return inp;
@@ -83,10 +84,10 @@ public record CompilerInput(
 	public enum Ty {NULL, SOURCE_ROOT, ARG}
 
 	public Ty ty() {
-        if (oc.isEmpty()) {
-            throw new IllegalStateException("compilation not set");
-        } else {
-            return oc.get().get(this).getTy();
-        }
-    }
+		if (oc.isEmpty()) {
+			throw new IllegalStateException("compilation not set");
+		} else {
+			return oc.get().get(this).getTy();
+		}
+	}
 }
