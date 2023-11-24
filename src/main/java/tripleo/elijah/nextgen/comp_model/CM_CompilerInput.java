@@ -2,7 +2,7 @@ package tripleo.elijah.nextgen.comp_model;
 
 import com.google.common.base.MoreObjects;
 import tripleo.elijah.comp.CompilerInput;
-import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.comp.Finally;
 import tripleo.elijah.comp.i.ILazyCompilerInstructions;
 import tripleo.elijah.comp.internal.CompilationImpl;
 import tripleo.elijah.util.Maybe;
@@ -84,5 +84,15 @@ public class CM_CompilerInput {
 
         final Maybe<ILazyCompilerInstructions> m4 = new Maybe<>(ilci, null);
         carrier.accept_ci(m4);
+    }
+
+    public Finally.Input createInput(final Finally.Out2 aTy) {
+        var nameable = new Finally.Nameable() {
+            @Override
+            public String getName() {
+                return inp;
+            }
+        };
+        return new Finally.Input(nameable, aTy);
     }
 }
