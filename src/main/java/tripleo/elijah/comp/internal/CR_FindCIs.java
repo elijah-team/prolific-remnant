@@ -77,8 +77,8 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 			final String file_name = cm.getInp();
 			final boolean matches2 = Pattern.matches(".+\\.ez$", file_name);
 			if (matches2) {
-				c.compilerInputWatcher_Event(CN_CompilerInputWatcher.e.IS_EZ, input, null);
-				cm.extracted();
+				// TODO 11/24 access3/4
+				c.compilerInputWatcher_Event(CN_CompilerInputWatcher.e.IS_EZ, input, cm);
 				x.accept(input);
 			} else {
 				//errSink.reportError("9996 Not an .ez file "+file_name);
