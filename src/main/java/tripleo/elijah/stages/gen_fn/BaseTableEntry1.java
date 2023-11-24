@@ -8,7 +8,8 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.stages.deduce.DeduceTypes2;
 
 /**
  * Created 8/29/21 5:04 AM
@@ -21,10 +22,17 @@ public abstract class BaseTableEntry1 extends BaseTableEntry {
 		return callable_pte;
 	}
 
-	public void setCallablePTE(final ProcTableEntry aProcTableEntry) {
+	public void setCallablePTE(ProcTableEntry aProcTableEntry) {
 		callable_pte = aProcTableEntry;
 	}
 
+	public ProcTableEntry _callable_pte() {
+		return callable_pte;
+	}
+
+	public DeduceTypes2 _deduceTypes2() {
+		return __dt2;
+	}
 }
 
 //

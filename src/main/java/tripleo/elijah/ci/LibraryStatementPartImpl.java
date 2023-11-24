@@ -8,30 +8,24 @@
  */
 package tripleo.elijah.ci;
 
-import antlr.*;
-import tripleo.elijah.lang.*;
+import antlr.Token;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.ci.i.CompilerInstructions;
+import tripleo.elijah.lang.i.IExpression;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created 9/6/20 12:06 PM
  */
 public class LibraryStatementPartImpl implements LibraryStatementPart {
-	private String          name;
-	private String          dirName;
-	private List<Directive> dirs = null;
-
 	private CompilerInstructions ci;
+	private String               dirName;
+	private String               name;
 
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public void setName(final Token i1) {
-		name = i1.getText();
-	}
+	private @Nullable List<Directive> dirs = null;
 
 	@Override
 	public String getDirName() {
@@ -39,15 +33,15 @@ public class LibraryStatementPartImpl implements LibraryStatementPart {
 	}
 
 	@Override
-	public void setDirName(final Token dirName) {
-		this.dirName = dirName.getText();
-	}
-
-	@Override
-	public void addDirective(final Token token, final IExpression iExpression) {
+	public void addDirective(final @NotNull Token token, final IExpression iExpression) {
 		if (dirs == null)
 			dirs = new ArrayList<Directive>();
 		dirs.add(new Directive(token, iExpression));
+	}
+
+	@Override
+	public void setDirName(final @NotNull Token dirName) {
+		this.dirName = dirName.getText();
 	}
 
 	@Override
@@ -56,7 +50,17 @@ public class LibraryStatementPartImpl implements LibraryStatementPart {
 	}
 
 	@Override
-	public void setInstructions(final CompilerInstructions instructions) {
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(final @NotNull Token i1) {
+		name = i1.getText();
+	}
+
+	@Override
+	public void setInstructions(CompilerInstructions instructions) {
 		ci = instructions;
 	}
 
@@ -65,7 +69,7 @@ public class LibraryStatementPartImpl implements LibraryStatementPart {
 		private final IExpression expression;
 		private final String      name;
 
-		public Directive(final Token token_, final IExpression expression_) {
+		public Directive(final @NotNull Token token_, final IExpression expression_) {
 			name       = token_.getText();
 			expression = expression_;
 		}

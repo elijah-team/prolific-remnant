@@ -8,83 +8,116 @@
  */
 package tripleo.elijah.stages.deduce;
 
-import org.jdeferred2.*;
-import org.jetbrains.annotations.*;
-import org.junit.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.test_help.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.contexts.FunctionContext;
+import tripleo.elijah.contexts.ModuleContext;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.*;
+import tripleo.elijah.lang.types.OS_BuiltinType;
+import tripleo.elijah.lang.types.OS_UserType;
+import tripleo.elijah.lang2.BuiltInTypes;
+import tripleo.elijah.util.Mode;
+import tripleo.elijah.nextgen.rosetta.DeducePhase.DeducePhase_deduceModule_Request;
+import tripleo.elijah.stages.deduce.Resolve_Ident_IA.DeduceElementIdent;
+import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_IdentTableEntry;
+import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
+import tripleo.elijah.stages.gen_fn.GenType;
+import tripleo.elijah.stages.gen_fn.IdentTableEntry;
+import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah.test_help.Boilerplate;
+import tripleo.elijah.util.Helpers;
+import tripleo.elijah.util.Operation2;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
+import tripleo.elijah.world.i.WorldModule;
+
+import static org.mockito.Mockito.mock;
+import static tripleo.elijah.util.Helpers.List_of;
 
 /**
  * Useless tests. We really want to know if a TypeName will resolve to the same types
  */
+@Ignore
 public class DeduceTypesTest {
 
-	private GenType                              x;
-	private Promise<GenType, ResolveError, Void> xx;
+	private GenType x;
 
 	@Before
 	public void setUp() {
-		final Boilerplate b = new Boilerplate();
-		b.get();
-		final Compilation c   = b.comp;
-		final OS_Module   mod = b.defaultMod();
+		final Boilerplate boilerplate = new Boilerplate();
+		boilerplate.get();
+		boilerplate.getGenerateFiles(boilerplate.defaultMod());
 
-		final DeduceTypeWatcher dtw = new DeduceTypeWatcher();
+		final OS_Module     mod  = boilerplate.defaultMod();
+		final ModuleContext mctx = new ModuleContext(mod);
+		mod.setContext(mctx);
 
-		b.withModBuilder(mod)
-		 .addClass(cc -> {
-			 cc.name("Test");
-			 cc.addFunction(f -> {
-				 f.name("test");
-				 f.vars("x", "Integer", dtw);
-			 });
-		 });
-
-/*
-		final FunctionDef fd = null;
+		final ClassStatement cs = new ClassStatementImpl(mod, mod.getContext());
+		final ClassHeader    ch = new ClassHeaderImpl(false, List_of());
+		ch.setName(Helpers.string_to_ident("Test"));
+		cs.setHeader(ch);
+		final FunctionDef fd = cs.funcDef();
+		fd.setName(Helpers.string_to_ident("test"));
+		final Scope3           scope3 = new Scope3Impl(fd);
+		final VariableSequence vss    = scope3.statementClosure().varSeq(fd.getContext());
+		final VariableStatement vs      = vss.next();
+		final IdentExpression   x_ident = Helpers.string_to_ident("x");
+		x_ident.setContext(fd.getContext());
+		vs.setName(x_ident);
+		final Qualident qu = new QualidentImpl();
+		qu.append(Helpers.string_to_ident("Integer"));
+		((NormalTypeName) vs.typeName()).setName(qu);
+		vs.typeName().setContext(fd.getContext());
+		fd.scope(scope3);
+		fd.postConstruct();
+		cs.postConstruct();
+		mod.postConstruct();
 		final FunctionContext fc = (FunctionContext) fd.getContext(); // TODO needs to be mocked
 		final IdentExpression x1 = Helpers.string_to_ident("x");
 		x1.setContext(fc);
-*/
 
-		final DeduceTypes2 d = b.simpleDeduceModule3(mod);
+		mod.setPrelude(mod.getCompilation().findPrelude("c").success().module());
 
-		final IdentExpression nameToken = ((VariableStatement) dtw.element()).getNameToken();
-		this.xx = DeduceLookupUtils.deduceExpression_p(d, nameToken, nameToken/*dtw.element()*/.getContext());
-		xx.then(a -> this.x = a);
-		xx.fail(e -> c.getErrSink().reportDiagnostic(e));
-		dtw.onType(a -> this.x = a);
-		System.out.println(this.x);
+		//final PipelineLogic pl           = boilerplate.pipelineLogic;
+
+
+		final ElLog.Verbosity verbosity = Compilation.gitlabCIVerbosity();
+		final DeducePhase     dp        = boilerplate.getDeducePhase();
+		final DeduceTypes2    d         = dp.deduceModule(new DeducePhase_deduceModule_Request(mod, dp.generatedClasses, verbosity, dp));
+
+		//final @NotNull GenerateFunctions gf = boilerplate.pr.pipelineLogic().generatePhase.getGenerateFunctions(mod);
+
+		final BaseEvaFunction bgf = mock(BaseEvaFunction.class);
+
+		final IdentTableEntry                ite     = new IdentTableEntry(0, x1, x1.getContext(), bgf);
+		final DeduceElementIdent             dei     = new DeduceElementIdent(ite);
+		final DeduceElement3_IdentTableEntry de3_ite = ite.getDeduceElement3(d, bgf);
+
+
+		final Operation2<WorldModule> fpl0 = boilerplate.comp.findPrelude("c");
+		assert fpl0.mode() == Mode.SUCCESS;
+		//final Operation2<OS_Module>   fpl  = boilerplate.comp.findPrelude("c");
+		mod.setPrelude(fpl0.success().module());
+
+		final DeduceElement3_IdentTableEntry xxx = DeduceLookupUtils.deduceExpression2(de3_ite, fc);
+		this.x = xxx.genType();
+		SimplePrintLoggerToRemoveSoon.println_out_2(String.valueOf(this.x));
 	}
 
 	/**
 	 * TODO This test fails beacause we are comparing a BUILT_IN vs a USER OS_Type.
 	 *   It fails because Integer is an interface and not a BUILT_IN
 	 */
-	@Ignore
-	@Test
+	@Test(expected = ResolveError.class)
 	public void testDeduceIdentExpression1() {
-//		assert x == null;
+		final BuiltInTypes bi_integer = new OS_BuiltinType(BuiltInTypes.SystemInteger).getBType();
+		final BuiltInTypes inferred_t = x.getResolved().getBType();
 
-		Assert.assertTrue("Promise not resolved", xx.isResolved());
-
-		xx.then(xxx -> {
-//			Assert.assertEquals(OS_Type.Type.USER, xxx.resolved.getType());
-			System.out.println("1 " + new OS_BuiltinType(BuiltInTypes.SystemInteger).getBType());
-			System.out.println("2 " + xxx.resolved.getBType());
-			System.out.println("2.5 " + xxx.resolved);
-			Assert.assertNotEquals(new OS_BuiltinType(BuiltInTypes.SystemInteger).getBType(), xxx.resolved.getBType());
-
-			assert false; // never reached
-		});
-//		xx.fail(() -> {
-//			if (false) throw new AssertionError();
-//		});
+		Assert.assertEquals(bi_integer, inferred_t);
 	}
 
 	/**
@@ -92,46 +125,36 @@ public class DeduceTypesTest {
 	 */
 	@Test
 	public void testDeduceIdentExpression2() {
-		final RegularTypeName tn  = new RegularTypeName();
-		final Qualident       tnq = new Qualident();
+		final RegularTypeName tn  = new RegularTypeNameImpl();
+		final Qualident       tnq = new QualidentImpl();
 		tnq.append(Helpers.string_to_ident("Integer"));
 		tn.setName(tnq);
-
-		Assert.assertTrue("Promise not resolved", xx.isResolved());
-
 		Assert.assertTrue(genTypeTypenameEquals(new OS_UserType(tn), x/*.getTypeName()*/));
-	}
-
-	@Contract(value = "null, _ -> false", pure = true)
-	private boolean genTypeTypenameEquals(final OS_Type aType, final @NotNull GenType genType) {
-		return genType.typeName.isEqual(aType); // minikanren 04/15
 	}
 
 	@Test
 	public void testDeduceIdentExpression3() {
-		final VariableTypeName tn  = new VariableTypeName();
-		final Qualident        tnq = new Qualident();
+		final VariableTypeName tn  = new VariableTypeNameImpl();
+		final Qualident        tnq = new QualidentImpl();
 		tnq.append(Helpers.string_to_ident("Integer"));
 		tn.setName(tnq);
-
-		Assert.assertTrue("Promise not resolved", xx.isResolved());
-
-		Assert.assertEquals(new OS_UserType(tn).getTypeName(), x.typeName.getTypeName());
+		Assert.assertEquals(new OS_UserType(tn).getTypeName(), x.getTypeName().getTypeName());
 		Assert.assertTrue(genTypeTypenameEquals(new OS_UserType(tn), x));
 	}
 
 	@Test
 	public void testDeduceIdentExpression4() {
-		final VariableTypeName tn  = new VariableTypeName();
-		final Qualident        tnq = new Qualident();
+		final VariableTypeName tn  = new VariableTypeNameImpl();
+		final Qualident        tnq = new QualidentImpl();
 		tnq.append(Helpers.string_to_ident("Integer"));
 		tn.setName(tnq);
-
-		Assert.assertTrue("Promise not resolved", xx.isResolved());
-
-		Assert.assertEquals(new OS_UserType(tn).getTypeName(), x.typeName.getTypeName());
+		Assert.assertEquals(new OS_UserType(tn).getTypeName(), x.getTypeName().getTypeName());
 		Assert.assertTrue(genTypeTypenameEquals(new OS_UserType(tn), x));
-		Assert.assertEquals(new OS_UserType(tn).asString(), x.typeName.asString());
+		Assert.assertEquals(new OS_UserType(tn).toString(), x.getTypeName().toString());
+	}
+
+	private boolean genTypeTypenameEquals(OS_Type aType, @NotNull GenType genType) {
+		return genType.getTypeName().equals(aType);
 	}
 
 }

@@ -8,7 +8,8 @@
  */
 package tripleo.elijah.lang.builder;
 
-import tripleo.elijah.lang.*;
+import tripleo.elijah.lang.i.Context;
+import tripleo.elijah.lang.i.OS_Element;
 
 /**
  * Created 12/22/20 11:31 PM
@@ -16,13 +17,13 @@ import tripleo.elijah.lang.*;
 public abstract class ElBuilder {
 	protected OS_Element _parent;
 
-	public void setParent(final OS_Element element) {
-		_parent = element;
-	}
-
 	protected abstract OS_Element build();
 
 	protected abstract void setContext(Context context);
+
+	public void setParent(OS_Element element) {
+		_parent = element;
+	}
 
 }
 

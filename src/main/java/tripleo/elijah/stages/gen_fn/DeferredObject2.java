@@ -8,8 +8,10 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
+import org.jdeferred2.Deferred;
+import org.jdeferred2.Promise;
+import org.jdeferred2.impl.AbstractPromise;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created 9/2/21 12:09 AM
@@ -34,7 +36,7 @@ public class DeferredObject2<D, F, P> extends AbstractPromise<D, F, P> implement
 	}
 
 	@Override
-	public Deferred<D, F, P> reject(final F reject) {
+	public @NotNull Deferred<D, F, P> reject(final F reject) {
 		synchronized (this) {
 			if (!isPending())
 				throw new IllegalStateException("Deferred object already finished, cannot reject again");
@@ -51,7 +53,7 @@ public class DeferredObject2<D, F, P> extends AbstractPromise<D, F, P> implement
 	}
 
 	@Override
-	public Deferred<D, F, P> notify(final P progress) {
+	public @NotNull Deferred<D, F, P> notify(final P progress) {
 		synchronized (this) {
 			if (!isPending())
 				throw new IllegalStateException("Deferred object already finished, cannot notify progress");
@@ -61,15 +63,15 @@ public class DeferredObject2<D, F, P> extends AbstractPromise<D, F, P> implement
 		return this;
 	}
 
-	@Override
-	public Promise<D, F, P> promise() {
-		return this;
-	}
-
 	public void reset() {
 		state         = State.PENDING;
 		rejectResult  = null;
 		resolveResult = null;
+	}
+
+	@Override
+	public @NotNull Promise<D, F, P> promise() {
+		return this;
 	}
 }
 

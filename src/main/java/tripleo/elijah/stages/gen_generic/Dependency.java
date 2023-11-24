@@ -8,61 +8,74 @@
  */
 package tripleo.elijah.stages.gen_generic;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.OS_Element;
+import tripleo.elijah.stages.deduce.FunctionInvocation;
+import tripleo.elijah.stages.gen_fn.AbstractDependencyTracker;
+import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
+import tripleo.elijah.stages.gen_fn.EvaContainerNC;
+import tripleo.elijah.stages.gen_fn.GenType;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created 9/13/21 4:00 AM
  */
 public class Dependency {
-	public final IDependencyReferent referent;
 	public final Set<Dependency>     deps = new HashSet<>();
+	public final IDependencyReferent referent;
+	public       DependencyRef       dref;
+	public       OS_Element          resolved;
 
-	public DependencyRef dref;
-	public OS_Element    resolved;
-
-	public Dependency(final IDependencyReferent aReferent) {
+	public Dependency(IDependencyReferent aReferent) {
 		referent = aReferent;
+	}
+
+	public @NotNull Set<Dependency> getNotedDeps() {
+		return deps;
 	}
 
 	public DependencyRef getRef() {
 		return dref;
 	}
 
-	public void setRef(final DependencyRef aDref) {
-		dref = aDref;
+	public @NotNull String jsonString() {
+		final String sb = "{\".class\": \"Dependency\", " + "referent: " + referent + ", " +
+				"dref: " + (dref != null ? dref.jsonString() + ", " : "null, ") +
+				"deps: " + deps + ", " +
+				"resolved: " + resolved +/*+", "*/
+				"}";
+		return sb;
 	}
 
-	public void noteDependencies(final AbstractDependencyTracker aDependencyTracker,
-	                             final List<FunctionInvocation> aDependentFunctions,
-	                             final List<GenType> aDependentTypes) {
-		for (final FunctionInvocation dependentFunction : aDependentFunctions) {
-			final BaseGeneratedFunction generatedFunction = dependentFunction.getGenerated();
+	public void noteDependencies(AbstractDependencyTracker aDependencyTracker,
+								 @NotNull List<FunctionInvocation> aDependentFunctions,
+								 @NotNull List<GenType> aDependentTypes) {
+		for (FunctionInvocation dependentFunction : aDependentFunctions) {
+			final BaseEvaFunction generatedFunction = dependentFunction.getGenerated();
 			if (generatedFunction != null)
 				deps.add(generatedFunction.getDependency());
 			else
-				SimplePrintLoggerToRemoveSoon.println_err2("52 false FunctionInvocation " + dependentFunction);
+				SimplePrintLoggerToRemoveSoon.println_err_2("52 false FunctionInvocation " + dependentFunction);
 		}
-		for (final GenType dependentType : aDependentTypes) {
-			final GeneratedContainerNC node = (GeneratedContainerNC) dependentType.node;
+		for (GenType dependentType : aDependentTypes) {
+			final EvaContainerNC node = (EvaContainerNC) dependentType.getNode();
 			if (node != null)
 				deps.add(node.getDependency());
 			else {
-				SimplePrintLoggerToRemoveSoon.println_err2("46 node is null " + (dependentType.resolved != null ? dependentType.resolved : dependentType.resolvedn));
+				SimplePrintLoggerToRemoveSoon.println_err_2("46 node is null " + (dependentType.getResolved() != null ? dependentType.getResolved() : dependentType.getResolvedn()));
 				final Dependency d = new Dependency(null);
-				d.resolved = dependentType.resolved != null ? dependentType.resolved.getClassOf() : dependentType.resolvedn;
+				d.resolved = dependentType.getResolved() != null ? dependentType.getResolved().getClassOf() : dependentType.getResolvedn();
 				deps.add(d);
 			}
 		}
 	}
 
-	public @NotNull Set<Dependency> getNotedDeps() {
-		return deps;
+	public void setRef(DependencyRef aDref) {
+		dref = aDref;
 	}
 }
 

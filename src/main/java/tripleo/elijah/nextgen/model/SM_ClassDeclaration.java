@@ -1,11 +1,13 @@
 package tripleo.elijah.nextgen.model;
 
-public interface SM_ClassDeclaration extends SM_Node {
-	SM_Name name();
+import org.jetbrains.annotations.Nullable;
 
-	SM_ClassSubtype subType();
+public interface SM_ClassDeclaration extends SM_Node {
+	@Nullable SM_ClassBody classBody();
 
 	SM_ClassInheritance inheritance();
 
-	SM_ClassBody classBody();
+	SM_Name name();
+
+	SM_ClassSubtype subType();
 }

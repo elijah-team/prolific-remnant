@@ -1,8 +1,10 @@
 package tripleo.elijah.comp;
 
-import tripleo.elijah.stages.deduce.post_bytecode.*;
+import com.google.common.base.MoreObjects;
+import tripleo.elijah.comp.i.ILazyCompilerInstructions;
+import tripleo.elijah.util.Maybe;
 
-import java.io.*;
+import java.io.File;
 
 public class CompilerInput {
 	private final String                           inp;
@@ -11,13 +13,13 @@ public class CompilerInput {
 	private       Ty                               ty;
 	private       String                           hash;
 
+	public String getInp() {
+		return inp;
+	}
+
 	public CompilerInput(final String aS) {
 		inp = aS;
 		ty  = Ty.NULL;
-	}
-
-	public String getInp() {
-		return inp;
 	}
 
 	public void accept_ci(final Maybe<ILazyCompilerInstructions> aM3) {
@@ -53,9 +55,20 @@ public class CompilerInput {
 		this.hash = hash;
 	}
 
-	public Ty ty() {
-		return ty;
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(this)
+				.add("ty", ty)
+				.add("inp", inp)
+				.add("accept_ci", accept_ci.toString())
+				.add("dir_carrier", dir_carrier)
+				.add("hash", hash)
+				.toString();
 	}
 
 	public enum Ty {NULL, SOURCE_ROOT, ARG}
+
+	public Ty ty() {
+		return ty;
+	}
 }

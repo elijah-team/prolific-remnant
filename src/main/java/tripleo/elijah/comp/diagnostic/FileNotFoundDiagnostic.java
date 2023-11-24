@@ -1,10 +1,12 @@
 package tripleo.elijah.comp.diagnostic;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.diagnostic.Diagnostic;
+import tripleo.elijah.diagnostic.Locatable;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.PrintStream;
+import java.util.List;
 
 public class FileNotFoundDiagnostic implements Diagnostic {
 	private final File f;
@@ -14,13 +16,8 @@ public class FileNotFoundDiagnostic implements Diagnostic {
 	}
 
 	@Override
-	public String code() {
+	public @NotNull String code() {
 		return "9004";
-	}
-
-	@Override
-	public Severity severity() {
-		return Severity.INFO;
 	}
 
 	@Override
@@ -29,12 +26,17 @@ public class FileNotFoundDiagnostic implements Diagnostic {
 	}
 
 	@Override
+	public void report(final @NotNull PrintStream stream) {
+		stream.println(code() + " File not found " + f.toString());
+	}
+
+	@Override
 	public @NotNull List<Locatable> secondary() {
 		return null;
 	}
 
 	@Override
-	public void report(final PrintStream stream) {
-		stream.println(code() + " File not found " + f.toString());
+	public @NotNull Severity severity() {
+		return Severity.INFO;
 	}
 }

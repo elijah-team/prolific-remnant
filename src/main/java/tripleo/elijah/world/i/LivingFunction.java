@@ -1,9 +1,9 @@
 package tripleo.elijah.world.i;
 
-import tripleo.elijah.lang.*;
+import tripleo.elijah.lang.i.FunctionDef;
 
 public interface LivingFunction {
-	BaseFunctionDef getElement();
-
 	int getCode();
+
+	FunctionDef getElement();
 }

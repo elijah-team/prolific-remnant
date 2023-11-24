@@ -1,14 +1,13 @@
 package tripleo.elijah.nextgen.outputstatement;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.List;
 
 public class EG_DottedStatement implements EG_Statement {
+	private final EX_Explanation explanation;
 	private final String         separator;
 	private final List<String>   stringList;
-	private final EX_Explanation explanation;
 
 	public EG_DottedStatement(final String aSeparator, final List<String> aStringList, final EX_Explanation aExplanation) {
 		separator   = aSeparator;
@@ -17,12 +16,12 @@ public class EG_DottedStatement implements EG_Statement {
 	}
 
 	@Override
-	public @NotNull String getText() {
-		return Helpers.String_join(separator, stringList);
+	public EX_Explanation getExplanation() {
+		return explanation;
 	}
 
 	@Override
-	public EX_Explanation getExplanation() {
-		return explanation;
+	public @NotNull String getText() {
+		return __.String_join(separator, stringList);
 	}
 }

@@ -8,28 +8,33 @@
  */
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.lang.*;
-
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.ContextImpl;
 
 /**
  * Created 8/15/20 6:32 PM
  */
-public class PackageContext extends Context {
+public class PackageContext extends ContextImpl {
 	private final Context    _parent;
 	private final OS_Package carrier;
 
-	public PackageContext(final Context aParent, final OS_Package os_package) {
+	public PackageContext(final Context aParent, OS_Package os_package) {
 		_parent = aParent;
 		carrier = os_package;
 	}
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final List<Context> alreadySearched, final boolean one) {
+	public Context getParent() {
+		return _parent;
+	}
+
+	@Override
+	public LookupResultList lookup(final String name, final int level, final @NotNull LookupResultList Result, final @NotNull SearchList alreadySearched, final boolean one) {
 		alreadySearched.add(this);
-		for (final OS_Element element : carrier.getElements()) {
-			if (element instanceof final OS_Element2 element2) {
-				if (element2.name().equals(name)) {
+		for (OS_Element element : carrier.getElements()) {
+			if (element instanceof final @NotNull OS_NamedElement element2) {
+				if (element2.name().sameName(name)) {
 					Result.add(name, level, element, this);
 				}
 			}
@@ -43,8 +48,8 @@ public class PackageContext extends Context {
 	}
 
 	@Override
-	public Context getParent() {
-		return _parent;
+	public @NotNull OS_Module module() {
+		return _parent.module();
 	}
 }
 

@@ -13,7 +13,6 @@ package tripleo.util.io;
 
 /**
  * @author Tripleo(sb)
- *
  */
 public interface CharSource {
 	int available();

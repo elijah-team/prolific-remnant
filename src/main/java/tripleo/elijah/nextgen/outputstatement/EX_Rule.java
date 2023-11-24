@@ -8,7 +8,7 @@ public class EX_Rule implements EX_Explanation {
 	}
 
 	@Override
-	public String getText() {
-		return "EX_Rule "+rule;
+	public String message() {
+		return rule;
 	}
 }

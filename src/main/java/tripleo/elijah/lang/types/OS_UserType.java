@@ -1,8 +1,10 @@
 package tripleo.elijah.lang.types;
 
-import tripleo.elijah.lang.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.*;
 
-import java.text.*;
+import java.text.MessageFormat;
 
 
 public class OS_UserType extends __Abstract_OS_Type {
@@ -13,27 +15,8 @@ public class OS_UserType extends __Abstract_OS_Type {
 	}
 
 	@Override
-	public OS_Element getElement() {
-		return null;
-	}
-
-	@Override
-	public Type getType() {
-		return Type.USER;
-	}
-
-	@Override
-	public String asString() {
+	public @NotNull String asString() {
 		return MessageFormat.format("<OS_UserType {0}>", typeName);
-	}
-
-	@Override
-	public OS_Type resolve(final Context ctx) {
-		assert ctx != null;
-
-		final LookupResultList r    = ctx.lookup(getTypeName().toString()); // TODO
-		final OS_Element       best = r.chooseBest(null);
-		return ((ClassStatement) best).getOS_Type();
 	}
 
 	@Override
@@ -41,9 +24,38 @@ public class OS_UserType extends __Abstract_OS_Type {
 		return typeName;
 	}
 
-	protected boolean _isEqual(final OS_Type aType) {
+	@Override
+	protected boolean _isEqual(final @NotNull OS_Type aType) {
 		return aType.getType() == Type.USER && typeName.equals(aType.getTypeName());
 	}
 
+	@Override
+	public @Nullable OS_Type resolve(final @NotNull Context ctx) {
+		assert ctx != null;
+
+		final LookupResultList r    = ctx.lookup(getTypeName().toString()); // TODO
+		final OS_Element       best = r.chooseBest(null);
+
+
+		if (best == null) return null; // FIXME 07/03
+
+
+		return ((ClassStatement) best).getOS_Type();
+	}
+
+	@Override
+	public @Nullable OS_Element getElement() {
+		return null;
+	}
+
+	@Override
+	public @NotNull Type getType() {
+		return Type.USER;
+	}
+
+	@Override
+	public String toString() {
+		return asString();
+	}
 }
 

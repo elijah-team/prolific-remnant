@@ -1,17 +1,17 @@
 package tripleo.elijah.comp;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.ci.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.inputtree.*;
-import tripleo.elijah.nextgen.query.*;
-import tripleo.elijah.world.i.*;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.ci.LibraryStatementPart;
+import tripleo.elijah.lang.i.OS_Module;
+import tripleo.elijah.lang.i.Qualident;
+import tripleo.elijah.nextgen.inputtree.EIT_ModuleInput;
+import tripleo.elijah.util.Operation2;
+import tripleo.elijah.world.i.WorldModule;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.List;
 
 public interface CompFactory {
-
 	EIT_ModuleInput createModuleInput(OS_Module aModule);
 
 	Qualident createQualident(List<String> sl);
@@ -21,8 +21,8 @@ public interface CompFactory {
 	WorldModule createWorldModule(OS_Module aM);
 
 	class InputRequest {
-		private final File                    _file;
-		private final boolean                 _do_out;
+		private final File    _file;
+		private final boolean _do_out;
 		private final LibraryStatementPart    lsp;
 		private       Operation2<WorldModule> op;
 

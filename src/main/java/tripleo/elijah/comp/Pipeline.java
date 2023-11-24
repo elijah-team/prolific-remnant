@@ -8,31 +8,30 @@
  */
 package tripleo.elijah.comp;
 
-import java.util.*;
+import tripleo.elijah.comp.internal.CB_Output;
+import tripleo.elijah.comp.internal.CR_State;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created 8/21/21 10:09 PM
  */
 public class Pipeline {
 	private final List<PipelineMember> pls = new ArrayList<>();
-	private final ErrSink              errSink;
 
-	public Pipeline(final ErrSink aErrSink) {
-		errSink = aErrSink;
-	}
-
-	public void add(final PipelineMember aPipelineMember) {
+	public void add(PipelineMember aPipelineMember) {
 		pls.add(aPipelineMember);
 	}
 
-	public void run() {
-		try {
-			for (final PipelineMember pl : pls) {
-				pl.run();
-			}
-		} catch (final Exception e) {
-			errSink.exception(e);
+	public void run(final CR_State aSt, final CB_Output aOutput) throws Exception {
+		for (final PipelineMember pl : pls) {
+			pl.run(aSt, aOutput);
 		}
+	}
+
+	public int size() {
+		return pls.size();
 	}
 }
 

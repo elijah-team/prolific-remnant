@@ -8,7 +8,7 @@
  */
 package tripleo.elijah.stages.deduce;
 
-import tripleo.elijah.stages.gen_fn.*;
+import tripleo.elijah.stages.gen_fn.GenType;
 
 /**
  * Created 12/24/20 3:58 AM

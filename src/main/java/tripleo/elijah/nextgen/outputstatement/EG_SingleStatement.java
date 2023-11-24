@@ -4,21 +4,29 @@
  */
 package tripleo.elijah.nextgen.outputstatement;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * @author Tripleo Nova
  */
 public class EG_SingleStatement implements EG_Statement {
-	private final String         text;
-	private final EX_Explanation explanation;
-
-	public EG_SingleStatement(final String aText, final EX_Explanation aExplanation) {
-		text        = aText;
-		explanation = aExplanation;
-	}
+	private final @Nullable EX_Explanation explanation;
+	private final           String         text;
 
 	public EG_SingleStatement(final String aText) {
 		text        = aText;
 		explanation = null;
+	}
+
+	public EG_SingleStatement(final String aText, final @Nullable EX_Explanation aExplanation) {
+		text        = aText;
+		explanation = aExplanation;
+	}
+
+	@Override
+	public @Nullable EX_Explanation getExplanation() {
+		return explanation;
 	}
 
 	@Override
@@ -26,16 +34,11 @@ public class EG_SingleStatement implements EG_Statement {
 		return text;
 	}
 
-	@Override
-	public EX_Explanation getExplanation() {
-		return explanation;
-	}
-
-	public EG_SingleStatement tag(final String aS, final int aI) {
+	public @NotNull EG_SingleStatement rule(final String aS, final int aI) {
 		return this;
 	}
 
-	public EG_SingleStatement rule(final String aS, final int aI) {
+	public @NotNull EG_SingleStatement tag(final String aS, final int aI) {
 		return this;
 	}
 }

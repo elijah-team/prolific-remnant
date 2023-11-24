@@ -1,15 +1,15 @@
 package tripleo.elijah.nextgen.outputstatement;
 
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EG_SequenceStatement implements EG_Statement {
-	private final EG_Naming          naming;
-	private final String             beginning;
-	private final String             ending;
-	private final List<EG_Statement> list;
+	private final @Nullable String             beginning;
+	private final @Nullable String             ending;
+	private final           List<EG_Statement> list;
+	private final @Nullable EG_Naming          naming;
 
 	public EG_SequenceStatement(final EG_Naming aNaming, final List<EG_Statement> aList) {
 		naming    = aNaming;
@@ -32,22 +32,22 @@ public class EG_SequenceStatement implements EG_Statement {
 		naming    = null;
 	}
 
+	public List<EG_Statement> _list() {
+		return list;
+	}
+
+	@Override
+	public @Nullable EX_Explanation getExplanation() {
+		return null;
+	}
+
 	@Override
 	public String getText() {
-		final String ltext = Helpers.String_join(" ", list.stream().map(st -> st.getText()).collect(Collectors.toList()));
+		final String ltext = __.String_join(" ", list.stream().map(st -> st.getText()).collect(Collectors.toList()));
 		if (beginning != null) {
 			return String.format("%s%s%s", beginning, ltext, ending);
 		} else {
 			return String.format("%s", ltext);
 		}
-	}
-
-	@Override
-	public EX_Explanation getExplanation() {
-		return null;
-	}
-
-	public List<EG_Statement> _list() {
-		return list;
 	}
 }

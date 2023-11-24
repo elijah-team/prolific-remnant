@@ -8,18 +8,18 @@
  */
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
-
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.ContextImpl;
+import tripleo.elijah.lang.impl.VariableSequenceImpl;
 
 /**
  * Created 8/30/20 1:42 PM
  */
-public class WithContext extends Context {
+public class WithContext extends ContextImpl {
 
-	private final WithStatement carrier;
 	private final Context       _parent;
+	private final WithStatement carrier;
 
 	public WithContext(final WithStatement carrier, final Context _parent) {
 		this.carrier = carrier;
@@ -28,22 +28,27 @@ public class WithContext extends Context {
 
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final List<Context> alreadySearched, final boolean one) {
+	public Context getParent() {
+		return _parent;
+	}
+
+	@Override
+	public LookupResultList lookup(final String name, final int level, final @NotNull LookupResultList Result, final @NotNull SearchList alreadySearched, final boolean one) {
 		alreadySearched.add(carrier.getContext());
 
 		for (final FunctionItem item : carrier.getItems()) {
 			if (!(item instanceof ClassStatement) &&
-			  !(item instanceof NamespaceStatement) &&
-			  !(item instanceof FunctionDef) &&
-			  !(item instanceof VariableSequence)
+					!(item instanceof NamespaceStatement) &&
+					!(item instanceof FunctionDef) &&
+					!(item instanceof VariableSequenceImpl)
 			) continue;
-			if (item instanceof OS_Element2) {
-				if (((OS_Element2) item).name().equals(name)) {
+			if (item instanceof OS_NamedElement) {
+				if (((OS_NamedElement) item).name().sameName(name)) {
 					Result.add(name, level, item, this);
 				}
-			} else if (item instanceof VariableSequence) {
-				SimplePrintLoggerToRemoveSoon.println2("[FunctionContext#lookup] VariableSequence " + item);
-				for (final VariableStatement vs : ((VariableSequence) item).items()) {
+			} else if (item instanceof VariableSequenceImpl) {
+//				tripleo.elijah.util.Stupidity.println_out_2("[FunctionContext#lookup] VariableSequenceImpl "+item);
+				for (final VariableStatement vs : ((VariableSequenceImpl) item).items()) {
 					if (vs.getName().equals(name))
 						Result.add(name, level, vs, this);
 				}
@@ -58,11 +63,6 @@ public class WithContext extends Context {
 		}
 		return Result;
 
-	}
-
-	@Override
-	public Context getParent() {
-		return _parent;
 	}
 
 }

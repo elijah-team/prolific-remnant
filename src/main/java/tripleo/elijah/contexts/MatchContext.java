@@ -8,16 +8,18 @@
  */
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.lang.*;
-
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.Context;
+import tripleo.elijah.lang.i.LookupResultList;
+import tripleo.elijah.lang.i.MatchConditional;
+import tripleo.elijah.lang.impl.ContextImpl;
 
 /**
  * Created 9/24/20 6:11 PM
  */
-public class MatchContext extends Context {
-	private final MatchConditional carrier;
+public class MatchContext extends ContextImpl {
 	private final Context          _parent;
+	private final MatchConditional carrier;
 
 	public MatchContext(final Context aParent, final MatchConditional mc) {
 		this._parent = aParent;
@@ -25,7 +27,12 @@ public class MatchContext extends Context {
 	}
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final List<Context> alreadySearched, final boolean one) {
+	public Context getParent() {
+		return _parent;
+	}
+
+	@Override
+	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final @NotNull SearchList alreadySearched, final boolean one) {
 		alreadySearched.add(carrier.getContext());
 
 /*
@@ -48,11 +55,6 @@ public class MatchContext extends Context {
 		return Result;
 
 
-	}
-
-	@Override
-	public Context getParent() {
-		return _parent;
 	}
 
 }

@@ -8,150 +8,170 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.util.*;
-
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.types.OS_UnitType;
+import tripleo.elijah.lang.types.OS_UserType;
+import tripleo.elijah.stages.deduce.ClassInvocation;
+import tripleo.elijah.stages.deduce.DeduceTypes2;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
 /**
  * Created 9/12/20 10:26 PM
  */
 public class TypeTableEntry {
+	public final    IExpression     __debug_expression;
 	@NotNull
-	public final  Type                lifetime;
+	public final    Type            lifetime;
+	public @NotNull GenType         genType = new GenTypeImpl();
 	@Nullable
-	public final  TableEntryIV        tableEntry;
-	public final  GenType             genType = new GenType();
-	public final  IExpression         expression;
-	final         int                 index;
-	private final List<OnSetAttached> osacbs  = new ArrayList<OnSetAttached>();
+	public final    TableEntryIV    tableEntry;
+	final           int             index;
+	private         BaseEvaFunction __gf;
+	private         DeduceTypes2    _dt2;
 	@Nullable
-	private       OS_Type             attached;
+	private         OS_Type         attached;
+
+	public void _fix_table(final DeduceTypes2 aDeduceTypes2, final @NotNull BaseEvaFunction aEvaFunction) {
+		_dt2 = aDeduceTypes2;
+		__gf = aEvaFunction;
+	}
 
 	public TypeTableEntry(final int index,
-	                      @NotNull final Type lifetime,
-	                      @Nullable final OS_Type aAttached,
-	                      final IExpression expression,
-	                      @Nullable final TableEntryIV aTableEntryIV) {
+						  @NotNull final Type lifetime,
+						  @Nullable final OS_Type aAttached,
+						  final IExpression expression,
+						  @Nullable final TableEntryIV aTableEntryIV) {
 		this.index    = index;
 		this.lifetime = lifetime;
 		if (aAttached == null || (aAttached.getType() == OS_Type.Type.USER && aAttached.getTypeName() == null)) {
 			attached = null;
 			// do nothing with genType
 		} else {
-			attached = aAttached;
-			_settingAttached(aAttached);
+			// README if specified as `Unit' in source, save some energy... (not strictly necessary, but we'll see)
+			if (aAttached instanceof OS_UserType ut) {
+				if (ut.getTypeName() instanceof RegularTypeName rtn) {
+					if (rtn.getName().equals("Unit")) {
+						attached = new OS_UnitType();
+					}
+				}
+			} else {
+				attached = aAttached;
+			}
+			if (attached != null)
+				_settingAttached(attached);
 		}
-		this.expression = expression;
-		this.tableEntry = aTableEntryIV;
+		this.__debug_expression = expression;
+		this.tableEntry         = aTableEntryIV;
 	}
 
-	private void _settingAttached(@NotNull final OS_Type aAttached) {
+	public TypeTableEntry(final int index,
+						  @NotNull final Type lifetime,
+						  @Nullable final GenType aGenType,
+						  final IExpression expression,
+						  @Nullable final TableEntryIV aTableEntryIV) {
+		this.index    = index;
+		this.lifetime = lifetime;
+
+		this.genType.copy(aGenType);
+		this.attached = this.genType.getResolved(); // !!
+
+		this.__debug_expression = expression;
+		this.tableEntry         = aTableEntryIV;
+	}
+
+	public void genTypeCI(ClassInvocation aClsinv) {
+		genType.setCi(aClsinv);
+	}
+
+	@Deprecated
+	private void _settingAttached(@NotNull OS_Type aAttached) {
 		switch (aAttached.getType()) {
 		case USER:
-			if (genType.typeName != null) {
+			if (genType.getTypeName() != null) {
 				final TypeName typeName = aAttached.getTypeName();
 				if (!(typeName instanceof GenericTypeName))
-					genType.nonGenericTypeName = typeName;
+					genType.setNonGenericTypeName(typeName);
 			} else
-				genType.typeName = aAttached/*.getTypeName()*/;
+				genType.setTypeName(aAttached)/* .getTypeName() */;
 			break;
 		case USER_CLASS:
 //			ClassStatement c = attached.getClassOf();
-			genType.resolved = aAttached/*attached*/; // c
+			genType.setResolved(aAttached); // c
 			break;
 		case UNIT_TYPE:
-			genType.resolved = aAttached;
+			genType.setResolved(aAttached);
 		case BUILT_IN:
-			if (genType.typeName != null)
-				genType.resolved = aAttached;
+			if (genType.getTypeName() != null)
+				genType.setResolved(aAttached);
 			else
-				genType.typeName = aAttached;
+				genType.setTypeName(aAttached);
 			break;
 		case FUNCTION:
-			assert genType.resolved == null || genType.resolved == aAttached || /*HACK*/ aAttached.getType() == OS_Type.Type.FUNCTION;
-			genType.resolved = aAttached;
+			assert genType.getResolved() == null || genType.getResolved() == aAttached
+					|| /* HACK */ aAttached.getType() == OS_Type.Type.FUNCTION;
+			genType.setResolved(aAttached);
 			break;
 		case FUNC_EXPR:
-			assert genType.resolved == null || genType.resolved == aAttached;// || /*HACK*/ aAttached.getType() == OS_Type.Type.FUNCTION;
-			genType.resolved = aAttached;
+			assert genType.getResolved() == null || genType.getResolved() == aAttached;// || /*HACK*/
+			// aAttached.getType() ==
+			// OS_Type.Type.FUNCTION;
+			genType.setResolved(aAttached);
 			break;
 		default:
 //			throw new NotImplementedException();
-			SimplePrintLoggerToRemoveSoon.println_err2("73 " + aAttached);
+			SimplePrintLoggerToRemoveSoon.println_err_2("73 " + aAttached);
 			break;
 		}
 	}
 
-	@Override
-	@NotNull
-	public String toString() {
-		return "TypeTableEntry{" +
-		  "index=" + index +
-		  ", lifetime=" + lifetime +
-		  ", attached=" + attached +
-		  ", expression=" + expression +
-		  '}';
+	public @Nullable OS_Type getAttached() {
+		return attached;
+	}
+
+	public void setAttached(GenType aGenType) {
+		genType.copy(aGenType);
+
+		if (genType instanceof ForwardingGenType)
+			((ForwardingGenType) genType).unsparkled();
+
+		setAttached(genType.getResolved());
 	}
 
 	public int getIndex() {
 		return index;
 	}
 
-	public void resolve(final GeneratedNode aResolved) {
-		genType.node = aResolved;
+	@Override
+	@NotNull
+	public String toString() {
+		return "TypeTableEntry{" + "index=" + index + ", lifetime=" + lifetime + ", attached=" + attached
+				+ ", expression=" + __debug_expression + '}';
 	}
 
-	public GeneratedNode resolved() {
-		return genType.node;
+	public void resolve(EvaNode aResolved) {
+		genType.setNode(aResolved);
+	}
+
+	public EvaNode resolved() {
+		return genType.getNode();
 	}
 
 	public boolean isResolved() {
-		return genType.node != null;
-	}
-
-	public OS_Type getAttached() {
-		return attached;
-	}
-
-	public void setAttached(final OS_Type aAttached) {
-		attached = aAttached;
-		if (aAttached != null) {
-			_settingAttached(aAttached);
-
-			for (final OnSetAttached cb : osacbs) {
-				cb.onSetAttached(this);
-			}
-		}
-	}
-
-	public void setAttached(final GenType aGenType) {
-		genType.copy(aGenType);
-//		if (aGenType.resolved != null) genType.resolved = aGenType.resolved;
-//		if (aGenType.ci != null) genType.ci = aGenType.ci;
-//		if (aGenType.node != null) genType.node = aGenType.node;
-
-		setAttached(genType.resolved);
-	}
-
-	public void addSetAttached(final OnSetAttached osa) {
-		osacbs.add(osa);
-	}
-
-	public void genTypeCI(final ClassInvocation aClsinv) {
-		genType.ci = aClsinv;
+		return genType.getNode() != null;
 	}
 
 	public enum Type {
 		SPECIFIED, TRANSIENT
 	}
 
-	public interface OnSetAttached {
-		void onSetAttached(TypeTableEntry aTypeTableEntry);
+	public void setAttached(@Nullable OS_Type aAttached) {
+		attached = aAttached;
+		if (aAttached != null) {
+			_settingAttached(aAttached);
+		}
 	}
-
 }
 
 //
