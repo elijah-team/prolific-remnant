@@ -1,74 +1,95 @@
 package tripleo.elijah.comp;
 
 import com.google.common.base.MoreObjects;
+import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.comp.i.ILazyCompilerInstructions;
 import tripleo.elijah.util.Maybe;
 
 import java.io.File;
+import java.util.Optional;
 
-public class CompilerInput {
-	private final String                           inp;
-	private       Maybe<ILazyCompilerInstructions> accept_ci;
-	private       File                             dir_carrier;
-	private       Ty                               ty;
-	private       String                           hash;
+public record CompilerInput(
+		String                           inp,
+		Optional<Compilation> oc
+) {
 
-	public String getInp() {
-		return inp;
-	}
+	public void accept_ci(final Maybe<ILazyCompilerInstructions> mci) {
+		if (oc.isEmpty()) {
+			throw new IllegalStateException("compilation not set");
+		}
 
-	public CompilerInput(final String aS) {
-		inp = aS;
-		ty  = Ty.NULL;
-	}
-
-	public void accept_ci(final Maybe<ILazyCompilerInstructions> aM3) {
-		accept_ci = aM3;
+		oc.get().get(this).accept_ci(mci);
 	}
 
 	public Maybe<ILazyCompilerInstructions> acceptance_ci() {
-		return accept_ci;
-	}
+		if (oc.isEmpty()) {
+			throw new IllegalStateException("compilation not set");
+		}
+
+		return oc.get().get(this).acceptance_ci();
+    }
 
 	public boolean isNull() {
-		return ty == Ty.NULL;
+		if (oc.isEmpty()) {
+			throw new IllegalStateException("compilation not set");
+		}
+
+		return oc.get().get(this).getTy() == Ty.NULL;
 	}
 
 	public boolean isSourceRoot() {
-		return ty == Ty.SOURCE_ROOT;
+		if (oc.isEmpty()) {
+			throw new IllegalStateException("compilation not set");
+		}
+
+		return oc.get().get(this).getTy() == Ty.SOURCE_ROOT;
 	}
 
 	public void setSourceRoot() {
-		ty = Ty.SOURCE_ROOT;
+		if (oc.isPresent()) {
+			oc.get().get(this).setSourceRoot();
+		}
+		throw new IllegalStateException("compilation not set");
 	}
 
 	public void setDirectory(File f) {
-		ty          = Ty.SOURCE_ROOT;
-		dir_carrier = f;
+		if (oc.isPresent()) {
+			oc.get().get(this).setDirectory(f);
+		}
+		throw new IllegalStateException("compilation not set");
 	}
 
 	public void setArg() {
-		ty = Ty.ARG;
+		if (oc.isPresent()) {
+			oc.get().get(this).setArg();
+		}
+		throw new IllegalStateException("compilation not set");
 	}
 
 	public void accept_hash(final String hash) {
-		this.hash = hash;
+		if (oc.isPresent()) {
+			oc.get().get(this).accept_hash(hash);
+		}
+		throw new IllegalStateException("compilation not set");
 	}
 
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this)
-				.add("ty", ty)
-				.add("inp", inp)
-				.add("accept_ci", accept_ci.toString())
-				.add("dir_carrier", dir_carrier)
-				.add("hash", hash)
-				.toString();
-	}
+        if (oc.isEmpty()) {
+            return MoreObjects.toStringHelper(this)
+                    .add("inp", inp)
+                    .toString();
+        }
+        return oc.get().get(this).printableString();
+    }
 
 	public enum Ty {NULL, SOURCE_ROOT, ARG}
 
 	public Ty ty() {
-		return ty;
-	}
+        if (oc.isEmpty()) {
+            throw new IllegalStateException("compilation not set");
+        } else {
+            return oc.get().get(this).getTy();
+        }
+    }
 }

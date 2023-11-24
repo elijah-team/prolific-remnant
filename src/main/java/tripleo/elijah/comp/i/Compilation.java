@@ -10,13 +10,14 @@ import tripleo.elijah.comp.internal.CompilationRunner;
 import tripleo.elijah.comp.internal.CompilerBeginning;
 import tripleo.elijah.comp.internal.USE;
 import tripleo.elijah.comp.nextgen.CP_Paths;
+import tripleo.elijah.comp.percy.CN_CompilerInputWatcher;
 import tripleo.elijah.lang.i.ClassStatement;
 import tripleo.elijah.lang.i.OS_Module;
 import tripleo.elijah.lang.i.OS_Package;
 import tripleo.elijah.lang.i.Qualident;
+import tripleo.elijah.nextgen.comp_model.CM_CompilerInput;
 import tripleo.elijah.nextgen.inputtree.EIT_InputTree;
 import tripleo.elijah.nextgen.outputtree.EOT_OutputTree;
-import tripleo.elijah.stages.deduce.IFunctionMapHook;
 import tripleo.elijah.stages.deduce.fluffy.i.FluffyComp;
 import tripleo.elijah.stages.logging.ElLog;
 import tripleo.elijah.util.Operation2;
@@ -122,6 +123,12 @@ public interface Compilation {
 	ICompilationAccess2 getCompilationAccess2();
 
 	void feedCmdLine(List<String> stringList, CompilerController compilerController);
+
+	void addCompilerInputWatcher(CN_CompilerInputWatcher aCNCompilerInputWatcher);
+
+	void compilerInputWatcher_Event(CN_CompilerInputWatcher.e aEvent, CompilerInput aCompilerInput, final Object aO);
+
+	CM_CompilerInput get(CompilerInput aCompilerInput);
 
 	enum CompilationAlways {
 		;

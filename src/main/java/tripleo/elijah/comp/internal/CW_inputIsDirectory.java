@@ -9,6 +9,7 @@ import tripleo.elijah.comp.diagnostic.TooManyEz_ActuallyNone;
 import tripleo.elijah.comp.diagnostic.TooManyEz_BeSpecific;
 import tripleo.elijah.comp.i.CompilationClosure;
 import tripleo.elijah.comp.i.ILazyCompilerInstructions;
+import tripleo.elijah.comp.percy.CN_CompilerInputWatcher;
 import tripleo.elijah.comp.queries.QuerySearchEzFiles;
 import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.util.Maybe;
@@ -21,45 +22,44 @@ import java.util.function.Consumer;
 import static tripleo.elijah.util.Helpers.List_of;
 
 public class CW_inputIsDirectory {
-	public void apply(final @NotNull CompilerInput 				input,
-					  final @NotNull Compilation 				c,
-					  final @NotNull File 						f,
-					  final @NotNull Consumer<CompilerInput> 	x) {
+	public static void apply(final @NotNull CompilerInput input,
+							 final @NotNull Compilation c,
+							 final @NotNull File f) {
 		CompilerInstructions ez_file;
 		input.setDirectory(f);
 
 		final List<CompilerInstructions> ezs = searchEzFiles(f, c.getCompilationClosure());
 
-		switch (ezs.size()) {
-		case 0:
-			final Diagnostic d_toomany = new TooManyEz_ActuallyNone();
-			final Maybe<ILazyCompilerInstructions> m = new Maybe<>(null, d_toomany);
-			input.accept_ci(m);
-			x.accept(input);
-			break;
-		case 1:
-			ez_file = ezs.get(0);
-			final ILazyCompilerInstructions ilci = ILazyCompilerInstructions.of(ez_file);
-			final Maybe<ILazyCompilerInstructions> m3 = new Maybe<>(ilci, null);
-			input.accept_ci(m3);
-			x.accept(input);
-			break;
-		default:
-			//final Diagnostic d_toomany = new TooManyEz_UseFirst();
-			//add_ci(ezs.get(0));
+        switch (ezs.size()) {
+            case 0 -> {
+                final Diagnostic d_toomany = new TooManyEz_ActuallyNone();
+                final Maybe<ILazyCompilerInstructions> m = new Maybe<>(null, d_toomany);
+                c.compilerInputWatcher_Event(CN_CompilerInputWatcher.e.ACCEPT_CI, input, null);
+                input.accept_ci(m); // TDOO 11/24 move this??
+            }
+            case 1 -> {
+                ez_file = ezs.get(0);
+                final ILazyCompilerInstructions ilci = ILazyCompilerInstructions.of(ez_file);
+                final Maybe<ILazyCompilerInstructions> m3 = new Maybe<>(ilci, null);
+                c.compilerInputWatcher_Event(CN_CompilerInputWatcher.e.ACCEPT_CI, input, null);
+                input.accept_ci(m3); // TDOO 11/24 move this??
+            }
+            default -> {
+                //final Diagnostic d_toomany = new TooManyEz_UseFirst();
+                //add_ci(ezs.get(0));
 
-			// more than 1 (negative is not possible)
-			final Diagnostic d_toomany2 = new TooManyEz_BeSpecific();
-			final Maybe<ILazyCompilerInstructions> m2 = new Maybe<>(null, d_toomany2);
-			input.accept_ci(m2);
-			x.accept(input);
-			break;
-		}
+                // more than 1 (negative is not possible)
+                final Diagnostic d_toomany2 = new TooManyEz_BeSpecific();
+                final Maybe<ILazyCompilerInstructions> m2 = new Maybe<>(null, d_toomany2);
+                c.compilerInputWatcher_Event(CN_CompilerInputWatcher.e.ACCEPT_CI, input, null);
+                input.accept_ci(m2); // TDOO 11/24 move this??
+            }
+        }
 
 		c.reports().addInput(input, Finally.Out2.EZ);
 	}
 
-	private List<CompilerInstructions> searchEzFiles(final @NotNull File directory, final @NotNull CompilationClosure ccl) {
+	private static List<CompilerInstructions> searchEzFiles(final @NotNull File directory, final @NotNull CompilationClosure ccl) {
 		final QuerySearchEzFiles                     q    = new QuerySearchEzFiles(ccl);
 		final Operation2<List<CompilerInstructions>> olci = q.process(directory);
 

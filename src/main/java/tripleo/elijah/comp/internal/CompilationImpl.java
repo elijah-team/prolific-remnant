@@ -17,15 +17,18 @@ import tripleo.elijah.ci.i.CompilerInstructions;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.comp.i.*;
 import tripleo.elijah.comp.nextgen.CP_Paths;
+import tripleo.elijah.comp.percy.CN_CompilerInputWatcher;
 import tripleo.elijah.lang.i.ClassStatement;
 import tripleo.elijah.lang.i.OS_Module;
 import tripleo.elijah.lang.i.OS_Package;
 import tripleo.elijah.lang.i.Qualident;
 import tripleo.elijah.lang.impl.QualidentImpl;
+import tripleo.elijah.nextgen.comp_model.CM_CompilerInput;
 import tripleo.elijah.nextgen.inputtree.EIT_InputTree;
 import tripleo.elijah.nextgen.inputtree.EIT_ModuleInput;
 import tripleo.elijah.nextgen.outputtree.EOT_OutputTree;
 import tripleo.elijah.stages.deduce.IFunctionMapHook;
+//import tripleo.elijah.stages.deduce.ITasticMap;
 import tripleo.elijah.stages.deduce.fluffy.i.FluffyComp;
 import tripleo.elijah.stages.deduce.fluffy.impl.FluffyCompImpl;
 import tripleo.elijah.util.Helpers;
@@ -60,6 +63,8 @@ public class CompilationImpl implements Compilation {
 	private                List<CompilerInput>               _inputs;
 	private                IPipelineAccess                   _pa;
 	private                IO                                io;
+	private final List<CN_CompilerInputWatcher> _ciws = new ArrayList<>();
+	private Map<CompilerInput, CM_CompilerInput> _ci_models = new HashMap<>();
 
 	public CompilationImpl(final ErrSink aErrSink, final IO aIo) {
 		this.errSink            = aErrSink;
@@ -162,20 +167,25 @@ public class CompilationImpl implements Compilation {
 	}
 
 	@Override
-	public void feedCmdLine(List<String> args, CompilerController compilerController) {
-		final List<CompilerInput> inputs = args.stream()
-				.map(s -> {
-					final CompilerInput input = new CompilerInput(s);
-					if (s.equals(input.getInp())) {
-						input.setSourceRoot();
-					} else {
-						assert false;
-					}
-					return input;
-				})
-				.collect(Collectors.toList());
+	public void addCompilerInputWatcher(final CN_CompilerInputWatcher aCNCompilerInputWatcher) {
+		_ciws.add(aCNCompilerInputWatcher);
+	}
 
-		feedInputs(inputs, compilerController);
+	@Override
+	public void compilerInputWatcher_Event(final CN_CompilerInputWatcher.e aEvent, final CompilerInput aCompilerInput, final Object aO) {
+		for (CN_CompilerInputWatcher ciw : _ciws) {
+			ciw.event(aEvent, aCompilerInput);
+		}
+	}
+
+	@Override
+	public CM_CompilerInput get(final CompilerInput aCompilerInput) {
+		if (_ci_models.containsKey(aCompilerInput))
+			return _ci_models.get(aCompilerInput);
+
+		CM_CompilerInput result = new CM_CompilerInput(aCompilerInput, this);
+		_ci_models.put(aCompilerInput, result);
+		return result;
 	}
 
 	@Override

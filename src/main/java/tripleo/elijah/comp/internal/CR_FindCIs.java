@@ -1,13 +1,13 @@
 package tripleo.elijah.comp.internal;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.ci.i.CompilerInstructions;
 import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.comp.CompilerInput;
 import tripleo.elijah.comp.i.*;
+import tripleo.elijah.comp.percy.CN_CompilerInputWatcher;
+import tripleo.elijah.nextgen.comp_model.CM_CompilerInput;
 import tripleo.elijah.stateful.DefaultStateful;
 import tripleo.elijah.stateful.State;
-import tripleo.elijah.util.Maybe;
 import tripleo.elijah.util.Ok;
 import tripleo.elijah.util.Operation;
 
@@ -15,6 +15,7 @@ import java.io.File;
 import java.nio.file.NotDirectoryException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 public class CR_FindCIs extends DefaultStateful implements CR_Action {
@@ -40,10 +41,10 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 	@Override
 	public @NotNull Operation<Ok> execute(final @NotNull CR_State st, final @NotNull CB_Output aO) {
 		final Compilation c = st.ca().getCompilation();
+		final ErrSink errSink = c.getErrSink();
 
-		final List<CompilerInput> x = find_cis(inputs, c, c.getErrSink());
-		for (final CompilerInput compilerInput : x) {
-			cci.accept(compilerInput.acceptance_ci(), _ps);
+		for (final CompilerInput input : inputs) {
+			_processInput(c, errSink, (compilerInput) -> cci.accept(compilerInput.acceptance_ci(), _ps), input);
 		}
 
 		return Operation.success(Ok.instance());
@@ -53,23 +54,10 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 	public void attach(final @NotNull CompilationRunner cr) {
 	}
 
-	protected @NotNull List<CompilerInput> find_cis(final @NotNull List<CompilerInput> inputs,
-													final @NotNull Compilation c,
-													final @NotNull ErrSink errSink) {
-		final List<CompilerInput> x = new ArrayList<>();
-
-		for (final CompilerInput input : inputs) {
-			_processInput(c, errSink, x, input);
-		}
-
-		return x;
-	}
-
 	private void _processInput(final @NotNull Compilation c,
 							   final @NotNull ErrSink errSink,
-							   final @NotNull List<CompilerInput> x,
+							   final @NotNull Consumer<CompilerInput> x,
 							   final @NotNull CompilerInput input) {
-		CompilerInstructions ez_file;
 		switch (input.ty()) {
 		case NULL -> {
 		}
@@ -80,31 +68,36 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 		}
 		}
 
-		final String  file_name = input.getInp();
-		final File    f         = new File(file_name);
-		final boolean matches2  = Pattern.matches(".+\\.ez$", file_name);
-		if (matches2) {
-			final ILazyCompilerInstructions ilci = ILazyCompilerInstructions.of(input, c.getCompilationClosure());
-
-			final Maybe<ILazyCompilerInstructions> m4 = new Maybe<>(ilci, null);
-			input.accept_ci(m4);
-			x.add(input);
-		} else {
+		final CM_CompilerInput cm = c.get(input);
+		final File f = cm.fileOf();
+		if (f.isDirectory()) {
 			//errSink.reportError("9996 Not an .ez file "+file_name);
-			if (f.isDirectory()) {
-				_inputIsDirectory(c, x, input, f);
+			_inputIsDirectory(c, input, f);
+		} else {
+			final String file_name = cm.getInp();
+			final boolean matches2 = Pattern.matches(".+\\.ez$", file_name);
+			if (matches2) {
+				c.compilerInputWatcher_Event(CN_CompilerInputWatcher.e.IS_EZ, input, null);
+				cm.extracted();
+				x.accept(input);
 			} else {
-				final NotDirectoryException d = new NotDirectoryException(f.toString());
-				errSink.reportError("9995 Not a directory " + f.getAbsolutePath());
-			}
+				//errSink.reportError("9996 Not an .ez file "+file_name);
+                final NotDirectoryException d = new NotDirectoryException(f.toString());
+                errSink.reportError("9995 Not a directory " + f.getAbsolutePath());
+            }
 		}
 	}
 
 	private void _inputIsDirectory(final @NotNull Compilation c,
-								   final @NotNull List<CompilerInput> x,
 								   final @NotNull CompilerInput input,
 								   final @NotNull File f) {
-		new CW_inputIsDirectory().apply(input, c, f, (final @NotNull CompilerInput inp) -> x.add(inp));
+		c.addCompilerInputWatcher(new CN_CompilerInputWatcher() {
+			@Override
+			public void event(final e aEvent, final Object aO) {
+				System.err.println("~~ [11/24 111] " + aEvent + " " + aO);
+			}
+		});
+		CW_inputIsDirectory.apply(input, c, f);
 	}
 
 	@Override
