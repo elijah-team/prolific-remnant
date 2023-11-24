@@ -11,6 +11,7 @@ package tripleo.elijah.lang.impl;
 import antlr.Token;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.contexts.IfConditionalContext;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
 import tripleo.elijah.lang.i.*;
 
 import java.util.ArrayList;

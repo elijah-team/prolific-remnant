@@ -9,7 +9,8 @@
  */
 package tripleo.elijah.slir;
 
-import tripleo.elijah.lang.impl.AliasStatementImpl;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /**
  * Created 11/10/21 3:04 AM

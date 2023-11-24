@@ -6,10 +6,14 @@ import antlr.*;
 import antlr.collections.impl.BitSet;
 import tripleo.elijah.*;
 import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.builder.*;
-import tripleo.elijah.lang.imports.*;
-import tripleo.elijah.lang.types.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang2.*;
 
 import java.util.*;

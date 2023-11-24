@@ -2,7 +2,8 @@ package tripleo.elijah.stages.gen_c;
 
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.diagnostic.Locatable;
-import tripleo.elijah.lang.i.TypeName;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.deduce.post_bytecode.GCFM_Diagnostic;
 
 import java.io.PrintStream;

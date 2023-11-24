@@ -1,8 +1,14 @@
 package tripleo.elijah.comp.notation;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.comp.PipelineLogic;
-import tripleo.elijah.comp.i.CompilationEnclosure;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.world.i.WorldModule;
 
 import java.util.function.Consumer;

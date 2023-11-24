@@ -4,19 +4,27 @@ import io.reactivex.rxjava3.annotations.*;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.*;
 import tripleo.elijah.ci.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.util.*;
 
 import java.util.*;
 
 public class CompilerInstructionsObserver implements Observer<CompilerInstructions> {
 	private final List<CompilerInstructions> l = new ArrayList<>();
-	private final Compilation                compilation;
+	private final Compilation compilation;
 
 	public CompilerInstructionsObserver(final Compilation aCompilation, final OptionsProcessor ignoredAOp) {
 		compilation = aCompilation;
 	}
 
-	public CompilerInstructionsObserver(final Compilation aCompilation, final OptionsProcessor ignoredAOp, final Compilation.CIS cis) {
+	public CompilerInstructionsObserver(final Compilation aCompilation, final OptionsProcessor ignoredAOp, final CIS cis) {
 		compilation = aCompilation;
 		cis._cio    = this;
 

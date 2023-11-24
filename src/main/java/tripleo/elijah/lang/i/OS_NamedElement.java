@@ -4,7 +4,8 @@
 package tripleo.elijah.lang.i;
 
 import org.jetbrains.annotations.Contract;
-import tripleo.elijah.lang.nextgen.names.i.EN_Name;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /**
  * @author Tripleo

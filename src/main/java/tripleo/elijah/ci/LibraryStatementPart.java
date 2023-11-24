@@ -1,7 +1,8 @@
 package tripleo.elijah.ci;
 
 import antlr.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 public interface LibraryStatementPart {
 

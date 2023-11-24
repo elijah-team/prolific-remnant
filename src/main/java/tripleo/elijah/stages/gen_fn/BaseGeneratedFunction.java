@@ -8,21 +8,28 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import tripleo.elijah.stages.deduce.OnGenClass;
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.world.i.*;
-import tripleo.util.range.*;
+import org.jdeferred2.DoneCallback;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.deduce.*;
+import tripleo.elijah.stages.gen_generic.Dependency;
+import tripleo.elijah.stages.gen_generic.IDependencyReferent;
+import tripleo.elijah.stages.instructions.*;
+import tripleo.elijah.util.Helpers;
+import tripleo.elijah.util.Holder;
+import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
+import tripleo.elijah.world.i.LivingFunction;
+import tripleo.util.range.Range;
 
 import java.util.*;
 
-import static tripleo.elijah.stages.deduce.DeduceTypes2.*;
+import static tripleo.elijah.stages.deduce.DeduceTypes2.to_int;
 
 /**
  * Created 9/10/20 2:57 PM
@@ -136,8 +143,8 @@ public abstract class BaseGeneratedFunction extends AbstractDependencyTracker im
 				text = idte.getIdent().getText();
 			} else if (ia instanceof ProcIA) {
 				final ProcTableEntry prte = getProcTableEntry(to_int(ia));
-				assert prte.expression instanceof ProcedureCallExpression;
-				text = ((ProcedureCallExpression) prte.expression).printableString();
+				assert prte.__debug_expression instanceof ProcedureCallExpression;
+				text = ((ProcedureCallExpression) prte.__debug_expression).printableString();
 			} else
 				throw new NotImplementedException();
 			sl.add(text);
@@ -286,7 +293,7 @@ public abstract class BaseGeneratedFunction extends AbstractDependencyTracker im
 	                                                        final @NotNull Context context) {
 		switch (expression.getKind()) {
 		case DOT_EXP: {
-			final DotExpression       de        = (DotExpression) expression;
+			final DotExpression de        = (DotExpression) expression;
 			final InstructionArgument left_part = get_assignment_path(de.getLeft(), generateFunctions, context);
 			return get_assignment_path(left_part, de.getRight(), generateFunctions, context);
 		}

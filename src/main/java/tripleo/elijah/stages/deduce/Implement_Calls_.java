@@ -1,14 +1,18 @@
 package tripleo.elijah.stages.deduce;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang2.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang2.SpecialFunctions;
+import tripleo.elijah.lang2.SpecialVariables;
 import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah.stages.instructions.InstructionArgument;
+import tripleo.elijah.stages.instructions.IntegerIA;
+import tripleo.elijah.util.NotImplementedException;
 
-import java.util.*;
-import java.util.regex.*;
+import java.util.List;
+import java.util.regex.Pattern;
 
 class Implement_Calls_ {
 	private final DeduceTypes2          deduceTypes2;
@@ -32,7 +36,7 @@ class Implement_Calls_ {
 	}
 
 	void action() {
-		final IExpression pn1 = pte.expression;
+		final IExpression pn1 = pte.__debug_expression;
 		if (!(pn1 instanceof IdentExpression)) {
 			throw new IllegalStateException("pn1 is not IdentExpression");
 		}
@@ -77,7 +81,7 @@ class Implement_Calls_ {
 		//
 		// try to get dunder method from class
 		//
-		final IExpression exp = pte.getArgs().get(0).expression;
+		final IExpression exp = pte.getArgs().get(0).__debug_expression;
 		if (exp instanceof IdentExpression) {
 			return action_dunder_doIt(pn, (IdentExpression) exp);
 		}

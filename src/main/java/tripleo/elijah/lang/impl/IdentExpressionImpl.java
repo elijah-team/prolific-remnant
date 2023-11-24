@@ -11,10 +11,13 @@
  */
 package tripleo.elijah.lang.impl;
 
-import antlr.Token;
+import antlr.*;
 import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
 import tripleo.elijah.lang.i.*;
-import tripleo.elijah.lang.nextgen.names.i.EN_Name;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.nextgen.names.i.*;
 import tripleo.elijah.util.NotImplementedException;
 import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
@@ -26,7 +29,7 @@ import java.util.List;
  */
 public class IdentExpressionImpl implements tripleo.elijah.lang.i.IdentExpression {
 
-	private final @NotNull EN_Name    name;
+	private final @NotNull EN_Name name;
 	public                 Attached   _a;
 	private                OS_Element _resolvedElement;
 	OS_Type _type;

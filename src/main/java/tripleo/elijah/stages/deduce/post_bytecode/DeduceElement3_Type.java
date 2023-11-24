@@ -1,6 +1,7 @@
 package tripleo.elijah.stages.deduce.post_bytecode;
 
-import tripleo.elijah.lang.i.Context;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.gen_fn.GenType;
 import tripleo.elijah.stages.gen_fn.TypeTableEntry;
 import tripleo.elijah.util.Operation2;

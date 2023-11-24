@@ -15,9 +15,12 @@
 package tripleo.elijah.lang.impl;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.lang.i.ExpressionKind;
-import tripleo.elijah.lang.i.IExpression;
-import tripleo.elijah.lang.i.OS_Type;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 public class SubExpressionImpl extends AbstractExpression implements tripleo.elijah.lang.i.SubExpression {
 

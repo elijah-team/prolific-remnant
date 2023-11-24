@@ -8,7 +8,8 @@
  */
 package tripleo.elijah.lang.impl;
 
-import tripleo.elijah.lang.i.Context;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /*
  * Created on 5/19/2019 at 02:09

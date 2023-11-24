@@ -9,6 +9,7 @@
 package tripleo.elijah.lang.impl;
 
 import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
 import tripleo.elijah.lang.i.*;
 
 public abstract class ProgramClosureImpl implements tripleo.elijah.lang.i.ProgramClosure {

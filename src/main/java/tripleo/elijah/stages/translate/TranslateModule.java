@@ -1,6 +1,7 @@
 package tripleo.elijah.stages.translate;
 
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang2.*;
 import tripleo.elijah.util.*;
 

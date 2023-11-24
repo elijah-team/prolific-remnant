@@ -18,7 +18,10 @@
 package tripleo.vendor.org.apache.commons.cli;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.comp.CompilerInput;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 import java.util.List;
 

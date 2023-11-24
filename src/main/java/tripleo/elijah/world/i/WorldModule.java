@@ -1,7 +1,8 @@
 package tripleo.elijah.world.i;
 
 import tripleo.elijah.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.nextgen.inputtree.*;
 import tripleo.elijah.stages.deduce.*;
 

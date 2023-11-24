@@ -8,8 +8,10 @@
  */
 package tripleo.elijah.lang.impl;
 
-import tripleo.elijah.lang.i.ExpressionList;
-import tripleo.elijah.lang.i.Qualident;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /**
  * Created 8/15/20 6:45 PM

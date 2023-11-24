@@ -1,7 +1,8 @@
 package tripleo.elijah.test_help;
 
 import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.util.*;
 

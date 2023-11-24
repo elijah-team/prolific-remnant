@@ -8,9 +8,12 @@
  */
 package tripleo.elijah.lang.impl;
 
-import tripleo.elijah.lang.i.NormalTypeName;
-import tripleo.elijah.lang.i.Qualident;
-import tripleo.elijah.lang.i.TypeModifiers;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 import java.util.Objects;
 

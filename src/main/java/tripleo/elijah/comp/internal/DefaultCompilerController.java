@@ -1,16 +1,24 @@
 package tripleo.elijah.comp.internal;
 
-import java.util.List;
-
-import tripleo.elijah.comp.ApacheOptionsProcessor;
-import tripleo.elijah.comp.CompilerInput;
-import tripleo.elijah.comp.CompilerInstructionsObserver;
-import tripleo.elijah.comp.i.Compilation;
-import tripleo.elijah.comp.i.CompilationEnclosure;
-import tripleo.elijah.comp.i.CompilerController;
-import tripleo.elijah.comp.i.ICompilationAccess;
-import tripleo.elijah.comp.i.OptionsProcessor;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
+
+import java.util.List;
 
 public class DefaultCompilerController implements CompilerController {
 	List<String> args;
@@ -41,10 +49,10 @@ public class DefaultCompilerController implements CompilerController {
 
 	@Override
 	public void processOptions() {
-		final OptionsProcessor             op                   = new ApacheOptionsProcessor();
+		final OptionsProcessor op                   = new ApacheOptionsProcessor();
 		final CompilerInstructionsObserver cio                  = new CompilerInstructionsObserver(c);
 		final DefaultCompilationAccess     ca                   = new DefaultCompilationAccess(c);
-		final CompilationEnclosure         compilationEnclosure = c.getCompilationEnclosure();
+		final CompilationEnclosure compilationEnclosure = c.getCompilationEnclosure();
 
 		compilationEnclosure.setCompilationAccess(ca);
 

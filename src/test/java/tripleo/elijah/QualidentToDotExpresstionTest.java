@@ -2,8 +2,10 @@ package tripleo.elijah;
 
 import org.junit.Assert;
 import org.junit.Test;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
 import tripleo.elijah.lang.i.*;
-import tripleo.elijah.lang.impl.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.util.Helpers;
 import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 

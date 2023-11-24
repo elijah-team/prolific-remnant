@@ -10,7 +10,8 @@
 
 package tripleo.elijah.slir;
 
-import tripleo.elijah.lang.i.OS_Element;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /**
  * Created 11/6/21 8:43 AM

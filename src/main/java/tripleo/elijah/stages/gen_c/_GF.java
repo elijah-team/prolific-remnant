@@ -1,16 +1,27 @@
 package tripleo.elijah.stages.gen_c;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.outputstatement.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.nextgen.outputstatement.EG_CompoundStatement;
+import tripleo.elijah.nextgen.outputstatement.EG_SingleStatement;
+import tripleo.elijah.nextgen.outputstatement.EG_Statement;
+import tripleo.elijah.nextgen.outputstatement.EX_Explanation;
+import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_ProcTableEntry;
+import tripleo.elijah.stages.deduce.post_bytecode.IDeduceElement3;
+import tripleo.elijah.stages.gen_fn.BaseGeneratedFunction;
+import tripleo.elijah.stages.gen_fn.ProcTableEntry;
 import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah.util.Helpers;
+import tripleo.elijah.util.NotImplementedException;
 
-import java.util.*;
+import java.util.List;
 
-import static tripleo.elijah.stages.gen_c.Generate_Code_For_Method.AOG.*;
+import static tripleo.elijah.stages.gen_c.Generate_Code_For_Method.AOG.GET;
 
 public class _GF {
 	@Contract("null, _ -> fail")
@@ -90,7 +101,7 @@ public class _GF {
 	interface XXX_YYY {
 		static StringBuilder dispatch(@NotNull final ProcTableEntry pte, final XXX_YYY xy) {
 			if (pte.expression_num == null) {
-				return xy.itsABoy(pte.expression);
+				return xy.itsABoy(pte.__debug_expression);
 			} else {
 				return xy.itsAGirl(pte.expression_num);
 			}

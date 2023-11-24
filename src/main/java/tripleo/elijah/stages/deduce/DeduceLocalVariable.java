@@ -9,17 +9,26 @@
  */
 package tripleo.elijah.stages.deduce;
 
-import org.jdeferred2.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.stages.deduce.declarations.*;
+import org.jdeferred2.DoneCallback;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.stages.deduce.declarations.DeferredMemberFunction;
 import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah.stages.instructions.IdentIA;
+import tripleo.elijah.stages.instructions.InstructionArgument;
+import tripleo.elijah.stages.instructions.IntegerIA;
+import tripleo.elijah.stages.instructions.VariableTableType;
+import tripleo.elijah.util.NotImplementedException;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created 11/30/21 1:32 AM
@@ -147,7 +156,7 @@ public class DeduceLocalVariable {
 					short state = 1;
 					if (vte.getCallablePTE() != null) {
 						final @Nullable ProcTableEntry callable_pte = vte.getCallablePTE();
-						if (callable_pte.expression instanceof FuncExpr) {
+						if (callable_pte.__debug_expression instanceof FuncExpr) {
 							state = 2;
 						}
 					}
@@ -157,7 +166,7 @@ public class DeduceLocalVariable {
 						genType.genCIForGenType2(deduceTypes2); // TODO what is this doing here? huh?
 						break;
 					case 2: {
-						final FuncExpr                fe  = (FuncExpr) vte.getCallablePTE().expression;
+						final FuncExpr                fe  = (FuncExpr) vte.getCallablePTE().__debug_expression;
 						final @NotNull DeduceProcCall dpc = vte.getCallablePTE().dpc;
 						final int                     y   = 2;
 //							target = (DeduceFuncExpr) dpc.target;

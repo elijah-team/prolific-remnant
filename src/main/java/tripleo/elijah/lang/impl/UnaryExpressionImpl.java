@@ -9,9 +9,12 @@
 package tripleo.elijah.lang.impl;
 
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.lang.i.ExpressionKind;
-import tripleo.elijah.lang.i.IExpression;
-import tripleo.elijah.lang.i.OS_Type;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /**
  * Created 5/8/21 7:13 AM

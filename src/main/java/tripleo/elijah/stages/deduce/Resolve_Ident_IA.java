@@ -9,20 +9,35 @@
  */
 package tripleo.elijah.stages.deduce;
 
-import org.jdeferred2.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.deduce.zero.*;
+import org.jdeferred2.DoneCallback;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_ProcTableEntry;
+import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_VariableTableEntry;
+import tripleo.elijah.stages.deduce.zero.ITE_Zero;
 import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.work.*;
+import tripleo.elijah.stages.instructions.IdentIA;
+import tripleo.elijah.stages.instructions.InstructionArgument;
+import tripleo.elijah.stages.instructions.IntegerIA;
+import tripleo.elijah.stages.instructions.ProcIA;
+import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
+import tripleo.elijah.work.WorkJob;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created 7/8/21 2:31 AM
@@ -32,7 +47,7 @@ class Resolve_Ident_IA {
 	private final @NotNull IdentIA               identIA;
 	private final          BaseGeneratedFunction generatedFunction;
 	private final @NotNull FoundElement          foundElement;
-	private final @NotNull ErrSink               errSink;
+	private final @NotNull ErrSink errSink;
 
 	private final @NotNull DeduceTypes2.DeduceClient3 dc;
 	private final @NotNull DeducePhase                phase;
@@ -242,7 +257,7 @@ class Resolve_Ident_IA {
 	private void action_ProcIA(@NotNull final InstructionArgument ia) throws ResolveError {
 		@NotNull final ProcTableEntry prte = ((ProcIA) ia).getEntry();
 		if (prte.getResolvedElement() == null) {
-			IExpression exp = prte.expression;
+			IExpression exp = prte.__debug_expression;
 			if (exp instanceof final @NotNull ProcedureCallExpression pce) {
 				exp = pce.getLeft(); // TODO might be another pce??!!
 				if (exp instanceof ProcedureCallExpression)
@@ -312,7 +327,7 @@ class Resolve_Ident_IA {
 		assert tte.getAttached() == null;
 		//<ENTRY
 
-		if (tte.expression instanceof ProcedureCallExpression) {
+		if (tte.__debug_expression instanceof ProcedureCallExpression) {
 			if (tte.tableEntry != null) {
 				if (tte.tableEntry instanceof @NotNull final ProcTableEntry pte) {
 					@NotNull final IdentIA         x = (IdentIA) pte.expression_num;
@@ -434,7 +449,7 @@ class Resolve_Ident_IA {
 		@Nullable ConstructorDef         selected_constructor = null;
 		if (pte.getArgs().size() == 0 && cs.size() == 0) {
 			// TODO use a virtual default ctor
-			LOG.info("2262 use a virtual default ctor for " + pte.expression);
+			LOG.info("2262 use a virtual default ctor for " + pte.__debug_expression);
 			selected_constructor = ConstructorDef.defaultVirtualCtor;
 		} else {
 			// TODO find a ctor that matches prte.getArgs()

@@ -3,8 +3,10 @@ package tripleo.elijah.stages.gen_c;
 import org.jetbrains.annotations.NotNull;
 
 import tripleo.elijah.DebugFlags;
-import tripleo.elijah.lang.LangGlobals;
-import tripleo.elijah.lang.i.IdentExpression;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.deduce.FunctionInvocation;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.gen_generic.GenerateFiles;

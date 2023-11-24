@@ -9,10 +9,14 @@
 package tripleo.elijah.lang.impl;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.lang.i.FormalArgList;
-import tripleo.elijah.lang.i.NormalTypeName;
-import tripleo.elijah.lang.i.Scope;
-import tripleo.elijah.lang.i.StatementClosure;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 // Referenced classes of package pak2:
 //			Statement, StatementClosure, FormalArgList

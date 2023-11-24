@@ -16,7 +16,8 @@
 package tripleo.elijah.lang.i;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.lang.impl.BasicBinaryExpressionImpl;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 public interface IExpression {
 

@@ -9,9 +9,12 @@
 package tripleo.elijah.lang.impl;
 
 import antlr.Token;
-import tripleo.elijah.lang.i.ExpressionList;
-import tripleo.elijah.lang.i.IndexingItem;
-import tripleo.elijah.lang.i.OS_Module;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 import java.util.ArrayList;
 import java.util.List;

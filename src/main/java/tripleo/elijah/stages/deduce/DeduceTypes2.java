@@ -9,22 +9,41 @@
  */
 package tripleo.elijah.stages.deduce;
 
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.stages.deduce.declarations.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.deduce.zero.*;
+import org.jdeferred2.DoneCallback;
+import org.jdeferred2.Promise;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.contexts.ClassContext;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang2.BuiltInTypes;
+import tripleo.elijah.lang2.ElElementVisitor;
+import tripleo.elijah.stages.deduce.declarations.DeferredMember;
+import tripleo.elijah.stages.deduce.declarations.DeferredMemberFunction;
+import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_IdentTableEntry;
+import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_ProcTableEntry;
+import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_VariableTableEntry;
+import tripleo.elijah.stages.deduce.zero.IZero;
+import tripleo.elijah.stages.deduce.zero.Zero_FuncExprType;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.work.*;
+import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah.util.Helpers;
+import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
+import tripleo.elijah.work.WorkJob;
+import tripleo.elijah.work.WorkList;
+import tripleo.elijah.work.WorkManager;
 
 import java.util.*;
 
@@ -34,10 +53,10 @@ import java.util.*;
 public class DeduceTypes2 {
 	private static final   String             PHASE  = "DeduceTypes2";
 	final @NotNull         DeducePhase        phase;
-	final                  ErrSink            errSink;
+	final ErrSink errSink;
 	final @NotNull         ElLog              LOG;
 	final    List<FunctionInvocation> functionInvocations = new ArrayList<>();
-	private final @NotNull OS_Module          module;
+	private final @NotNull OS_Module module;
 	private final          Map<Object, IZero> _zeros = new HashMap<>();
 	@NotNull WorkManager              wm                  = new WorkManager();
 	@NotNull List<IStateRunnable> onRunnables = new ArrayList<>();
@@ -414,8 +433,8 @@ public class DeduceTypes2 {
 				else {
 					LOG.err("267 attached == null for " + typeTableEntry);
 
-					if (typeTableEntry.expression != null)
-						l.add(String.format("<Unknown expression: %s>", typeTableEntry.expression));
+					if (typeTableEntry.__debug_expression != null)
+						l.add(String.format("<Unknown expression: %s>", typeTableEntry.__debug_expression));
 					else
 						l.add("<Unknkown>");
 				}
@@ -1727,7 +1746,7 @@ public class DeduceTypes2 {
 		for (int i = 0; i < args.size(); i++) {
 			final TypeTableEntry tte = args.get(i); // TODO this looks wrong
 //			LOG.info("770 "+tte);
-			final IExpression e = tte.expression;
+			final IExpression e = tte.__debug_expression;
 			if (e == null) continue;
 			switch (e.getKind()) {
 			case NUMERIC:
@@ -1833,7 +1852,7 @@ public class DeduceTypes2 {
 		{
 			if (pte.expression_num == null) {
 				if (fca.expression_to_call.getName() != InstructionName.CALLS) {
-					final String           text = ((IdentExpression) pte.expression).getText();
+					final String           text = ((IdentExpression) pte.__debug_expression).getText();
 					final LookupResultList lrl  = ctx.lookup(text);
 
 					final @Nullable OS_Element best = lrl.chooseBest(null);
@@ -1893,13 +1912,13 @@ public class DeduceTypes2 {
 										return; // type already found
 									}
 									// I'm not sure if below is ever called
-									@NotNull final TypeTableEntry tte = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.TRANSIENT, gt(aType), pte.expression, pte);
+									@NotNull final TypeTableEntry tte = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.TRANSIENT, gt(aType), pte.__debug_expression, pte);
 									vte.addPotentialType(instructionIndex, tte);
 								}
 							});
 						} else if (el instanceof @NotNull final ClassStatement kl) {
 							@NotNull final OS_Type        type = new OS_UserClassType(kl);
-							@NotNull final TypeTableEntry tte  = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.TRANSIENT, type, pte.expression, pte);
+							@NotNull final TypeTableEntry tte  = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.TRANSIENT, type, pte.__debug_expression, pte);
 							vte.addPotentialType(instructionIndex, tte);
 							vte.setConstructable(pte);
 
@@ -2078,7 +2097,7 @@ public class DeduceTypes2 {
 		final @NotNull ProcTableEntry pte = generatedFunction.getProcTableEntry(to_int(fca.getArg(0)));
 		for (final @NotNull TypeTableEntry tte : pte.getArgs()) {
 			LOG.info("771 " + tte);
-			final IExpression e = tte.expression;
+			final IExpression e = tte.__debug_expression;
 			if (e == null) continue;
 			switch (e.getKind()) {
 			case NUMERIC: {
@@ -2102,7 +2121,7 @@ public class DeduceTypes2 {
 			}
 		}
 		{
-			final String               s    = ((IdentExpression) pte.expression).getText();
+			final String               s    = ((IdentExpression) pte.__debug_expression).getText();
 			final LookupResultList     lrl  = ctx.lookup(s);
 			final @Nullable OS_Element best = lrl.chooseBest(null);
 			if (best != null) {

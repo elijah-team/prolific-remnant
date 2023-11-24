@@ -8,14 +8,18 @@
  */
 package tripleo.elijah.stages.instructions;
 
-import com.google.common.base.*;
-import com.google.common.collect.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.util.*;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.stages.deduce.DeduceTypes2;
+import tripleo.elijah.stages.gen_fn.BaseGeneratedFunction;
+import tripleo.elijah.stages.gen_fn.ProcTableEntry;
+import tripleo.elijah.stages.gen_fn.TypeTableEntry;
+import tripleo.elijah.util.Helpers;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created 9/10/20 3:36 PM
@@ -49,7 +53,7 @@ public class FnCallArgs implements InstructionArgument {
 		});
 		final ProcTableEntry procTableEntry = gf.prte_list.get(index);
 		return String.format("(call %d [%s(%s)] %s)",
-		  index, procTableEntry.expression, procTableEntry.args,
+		  index, procTableEntry.__debug_expression, procTableEntry.args,
 		  Helpers.String_join(" ", collect2));
 
 	}

@@ -7,4 +7,18 @@
       <sourceFolder url="file://$MODULE_DIR$/src-undertow/java" isTestSource="false" />
     </content>
   </component>
+  <component name="AutoImportedSourceRoots">
+    <option name="directories">
+      <list>
+        <option value="antilombok" />
+        <option value="src-cef/java" />
+        <option value="src-mal/java" />
+        <option value="src-undertow/java" />
+        <option value="src/main/java" />
+        <option value="src/test/java" />
+        <option value="target/generated-sources/annotations" />
+        <option value="target/generated-test-sources/test-annotations" />
+      </list>
+    </option>
+  </component>
 </module>

@@ -1,15 +1,23 @@
 package tripleo.elijah.stages.gen_generic;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.logging.*;
+import org.jetbrains.annotations.Contract;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.stages.logging.ElLog;
 
 public class OutputFileFactoryParams {
 	private final OS_Module       mod;
-	private final ErrSink         errSink;
+	private final ErrSink errSink;
 	private final ElLog.Verbosity verbosity;
-	private final PipelineLogic   pipelineLogic;
+	private final PipelineLogic pipelineLogic;
 
 	@Contract(pure = true)
 	public OutputFileFactoryParams(final OS_Module aMod,

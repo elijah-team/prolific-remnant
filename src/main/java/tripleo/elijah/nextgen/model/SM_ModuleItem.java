@@ -1,6 +1,7 @@
 package tripleo.elijah.nextgen.model;
 
-//import tripleo.elijah.lang.i.ModuleItem;
+//import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 
 // namespace

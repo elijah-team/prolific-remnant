@@ -8,7 +8,8 @@
  */
 package tripleo.elijah.lang.imports;
 
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /**
  * Created 3/26/21 4:55 AM

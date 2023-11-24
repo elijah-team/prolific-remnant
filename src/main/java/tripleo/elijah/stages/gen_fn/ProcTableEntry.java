@@ -8,19 +8,35 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.deduce.zero.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
+import org.jdeferred2.DoneCallback;
+import org.jdeferred2.Promise;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.stages.deduce.ClassInvocation;
+import tripleo.elijah.stages.deduce.DeduceProcCall;
+import tripleo.elijah.stages.deduce.DeduceTypes2;
+import tripleo.elijah.stages.deduce.FunctionInvocation;
+import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_ProcTableEntry;
+import tripleo.elijah.stages.deduce.post_bytecode.IDeduceElement3;
+import tripleo.elijah.stages.deduce.zero.PTE_Zero;
+import tripleo.elijah.stages.instructions.InstructionArgument;
+import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah.util.Helpers;
+import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created 9/12/20 10:07 PM
@@ -33,7 +49,7 @@ public class ProcTableEntry extends BaseTableEntry implements TableEntryIV {
 	 * <br/>
 	 * Or for synthetic methods
 	 */
-	public final  IExpression                                     expression;
+	public final  IExpression                                     __debug_expression;
 	public final  InstructionArgument                             expression_num;
 	public final  DeduceProcCall                                  dpc                   = new DeduceProcCall(this);
 	private final DeferredObject<ProcTableEntry, Void, Void>      completeDeferred      = new DeferredObject<ProcTableEntry, Void, Void>();
@@ -46,7 +62,7 @@ public class ProcTableEntry extends BaseTableEntry implements TableEntryIV {
 
 	public ProcTableEntry(final int aIndex, final IExpression aExpression, final InstructionArgument aExpressionNum, final List<TypeTableEntry> aArgs) {
 		index          = aIndex;
-		expression     = aExpression;
+		__debug_expression     = aExpression;
 		expression_num = aExpressionNum;
 		args           = aArgs;
 
@@ -141,7 +157,7 @@ public class ProcTableEntry extends BaseTableEntry implements TableEntryIV {
 	public String toString() {
 		return "ProcTableEntry{" +
 		  "index=" + index +
-		  ", expression=" + expression +
+		  ", expression=" + __debug_expression +
 		  ", expression_num=" + expression_num +
 		  ", args=" + args +
 		  '}';
@@ -194,8 +210,8 @@ public class ProcTableEntry extends BaseTableEntry implements TableEntryIV {
 //				if (aDeduceTypes2 != null)
 //					LOG.err("267 attached == null for "+typeTableEntry);
 
-				if (typeTableEntry.expression != null)
-					l.add(String.format("<Unknown expression: %s>", typeTableEntry.expression));
+				if (typeTableEntry.__debug_expression != null)
+					l.add(String.format("<Unknown expression: %s>", typeTableEntry.__debug_expression));
 				else
 					l.add("<Unknkown>");
 			}

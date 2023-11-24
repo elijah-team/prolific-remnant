@@ -11,7 +11,8 @@ package tripleo.elijah.comp;
 
 import org.jetbrains.annotations.*;
 import tripleo.elijah.entrypoints.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.nextgen.inputtree.*;
 import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.stages.gen_fn.*;
@@ -52,7 +53,7 @@ public class DeducePipeline implements PipelineMember, AccessBus.AB_ModuleListLi
 
 		final List<PL_Run2> run2_work = pipelineLogic.mods.stream()
 		                                                  .map(mod -> new PL_Run2(mod,
-		                                                    mod.entryPoints._getMods(),
+		                                                    mod.entryPoints()._getMods(),
 		                                                    pipelineLogic::getGenerateFunctions,
 		                                                    pipelineLogic))
 		                                                  .collect(Collectors.toList());

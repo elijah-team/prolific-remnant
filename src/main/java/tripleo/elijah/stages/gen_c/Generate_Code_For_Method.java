@@ -8,31 +8,46 @@
  */
 package tripleo.elijah.stages.gen_c;
 
-import com.google.common.base.*;
-import com.google.common.collect.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.ci.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.nextgen.outputstatement.*;
-import tripleo.elijah.nextgen.query.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.gen_c.c_ast1.*;
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.ci.LibraryStatementPart;
+import tripleo.elijah.diagnostic.Diagnostic;
+import tripleo.elijah.diagnostic.Locatable;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.nextgen.outputstatement.EG_DottedStatement;
+import tripleo.elijah.nextgen.outputstatement.EG_SingleStatement;
+import tripleo.elijah.nextgen.outputstatement.EG_Statement;
+import tripleo.elijah.nextgen.outputstatement.EX_Rule;
+import tripleo.elijah.stages.deduce.ClassInvocation;
+import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_VariableTableEntry;
+import tripleo.elijah.stages.deduce.post_bytecode.GCFM_Diagnostic;
+import tripleo.elijah.stages.gen_c.c_ast1.C_HeaderString;
 import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.gen_generic.*;
+import tripleo.elijah.stages.gen_generic.GenerateResult;
 import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.work.*;
-import tripleo.util.buffer.*;
+import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah.util.BufferTabbedOutputStream;
+import tripleo.elijah.util.Helpers;
+import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.work.WorkList;
+import tripleo.util.buffer.Buffer;
 
-import java.io.*;
-import java.util.*;
-import java.util.stream.*;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-import static tripleo.elijah.stages.deduce.DeduceTypes2.*;
+import static tripleo.elijah.stages.deduce.DeduceTypes2.to_int;
 
 /**
  * Created 6/21/21 5:53 AM
@@ -378,7 +393,7 @@ public class Generate_Code_For_Method {
 		final ProcTableEntry pte = gf.getProcTableEntry(((ProcIA) x).getIndex());
 		{
 			if (pte.expression_num == null) {
-				final IdentExpression               ptex = (IdentExpression) pte.expression;
+				final IdentExpression ptex = (IdentExpression) pte.__debug_expression;
 				final String                        text = ptex.getText();
 				@Nullable final InstructionArgument xx   = gf.vte_lookup(text);
 				assert xx != null;
@@ -411,7 +426,7 @@ public class Generate_Code_For_Method {
 			CReference reference = null;
 			if (pte.expression_num == null) {
 				final int                           y    = 2;
-				final IdentExpression               ptex = (IdentExpression) pte.expression;
+				final IdentExpression               ptex = (IdentExpression) pte.__debug_expression;
 				final String                        text = ptex.getText();
 				@Nullable final InstructionArgument xx   = gf.vte_lookup(text);
 				final String                        xxx;

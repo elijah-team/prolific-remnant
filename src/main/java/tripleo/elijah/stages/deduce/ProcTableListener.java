@@ -10,7 +10,8 @@ package tripleo.elijah.stages.deduce;
 
 import org.jdeferred2.*;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah.stages.logging.*;
@@ -201,7 +202,7 @@ public class ProcTableListener implements BaseTableEntry.StatusListener {
 				final TypeTableEntry x = pte.getArgs().get(0);
 				// TODO highly specialized condition...
 				if (x.getAttached() == null && x.tableEntry == null) {
-					final String                        text   = ((IdentExpression) x.expression).getText();
+					final String                        text   = ((IdentExpression) x.__debug_expression).getText();
 					@Nullable final InstructionArgument vte_ia = generatedFunction.vte_lookup(text);
 					if (vte_ia != null) {
 						final GenType gt = ((IntegerIA) vte_ia).getEntry().type.genType;

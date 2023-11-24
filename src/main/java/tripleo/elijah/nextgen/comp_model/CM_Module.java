@@ -1,6 +1,7 @@
 package tripleo.elijah.nextgen.comp_model;
 
-import tripleo.elijah.lang.i.OS_Module;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 public interface CM_Module {
 	String getFilename();

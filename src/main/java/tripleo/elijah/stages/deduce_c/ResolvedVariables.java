@@ -1,9 +1,12 @@
 package tripleo.elijah.stages.deduce_c;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.lang.i.ClassStatement;
-import tripleo.elijah.lang.i.NamespaceStatement;
-import tripleo.elijah.lang.i.OS_Element;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.gen_fn.EvaContainer;
 import tripleo.elijah.stages.gen_fn.IdentTableEntry;
 import tripleo.elijah.stages.gen_fn.TypeTableEntry;

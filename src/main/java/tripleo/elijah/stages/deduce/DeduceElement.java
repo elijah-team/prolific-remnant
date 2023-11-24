@@ -10,7 +10,8 @@
 
 package tripleo.elijah.stages.deduce;
 
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /**
  * Created 12/11/21 9:28 PM

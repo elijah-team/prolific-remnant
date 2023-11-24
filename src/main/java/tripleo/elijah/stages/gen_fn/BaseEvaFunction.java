@@ -15,7 +15,9 @@ import org.jetbrains.annotations.Nullable;
 
 import tripleo.elijah.Eventual;
 import tripleo.elijah.UnintendedUseException;
-import tripleo.elijah.lang.LangGlobals;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.nextgen.reactive.DefaultReactive;
 import tripleo.elijah.nextgen.reactive.Reactivable;

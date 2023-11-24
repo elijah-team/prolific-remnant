@@ -8,9 +8,12 @@
  */
 package tripleo.elijah.lang.impl;
 
-import tripleo.elijah.lang.i.Postcondition;
-import tripleo.elijah.lang.i.Precondition;
-import tripleo.elijah.lang.i.Scope3;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 import java.util.ArrayList;
 import java.util.List;

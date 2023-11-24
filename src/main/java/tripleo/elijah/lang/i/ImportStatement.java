@@ -10,7 +10,8 @@ package tripleo.elijah.lang.i;
 
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.contexts.ImportContext;
-import tripleo.elijah.lang.impl.AccessNotationImpl;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang2.ElElementVisitor;
 
 import java.util.List;

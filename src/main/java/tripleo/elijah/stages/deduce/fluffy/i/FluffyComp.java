@@ -1,7 +1,8 @@
 package tripleo.elijah.stages.deduce.fluffy.i;
 
 import com.google.common.collect.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 import java.util.*;
 import java.util.stream.*;

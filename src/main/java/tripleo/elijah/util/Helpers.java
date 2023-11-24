@@ -11,8 +11,10 @@ package tripleo.elijah.util;
 import antlr.*;
 import org.apache.commons.codec.digest.*;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.*;
 import tripleo.elijjah.*;
 
 import java.io.*;
@@ -25,14 +27,6 @@ import static org.apache.commons.codec.digest.MessageDigestAlgorithms.*;
  * Created 9/10/20 3:44 PM
  */
 public class Helpers {
-	public static void printXML(final Object obj, @NotNull final TabbedOutputStream tos) {
-		SimplePrintLoggerToRemoveSoon.println_err2("** XStream support has been disabled");
-/*
-		final XStream x = new XStream();
-		//x.setMode(XStream.ID_REFERENCES);
-		x.toXML(obj, tos.getStream());
-*/
-	}
 
 	@NotNull
 	public static <E> List<E> List_of(@NotNull final E... e1) {
@@ -58,7 +52,7 @@ public class Helpers {
 			final IExpression dotExpression = qualidentToDotExpression2(ts.subList(i++, ts.size()), i + 1);
 			if (dotExpression == null) break;
 //			r.setRight(dotExpression);
-			r = new DotExpression(r, dotExpression);
+			r = new DotExpressionImpl(r, dotExpression);
 		}
 		return r;
 	}
@@ -92,7 +86,7 @@ public class Helpers {
 	}
 
 	public static Qualident string_to_qualident(final String x) {
-		final Qualident q = new Qualident();
+		final Qualident q = new QualidentImpl();
 		for (final String xx : x.split("\\.")) {
 			q.append(string_to_ident(xx));
 		}
@@ -102,7 +96,7 @@ public class Helpers {
 	@NotNull
 	public static IdentExpression string_to_ident(final String txt) {
 		final CommonToken t = new CommonToken(ElijjahTokenTypes.IDENT, txt);
-		return new IdentExpression(t);
+		return new IdentExpressionImpl(t, "<<unspecified>>");
 	}
 
 	public static String getHashForFilename(final String aFilename, final ErrSink aErrSink) throws IOException {

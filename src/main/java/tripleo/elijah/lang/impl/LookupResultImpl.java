@@ -2,9 +2,12 @@ package tripleo.elijah.lang.impl;
 
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.contexts.ContextInfo;
-import tripleo.elijah.lang.i.Context;
-import tripleo.elijah.lang.i.LookupResult;
-import tripleo.elijah.lang.i.OS_Element;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 public class LookupResultImpl implements LookupResult {
 	private final           Context     context;

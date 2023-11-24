@@ -1,6 +1,7 @@
 package tripleo.elijah.stages.gen_c;
 
-import tripleo.elijah.lang.i.TypeName;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.deduce.ClassInvocation;
 
 public class GCM_CI_GenericPart {

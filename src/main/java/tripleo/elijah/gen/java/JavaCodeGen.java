@@ -3,7 +3,8 @@ package tripleo.elijah.gen.java;
 //import javassist.ClassPool;
 //import javassist.CtClass;
 //import tripleo.elijah.gen.ICodeGen;
-//import tripleo.elijah.lang.*;
+//import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 //import tripleo.elijah.util.NotImplementedException;
 //
 //import java.util.ArrayList;

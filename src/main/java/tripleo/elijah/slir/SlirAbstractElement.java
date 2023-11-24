@@ -10,7 +10,8 @@
 package tripleo.elijah.slir;
 
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.lang.i.OS_Element;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /**
  * Represents a SlirElement with no underlying OS_Element

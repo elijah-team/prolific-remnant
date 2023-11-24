@@ -8,33 +8,49 @@
  */
 package tripleo.elijah.stages.gen_c;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.nextgen.model.*;
-import tripleo.elijah.stages.deduce.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang2.BuiltInTypes;
+import tripleo.elijah.lang2.SpecialVariables;
+import tripleo.elijah.nextgen.model.SM_ClassDeclaration;
+import tripleo.elijah.nextgen.model.SM_Node;
+import tripleo.elijah.stages.deduce.ClassInvocation;
+import tripleo.elijah.stages.deduce.FunctionInvocation;
 import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.gen_generic.*;
+import tripleo.elijah.stages.gen_generic.CodeGenerator;
+import tripleo.elijah.stages.gen_generic.GenerateFiles;
+import tripleo.elijah.stages.gen_generic.GenerateResult;
+import tripleo.elijah.stages.gen_generic.OutputFileFactoryParams;
 import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
+import tripleo.elijah.stages.logging.ElLog;
 import tripleo.elijah.util.*;
-import tripleo.elijah.work.*;
-import tripleo.util.buffer.*;
+import tripleo.elijah.work.WorkJob;
+import tripleo.elijah.work.WorkList;
+import tripleo.elijah.work.WorkManager;
+import tripleo.util.buffer.Buffer;
 
-import java.util.*;
-import java.util.function.*;
-import java.util.stream.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
-import static tripleo.elijah.stages.deduce.DeduceTypes2.*;
+import static tripleo.elijah.stages.deduce.DeduceTypes2.to_int;
 
 /**
  * Created 10/8/20 7:13 AM
  */
 public class GenerateC implements CodeGenerator, GenerateFiles {
 	private static final String  PHASE = "GenerateC";
-	final                ErrSink errSink;
+	final ErrSink errSink;
 	private final        ElLog   LOG;
 
 	public GenerateC(final @NotNull OutputFileFactoryParams p) {
@@ -764,7 +780,7 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
 			case CALL: {
 				if (pte.expression_num == null) {
 //					assert false; // TODO synthetic methods
-					final IdentExpression ptex = (IdentExpression) pte.expression;
+					final IdentExpression ptex = (IdentExpression) pte.__debug_expression;
 					sb.append(ptex.getText());
 					sb.append(Emit.emit("/*671*/") + "(");
 
@@ -805,7 +821,7 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
 				CReference reference = null;
 				if (pte.expression_num == null) {
 					final int             y    = 2;
-					final IdentExpression ptex = (IdentExpression) pte.expression;
+					final IdentExpression ptex = (IdentExpression) pte.__debug_expression;
 					sb.append(Emit.emit("/*684*/"));
 					sb.append(ptex.getText());
 				} else {
@@ -818,7 +834,7 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
 					final String path = reference.build();
 					sb.append(Emit.emit("/*807*/") + path);
 
-					final IExpression ptex = pte.expression;
+					final IExpression ptex = pte.__debug_expression;
 					if (ptex instanceof IdentExpression) {
 						sb.append(Emit.emit("/*803*/"));
 						sb.append(((IdentExpression) ptex).getText());

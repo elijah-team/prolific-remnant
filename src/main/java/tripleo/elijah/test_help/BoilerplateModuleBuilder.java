@@ -1,7 +1,8 @@
 package tripleo.elijah.test_help;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 import java.util.function.*;
 

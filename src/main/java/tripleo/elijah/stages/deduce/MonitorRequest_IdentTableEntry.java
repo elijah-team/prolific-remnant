@@ -2,7 +2,8 @@ package tripleo.elijah.stages.deduce;
 
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.Eventual;
-import tripleo.elijah.lang.i.Context;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
 import tripleo.elijah.stages.gdm.GDM_IdentExpression;
 import tripleo.elijah.stages.gen_fn.IdentTableEntry;

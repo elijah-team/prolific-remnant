@@ -8,19 +8,28 @@
  */
 package tripleo.elijah.stages.deduce;
 
-import org.jdeferred2.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
+import org.jdeferred2.DoneCallback;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.contexts.FunctionContext;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.work.*;
+import tripleo.elijah.stages.instructions.IdentIA;
+import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.work.WorkList;
+import tripleo.elijah.work.WorkManager;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Created 9/5/21 2:54 AM
@@ -33,7 +42,7 @@ class Resolve_Variable_Table_Entry {
 	private final @NotNull ElLog        LOG;
 	private final @NotNull WorkManager  wm;
 	private final @NotNull DeducePhase  phase;
-	private final          ErrSink      errSink;
+	private final ErrSink errSink;
 
 	public Resolve_Variable_Table_Entry(final BaseGeneratedFunction aGeneratedFunction, final Context aCtx, final DeduceTypes2 aDeduceTypes2) {
 		generatedFunction = aGeneratedFunction;
@@ -62,7 +71,7 @@ class Resolve_Variable_Table_Entry {
 		if (vte.type.getAttached() == null && vte.potentialTypes.size() == 1) {
 			final TypeTableEntry pot = new ArrayList<>(vte.potentialTypes()).get(0);
 			if (pot.getAttached() instanceof OS_FuncExprType) {
-				action_VAR_potsize_1_and_FuncExprType(vte, (OS_FuncExprType) pot.getAttached(), pot.genType, pot.expression);
+				action_VAR_potsize_1_and_FuncExprType(vte, (OS_FuncExprType) pot.getAttached(), pot.genType, pot.__debug_expression);
 			} else if (pot.getAttached() != null && pot.getAttached().getType() == OS_Type.Type.USER_CLASS) {
 				final int y = 1;
 				vte.type = pot;
@@ -76,9 +85,9 @@ class Resolve_Variable_Table_Entry {
 	public void action_VAR_potsize_1_other(@NotNull final VariableTableEntry vte, @NotNull final TypeTableEntry aPot) {
 		try {
 			if (aPot.tableEntry instanceof final @NotNull ProcTableEntry pte1) {
-				@Nullable final OS_Element    e    = DeduceLookupUtils.lookup(pte1.expression, ctx, deduceTypes2);
+				@Nullable final OS_Element e    = DeduceLookupUtils.lookup(pte1.__debug_expression, ctx, deduceTypes2);
 				if (e == null) {
-					System.err.println("** 97: " + pte1.expression);
+					System.err.println("** 97: " + pte1.__debug_expression);
 					return;
 					//throw new AssertionError();
 				}
@@ -278,7 +287,7 @@ class Resolve_Variable_Table_Entry {
 
 	private @Nullable ProcTableEntry findProcTableEntry(@NotNull final BaseGeneratedFunction aGeneratedFunction, final IExpression aExpression) {
 		for (@NotNull final ProcTableEntry procTableEntry : aGeneratedFunction.prte_list) {
-			if (procTableEntry.expression == aExpression)
+			if (procTableEntry.__debug_expression == aExpression)
 				return procTableEntry;
 		}
 		return null;

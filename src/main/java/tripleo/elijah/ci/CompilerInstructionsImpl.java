@@ -10,7 +10,8 @@ package tripleo.elijah.ci;
 
 import antlr.*;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.util.*;
 
 import java.util.*;

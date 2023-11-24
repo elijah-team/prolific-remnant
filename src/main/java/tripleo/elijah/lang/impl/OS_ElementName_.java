@@ -1,6 +1,7 @@
 package tripleo.elijah.lang.impl;
 
-import tripleo.elijah.lang.i.OS_ElementName;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 @SuppressWarnings({"UtilityClassCanBeEnum", "ClassWithOnlyPrivateConstructors", "NonFinalUtilityClass"})
 public class OS_ElementName_ {

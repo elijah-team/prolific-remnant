@@ -12,10 +12,14 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.contexts.ClassContext;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
 import tripleo.elijah.lang.i.*;
-import tripleo.elijah.lang.nextgen.names.i.EN_Name;
-import tripleo.elijah.lang.nextgen.names.impl.ENU_ClassName;
-import tripleo.elijah.lang.types.OS_UserClassType;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang2.ElElementVisitor;
 import tripleo.elijah.util.NotImplementedException;
 

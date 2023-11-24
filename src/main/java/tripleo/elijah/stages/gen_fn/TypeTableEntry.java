@@ -9,7 +9,8 @@
 package tripleo.elijah.stages.gen_fn;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.util.*;
 
@@ -24,7 +25,7 @@ public class TypeTableEntry {
 	@Nullable
 	public final  TableEntryIV        tableEntry;
 	public final  GenType             genType = new GenType();
-	public final  IExpression         expression;
+	public final  IExpression         __debug_expression;
 	final         int                 index;
 	private final List<OnSetAttached> osacbs  = new ArrayList<OnSetAttached>();
 	@Nullable
@@ -44,7 +45,7 @@ public class TypeTableEntry {
 			attached = aAttached;
 			_settingAttached(aAttached);
 		}
-		this.expression = expression;
+		this.__debug_expression = expression;
 		this.tableEntry = aTableEntryIV;
 	}
 
@@ -92,7 +93,7 @@ public class TypeTableEntry {
 		  "index=" + index +
 		  ", lifetime=" + lifetime +
 		  ", attached=" + attached +
-		  ", expression=" + expression +
+		  ", expression=" + __debug_expression +
 		  '}';
 	}
 

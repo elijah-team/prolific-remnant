@@ -6,8 +6,10 @@ import antlr.*;
 import antlr.collections.impl.*;
 import tripleo.elijah.ci.IndexingStatement;
 import tripleo.elijah.ci.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang2.*;
 
 public class EzParser extends antlr.LLkParser implements EzTokenTypes {

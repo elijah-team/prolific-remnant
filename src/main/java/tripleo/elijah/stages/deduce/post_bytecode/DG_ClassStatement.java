@@ -2,8 +2,10 @@ package tripleo.elijah.stages.deduce.post_bytecode;
 
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.lang.i.ClassStatement;
-import tripleo.elijah.lang.i.OS_Element;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.deduce.ClassInvocation;
 import tripleo.elijah.stages.deduce.ConstructableElementHolder;
 import tripleo.elijah.stages.deduce.FunctionInvocation;

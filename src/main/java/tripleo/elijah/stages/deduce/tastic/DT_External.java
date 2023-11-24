@@ -1,7 +1,8 @@
 package tripleo.elijah.stages.deduce.tastic;
 
 import org.jdeferred2.Promise;
-import tripleo.elijah.lang.i.OS_Module;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.deduce.DeduceTypes2;
 
 public interface DT_External {

@@ -11,10 +11,15 @@ package tripleo.elijah.stages.deduce;
 import org.jdeferred2.*;
 import org.jdeferred2.impl.*;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah.stages.logging.*;
@@ -421,10 +426,10 @@ class Resolve_Ident_IA2 {
 					}
 				}
 			} else {
-				final LookupResultList lrl = DeduceLookupUtils.lookupExpression(pot.get(0).expression.getLeft(), ctx, deduceTypes2);
+				final LookupResultList lrl = DeduceLookupUtils.lookupExpression(pot.get(0).__debug_expression.getLeft(), ctx, deduceTypes2);
 				@Nullable final OS_Element best = lrl.chooseBest(Helpers.List_of(
 				  new DeduceUtils.MatchFunctionArgs(
-					(ProcedureCallExpression) pot.get(0).expression)));
+					(ProcedureCallExpression) pot.get(0).__debug_expression)));
 				if (best instanceof FunctionDef) {
 					fd = (FunctionDef) best;
 				} else {

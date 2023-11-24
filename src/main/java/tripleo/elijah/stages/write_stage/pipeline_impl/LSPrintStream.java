@@ -1,7 +1,10 @@
 package tripleo.elijah.stages.write_stage.pipeline_impl;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.nextgen.inputtree.EIT_Input;
 import tripleo.elijah.nextgen.inputtree.EIT_InputType;
 import tripleo.elijah.nextgen.outputstatement.EG_Statement;

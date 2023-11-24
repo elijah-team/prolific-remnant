@@ -1,7 +1,8 @@
 package tripleo.elijah.lang.i;
 
 import tripleo.elijah.contexts.NamespaceContext;
-import tripleo.elijah.lang.impl.InvariantStatement;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang2.ElElementVisitor;
 
 import java.util.List;

@@ -11,12 +11,22 @@ package tripleo.elijah.stages.deduce;
 //import org.junit.Assert;
 //import org.junit.Before;
 //import org.junit.Test;
-//import tripleo.elijah.comp.Compilation;
-//import tripleo.elijah.comp.IO;
-//import tripleo.elijah.comp.StdErrSink;
+//import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+//import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+//import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 //import tripleo.elijah.contexts.FunctionContext;
 //import tripleo.elijah.contexts.ModuleContext;
-//import tripleo.elijah.lang.*;
+//import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 //import tripleo.elijah.util.Helpers;
 //
 

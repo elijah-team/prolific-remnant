@@ -1,31 +1,72 @@
 package tripleo.elijah.comp;
 
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.Compilation.*;
-import tripleo.elijah.comp.internal.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.inputtree.*;
-import tripleo.elijah.nextgen.outputtree.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.work.*;
+//import org.jdeferred2.*;
+//import org.jdeferred2.impl.*;
+//import org.jetbrains.annotations.*;
+//import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+//import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+//import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+//import tripleo.elijah.nextgen.inputtree.*;
+//import tripleo.elijah.nextgen.outputtree.*;
+//import tripleo.elijah.stages.gen_fn.*;
+//import tripleo.elijah.stages.gen_generic.*;
+//import tripleo.elijah.stages.logging.*;
+//import tripleo.elijah.util.*;
+//import tripleo.elijah.work.*;
+//
+//import java.util.*;
+//import java.util.function.*;
+//import java.util.stream.*;
 
-import java.util.*;
-import java.util.function.*;
-import java.util.stream.*;
+import org.jdeferred2.DoneCallback;
+import org.jdeferred2.impl.DeferredObject;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.nextgen.inputtree.EIT_ModuleList;
+import tripleo.elijah.nextgen.outputtree.EOT_OutputTree;
+import tripleo.elijah.stages.gen_fn.GeneratedContainerNC;
+import tripleo.elijah.stages.gen_fn.GeneratedNode;
+import tripleo.elijah.stages.gen_generic.GenerateFiles;
+import tripleo.elijah.stages.gen_generic.GenerateResult;
+import tripleo.elijah.stages.gen_generic.OutputFileFactory;
+import tripleo.elijah.stages.gen_generic.OutputFileFactoryParams;
+import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
+import tripleo.elijah.work.WorkManager;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class AccessBus {
-	public final  GenerateResult                                  gr                    = new GenerateResult();
-	final         DeferredObject<GenerateResult, Void, Void>      generateResultPromise = new DeferredObject<>();
-	private final Compilation                                     _c;
+	public final GenerateResult gr                    = new GenerateResult();
+	final DeferredObject<GenerateResult, Void, Void> generateResultPromise = new DeferredObject<>();
+	private final Compilation _c;
 	private final DeferredObject<PipelineLogic, Void, Void>       pipeLineLogicPromise  = new DeferredObject<>();
 	private final DeferredObject<List<GeneratedNode>, Void, Void> lgcPromise            = new DeferredObject<>();
 	private final DeferredObject<EIT_ModuleList, Void, Void>      moduleListPromise     = new DeferredObject<>();
-	private final Map<String, ProcessRecord.PipelinePlugin>       pipelinePlugins       = new HashMap<>();
+	private final Map<String, ProcessRecord.PipelinePlugin> pipelinePlugins       = new HashMap<>();
 	private       PipelineLogic                                   ____pl;
 
 
@@ -92,7 +133,7 @@ public class AccessBus {
 		final ElLog.Verbosity verbosity = aPipelineLogic.getVerbosity();
 
 		final OutputFileFactoryParams p         = new OutputFileFactoryParams(mod, aErrSink, verbosity, aPipelineLogic);
-		final GenerateFiles           generateC = OutputFileFactory.create(CompilationAlways.defaultPrelude(), p);
+		final GenerateFiles generateC = OutputFileFactory.create(CompilationAlways.defaultPrelude(), p);
 
 		final Compilation             ccc = mod.parent;
 		@NotNull final EOT_OutputTree cot = ccc.getOutputTree();
@@ -127,7 +168,7 @@ public class AccessBus {
 	public void writeLogs() {
 		@NotNull final Compilation comp = getCompilation(); // this._c
 
-		comp.writeLogs(comp.cfg.silent, comp.elLogs);
+		comp.writeLogs(comp._cfg().silent, comp._elLogs());
 	}
 
 	public @NotNull Compilation getCompilation() {

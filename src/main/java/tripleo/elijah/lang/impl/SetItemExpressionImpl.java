@@ -8,9 +8,12 @@
  */
 package tripleo.elijah.lang.impl;
 
-import tripleo.elijah.lang.i.ExpressionKind;
-import tripleo.elijah.lang.i.GetItemExpression;
-import tripleo.elijah.lang.i.IExpression;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /**
  * Created 8/6/20 1:15 PM

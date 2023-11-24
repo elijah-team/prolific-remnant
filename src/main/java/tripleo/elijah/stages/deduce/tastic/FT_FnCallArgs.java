@@ -13,7 +13,11 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.ReadySupplier_1;
-import tripleo.elijah.comp.i.ErrSink;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang2.BuiltInTypes;
 import tripleo.elijah.stages.deduce.*;
@@ -147,7 +151,7 @@ public class FT_FnCallArgs implements ITastic {
 		default -> throw new IllegalStateException("Unexpected value: " + ece.getType());
 		}
 
-		var exp = pte.expression;
+		var exp = pte.__debug_expression;
 		var en  = exp.getEntry();
 
 		if (pte.expression_num instanceof @NotNull final IdentIA identIA) {

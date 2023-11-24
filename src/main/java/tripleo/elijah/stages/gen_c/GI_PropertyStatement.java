@@ -1,6 +1,7 @@
 package tripleo.elijah.stages.gen_c;
 
-import tripleo.elijah.lang.i.PropertyStatement;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.gen_fn.EvaNode;
 
 class GI_PropertyStatement implements GenerateC_Item {

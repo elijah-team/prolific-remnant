@@ -1,6 +1,7 @@
 package tripleo.elijah.world.impl;
 
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.world.i.*;
 
 public class DefaultLivingPackage implements LivingPackage {

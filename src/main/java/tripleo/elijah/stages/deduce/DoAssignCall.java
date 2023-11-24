@@ -9,23 +9,36 @@
  */
 package tripleo.elijah.stages.deduce;
 
-import com.google.common.base.*;
-import com.google.common.collect.*;
-import org.jdeferred2.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.stages.deduce.declarations.*;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import org.jdeferred2.DoneCallback;
+import org.jdeferred2.Promise;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang2.BuiltInTypes;
+import tripleo.elijah.stages.deduce.declarations.DeferredMemberFunction;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static tripleo.elijah.stages.deduce.DeduceTypes2.*;
+import static tripleo.elijah.stages.deduce.DeduceTypes2.to_int;
 
 /**
  * Created 12/12/21 12:30 AM
@@ -34,8 +47,8 @@ public class DoAssignCall {
 	private final ElLog                      LOG;
 	private final DeduceTypes2.DeduceClient4 dc;
 	private final BaseGeneratedFunction      generatedFunction;
-	private final OS_Module                  module;
-	private final ErrSink                    errSink;
+	private final OS_Module module;
+	private final ErrSink errSink;
 
 	public DoAssignCall(final DeduceTypes2.DeduceClient4 aDeduceClient4, final @NotNull BaseGeneratedFunction aGeneratedFunction) {
 		dc                = aDeduceClient4;
@@ -164,7 +177,7 @@ public class DoAssignCall {
 		for (int i = 0; i < args.size(); i++) {
 			final TypeTableEntry tte = args.get(i); // TODO this looks wrong
 //			LOG.info("770 "+tte);
-			IExpression e = tte.expression;
+			IExpression e = tte.__debug_expression;
 			if (e == null) continue;
 			if (e instanceof SubExpression) e = ((SubExpression) e).getExpression();
 			switch (e.getKind()) {
@@ -277,7 +290,7 @@ public class DoAssignCall {
 		{
 			if (pte.expression_num == null) {
 				if (fca.expression_to_call.getName() != InstructionName.CALLS) {
-					final String           text = ((IdentExpression) pte.expression).getText();
+					final String           text = ((IdentExpression) pte.__debug_expression).getText();
 					final LookupResultList lrl  = ctx.lookup(text);
 
 					final @Nullable OS_Element best = lrl.chooseBest(null);
@@ -337,13 +350,13 @@ public class DoAssignCall {
 										return; // type already found
 									}
 									// I'm not sure if below is ever called
-									@NotNull final TypeTableEntry tte = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.TRANSIENT, dc.gt(aType), pte.expression, pte);
+									@NotNull final TypeTableEntry tte = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.TRANSIENT, dc.gt(aType), pte.__debug_expression, pte);
 									vte.addPotentialType(instructionIndex, tte);
 								}
 							});
 						} else if (el instanceof @NotNull final ClassStatement kl) {
 							@NotNull final OS_Type        type = kl.getOS_Type();
-							@NotNull final TypeTableEntry tte  = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.TRANSIENT, type, pte.expression, pte);
+							@NotNull final TypeTableEntry tte  = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.TRANSIENT, type, pte.__debug_expression, pte);
 							vte.addPotentialType(instructionIndex, tte);
 							vte.setConstructable(pte);
 

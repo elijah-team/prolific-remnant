@@ -9,8 +9,10 @@
  */
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.lang.i.ImportStatement;
-import tripleo.elijah.lang.i.Qualident;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /**
  * Created 11/28/21 11:44 PM

@@ -1,7 +1,9 @@
 package tripleo.elijah.lang.nextgen.names.impl;
 
-import tripleo.elijah.lang.impl.FunctionDefImpl;
-import tripleo.elijah.lang.nextgen.names.i.EN_Understanding;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 public class ENU_FunctionDefinition implements EN_Understanding {
 	private final FunctionDefImpl carrier;

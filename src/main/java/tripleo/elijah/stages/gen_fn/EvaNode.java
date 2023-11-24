@@ -8,7 +8,8 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import tripleo.elijah.lang.i.OS_Module;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /**
  * Created 10/29/20 4:51 AM

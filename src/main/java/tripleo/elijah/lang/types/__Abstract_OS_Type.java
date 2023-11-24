@@ -1,6 +1,7 @@
 package tripleo.elijah.lang.types;
 
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang2.*;
 
 abstract class __Abstract_OS_Type implements OS_Type {

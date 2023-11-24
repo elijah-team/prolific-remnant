@@ -8,8 +8,10 @@
  */
 package tripleo.elijah.lang.impl;
 
-import tripleo.elijah.lang.i.BasicBinaryExpression;
-import tripleo.elijah.lang.i.NormalTypeName;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /*
  * Created on Sep 1, 2005 8:10:27 PM

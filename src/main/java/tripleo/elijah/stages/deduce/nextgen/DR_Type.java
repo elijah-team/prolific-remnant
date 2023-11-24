@@ -1,10 +1,15 @@
 package tripleo.elijah.stages.deduce.nextgen;
 
-import tripleo.elijah.lang.i.IdentExpression;
-import tripleo.elijah.lang.i.RegularTypeName;
-import tripleo.elijah.lang.i.TypeName;
-import tripleo.elijah.lang.nextgen.names.i.EN_Usage;
-import tripleo.elijah.lang.nextgen.names.impl.ENU_IsTypeName;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
 import tripleo.elijah.util.NotImplementedException;
 

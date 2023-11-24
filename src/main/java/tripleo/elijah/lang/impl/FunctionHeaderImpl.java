@@ -8,10 +8,14 @@
  */
 package tripleo.elijah.lang.impl;
 
-import tripleo.elijah.lang.i.FormalArgList;
-import tripleo.elijah.lang.i.FunctionModifiers;
-import tripleo.elijah.lang.i.IdentExpression;
-import tripleo.elijah.lang.i.TypeName;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 /**
  * Created 8/23/21 2:32 AM

@@ -1,7 +1,8 @@
 package tripleo.elijah.nextgen.outputstatement;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 public class EX_SingleElementExplanation implements EX_Explanation {
 

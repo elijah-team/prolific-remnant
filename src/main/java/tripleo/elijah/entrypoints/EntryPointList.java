@@ -17,6 +17,10 @@ public class EntryPointList {
 		eps = new ArrayList<>();
 	}
 
+	public EntryPointList(final List<EntryPoint> aEntryPoints) {
+		eps = aEntryPoints;
+	}
+
 	public void generate(@NotNull final GenerateFunctions aGenerateFunctions, final DeducePhase aDeducePhase, @NotNull final Supplier<WorkManager> wm) {
 		generateFromEntryPoints(aDeducePhase, aGenerateFunctions, wm.get());
 	}

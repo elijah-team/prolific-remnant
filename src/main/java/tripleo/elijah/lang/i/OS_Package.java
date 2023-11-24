@@ -1,7 +1,8 @@
 package tripleo.elijah.lang.i;
 
 import tripleo.elijah.contexts.PackageContext;
-import tripleo.elijah.lang.impl.OS_PackageImpl;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 
 import java.util.List;
 

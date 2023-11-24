@@ -10,10 +10,14 @@ package tripleo.elijah.comp;
 
 import org.junit.Assert;
 import org.junit.Test;
-import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.comp.*;import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.entrypoints.MainClassEntryPoint;
 import tripleo.elijah.factory.comp.CompilationFactory;
-import tripleo.elijah.lang.i.ClassStatement;
+import tripleo.elijah.comp.*;import tripleo.elijah.lang.*;import tripleo.elijah.comp.i.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.util.Helpers;
 import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
