@@ -10,6 +10,7 @@ package tripleo.elijah.comp.internal;
 
 import io.reactivex.rxjava3.core.Observer;
 import io.smallrye.mutiny.Multi;
+import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.ci.LibraryStatementPart;
@@ -45,6 +46,9 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class CompilationImpl implements Compilation {
+	private final List<CN_CompilerInputWatcher> _ciws;
+	private final Map<CompilerInput, CM_CompilerInput> _ci_models;
+	private final List<Triple<CN_CompilerInputWatcher.e, CompilerInput, Object>> _ciw_buffer;
 	private final @NotNull FluffyCompImpl                    _fluffyComp;
 	private final          CIS                               _cis;
 	private final          CompilationConfig                 cfg;
@@ -64,16 +68,15 @@ public class CompilationImpl implements Compilation {
 	private                List<CompilerInput>               _inputs;
 	private                IPipelineAccess                   _pa;
 	private                IO                                io;
-	private final List<CN_CompilerInputWatcher> _ciws = new ArrayList<>();
-	private Map<CompilerInput, CM_CompilerInput> _ci_models = new HashMap<>();
+
 
 	public CompilationImpl(final ErrSink aErrSink, final IO aIo) {
 		this.errSink            = aErrSink;
 		this.io                 = aIo;
 
 		this._compilationNumber = new Random().nextInt(Integer.MAX_VALUE);
-		fn2ci                   = new HashMap<String, CompilerInstructions>();
-		modules                 = new ArrayList<OS_Module>();
+		fn2ci                   = new HashMap<>();
+		modules                 = new ArrayList<>();
 
 		this.paths              = new CP_Paths(this);
 
@@ -91,6 +94,10 @@ public class CompilationImpl implements Compilation {
 
 		_con                    = new DefaultCompFactory();
 		_f                      = new Finally();
+
+		_ciws                   = new ArrayList<>();
+		_ci_models              = new HashMap<>();
+		_ciw_buffer             = new ArrayList<>();
 	}
 
 	public @NotNull ICompilationAccess _access() {
@@ -174,8 +181,20 @@ public class CompilationImpl implements Compilation {
 
 	@Override
 	public void compilerInputWatcher_Event(final CN_CompilerInputWatcher.e aEvent, final CompilerInput aCompilerInput, final Object aO) {
-		for (CN_CompilerInputWatcher ciw : _ciws) {
-			ciw.event(aEvent, aCompilerInput);
+		if (_ciws.isEmpty()) {
+			_ciw_buffer.add(Triple.of(aEvent, aCompilerInput, aO));
+		} else {
+			if (!_ciw_buffer.isEmpty()) {
+				for (Triple<CN_CompilerInputWatcher.e, CompilerInput, Object> triple : _ciw_buffer) {
+					for (CN_CompilerInputWatcher ciw : _ciws) {
+						ciw.event(triple.getLeft(), triple.getMiddle(), triple.getRight());
+					}
+				}
+				_ciw_buffer.clear();
+			}
+			for (CN_CompilerInputWatcher ciw : _ciws) {
+				ciw.event(aEvent, aCompilerInput, aO);
+			}
 		}
 	}
 
