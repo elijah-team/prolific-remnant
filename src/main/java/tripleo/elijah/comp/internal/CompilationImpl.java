@@ -162,6 +162,18 @@ public class CompilationImpl implements Compilation {
 	}
 
 	@Override
+	public void feedCmdLine(List<String> args, CompilerController compilerController) {
+		final List<CompilerInput> inputs = stringListToInputList(args);
+		feedInputs(inputs, compilerController);
+	}
+
+	@Override
+	public void feedCmdLine(final @NotNull List<String> args) throws Exception {
+		final List<CompilerInput> inputs = stringListToInputList(args);
+		feedInputs(inputs, new DefaultCompilerController());
+	}
+
+	@Override
 	public void feedInputs(final @NotNull List<CompilerInput> inputs, final @NotNull CompilerController controller) {
 		if (inputs.size() == 0) {
 			controller.printUsage();
@@ -205,12 +217,13 @@ public class CompilationImpl implements Compilation {
 		controller.runner();
 	}
 
-	@Override
-	public void feedCmdLine(final @NotNull List<String> args) throws Exception {
+	@NotNull
+	private List<CompilerInput> stringListToInputList(final @NotNull List<String> args) {
 		final List<CompilerInput> inputs = args.stream()
 				.map(s -> {
-					final CompilerInput input = new CompilerInput(s);
-					if (s.equals(input.getInp())) {
+					final CompilerInput input = new CompilerInput(s, Optional.of(this));
+					final var cm = this.get(input);
+					if (cm.inpSameAs(s)) {
 						input.setSourceRoot();
 					} else {
 						assert false;
@@ -218,8 +231,7 @@ public class CompilationImpl implements Compilation {
 					return input;
 				})
 				.collect(Collectors.toList());
-
-		feedInputs(inputs, new DefaultCompilerController());
+		return inputs;
 	}
 
 	@Override
