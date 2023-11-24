@@ -2,9 +2,7 @@
 <module version="4">
   <component name="AdditionalModuleElements">
     <content url="file://$MODULE_DIR$" dumb="true">
-      <sourceFolder url="file://$MODULE_DIR$/src-cef/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src-mal/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src-undertow/java" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/COMP" />
     </content>
   </component>
 </module>
