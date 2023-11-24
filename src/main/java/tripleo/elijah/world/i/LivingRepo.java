@@ -1,23 +1,64 @@
 package tripleo.elijah.world.i;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.world.impl.*;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.compiler_model.CM_Filename;
+import tripleo.elijah.lang.i.ClassStatement;
+import tripleo.elijah.lang.i.OS_Module;
+import tripleo.elijah.lang.i.OS_Package;
+import tripleo.elijah.lang.i.Qualident;
+import tripleo.elijah.lang.impl.BaseFunctionDef;
+import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
+import tripleo.elijah.stages.gen_fn.EvaClass;
+import tripleo.elijah.stages.gen_fn.EvaNamespace;
+import tripleo.elijah.util.CompletableProcess;
+import tripleo.elijah.world.impl.DefaultLivingClass;
+import tripleo.elijah.world.impl.DefaultLivingFunction;
+import tripleo.elijah.world.impl.DefaultLivingNamespace;
+
+import java.util.Collection;
+import java.util.List;
 
 public interface LivingRepo {
+	DefaultLivingClass addClass(EvaClass aClass, Add addFlag);
+
 	LivingClass addClass(ClassStatement cs);
+
+	DefaultLivingFunction addFunction(BaseEvaFunction aFunction, Add aMainFunction);
+
+	void addModule(OS_Module mod, @Nullable CM_Filename aFilename, final Compilation aC);
 
 	LivingFunction addFunction(BaseFunctionDef fd);
 
 	LivingPackage addPackage(OS_Package pk);
 
+	//DefaultLivingClass addClass(EvaClass aClass, Add aMainClass);
+
+	DefaultLivingNamespace addNamespace(EvaNamespace aNamespace, Add aNone);
+
+	LivingNamespace getNamespace(EvaNamespace aEvaNamespace);
+
+	LivingClass getClass(EvaClass aEvaClass);
+
 	OS_Package getPackage(String aPackageName);
 
-	DefaultLivingFunction addFunction(BaseEvaFunction aFunction, Add aMainFunction);
+	boolean hasPackage(String aPackageName);
 
-	DefaultLivingClass addClass(EvaClass aClass, Add aMainClass);
+	LivingFunction getFunction(BaseEvaFunction aBaseEvaFunction);
 
-	void addNamespace(EvaNamespace aNamespace, Add aNone);
+	void addModuleProcess(CompletableProcess<WorldModule> wmcp);
 
-	enum Add {NONE, MAIN_FUNCTION, MAIN_CLASS}
+	Collection<WorldModule> modules();
+
+	void addModule2(WorldModule aMod1);
+
+	@Nullable WorldModule getModule(OS_Module aModule);
+
+	enum Add {MAIN_CLASS, MAIN_FUNCTION, NONE}
+
+	OS_Package makePackage(Qualident aPkgName);
+
+	List<LivingClass> getClassesForClassStatement(ClassStatement cls);
+
+	List<LivingClass> getClassesForClassNamed(String string);
 }

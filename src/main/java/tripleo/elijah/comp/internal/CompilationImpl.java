@@ -8,19 +8,28 @@
  */
 package tripleo.elijah.comp.internal;
 
-import org.jetbrains.annotations.*;
+import io.reactivex.rxjava3.core.Observer;
+import io.smallrye.mutiny.Multi;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.ci.LibraryStatementPart;
+import tripleo.elijah.ci.i.CompilerInstructions;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.comp.i.*;
 import tripleo.elijah.comp.nextgen.CP_Paths;
+import tripleo.elijah.comp.percy.CN_CompilerInputWatcher;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.lang.i.ClassStatement;
 import tripleo.elijah.lang.i.OS_Module;
 import tripleo.elijah.lang.i.OS_Package;
 import tripleo.elijah.lang.i.Qualident;
 import tripleo.elijah.lang.impl.QualidentImpl;
+import tripleo.elijah.nextgen.comp_model.CM_CompilerInput;
 import tripleo.elijah.nextgen.inputtree.EIT_InputTree;
 import tripleo.elijah.nextgen.inputtree.EIT_ModuleInput;
 import tripleo.elijah.nextgen.outputtree.EOT_OutputTree;
 import tripleo.elijah.stages.deduce.IFunctionMapHook;
+//import tripleo.elijah.stages.deduce.ITasticMap;
 import tripleo.elijah.stages.deduce.fluffy.i.FluffyComp;
 import tripleo.elijah.stages.deduce.fluffy.impl.FluffyCompImpl;
 import tripleo.elijah.util.Helpers;
@@ -30,7 +39,10 @@ import tripleo.elijah.world.i.WorldModule;
 import tripleo.elijah.world.impl.DefaultLivingRepo;
 import tripleo.elijah.world.impl.DefaultWorldModule;
 
+import java.io.File;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class CompilationImpl implements Compilation {
 	private final @NotNull FluffyCompImpl                    _fluffyComp;
@@ -59,14 +71,72 @@ public class CompilationImpl implements Compilation {
 		this.errSink            = aErrSink;
 		this.io                 = aIo;
 
-	public CompilationImpl(final ErrSink aEee, final IO aIo) {
-		super(aEee, aIo);
-		_fluffyComp = new FluffyCompImpl(this);
+		this._compilationNumber = new Random().nextInt(Integer.MAX_VALUE);
+		fn2ci                   = new HashMap<String, CompilerInstructions>();
+		modules                 = new ArrayList<OS_Module>();
+
 		this.paths              = new CP_Paths(this);
+
+		_fluffyComp             = new FluffyCompImpl(this);
+
+		cfg                     = new CompilationConfig();
+
+		_input_tree             = new EIT_InputTree();
+
+		compilationEnclosure    = new CompilationEnclosure(this);
+		_repo                   = new DefaultLivingRepo();
+
+		_cis                    = new CIS();
+		use                     = new USE(this);
+
+		_con                    = new DefaultCompFactory();
+		_f                      = new Finally();
+	}
+
+	public @NotNull ICompilationAccess _access() {
+		return new DefaultCompilationAccess(this);
 	}
 
 	public void testMapHooks(final List<IFunctionMapHook> aMapHooks) {
-		throw new NotImplementedException();
+		//pipelineLogic.dp.
+	}
+
+	public CompilationConfig getCfg() {
+		return cfg;
+	}
+
+	private class DefaultCompFactory implements CompFactory {
+		@Override
+		public @NotNull EIT_ModuleInput createModuleInput(final OS_Module aModule) {
+			return new EIT_ModuleInput(aModule, CompilationImpl.this);
+		}
+
+		@Override
+		public @NotNull Qualident createQualident(final @NotNull List<String> sl) {
+			Qualident R = new QualidentImpl();
+			for (String s : sl) {
+				R.append(Helpers.string_to_ident(s));
+			}
+			return R;
+		}
+
+		@Override
+		public @NotNull InputRequest createInputRequest(final File aFile, final boolean aDo_out, final @Nullable LibraryStatementPart aLsp) {
+			return new InputRequest(aFile, aDo_out, aLsp);
+		}
+
+		@Override
+		public @NotNull WorldModule createWorldModule(final OS_Module m) {
+			CompilationEnclosure ce = getCompilationEnclosure();
+			final WorldModule    R  = new DefaultWorldModule(m, ce);
+
+			return R;
+		}
+	}
+
+	@Override
+	public @NotNull FluffyComp getFluffy() {
+		return _fluffyComp;
 	}
 
 	@Override
@@ -79,6 +149,7 @@ public class CompilationImpl implements Compilation {
 
 		return _output_tree;
 	}
+
 
 	@Override
 	public CompilerBeginning beginning(final @NotNull CompilationRunner compilationRunner) {
@@ -139,7 +210,7 @@ public class CompilationImpl implements Compilation {
 	}
 
 	@Override
-	public void addModule__(final @NotNull OS_Module module, final @NotNull String fn) {
+	public void addModule__(final @NotNull OS_Module module, final @Nullable CM_Filename fn) {
 		modules.add(module);
 		use.addModule(module, fn);
 	}
@@ -382,18 +453,39 @@ public class CompilationImpl implements Compilation {
 	@Override
 	public LivingRepo livingRepo() {
 		return _repo;
-	public @NotNull FluffyComp getFluffy() {
-		return _fluffyComp;
 	}
 
 	@Override
 	public CP_Paths paths() {
-		return this.paths;
+		return paths;
 	}
 
-	public ICompilationAccess _access() {
-		return new DefaultCompilationAccess(this);
+	@Override
+	public @NotNull EIT_InputTree getInputTree() {
+		return _input_tree;
 	}
+
+	@Override
+	public @NotNull CompilationConfig cfg() {
+		return cfg;
+	}
+
+	public CIS get_cis() {
+		return _cis;
+	}
+
+
+	public Map<String, CompilerInstructions> getFn2ci() {
+		return fn2ci;
+	}
+
+	public CompilerInstructions getRootCI() {
+		return rootCI;
+	}
+
+	//public void setRootCI(CompilerInstructions aRootCI) {
+	//	rootCI = aRootCI;
+	//}
 }
 
 //

@@ -15,6 +15,7 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.ci.LibraryStatementPart;
 import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.contexts.ModuleContext;
 import tripleo.elijah.entrypoints.EntryPoint;
 import tripleo.elijah.entrypoints.MainClassEntryPoint;
@@ -44,7 +45,7 @@ public class OS_ModuleImpl implements OS_Element, OS_Container, tripleo.elijah.l
 	public @NotNull List<ModuleItem>     items          = new ArrayList<ModuleItem>();
 	public          OS_Module            prelude;
 	private         IndexingStatement    indexingStatement;
-	private         String               _fileName;
+	private         CM_Filename          _fileName;
 	private         LibraryStatementPart lsp;
 	private         Compilation          parent;
 
@@ -101,7 +102,7 @@ public class OS_ModuleImpl implements OS_Element, OS_Container, tripleo.elijah.l
 	}
 
 	@Override
-	public String getFileName() {
+	public CM_Filename getFileName() {
 		return _fileName;
 	}
 
@@ -218,8 +219,9 @@ public class OS_ModuleImpl implements OS_Element, OS_Container, tripleo.elijah.l
 		//private LibraryStatementPart lsp;
 
 
-		sw.fieldString("filename", _fileName);
-		sw.fieldString("prelude", prelude != null ? prelude.getFileName() : "<unknown>");
+		sw.fieldString("filename", _fileName.getString());
+		final String preludeString = prelude != null ? prelude.getFileName().getString() : "<unknown>";
+		sw.fieldString("prelude", preludeString);
 		sw.fieldString("parent", getCompilation().getCompilationNumberString());
 
 
@@ -237,7 +239,7 @@ public class OS_ModuleImpl implements OS_Element, OS_Container, tripleo.elijah.l
 	}
 
 	@Override
-	public void setFileName(final String fileName) {
+	public void setFileName(final CM_Filename fileName) {
 		this._fileName = fileName;
 	}
 
