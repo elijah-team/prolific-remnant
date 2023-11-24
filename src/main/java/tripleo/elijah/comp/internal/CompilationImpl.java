@@ -289,11 +289,11 @@ public class CompilationImpl implements Compilation {
 	}
 
 	@NotNull
-	private List<CompilerInput> stringListToInputList(final @NotNull List<String> args) {
+	public List<CompilerInput> stringListToInputList(final @NotNull List<String> args) {
 		final List<CompilerInput> inputs = args.stream()
 				.map(s -> {
 					final CompilerInput input = new CompilerInput(s, Optional.of(this));
-					final var cm = this.get(input);
+					final CM_CompilerInput cm = this.get(input);
 					if (cm.inpSameAs(s)) {
 						input.setSourceRoot();
 					} else {

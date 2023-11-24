@@ -48,7 +48,6 @@ public class USE {
 	};
 	private final        Compilation            c;
 	private final        ErrSink                errSink;
-	private final Map<CM_Filename, WorldModule> fn2m = new HashMap();
 	private final Map<CM_Filename, WorldModule> fn2m = new HashMap<>();
 
 	@Contract(pure = true)
