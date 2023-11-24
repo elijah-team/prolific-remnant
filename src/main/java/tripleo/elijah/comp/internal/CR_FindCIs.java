@@ -9,6 +9,7 @@ import tripleo.elijah.nextgen.comp_model.CM_CompilerInput;
 import tripleo.elijah.stateful.DefaultStateful;
 import tripleo.elijah.stateful.State;
 import tripleo.elijah.util.Maybe;
+import tripleo.elijah.util.NotImplementedException;
 import tripleo.elijah.util.Ok;
 import tripleo.elijah.util.Operation;
 
@@ -44,7 +45,14 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 		final ErrSink errSink = c.getErrSink();
 
 		for (final CompilerInput input : inputs) {
-			_processInput(c.getCompilationClosure(), errSink, (compilerInput) -> cci.accept(compilerInput.acceptance_ci(), _ps), input);
+			_processInput(c.getCompilationClosure(), errSink, (compilerInput) -> {
+				final Maybe<ILazyCompilerInstructions> mcci = compilerInput.acceptance_ci();
+				if (mcci != null) {
+					cci.accept(mcci, _ps);
+				} else {
+					NotImplementedException.raise_stop();
+				}
+			}, input);
 		}
 
 		return Operation.success(Ok.instance());
