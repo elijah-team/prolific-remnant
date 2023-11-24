@@ -9,6 +9,7 @@
 package tripleo.elijah.stages.logging;
 
 import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
 import java.util.ArrayList;
@@ -20,15 +21,21 @@ import java.util.List;
 public class ElLog {
 	private final List<LogEntry> entries = new ArrayList<>();
 	private final Verbosity      verbose;
-	private final String         fileName;
+	private final CM_Filename fileName;
 	private final String         phase;
+
+	public ElLog(final CM_Filename aFileName, final Verbosity aVerbosity, final String aPhase) {
+		fileName = aFileName;
+		verbose  = aVerbosity;
+		phase    = aPhase;
+	}
 
 	public @NotNull List<LogEntry> getEntries() {
 		return entries;
 	}
 
 	public ElLog(String aFileName, Verbosity aVerbose, String aPhase) {
-		fileName = aFileName;
+		fileName = CM_Filename.of(aFileName);
 		verbose  = aVerbose;
 		phase    = aPhase;
 	}
@@ -41,7 +48,7 @@ public class ElLog {
 	}
 
 	public String getFileName() {
-		return fileName;
+		return fileName.getString();
 	}
 
 	public String getPhase() {

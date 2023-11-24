@@ -24,6 +24,7 @@ import tripleo.elijah.UnintendedUseException;
 import tripleo.elijah.comp.i.CompilationEnclosure;
 import tripleo.elijah.comp.i.ErrSink;
 import tripleo.elijah.comp.i.IPipelineAccess;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.LangGlobals;
 import tripleo.elijah.lang.i.*;
@@ -1350,7 +1351,7 @@ public class DeduceTypes2 {
 		return _p_zero.get(aPte, aEvaFunction, this);
 	}
 
-	public String getFileName() {
+	public CM_Filename getFileName() {
 		return module.getFileName();
 	}
 

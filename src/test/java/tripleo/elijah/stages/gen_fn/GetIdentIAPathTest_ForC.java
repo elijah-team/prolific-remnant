@@ -18,6 +18,7 @@ import tripleo.elijah.comp.StdErrSink;
 import tripleo.elijah.comp.i.CompilationEnclosure;
 import tripleo.elijah.comp.internal.CompilationImpl;
 import tripleo.elijah.comp.internal.DefaultCompilationAccess;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.factory.comp.CompilationFactory;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.*;
@@ -201,7 +202,7 @@ public class GetIdentIAPathTest_ForC {
 		LookupResultList lrl2 = new LookupResultListImpl();
 
 		when(mod.pullPackageName()).thenReturn(OS_Package.default_package);
-		when(mod.getFileName()).thenReturn("filename.elijah");
+		when(mod.getFileName()).thenReturn(CM_Filename.of("filename.elijah"));
 		//mod.add(anyObject(ClassStatement.class));
 		//replay(mod);
 

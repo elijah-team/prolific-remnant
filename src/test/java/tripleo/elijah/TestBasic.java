@@ -18,6 +18,7 @@ import org.junit.Test;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.comp.i.ErrSink;
+import tripleo.elijah.comp.internal.CompilationImpl;
 import tripleo.elijah.comp.internal.DefaultCompilerController;
 import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.factory.comp.CompilationFactory;
@@ -42,7 +43,7 @@ import static tripleo.elijah.util.Helpers.List_of;
 @SuppressWarnings("MagicNumber")
 public class TestBasic {
 
-	@Ignore @Test public final void testBasicParse() throws Exception {
+	/*@Ignore*/ @Test public final void testBasicParse() throws Exception {
 		final List<String> ez_files = Files.readLines(new File("test/basic/ez_files.txt"), Charsets.UTF_8);
 		final List<String> args     = new ArrayList<String>();
 		args.addAll(ez_files);
@@ -54,7 +55,7 @@ public class TestBasic {
 		assertEquals(0, c.errorCount());
 	}
 
-	@Ignore @Test public final void testBasic() throws Exception {
+	/*@Ignore*/ @Test public final void testBasic() throws Exception {
 		final List<String>          ez_files   = Files.readLines(new File("test/basic/ez_files.txt"), Charsets.UTF_8);
 		final Map<Integer, Integer> errorCount = new HashMap<Integer, Integer>();
 		int                         index      = 0;
@@ -86,11 +87,9 @@ public class TestBasic {
 
 		Emit.emitting = false;
 
-		c.feedInputs(
-				List_of(s, "-sO").stream()
-						.map(CompilerInput::new)
-						.collect(Collectors.toList()),
-				new DefaultCompilerController());
+		final List<String> args = List_of(s, "-sO");
+		final List<CompilerInput> il = ((CompilationImpl)c).stringListToInputList(args);
+		c.feedInputs(il, new DefaultCompilerController());
 
 		if (c.errorCount() != 0) {
 			System.err.printf("Error count should be 0 but is %d for %s%n", c.errorCount(), s);
@@ -133,18 +132,19 @@ public class TestBasic {
 
 		final Compilation c = CompilationFactory.mkCompilation(new StdErrSink(), new IO());
 
-		c.feedInputs(
-				List_of(s, "-sE").stream() // -sD??
-						.map(CompilerInput::new)
-						.collect(Collectors.toList()),
-				new DefaultCompilerController());
+		final List<String> args = List_of(s, "-sO");
+		final List<CompilerInput> il = ((CompilationImpl)c).stringListToInputList(args);
+		c.feedInputs(il, new DefaultCompilerController());
 
 		if (c.errorCount() != 0)
 			System.err.printf("Error count should be 0 but is %d for %s%n", c.errorCount(), s);
 
 		var qq = c.con().createQualident(List_of("std", "io"));
-
 		assertTrue(c.isPackage(qq.toString()));
+		var qq1 = c.con().createQualident(List_of("std", "collections"));
+		assertTrue(c.isPackage(qq1.toString()));
+		var qq2 = c.con().createQualident(List_of("std", "math"));
+		assertTrue(c.isPackage(qq2.toString()));
 
 		//
 
@@ -169,12 +169,14 @@ public class TestBasic {
 
 	@Ignore
 	@Test
-	public final void testBasic_listfolders4() throws Exception {
+	public final void testBasic_listfolders4() {
 		String s = "test/basic/listfolders4/listfolders4.ez";
 
 		final Compilation  c    = CompilationFactory.mkCompilationSilent(new StdErrSink(), new IO());
 
-		c.feedCmdLine(List_of(s, "-sO"));
+		final List<String> args = List_of(s, "-sO");
+		final List<CompilerInput> il = ((CompilationImpl)c).stringListToInputList(args);
+		c.feedInputs(il, new DefaultCompilerController());
 
 		if (c.errorCount() != 0)
 			System.err.printf("Error count should be 0 but is %d for %s%n", c.errorCount(), s);
@@ -198,7 +200,6 @@ public class TestBasic {
 		assertTrue(c.reports().containsCodeOutput("/listfolders4/Main.c"));
 		assertTrue(c.reports().containsCodeOutput("/Prelude/Prelude.c"));
 		assertTrue(c.reports().containsCodeOutput("/Prelude/Prelude.h"));
-
 	}
 
 	@Test

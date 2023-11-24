@@ -21,7 +21,7 @@ data class NG_OutDep(
 
 
 //	companion object : CM_Module {
-		override fun getFilename(): String = module_.fileName
+		override fun getFilename(): String = module_.fileName.string
 		override fun getModule(): OS_Module = module_
 //	}
 

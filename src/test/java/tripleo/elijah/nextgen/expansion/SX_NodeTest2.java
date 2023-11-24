@@ -18,6 +18,7 @@ import tripleo.elijah.util.Helpers;
 import tripleo.small.ES_Symbol;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static tripleo.elijah.util.Helpers.List_of;
@@ -32,7 +33,7 @@ public class SX_NodeTest2 extends TestCase {
 		final String f = "test/basic2/while100/";
 
 
-		@NotNull final List<CompilerInput> inps = List_of(new CompilerInput(f));
+		@NotNull final List<CompilerInput> inps = List_of(new CompilerInput(f, Optional.of(comp)));
 		comp.feedInputs(inps, new DefaultCompilerController());
 
 		//comp.feedCmdLine(List_of(f));

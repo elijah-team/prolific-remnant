@@ -70,4 +70,8 @@ public interface CM_Filename {
 	default File fileOf() {
 		return new File(getString());
 	}
+
+	default String printableString() {
+		return getString();
+	}
 }

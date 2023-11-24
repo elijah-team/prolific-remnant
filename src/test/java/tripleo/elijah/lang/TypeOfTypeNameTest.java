@@ -15,6 +15,7 @@ import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.comp.PipelineLogic;
 import tripleo.elijah.comp.StdErrSink;
 import tripleo.elijah.comp.i.ErrSink;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.*;
 import tripleo.elijah.nextgen.rosetta.DeduceTypes2.DeduceTypes2Request;
@@ -65,7 +66,7 @@ public class TypeOfTypeNameTest {
 		//
 		// SET UP EXPECTATIONS
 		//
-		when(mod.getFileName()).thenReturn("foo.elijah");
+		when(mod.getFileName()).thenReturn(CM_Filename.of("foo.elijah"));
 		when(c.getErrSink()).thenReturn(e);
 		when(mod.getCompilation()).thenReturn(c);
 		when(ctx.lookup(var_x.getName())).thenReturn(lrl);
@@ -120,7 +121,7 @@ public class TypeOfTypeNameTest {
 		//
 		// SET UP EXPECTATIONS
 		//
-		when(mod.getFileName()).thenReturn("foo.elijah");
+		when(mod.getFileName()).thenReturn(CM_Filename.of("foo.elijah"));
 		when(mod.getCompilation()).thenReturn(c);
 		when(c.getErrSink()).thenReturn(e);
 		when(ctx.lookup("x")).thenReturn(lrl);
