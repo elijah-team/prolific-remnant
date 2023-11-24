@@ -2,6 +2,7 @@ package tripleo.elijah.world.i;
 
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.lang.i.ClassStatement;
 import tripleo.elijah.lang.i.OS_Module;
 import tripleo.elijah.lang.i.OS_Package;
@@ -25,7 +26,7 @@ public interface LivingRepo {
 
 	DefaultLivingFunction addFunction(BaseEvaFunction aFunction, Add aMainFunction);
 
-	void addModule(OS_Module mod, String aFilename, final Compilation aC);
+	void addModule(OS_Module mod, @Nullable CM_Filename aFilename, final Compilation aC);
 
 	LivingFunction addFunction(BaseFunctionDef fd);
 

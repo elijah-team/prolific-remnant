@@ -12,6 +12,7 @@ package tripleo.elijah.slir;
 import org.junit.Ignore;
 import org.junit.Test;
 import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.lang.i.OS_Module;
 import tripleo.elijah.lang.i.OS_Package;
 import tripleo.elijah.lang.impl.OS_ModuleImpl;
@@ -104,7 +105,7 @@ public class TestBasicSlir {
 			final SlirSourceNode sn1 = rsn.newSourceNode(sf1);
 
 			final OS_Module mod = new OS_ModuleImpl();
-			mod.setFileName(sf1.getFilename());
+			mod.setFileName(CM_Filename.of(sf1.getFilename()));
 
 //			mod.setParent(compilation);
 //			compilation.addModule(mod, fn);
@@ -155,7 +156,7 @@ public class TestBasicSlir {
 			final SlirSourceNode sn2 = rsn.newSourceNode(sf0); // fact1.elijah
 
 			final OS_Module mod = new OS_ModuleImpl();
-			mod.setFileName(sf0.getFilename());
+			mod.setFileName(CM_Filename.of(sf0.getFilename()));
 
 			final OS_Package      packageStatement = new OS_PackageImpl(Helpers.string_to_qualident("wprust.demo.fact"), 2);
 			final SlirPackageNode sp1              = sn2.addPackage(packageStatement);
@@ -173,7 +174,7 @@ public class TestBasicSlir {
 			final SlirSourceNode sn3 = rsn.newSourceNode(sf2); // Prelude
 
 			final OS_Module mod = new OS_ModuleImpl();
-			mod.setFileName(sf2.getFilename());
+			mod.setFileName(CM_Filename.of(sf2.getFilename()));
 
 			final OS_Package      packageStatement = new OS_PackageImpl(Helpers.string_to_qualident("Prelude"), 1);
 			final SlirPackageNode sp2              = sn3.addPackage(packageStatement);
@@ -190,7 +191,7 @@ public class TestBasicSlir {
 			final SlirSourceNode sn4 = rsn.newSourceNode(sf3); // collections
 
 			final OS_Module mod = new OS_ModuleImpl();
-			mod.setFileName(sf3.getFilename());
+			mod.setFileName(CM_Filename.of(sf3.getFilename()));
 
 			final OS_Package      packageStatement = new OS_PackageImpl(Helpers.string_to_qualident("std.collections"), 4);
 			final SlirPackageNode sp3              = sn4.addPackage(packageStatement);

@@ -3,6 +3,7 @@ package tripleo.elijah.comp.i;
 import io.reactivex.rxjava3.core.Observer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.ci.i.CompilerInstructions;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.comp.internal.CIS;
@@ -11,6 +12,7 @@ import tripleo.elijah.comp.internal.CompilerBeginning;
 import tripleo.elijah.comp.internal.USE;
 import tripleo.elijah.comp.nextgen.CP_Paths;
 import tripleo.elijah.comp.percy.CN_CompilerInputWatcher;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.lang.i.ClassStatement;
 import tripleo.elijah.lang.i.OS_Module;
 import tripleo.elijah.lang.i.OS_Package;
@@ -45,7 +47,7 @@ public interface Compilation {
 
 	//void setCompilationEnclosure(CompilationEnclosure aCompilationEnclosure);
 
-	void addModule__(@NotNull OS_Module module, @NotNull String fn);
+	void addModule__(@NotNull OS_Module module, @Nullable CM_Filename fn);
 
 	//int compilationNumber();
 

@@ -2,6 +2,7 @@ package tripleo.elijah.comp.internal;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.ci.i.CompilerInstructions;
 import tripleo.elijah.ci.LibraryStatementPart;
 import tripleo.elijah.ci.LibraryStatementPartImpl;
@@ -16,6 +17,7 @@ import tripleo.elijah.comp.i.CompilationEnclosure;
 import tripleo.elijah.comp.i.ErrSink;
 import tripleo.elijah.comp.queries.QuerySourceFileToModule;
 import tripleo.elijah.comp.queries.QuerySourceFileToModuleParams;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.i.OS_Module;
 import tripleo.elijah.util.Helpers;
@@ -46,7 +48,7 @@ public class USE {
 	};
 	private final        Compilation            c;
 	private final        ErrSink                errSink;
-	private final        Map<String, WorldModule> fn2m = new HashMap<String, WorldModule>();
+	private final Map<CM_Filename, WorldModule> fn2m = new HashMap();
 
 	@Contract(pure = true)
 	public USE(final Compilation aCompilation) {
@@ -54,7 +56,7 @@ public class USE {
 		errSink = c.getErrSink();
 	}
 
-	public void addModule(final OS_Module aModule, final String aFn) {
+	public void addModule(final OS_Module aModule, final @Nullable CM_Filename aFn) {
 		final @NotNull CompilationEnclosure ce = c.getCompilationEnclosure();
 		final WorldModule                   module = new DefaultWorldModule(aModule, ce);
 		fn2m.put(aFn, module);
@@ -132,15 +134,18 @@ public class USE {
 	}
 
 	public Operation<WorldModule> realParseElijjahFile(final CompFactory.@NotNull InputRequest aInputRequest) {
-
-
 		var file   = aInputRequest.file();
 		var f      = aInputRequest.file().toString();
 		var do_out = aInputRequest.do_out();
 
-
 		try {
-			final String absolutePath = file.getCanonicalFile().toString();
+			final Operation<CM_Filename> fnop = CM_Filename.fromInputRequestCanonicalFileToStringOperation(aInputRequest);
+
+			if (fnop.mode() == FAILURE) {
+				return Operation.failure(fnop.failure());
+			}
+
+			final CM_Filename absolutePath = fnop.success();
 			if (fn2m.containsKey(absolutePath)) { // don't parse twice
 				final WorldModule m = fn2m.get(absolutePath);
 				return Operation.success(m);
@@ -195,8 +200,10 @@ public class USE {
 	}
 
 	public void use(final @NotNull CompilerInstructions compilerInstructions, final boolean do_out) {
-		final File instruction_dir = new File(compilerInstructions.getFilename()).getParentFile();
-		for (final LibraryStatementPart lsp : compilerInstructions.lsps()) {
+		final CM_Filename filename1 = compilerInstructions.getFilename();
+		final String filename = filename1.getString();
+		final File instruction_dir = new File(filename).getParentFile();
+		for (final LibraryStatementPart lsp : compilerInstructions.getLibraryStatementParts()) {
 			final String dir_name = Helpers.remove_single_quotes_from_string(lsp.getDirName());
 			File         dir;
 			if (dir_name.equals(".."))

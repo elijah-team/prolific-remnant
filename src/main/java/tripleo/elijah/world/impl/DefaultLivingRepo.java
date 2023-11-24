@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.entrypoints.MainClassEntryPoint;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.BaseFunctionDef;
@@ -95,7 +96,7 @@ public class DefaultLivingRepo implements LivingRepo {
 	}
 
 	@Override
-	public void addModule(final @NotNull OS_Module mod, final @NotNull String aFilename, final @NotNull Compilation aC) {
+	public void addModule(final @NotNull OS_Module mod, final @Nullable CM_Filename aFilename, final @NotNull Compilation aC) {
 		aC.addModule__(mod, aFilename);
 	}
 

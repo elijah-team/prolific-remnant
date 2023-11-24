@@ -8,6 +8,7 @@ import tripleo.elijah.comp.CompilerInput;
 import tripleo.elijah.comp.Finally;
 import tripleo.elijah.comp.queries.QueryEzFileToModule;
 import tripleo.elijah.comp.queries.QueryEzFileToModuleParams;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.util.Helpers;
 import tripleo.elijah.util.Operation;
 import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
@@ -105,7 +106,7 @@ class EzM {
 			}
 
 			final CompilerInstructions R = cio.success();
-			R.setFilename(file.toString());
+			R.setFilename(CM_Filename.fromFileToString(file));
 			c.fn2ci().put(absolutePath, R);
 			return cio;
 		} finally {

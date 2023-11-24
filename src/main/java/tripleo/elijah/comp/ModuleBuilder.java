@@ -6,6 +6,7 @@ import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.comp.i.CompilationFlow;
 import tripleo.elijah.comp.impl.DefaultCompilationFlow;
 import tripleo.elijah.comp.internal.CompilationImpl;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.contexts.ModuleContext;
 import tripleo.elijah.lang.i.OS_Module;
 import tripleo.elijah.lang.impl.OS_ModuleImpl;
@@ -17,7 +18,7 @@ public class ModuleBuilder {
 	//		private final Compilation compilation;
 	private final @NotNull OS_Module mod;
 	private                boolean   _addToCompilation = false;
-	private @Nullable      String    _fn               = null;
+	private @Nullable      CM_Filename    _fn               = null;
 
 	public ModuleBuilder(@NotNull Compilation aCompilation) {
 //			compilation = aCompilation;
@@ -45,7 +46,7 @@ public class ModuleBuilder {
 		return this;
 	}
 
-	public @NotNull ModuleBuilder withFileName(String aFn) {
+	public @NotNull ModuleBuilder withFileName(CM_Filename aFn) {
 		_fn = aFn;
 		mod.setFileName(aFn);
 		return this;
@@ -69,5 +70,9 @@ public class ModuleBuilder {
 		mod.setPrelude(p[0].success().module());
 
 		return this;
+	}
+
+	public ModuleBuilder withFileName(final String aS) {
+		return withFileName(CM_Filename.of(aS));
 	}
 }

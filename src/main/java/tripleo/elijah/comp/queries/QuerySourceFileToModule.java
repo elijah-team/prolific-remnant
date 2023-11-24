@@ -5,6 +5,7 @@ import antlr.TokenStreamException;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.comp.internal.Out;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.lang.i.OS_Module;
 import tripleo.elijah.nextgen.query.QueryDatabase;
 import tripleo.elijah.util.NotImplementedException;
@@ -42,6 +43,8 @@ public class QuerySourceFileToModule {
 		}
 		final OS_Module module = parser.out.module();
 		parser.out = null;
+//		module.setFileName(CM_Filename.fromAbsolutePath(absolutePath, f));
+		module.setFileName(CM_Filename.fromParams(f));
 		return Operation.success(module);
 	}
 

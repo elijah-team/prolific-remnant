@@ -18,6 +18,7 @@ import tripleo.elijah.comp.*;
 import tripleo.elijah.comp.i.*;
 import tripleo.elijah.comp.nextgen.CP_Paths;
 import tripleo.elijah.comp.percy.CN_CompilerInputWatcher;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.lang.i.ClassStatement;
 import tripleo.elijah.lang.i.OS_Module;
 import tripleo.elijah.lang.i.OS_Package;
@@ -209,7 +210,7 @@ public class CompilationImpl implements Compilation {
 	}
 
 	@Override
-	public void addModule__(final @NotNull OS_Module module, final @NotNull String fn) {
+	public void addModule__(final @NotNull OS_Module module, final @Nullable CM_Filename fn) {
 		modules.add(module);
 		use.addModule(module, fn);
 	}

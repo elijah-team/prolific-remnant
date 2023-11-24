@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.ci.LibraryStatementPart;
 import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.contexts.ModuleContext;
 import tripleo.elijah.entrypoints.EntryPoint;
 import tripleo.elijah.lang2.ElElementVisitor;
@@ -24,7 +25,7 @@ public interface OS_Module extends OS_Element {
 
 	@Override Context getContext();
 
-	String getFileName();
+	CM_Filename getFileName();
 
 	@Override @Nullable OS_Element getParent();
 
@@ -46,7 +47,7 @@ public interface OS_Module extends OS_Element {
 
 	void setContext(ModuleContext mctx);
 
-	void setFileName(String fileName);
+	void setFileName(CM_Filename fileName);
 
 	void setIndexingStatement(IndexingStatement idx);
 
