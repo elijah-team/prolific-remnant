@@ -79,7 +79,7 @@ public class CM_CompilerInput {
         return f;
     }
 
-    public void extracted() {
+    public void onIsEz() {
         final ILazyCompilerInstructions ilci = ILazyCompilerInstructions.of(carrier, comp.getCompilationClosure());
 
         final Maybe<ILazyCompilerInstructions> m4 = new Maybe<>(ilci, null);
