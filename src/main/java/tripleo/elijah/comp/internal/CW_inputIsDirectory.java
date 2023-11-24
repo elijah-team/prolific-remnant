@@ -26,9 +26,11 @@ public class CW_inputIsDirectory {
 							 final @NotNull Compilation c,
 							 final @NotNull File f) {
 		CompilerInstructions ez_file;
-		input.setDirectory(f);
 
-		final List<CompilerInstructions> ezs = searchEzFiles(f, c.getCompilationClosure());
+		final CM_CompilerInput cm = c.getCompilation().get(input);
+		cm.setDirectory(f);
+
+		final List<CompilerInstructions> ezs = searchEzFiles(f, c);
 
         switch (ezs.size()) {
             case 0 -> {
