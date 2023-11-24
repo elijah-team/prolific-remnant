@@ -17,6 +17,7 @@ import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public record GN_GenerateNodesIntoSinkEnv(List<ProcessedNode> lgc,
@@ -39,10 +40,8 @@ public record GN_GenerateNodesIntoSinkEnv(List<ProcessedNode> lgc,
 
 
 		final CompilerInstructions ci    = lsp.getInstructions();
-		final @Nullable String     lang2 = ci.genLang();
-
-
-		final @Nullable String lang = lang2 == null ? "c" : lang2;
+		final Optional<String> lang3 = ci.genLang();
+		final String lang = (lang3).orElse("c");
 		return lang;
 	}
 
