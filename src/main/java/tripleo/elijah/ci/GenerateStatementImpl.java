@@ -9,11 +9,14 @@
 package tripleo.elijah.ci;
 
 import antlr.Token;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.lang.i.IExpression;
+import tripleo.elijah.xlang.LocatableString;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created 9/6/20 12:04 PM
@@ -21,29 +24,25 @@ import java.util.List;
 public class GenerateStatementImpl implements GenerateStatement {
 	@Override
 	public void addDirective(final @NotNull Token token, final IExpression expression) {
-		dirs.add(new Directive(token, expression));
+		dirs.add(new Directive(LocatableString.of(token), expression));
 	}
 
 	public final List<Directive> dirs = new ArrayList<Directive>();
 
-	public class Directive {
-
+	@Getter
+	public static class Directive {
 		private final IExpression expression;
-		private final String      name;
+		private final @NotNull LocatableString name;
 
-		public Directive(final @NotNull Token token_, final IExpression expression_) {
-			name       = token_.getText();
+		public Directive(final @NotNull LocatableString token_, final IExpression expression_) {
+			name       = token_;
 			expression = expression_;
 		}
 
-		public IExpression getExpression() {
-			return expression;
-		}
-
-		public String getName() {
-			return name;
-		}
-	}
+		public boolean sameName(String aName) {
+			return Objects.equals(aName, this.name);
+        }
+    }
 }
 
 //
