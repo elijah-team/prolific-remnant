@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.ci.*;
 import tripleo.elijah.ci.i.CompilerInstructions;
+import tripleo.elijah.ci_impl.*;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.*;
 import tripleo.elijah.lang.types.OS_BuiltinType;
@@ -15,152 +16,8 @@ import tripleo.elijah.lang2.BuiltInTypes;
 import tripleo.elijah.xlang.LocatableString;
 
 public class EzParser extends antlr.LLkParser implements EzTokenTypes {
-
-	public static final String[] _tokenNames  = {
-			"<0>",
-			"EOF",
-			"<2>",
-			"NULL_TREE_LOOKAHEAD",
-			"\"program\"",
-			"\"library\"",
-			"\"shared\"",
-			"IDENT",
-			"\"end\"",
-			"\"lib\"",
-			"\"libraries\"",
-			"TOK_COLON",
-			"STRING_LITERAL",
-			"LBRACK",
-			"RBRACK",
-			"\"generate\"",
-			"\"indexing\"",
-			"CHAR_LITERAL",
-			"NUM_INT",
-			"NUM_FLOAT",
-			"DOT",
-			"SEMI",
-			"COMMA",
-			"LPAREN",
-			"RPAREN",
-			"BECOMES",
-			"PLUS_ASSIGN",
-			"MINUS_ASSIGN",
-			"STAR_ASSIGN",
-			"DIV_ASSIGN",
-			"MOD_ASSIGN",
-			"SR_ASSIGN",
-			"BSR_ASSIGN",
-			"SL_ASSIGN",
-			"BAND_ASSIGN",
-			"BXOR_ASSIGN",
-			"BOR_ASSIGN",
-			"LOR",
-			"LAND",
-			"BOR",
-			"BXOR",
-			"BAND",
-			"NOT_EQUAL",
-			"EQUAL",
-			"LT_",
-			"GT",
-			"LE",
-			"GE",
-			"SL",
-			"SR",
-			"BSR",
-			"PLUS",
-			"MINUS",
-			"STAR",
-			"DIV",
-			"MOD",
-			"INC",
-			"DEC",
-			"BNOT",
-			"LNOT",
-			"\"true\"",
-			"\"false\"",
-			"\"this\"",
-			"\"null\"",
-			"QUESTION",
-			"LCURLY",
-			"RCURLY",
-			"TOK_ARROW",
-			"ANNOT",
-			"WS",
-			"SL_COMMENT",
-			"ML_COMMENT",
-			"ESC",
-			"HEX_DIGIT",
-			"VOCAB",
-			"EXPONENT",
-			"FLOAT_SUFFIX"
-	};
-	public static final BitSet   _tokenSet_0  = new BitSet(mk_tokenSet_0());
-	public static final BitSet   _tokenSet_1  = new BitSet(mk_tokenSet_1());
-	public static final BitSet   _tokenSet_10 = new BitSet(mk_tokenSet_10());
-	public static final BitSet   _tokenSet_11 = new BitSet(mk_tokenSet_11());
-	public static final BitSet   _tokenSet_2  = new BitSet(mk_tokenSet_2());
-	public static final BitSet   _tokenSet_3  = new BitSet(mk_tokenSet_3());
-	public static final BitSet   _tokenSet_4  = new BitSet(mk_tokenSet_4());
-	public static final BitSet   _tokenSet_5  = new BitSet(mk_tokenSet_5());
-	public static final BitSet   _tokenSet_6  = new BitSet(mk_tokenSet_6());
-	public static final BitSet   _tokenSet_7  = new BitSet(mk_tokenSet_7());
-	public static final BitSet   _tokenSet_8  = new BitSet(mk_tokenSet_8());
-	public static final BitSet   _tokenSet_9  = new BitSet(mk_tokenSet_9());
-
-	private static final long[] mk_tokenSet_0() {
-		long[] data = {2L, 0L};
-		return data;
-	}
-
-	private static final long[] mk_tokenSet_1() {
-		long[] data = {112L, 0L};
-		return data;
-	}
-
-	public @NotNull CompilerInstructions ci  = new CompilerInstructionsImpl();
-	@Nullable       Context              cur = null;
-
-	private static final long[] mk_tokenSet_2() {
-		long[] data = {32768L, 0L};
-		return data;
-	}
-
-	private static final long[] mk_tokenSet_3() {
-		long[] data = {256L, 0L};
-		return data;
-	}
-
-	private static final long[] mk_tokenSet_4() {
-		long[] data = {36992L, 0L};
-		return data;
-	}
-
-	private static final long[] mk_tokenSet_5() {
-		long[] data = {288230376148591088L, 0L};
-		return data;
-	}
-
-	private static final long[] mk_tokenSet_6() {
-		long[] data = {16793840L, 0L};
-		return data;
-	}
-
-	private static final long[] mk_tokenSet_7() {
-		long[] data = {4194306L, 0L};
-		return data;
-	}
-
-	private static final long[] mk_tokenSet_8() {
-		long[] data = {288230376148591090L, 0L};
-		return data;
-	}
-
-	private static final long[] mk_tokenSet_9() {
-		long[] data = {-65302194587553664L, 0L};
-		return data;
-	}
-
+	public @NotNull CompilerInstructions.CompilerInstructionsBuilder ci = new CompilerInstructionsBuilderImpl();
+	@Nullable Context cur = null;
 	@Nullable IExpression expr;
 
 	public EzParser(ParserSharedInputState state) {
@@ -1543,7 +1400,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 			{
 				switch (LA(1)) {
 				case LITERAL_indexing: {
-					indexingStatement(ci.indexingStatement());
+					indexingStatement(ci.createIndexingStatement());
 					break;
 				}
 				case LITERAL_program:
@@ -1888,4 +1745,144 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 		return ee;
 	}
 
+	public static final String[] _tokenNames  = {
+			"<0>",
+			"EOF",
+			"<2>",
+			"NULL_TREE_LOOKAHEAD",
+			"\"program\"",
+			"\"library\"",
+			"\"shared\"",
+			"IDENT",
+			"\"end\"",
+			"\"lib\"",
+			"\"libraries\"",
+			"TOK_COLON",
+			"STRING_LITERAL",
+			"LBRACK",
+			"RBRACK",
+			"\"generate\"",
+			"\"indexing\"",
+			"CHAR_LITERAL",
+			"NUM_INT",
+			"NUM_FLOAT",
+			"DOT",
+			"SEMI",
+			"COMMA",
+			"LPAREN",
+			"RPAREN",
+			"BECOMES",
+			"PLUS_ASSIGN",
+			"MINUS_ASSIGN",
+			"STAR_ASSIGN",
+			"DIV_ASSIGN",
+			"MOD_ASSIGN",
+			"SR_ASSIGN",
+			"BSR_ASSIGN",
+			"SL_ASSIGN",
+			"BAND_ASSIGN",
+			"BXOR_ASSIGN",
+			"BOR_ASSIGN",
+			"LOR",
+			"LAND",
+			"BOR",
+			"BXOR",
+			"BAND",
+			"NOT_EQUAL",
+			"EQUAL",
+			"LT_",
+			"GT",
+			"LE",
+			"GE",
+			"SL",
+			"SR",
+			"BSR",
+			"PLUS",
+			"MINUS",
+			"STAR",
+			"DIV",
+			"MOD",
+			"INC",
+			"DEC",
+			"BNOT",
+			"LNOT",
+			"\"true\"",
+			"\"false\"",
+			"\"this\"",
+			"\"null\"",
+			"QUESTION",
+			"LCURLY",
+			"RCURLY",
+			"TOK_ARROW",
+			"ANNOT",
+			"WS",
+			"SL_COMMENT",
+			"ML_COMMENT",
+			"ESC",
+			"HEX_DIGIT",
+			"VOCAB",
+			"EXPONENT",
+			"FLOAT_SUFFIX"
+	};
+	public static final BitSet   _tokenSet_0  = new BitSet(mk_tokenSet_0());
+	public static final BitSet   _tokenSet_1  = new BitSet(mk_tokenSet_1());
+	public static final BitSet   _tokenSet_10 = new BitSet(mk_tokenSet_10());
+	public static final BitSet   _tokenSet_11 = new BitSet(mk_tokenSet_11());
+	public static final BitSet   _tokenSet_2  = new BitSet(mk_tokenSet_2());
+	public static final BitSet   _tokenSet_3  = new BitSet(mk_tokenSet_3());
+	public static final BitSet   _tokenSet_4  = new BitSet(mk_tokenSet_4());
+	public static final BitSet   _tokenSet_5  = new BitSet(mk_tokenSet_5());
+	public static final BitSet   _tokenSet_6  = new BitSet(mk_tokenSet_6());
+	public static final BitSet   _tokenSet_7  = new BitSet(mk_tokenSet_7());
+	public static final BitSet   _tokenSet_8  = new BitSet(mk_tokenSet_8());
+	public static final BitSet   _tokenSet_9  = new BitSet(mk_tokenSet_9());
+
+	private static final long[] mk_tokenSet_0() {
+		long[] data = {2L, 0L};
+		return data;
+	}
+
+	private static final long[] mk_tokenSet_1() {
+		long[] data = {112L, 0L};
+		return data;
+	}
+	private static final long[] mk_tokenSet_2() {
+		long[] data = {32768L, 0L};
+		return data;
+	}
+
+	private static final long[] mk_tokenSet_3() {
+		long[] data = {256L, 0L};
+		return data;
+	}
+
+	private static final long[] mk_tokenSet_4() {
+		long[] data = {36992L, 0L};
+		return data;
+	}
+
+	private static final long[] mk_tokenSet_5() {
+		long[] data = {288230376148591088L, 0L};
+		return data;
+	}
+
+	private static final long[] mk_tokenSet_6() {
+		long[] data = {16793840L, 0L};
+		return data;
+	}
+
+	private static final long[] mk_tokenSet_7() {
+		long[] data = {4194306L, 0L};
+		return data;
+	}
+
+	private static final long[] mk_tokenSet_8() {
+		long[] data = {288230376148591090L, 0L};
+		return data;
+	}
+
+	private static final long[] mk_tokenSet_9() {
+		long[] data = {-65302194587553664L, 0L};
+		return data;
+	}
 }

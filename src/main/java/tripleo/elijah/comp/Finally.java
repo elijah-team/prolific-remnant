@@ -62,7 +62,7 @@ public class Finally {
 	}
 
 	public interface Nameable {
-		String getName();
+		String getNameableString();
 	}
 
 	public static class Input {
@@ -75,13 +75,13 @@ public class Finally {
 		}
 
 		public String name() {
-			return nameable.getName();
+			return nameable.getNameableString();
 		}
 
 		@Override
 		public String toString() {
 			return "Input{" +
-					"nameable=" + nameable.getName().toString() +
+					"nameable=" + nameable.getNameableString().toString() +
 					", ty=" + ty +
 					'}';
 		}

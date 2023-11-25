@@ -8,12 +8,9 @@
  */
 package tripleo.elijah.ci.i;
 
-import antlr.Token;
-import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.ci.CiIndexingStatement;
 import tripleo.elijah.ci.GenerateStatement;
 import tripleo.elijah.ci.LibraryStatementPart;
-
 import tripleo.elijah.xlang.LocatableString;
 import tripleo.elijah.compiler_model.CM_Filename;
 
@@ -40,7 +37,8 @@ public interface CompilerInstructions {
 	CiIndexingStatement indexingStatement();
 
 	void setName(LocatableString name);
-	public interface CompilerInstructionsBuilder {
+
+	interface CompilerInstructionsBuilder {
 		CompilerInstructions build();
 
 		void add(GenerateStatement generateStatement);

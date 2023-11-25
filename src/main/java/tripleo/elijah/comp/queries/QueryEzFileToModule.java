@@ -35,7 +35,7 @@ public class QueryEzFileToModule {
 		} catch (TokenStreamException aE) {
 			return Operation.failure(aE);
 		}
-		final CompilerInstructions instructions = parser.ci;
+		final CompilerInstructions instructions = parser.ci.build();
 		return Operation.success(instructions);
 	}
 
