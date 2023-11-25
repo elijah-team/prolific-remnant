@@ -10,7 +10,6 @@
 package tripleo.elijah.ci;
 
 import antlr.Token;
-import tripleo.elijah.ci.i.CompilerInstructions;
 import tripleo.elijah.lang.i.IExpression;
 
 public interface LibraryStatementPart {

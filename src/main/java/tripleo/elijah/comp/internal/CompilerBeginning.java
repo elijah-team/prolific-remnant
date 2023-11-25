@@ -1,6 +1,6 @@
 package tripleo.elijah.comp.internal;
 
-import tripleo.elijah.ci.i.CompilerInstructions;
+import tripleo.elijah.ci.CompilerInstructions;
 import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.comp.CompilerInput;
 import tripleo.elijah.comp.i.IProgressSink;

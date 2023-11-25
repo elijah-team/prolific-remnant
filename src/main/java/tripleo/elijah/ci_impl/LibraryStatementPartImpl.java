@@ -6,12 +6,13 @@
  * http://www.gnu.org/licenses/lgpl.html from `Version 3, 29 June 2007'
  *
  */
-package tripleo.elijah.ci;
+package tripleo.elijah.ci_impl;
 
 import antlr.Token;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.ci.i.CompilerInstructions;
+import tripleo.elijah.ci.*;
+import tripleo.elijah.ci.CompilerInstructions;
 import tripleo.elijah.lang.i.IExpression;
 
 import java.util.ArrayList;
