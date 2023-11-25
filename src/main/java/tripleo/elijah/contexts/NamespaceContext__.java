@@ -51,7 +51,7 @@ public class NamespaceContext__ extends ContextImpl implements NamespaceContext 
 					&& !(item instanceof FunctionDef) && !(item instanceof PropertyStatement))
 				continue;
 			if (item instanceof OS_NamedElement) {
-				if (((OS_NamedElement) item).name().equals(name)) {
+				if (((OS_NamedElement) item).name().sameName(name)) {
 					Result.add(name, level, item, this);
 				}
 			}

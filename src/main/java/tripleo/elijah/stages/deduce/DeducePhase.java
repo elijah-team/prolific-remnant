@@ -1053,7 +1053,7 @@ public class DeducePhase extends _RegistrationTarget implements ReactiveDimensio
 			//final ClassDefinition[] yy = new ClassDefinition[1];
 			//x.then(y -> yy[0] =y);
 			//return yy[0];
-			return x;
+			return (@NotNull ClassInvocation) x;
 		}
 
 		private @NotNull ClassInvocation getClassInvocation(final @NotNull ClassInvocation aClassInvocation, OS_Module mod, final WorkList wl, final @NotNull RegisterClassInvocation_env aEnv) {
