@@ -35,7 +35,6 @@
     </properties>
 
     <dependencies>
-
         <!-- https://mvnrepository.com/artifact/com.tngtech.archunit/archunit-junit4 -->
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
@@ -59,11 +58,11 @@
         </dependency>
 
         <!--
-                <dependency>
-                    <groupId>com.github.dritter-hd</groupId>
-                    <artifactId>dlog</artifactId>
-                    <version>1.0.0</version>
-                </dependency>
+        <dependency>
+            <groupId>com.github.dritter-hd</groupId>
+            <artifactId>dlog</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         -->
 
         <dependency>
@@ -244,8 +243,6 @@
             <url>https://maven.pkg.github.com/elijah-team/prolific-remnant</url>
         </repository>
     </distributionManagement>
-
-
     <!--
     <distributionManagement>
         <repository>
@@ -256,23 +253,8 @@
 -->
 
     <build>
-        <!--
         <plugins>
-        <plugin>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr4-maven-plugin</artifactId>
-            <version>4.7.1</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>antlr4</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-        </plugins>
-        -->
-        <plugins>
+<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -283,16 +265,18 @@
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>3.0.0-M5</version>
             </plugin>
+-->
 
+<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <!--
+                    &lt;!&ndash;
                                         <outputDirectory>/absolute/path/to/the/output/directory</outputDirectory>
                                         <finalName>filename-of-generated-jar-file</finalName>
-                    -->
+                    &ndash;&gt;
                     <attach>true</attach>
                 </configuration>
                 <executions>
@@ -304,6 +288,7 @@
                     </execution>
                 </executions>
             </plugin>
+-->
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
@@ -336,6 +321,7 @@
                     <jvmTarget>${maven.compiler.target}</jvmTarget>
                 </configuration>
             </plugin>
+<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -369,6 +355,7 @@
                     <target>16</target>
                 </configuration>
             </plugin>
+-->
         </plugins>
     </build>
 </project>
