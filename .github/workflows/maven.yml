@@ -5,9 +5,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "pr-mainline-k" ]
+    branches: [ "pr-mainline-k", "pr-cogent-w" ]
   pull_request:
-    branches: [ "pr-mainline-k",  "pr-fluffy-move2", "pr-cogent" ]
+    branches: [ "pr-mainline-k", "pr-cogent-w" ]
 
 jobs:
   build:
