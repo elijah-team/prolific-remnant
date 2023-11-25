@@ -9,55 +9,91 @@
 
 package tripleo.elijah.stages.gen_c;
 
-import org.jetbrains.annotations.*;
-import org.junit.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
-
-import static org.easymock.EasyMock.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import tripleo.elijah.context_mocks.ContextMock;
+import tripleo.elijah.contexts.*;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.ClassStatementImpl;
+import tripleo.elijah.lang.impl.FunctionDefImpl;
+import tripleo.elijah.lang.impl.OS_ModuleImpl;
+import tripleo.elijah.stages.gen_fn.EvaFunction;
+import tripleo.elijah.stages.gen_fn.TypeTableEntry;
+import tripleo.elijah.stages.instructions.IdentIA;
+import tripleo.elijah.stages.instructions.IntegerIA;
+import tripleo.elijah.stages.instructions.VariableTableType;
+import tripleo.elijah.test_help.Boilerplate;
+import tripleo.elijah.test_help.XX;
 
 public class GetRealTargetNameTest {
-
-	EvaFunction gf;
-	OS_Module         mod;
+	private EvaFunction gf;
+	private OS_Module   mod;
+	private Boilerplate boilerPlate; // NOTE hmm. (reduce) boilerplate reductionism
 
 	@Before
 	public void setUp() throws Exception {
-		mod = mock(OS_Module.class);
-		final FunctionDef fd = mock(FunctionDef.class);
+		//mod = mock(OS_Module.class);
+		//FunctionDef fd = mock(FunctionDef.class);
+
+		final OS_Module      mod2 = new OS_ModuleImpl();
+		final ModuleContext  ctx  = new ModuleContext__(mod2);
+		final ClassStatement cs   = new ClassStatementImpl(mod2, ctx);
+
+
+		FunctionDef fd = new FunctionDefImpl(cs, ctx);
 		gf = new EvaFunction(fd);
+
+		boilerPlate = new Boilerplate();
+		boilerPlate.get();
 	}
 
-	@Ignore  @Test
+	@Ignore
+	@Test // too complicated
 	public void testManualXDotFoo() {
-		final IdentExpression          x_ident   = Helpers.string_to_ident("x");
-		@NotNull final IdentExpression foo_ident = Helpers.string_to_ident("foo");
+		Emit.emitting = false;
+
+		final XX              factory = new XX();
+		final IdentExpression x_ident = factory.makeIdent("x");
+
+		final Context foo_ctx = new ContextMock();
+
+		final IdentExpression foo_ident = factory.makeIdent("foo", foo_ctx);
+
 		//
 		// create x.foo, where x is a VAR and foo is unknown
 		// neither has type information
 		// GenerateC#getRealTargetName doesn't use type information
 		// TODO but what if foo was a property instead of a member
 		//
-		final OS_Type        type      = null;
-		final TypeTableEntry tte       = gf.newTypeTableEntry(TypeTableEntry.Type.SPECIFIED, type, x_ident);
-		final int            int_index = gf.addVariableTableEntry("x", VariableTableType.VAR, tte, mock(VariableStatement.class));
-		final int            ite_index = gf.addIdentTableEntry(foo_ident, null);
-		final IdentIA        ident_ia  = new IdentIA(ite_index, gf);
-		ident_ia.setPrev(new IntegerIA(int_index, gf));
+		final TypeTableEntry    tte       = factory.regularTypeName_specifyTableEntry(x_ident, gf, "X_Type");
+		final VariableStatement x_var     = factory.sequenceAndVarNamed(x_ident);
+		final int               int_index = gf.addVariableTableEntry("x", VariableTableType.VAR, tte, x_var);
+		final int               ite_index = gf.addIdentTableEntry(foo_ident, null);
+		final IdentIA           ident_ia  = new IdentIA(ite_index, gf);
+		final IntegerIA         integerIA = new IntegerIA(int_index, gf);
+		ident_ia.setPrev(integerIA);
+
+		final Context ctx = new ContextMock();
+		// TODO 11/08 specify times can be called as well? (as was with Mockito)
+		ctx.expect(x_ident.getText(), x_var).andContributeResolve(null);
+
+		final OS_Module   mod   = boilerPlate.defaultMod();
+
+		//ident_ia.getEntry().setDeduceTypes2(deduceTypes2, foo_ctx, gf); // TODO 11/08 doesn't work??
+		ident_ia.getEntry()._fix_table(boilerPlate.defaultDeduceTypes2(mod), gf);
+
+		//final GenType genType = factory.makeGenType(tte);
+		//integerIA.getEntry().resolveType(genType);
+
 		//
-		final AccessBus               ab = new AccessBus(new CompilationImpl(new StdErrSink(), new IO()));
-		final PipelineLogic           pl = new PipelineLogic(ab);
-		final OutputFileFactoryParams p  = new OutputFileFactoryParams(mod, new StdErrSink(), ElLog.Verbosity.SILENT, pl);  // TODO do we want silent?
-		final GenerateC               c  = new GenerateC(p);
 		//
-		Emit.emitting = false;
-		final String x = c.getRealTargetName(gf, ident_ia, Generate_Code_For_Method.AOG.GET, null); // TODO is null correct?
+		//
+
+		boilerPlate.getGenerateFiles(mod);
+
+		String x = ((GenerateC) boilerPlate.generateFiles).getRealTargetName(gf, ident_ia, Generate_Code_For_Method.AOG.GET, null);
 		Assert.assertEquals("vvx->vmfoo", x);
 	}
 }

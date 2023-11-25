@@ -6,11 +6,14 @@
  * http://www.gnu.org/licenses/lgpl.html from `Version 3, 29 June 2007'
  *
  */
-package tripleo.elijah.lang;
+package tripleo.elijah.lang.impl;
 
-import antlr.*;
+import antlr.Token;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created 12/27/20 8:50 AM
@@ -20,14 +23,15 @@ public abstract class AbstractScope2 implements Scope {
 
 	private List<String> docstrings;
 
-	protected AbstractScope2(final OS_Element aParent) {
+	protected AbstractScope2(OS_Element aParent) {
 		_Parent = aParent;
 	}
 
 	@Override
-	public void statementWrapper(final IExpression aExpr) {
-		// TODO is getParent.getContext right?
-		add(new StatementWrapper(aExpr, getParent().getContext(), getParent()));
+	public void addDocString(@NotNull Token s1) {
+		if (docstrings == null)
+			docstrings = new ArrayList<String>();
+		docstrings.add(s1.getText());
 	}
 
 //	@Override
@@ -35,23 +39,8 @@ public abstract class AbstractScope2 implements Scope {
 //	}
 
 	@Override
-	public BlockStatement blockStatement() {
-		return new BlockStatement(this);
-	}
-
-	@Override
-	public TypeAliasStatement typeAlias() {
-		return new TypeAliasStatement(getParent());
-	}
-
-	@Override
-	public InvariantStatement invariantStatement() {
-		return new InvariantStatement();
-	}
-
-	@Override
-	public OS_Element getParent() {
-		return _Parent;
+	public @NotNull BlockStatement blockStatement() {
+		return new BlockStatementImpl(this);
 	}
 
 	@Override
@@ -60,10 +49,24 @@ public abstract class AbstractScope2 implements Scope {
 	}
 
 	@Override
-	public void addDocString(final Token s1) {
-		if (docstrings == null)
-			docstrings = new ArrayList<String>();
-		docstrings.add(s1.getText());
+	public OS_Element getParent() {
+		return _Parent;
+	}
+
+	@Override
+	public @NotNull IInvariantStatement invariantStatement() {
+		return new InvariantStatementImpl();
+	}
+
+	@Override
+	public void statementWrapper(IExpression aExpr) {
+		// TODO is getParent.getContext right?
+		add(new StatementWrapperImpl(aExpr, getParent().getContext(), getParent()));
+	}
+
+	@Override
+	public @NotNull TypeAliasStatement typeAlias() {
+		return new TypeAliasStatementImpl(getParent());
 	}
 }
 

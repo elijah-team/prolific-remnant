@@ -8,22 +8,27 @@
  */
 package tripleo.elijah.contexts;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.ContextImpl;
 
 /**
  * @author Tripleo
  * <p>
  * Created 	Mar 26, 2020 at 9:24:44 PM
  */
-public class DefFunctionContext extends Context {
+public class DefFunctionContext extends ContextImpl {
 
 	private final DefFunctionDef carrier;
 
 	public DefFunctionContext(final DefFunctionDef functionDef) {
 		carrier = functionDef;
+	}
+
+	@Override
+	public @Nullable Context getParent() {
+		return null;
 	}
 
 	/**
@@ -35,15 +40,10 @@ public class DefFunctionContext extends Context {
 	 * @return
 	 */
 	@Override
-	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final List<Context> alreadySearched, final boolean one) {
-//		final LookupResultList Result = new LookupResultList();
+	public LookupResultList lookup(final String name, final int level, @NotNull final LookupResultList Result, @NotNull final ISearchList alreadySearched, final boolean one) {
+//		final LookupResultList Result = new LookupResultListImpl();
 		alreadySearched.add(carrier.getContext());
 		return getParent().lookup(name, level, Result, alreadySearched, one);
-	}
-
-	@Override
-	public @Nullable Context getParent() {
-		return null;
 	}
 
 }

@@ -4059,7 +4059,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	}
 
 	public final void invariantStatement(
-			InvariantStatement cr
+			IInvariantStatement cr
 										) throws RecognitionException, TokenStreamException {
 
 		Token                  i1  = null;
@@ -4575,7 +4575,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 			}
 			match(LCURLY);
 			if (inputState.guessing == 0) {
-				ctx = new NamespaceContext(cur, cls);
+				ctx = new NamespaceContext__(cur, cls);
 				cls.setContext(ctx);
 				cur = ctx;
 			}
@@ -4978,7 +4978,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	public final void program() throws RecognitionException, TokenStreamException {
 
 		ParserClosure pc   = out.closure();
-		ModuleContext mctx = new ModuleContext(out.module());
+		ModuleContext mctx = new ModuleContext__(out.module());
 		out.module().setContext(mctx);
 		cur = mctx;
 		IndexingStatement idx = null;

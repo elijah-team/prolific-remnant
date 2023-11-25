@@ -6,25 +6,27 @@
  * http://www.gnu.org/licenses/lgpl.html from `Version 3, 29 June 2007'
  *
  */
-package tripleo.elijah.lang;
+package tripleo.elijah.lang.impl;
 
-import antlr.*;
+import antlr.Token;
+import tripleo.elijah.lang.i.*;
 
 /**
  * @author Tripleo
  * <p>
- * Created 	Apr 19, 2020 at 00:32:00 AM
+ * Created Apr 19, 2020 at 00:32:00 AM
  */
-public class InvariantStatementPart {
-	private final Token              name;
-	private final InvariantStatement parent;
+public class InvariantStatementPartImpl implements InvariantStatementPart {
 	private       IExpression        expr;
+	private final Token              name;
+	private final IInvariantStatement parent;
 
-	public InvariantStatementPart(final InvariantStatement cr, final Token token) {
+	public InvariantStatementPartImpl(final IInvariantStatement cr, final Token token) {
 		this.parent = cr;
 		this.name   = token;
 	}
 
+	@Override
 	public void setExpr(final IExpression expr) {
 		this.expr = expr;
 	}
