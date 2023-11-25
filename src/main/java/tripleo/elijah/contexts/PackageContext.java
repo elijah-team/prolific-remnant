@@ -30,7 +30,7 @@ public class PackageContext extends ContextImpl {
 	}
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final @NotNull LookupResultList Result, final @NotNull SearchList alreadySearched, final boolean one) {
+	public LookupResultList lookup(final String name, final int level, final @NotNull LookupResultList Result, final @NotNull ISearchList alreadySearched, final boolean one) {
 		alreadySearched.add(this);
 		for (OS_Element element : carrier.getElements()) {
 			if (element instanceof final @NotNull OS_NamedElement element2) {

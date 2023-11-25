@@ -160,7 +160,7 @@ public class ClassStatementImpl extends _CommonNC implements ClassItem, tripleo.
 	// region inheritance
 
 	@Override
-	public @org.jetbrains.annotations.Nullable InvariantStatement invariantStatement() {
+	public @org.jetbrains.annotations.Nullable IInvariantStatement invariantStatement() {
 		NotImplementedException.raise();
 		return null;
 	}

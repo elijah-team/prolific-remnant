@@ -17,10 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.comp.Finally;
 import tripleo.elijah.diagnostic.Diagnostic;
-import tripleo.elijah.lang.i.Context;
-import tripleo.elijah.lang.i.LookupResultList;
-import tripleo.elijah.lang.i.OS_Element;
-import tripleo.elijah.lang.i.RegularTypeName;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.ContextImpl;
 import tripleo.elijah.lang.impl.VariableStatementImpl;
 import tripleo.elijah.stages.deduce.nextgen.DR_Ident;
@@ -320,7 +317,7 @@ public class DeducePath {
 		}
 
 		@Override
-		public @Nullable LookupResultList lookup(String name, int level, LookupResultList Result, SearchList alreadySearched, boolean one) {
+		public LookupResultList lookup(final String name, final int level, @NotNull final LookupResultList Result, @NotNull final ISearchList alreadySearched, final boolean one) {
 //			if (index == 0)
 
 

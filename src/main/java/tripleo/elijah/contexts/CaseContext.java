@@ -9,16 +9,14 @@
 package tripleo.elijah.contexts;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.lang.i.CaseConditional;
-import tripleo.elijah.lang.i.Context;
-import tripleo.elijah.lang.i.LookupResultList;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.ContextImpl;
 import tripleo.elijah.util.NotImplementedException;
 
 /**
  * Created 9/24/20 6:11 PM
  */
-public class CaseContext extends ContextImpl {
+public class CaseContext extends ContextImpl implements  ICaseContext {
 	private final Context         _parent;
 	private final CaseConditional carrier;
 
@@ -33,7 +31,7 @@ public class CaseContext extends ContextImpl {
 	}
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final @NotNull SearchList alreadySearched, final boolean one) {
+	public LookupResultList lookup(final String name, final int level, @NotNull final LookupResultList Result, @NotNull final ISearchList alreadySearched, final boolean one) {
 		alreadySearched.add(carrier.getContext());
 
 /*

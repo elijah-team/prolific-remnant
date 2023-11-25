@@ -8,14 +8,13 @@ import tripleo.elijah.comp.impl.CC_SetDoOut;
 import tripleo.elijah.comp.impl.CC_SetShowTree;
 import tripleo.elijah.comp.impl.CC_SetSilent;
 import tripleo.elijah.comp.impl.CC_SetStage;
-import tripleo.elijah.comp.internal.CompilationBus;
+import tripleo.elijah.comp.internal.*;
 import tripleo.vendor.org.apache.commons.cli.CommandLine;
 import tripleo.vendor.org.apache.commons.cli.CommandLineParser;
 import tripleo.vendor.org.apache.commons.cli.DefaultParser;
 import tripleo.vendor.org.apache.commons.cli.Options;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ApacheOptionsProcessor implements OptionsProcessor {
 	private final CommandLineParser clp     = new DefaultParser();
@@ -31,15 +30,8 @@ public class ApacheOptionsProcessor implements OptionsProcessor {
 
 	@Override
 	public String[] process(final @NotNull Compilation c, final @NotNull List<CompilerInput> aInputs, final CompilationBus aCb) throws Exception {
-
-		final List<String> args = aInputs.stream()
-				.map(inp -> inp.getInp())
-				.collect(Collectors.toList());
-
-
 		final CommandLine cmd;
 
-		//cmd = clp.parse(options, args.toArray(new String[args.size()]));
 		cmd = clp.parse(options, aInputs);
 
 		if (cmd.hasOption("s")) {

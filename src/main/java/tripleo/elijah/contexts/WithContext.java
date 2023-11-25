@@ -16,7 +16,7 @@ import tripleo.elijah.lang.impl.VariableSequenceImpl;
 /**
  * Created 8/30/20 1:42 PM
  */
-public class WithContext extends ContextImpl {
+public class WithContext extends ContextImpl implements IWithContext {
 
 	private final Context       _parent;
 	private final WithStatement carrier;
@@ -33,7 +33,7 @@ public class WithContext extends ContextImpl {
 	}
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final @NotNull LookupResultList Result, final @NotNull SearchList alreadySearched, final boolean one) {
+	public LookupResultList lookup(final String name, final int level, final @NotNull LookupResultList Result, final @NotNull ISearchList alreadySearched, final boolean one) {
 		alreadySearched.add(carrier.getContext());
 
 		for (final FunctionItem item : carrier.getItems()) {

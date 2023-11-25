@@ -2,56 +2,45 @@
 
 package tripleo.elijjah;
 
-import antlr.*;
+import antlr.NoViableAltException;
+import antlr.ParserSharedInputState;
+import antlr.RecognitionException;
+import antlr.Token;
+import antlr.TokenBuffer;
+import antlr.TokenStream;
+import antlr.TokenStreamException;
 import antlr.collections.impl.BitSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.ci.*;
+import tripleo.elijah.ci.CiIndexingStatement;
 import tripleo.elijah.ci.CompilerInstructions;
-import tripleo.elijah.ci_impl.*;
-import tripleo.elijah.lang.i.*;
-import tripleo.elijah.lang.impl.*;
-import tripleo.elijah.lang.types.OS_BuiltinType;
+import tripleo.elijah.ci.GenerateStatement;
+import tripleo.elijah.ci.LibraryStatementPart;
+import tripleo.elijah.comp.internal.PCon;
+import tripleo.elijah.lang.i.Context;
+import tripleo.elijah.lang.i.Documentable;
+import tripleo.elijah.lang.i.ExpressionKind;
+import tripleo.elijah.lang.i.ExpressionList;
+import tripleo.elijah.lang.i.FuncExpr;
+import tripleo.elijah.lang.i.GetItemExpression;
+import tripleo.elijah.lang.i.IExpression;
+import tripleo.elijah.lang.i.IdentExpression;
+import tripleo.elijah.lang.i.IdentList;
+import tripleo.elijah.lang.i.ListExpression;
+import tripleo.elijah.lang.i.ProcedureCallExpression;
+import tripleo.elijah.lang.i.Qualident;
+import tripleo.elijah.lang.i.QualidentList;
+import tripleo.elijah.lang.i.TypeCastExpression;
+import tripleo.elijah.lang.i.TypeName;
+import tripleo.elijah.lang.impl.ExpressionBuilder;
 import tripleo.elijah.lang2.BuiltInTypes;
 import tripleo.elijah.xlang.LocatableString;
 
 public class EzParser extends antlr.LLkParser implements EzTokenTypes {
-	public @NotNull CompilerInstructions.CompilerInstructionsBuilder ci = new CompilerInstructionsBuilderImpl();
+	public @NotNull CompilerInstructions.CompilerInstructionsBuilder ci;// = pcon.newCompilerInstructionsBuilderImpl();
 	@Nullable Context cur = null;
 	@Nullable IExpression expr;
-
-	public EzParser(ParserSharedInputState state) {
-		super(state, 2);
-		tokenNames = _tokenNames;
-	}
-
-	public EzParser(TokenBuffer tokenBuf) {
-		this(tokenBuf, 2);
-	}
-
-	protected EzParser(TokenBuffer tokenBuf, int k) {
-		super(tokenBuf, k);
-		tokenNames = _tokenNames;
-	}
-
-	public EzParser(TokenStream lexer) {
-		this(lexer, 2);
-	}
-
-	protected EzParser(TokenStream lexer, int k) {
-		super(lexer, k);
-		tokenNames = _tokenNames;
-	}
-
-	private static final long[] mk_tokenSet_10() {
-		long[] data = {-2164238L, 0L};
-		return data;
-	}
-
-	private static final long[] mk_tokenSet_11() {
-		long[] data = {-65302194570776448L, 0L};
-		return data;
-	}
+	public PCon pcon;
 
 	public final @Nullable IExpression assignmentExpression() throws RecognitionException, TokenStreamException {
 		IExpression ee;
@@ -208,7 +197,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 		try {      // for error handling
 			e = ident();
 			if (inputState.guessing == 0) {
-				ee = new DotExpressionImpl(e1, e);
+				ee = pcon.newDotExpressionImpl(e1, e);
 			}
 			{
 				if ((LA(1) == LPAREN) && (_tokenSet_11.member(LA(2)))) {
@@ -245,7 +234,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 						}
 					}
 					if (inputState.guessing == 0) {
-						ProcedureCallExpression pce = new ProcedureCallExpressionImpl();
+						ProcedureCallExpression pce = pcon.newProcedureCallExpressionImpl();
 						pce.identifier(ee);
 						pce.setArgs(el);
 						ee = pce;
@@ -283,7 +272,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 				s = LT(1);
 				match(STRING_LITERAL);
 				if (inputState.guessing == 0) {
-					e = new StringExpressionImpl(s);
+					e = pcon.newStringExpressionImpl(s);
 				}
 				break;
 			}
@@ -291,7 +280,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 				c = LT(1);
 				match(CHAR_LITERAL);
 				if (inputState.guessing == 0) {
-					e = new CharLitExpressionImpl(c);
+					e = pcon.newCharLitExpressionImpl(c);
 				}
 				break;
 			}
@@ -299,7 +288,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 				n = LT(1);
 				match(NUM_INT);
 				if (inputState.guessing == 0) {
-					e = new NumericExpressionImpl(n);
+					e = pcon.newNumericExpressionImpl(n);
 				}
 				break;
 			}
@@ -307,7 +296,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 				f = LT(1);
 				match(NUM_FLOAT);
 				if (inputState.guessing == 0) {
-					e = new FloatExpressionImpl(f);
+					e = pcon.newFloatExpressionImpl(f);
 				}
 				break;
 			}
@@ -553,7 +542,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 							e3 = shiftExpression();
 							if (inputState.guessing == 0) {
 								ee = ExpressionBuilder.build(ee, e2, e3);
-								ee.setType(new OS_BuiltinType(BuiltInTypes.Boolean));
+								ee.setType(pcon.newOS_BuiltinType(BuiltInTypes.Boolean));
 							}
 						} else {
 							break _loop72;
@@ -576,7 +565,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 	public final @NotNull ExpressionList expressionList2() throws RecognitionException, TokenStreamException {
 		ExpressionList el;
 
-		el = new ExpressionListImpl();
+		el = pcon.newExpressionListImpl();
 
 		try {      // for error handling
 			expr = expression();
@@ -782,7 +771,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 		GenerateStatement gen;
 
 		Token i1 = null;
-		gen = new GenerateStatementImpl();
+		gen = pcon.newGenerateStatementImpl();
 
 		try {      // for error handling
 			match(LITERAL_generate);
@@ -860,7 +849,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 			r1 = LT(1);
 			match(IDENT);
 			if (inputState.guessing == 0) {
-				id = new IdentExpressionImpl(r1, "foo", cur);
+				id = pcon.newIdentExpressionImpl(r1, "foo", cur);
 			}
 		} catch (RecognitionException ex) {
 			if (inputState.guessing == 0) {
@@ -962,7 +951,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 		Token i1      = null;
 		Token dirname = null;
 		Token i2      = null;
-		lsp = new LibraryStatementPartImpl();
+		lsp = pcon.newLibraryStatementPartImpl();
 
 		try {      // for error handling
 			{
@@ -1161,7 +1150,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 						rb   = LT(1);
 						match(RBRACK);
 						if (inputState.guessing == 0) {
-							ee = new GetItemExpressionImpl(ee, expr);
+							ee = pcon.newGetItemExpressionImpl(ee, expr);
 							((GetItemExpression) ee).parens(lb, rb);
 						}
 						{
@@ -1169,7 +1158,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 								match(BECOMES);
 								expr = expression();
 								if (inputState.guessing == 0) {
-									ee = new SetItemExpressionImpl((GetItemExpression) ee, expr);
+									ee = pcon.newSetItemExpressionImpl((GetItemExpression) ee, expr);
 								}
 							} else if ((_tokenSet_5.member(LA(1))) && (_tokenSet_10.member(LA(2)))) {
 							} else {
@@ -1211,7 +1200,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 							}
 						}
 						if (inputState.guessing == 0) {
-							ProcedureCallExpression pce = new ProcedureCallExpressionImpl();
+							ProcedureCallExpression pce = pcon.newProcedureCallExpressionImpl();
 							pce.identifier(ee);
 							pce.setArgs(el);
 							ee = pce;
@@ -1298,14 +1287,14 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 				ee = assignmentExpression();
 				match(RPAREN);
 				if (inputState.guessing == 0) {
-					ee = new SubExpressionImpl(ee);
+					ee = pcon.newSubExpressionImpl(ee);
 				}
 				break;
 			}
 			case LBRACK: {
 				match(LBRACK);
 				if (inputState.guessing == 0) {
-					ee = new ListExpressionImpl();
+					ee = pcon.newListExpressionImpl();
 				}
 				el = expressionList2();
 				if (inputState.guessing == 0) {
@@ -1494,7 +1483,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 		Qualident q;
 
 		Token d1 = null;
-		q = new QualidentImpl();
+		q = pcon.newQualidentImpl();
 		IdentExpression r1 = null, r2 = null;
 
 		try {      // for error handling
@@ -1674,7 +1663,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 					match(DOT);
 					r2 = ident();
 					if (inputState.guessing == 0) {
-						ee = new DotExpressionImpl(ee, r2);
+						ee = pcon.newDotExpressionImpl(ee, r2);
 					}
 					break;
 				}
@@ -1683,7 +1672,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 					expr = expression();
 					match(RBRACK);
 					if (inputState.guessing == 0) {
-						ee = new GetItemExpressionImpl(ee, expr);
+						ee = pcon.newGetItemExpressionImpl(ee, expr);
 					}
 					break;
 				}
@@ -1721,7 +1710,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 						}
 					}
 					if (inputState.guessing == 0) {
-						ProcedureCallExpression pce = new ProcedureCallExpressionImpl();
+						ProcedureCallExpression pce = pcon.newProcedureCallExpressionImpl();
 						pce.identifier(ee);
 						pce.setArgs(el);
 						ee = pce;
@@ -1883,6 +1872,39 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 
 	private static final long[] mk_tokenSet_9() {
 		long[] data = {-65302194587553664L, 0L};
+		return data;
+	}
+
+	public EzParser(ParserSharedInputState state) {
+		super(state, 2);
+		tokenNames = _tokenNames;
+	}
+
+	public EzParser(TokenBuffer tokenBuf) {
+		this(tokenBuf, 2);
+	}
+
+	protected EzParser(TokenBuffer tokenBuf, int k) {
+		super(tokenBuf, k);
+		tokenNames = _tokenNames;
+	}
+
+	public EzParser(TokenStream lexer) {
+		this(lexer, 2);
+	}
+
+	protected EzParser(TokenStream lexer, int k) {
+		super(lexer, k);
+		tokenNames = _tokenNames;
+	}
+
+	private static final long[] mk_tokenSet_10() {
+		long[] data = {-2164238L, 0L};
+		return data;
+	}
+
+	private static final long[] mk_tokenSet_11() {
+		long[] data = {-65302194570776448L, 0L};
 		return data;
 	}
 }

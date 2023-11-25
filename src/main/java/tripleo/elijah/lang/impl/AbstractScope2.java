@@ -54,8 +54,8 @@ public abstract class AbstractScope2 implements Scope {
 	}
 
 	@Override
-	public @NotNull InvariantStatement invariantStatement() {
-		return new InvariantStatement();
+	public @NotNull IInvariantStatement invariantStatement() {
+		return new InvariantStatementImpl();
 	}
 
 	@Override

@@ -9,7 +9,7 @@
 package tripleo.elijah.lang.impl;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.contexts.NamespaceContext;
+import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang2.ElElementVisitor;
 import tripleo.elijah.util.NotImplementedException;
@@ -39,7 +39,7 @@ public class NamespaceStatementImpl extends _CommonNC
 		} else {
 			throw new IllegalStateException(String.format("Cant add NamespaceStatement to %s", aElement));
 		}
-		setContext(new NamespaceContext(context, this));
+		setContext(new NamespaceContext__(context, this));
 	}
 
 	@Override // OS_Container
@@ -143,7 +143,7 @@ public class NamespaceStatementImpl extends _CommonNC
 	}
 
 	@Override
-	public InvariantStatement invariantStatement() {
+	public IInvariantStatement invariantStatement() {
 		throw new NotImplementedException();
 	}
 

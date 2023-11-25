@@ -10,7 +10,7 @@ package tripleo.elijah.lang.impl;
 
 import antlr.Token;
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.contexts.IfConditionalContext;
+import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.i.*;
 
 import java.util.ArrayList;
@@ -98,7 +98,7 @@ public class Scope3Impl implements Scope3, Documentable {
 		@Override
 		public @NotNull IfConditional ifConditional(final OS_Element aParent, final Context cur) {
 			IfConditional ifex = new IfConditionalImpl(aParent);
-			ifex.setContext(new IfConditionalContext(cur, ifex));
+			ifex.setContext(new IfConditionalContext__(cur, ifex));
 			add(ifex);
 			return ifex;
 		}
@@ -177,7 +177,7 @@ public class Scope3Impl implements Scope3, Documentable {
 //		@Override
 //		public IfConditional ifConditional(final OS_Element aParent, final Context cur) {
 //			IfConditional ifex = new IfConditionalImpl(aParent);
-//			ifex.setContext(new IfConditionalContext(cur, ifex));
+//			ifex.setContext(new IfConditionalContext__(cur, ifex));
 //			add(ifex);
 //			return ifex;
 //		}

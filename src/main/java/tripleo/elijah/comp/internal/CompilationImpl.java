@@ -96,7 +96,7 @@ public class CompilationImpl implements Compilation {
 		_f                      = new Finally();
 
 		_ciws                   = new ArrayList<>();
-		_ci_models              = new HashMap<>();
+			_ci_models              = new HashMap<>();
 		_ciw_buffer             = new ArrayList<>();
 	}
 

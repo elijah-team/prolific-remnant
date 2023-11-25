@@ -91,7 +91,7 @@ public abstract class _CommonNC {
 		return items;
 	}
 
-	// OS_Element2
+	// OS_NamedElement
 	public OS_ElementName name() {
 		return OS_ElementName_.ofString(getName());
 	}

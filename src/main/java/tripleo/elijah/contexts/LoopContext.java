@@ -39,7 +39,7 @@ public class LoopContext extends ContextImpl implements Context {
 	}
 
 	@Override
-	public LookupResultList lookup(final @NotNull String name, final int level, final @NotNull LookupResultList Result, final @NotNull SearchList alreadySearched, final boolean one) {
+	public LookupResultList lookup(final String name, final int level, @NotNull final LookupResultList Result, @NotNull final ISearchList alreadySearched, final boolean one) {
 		alreadySearched.add(carrier.getContext());
 
 		if (carrier.getIterNameToken() != null) {

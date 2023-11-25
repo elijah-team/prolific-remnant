@@ -18,12 +18,8 @@ import java.util.LinkedHashSet;
 
 /*
  * Created on 5/4/2019 at 12:25
- *
- * $$Id$
- *
  */
 public abstract class AbstractTypeName2 implements NormalTypeName {
-
 	protected @NotNull Collection<TypeModifiers> _ltm = new LinkedHashSet<TypeModifiers>();
 	protected          TypeModifiers             tm;
 	protected          Qualident                 typeName;

@@ -76,7 +76,7 @@ public class AliasStatementImpl extends __Access implements AliasStatement {
 		visit.visitAliasStatement(this);
 	}
 
-	@Override // OS_Element2
+	@Override // OS_NamedElement
 	public OS_ElementName name() {
 		return OS_ElementName_.ofString(this.nameToken.getText());
 	}

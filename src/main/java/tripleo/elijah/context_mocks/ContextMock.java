@@ -10,10 +10,7 @@ package tripleo.elijah.context_mocks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import tripleo.elijah.lang.i.Context;
-import tripleo.elijah.lang.i.LookupResultList;
-
-import tripleo.elijah.lang.i.OS_Element;
+import tripleo.elijah.lang.i.*;
 
 import tripleo.elijah.lang.impl.ContextImpl;
 
@@ -44,7 +41,7 @@ public class ContextMock extends ContextImpl implements Context {
 	}
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final SearchList alreadySearched, final boolean one) {
+	public LookupResultList lookup(final String name, final int level, @NotNull final LookupResultList Result, @NotNull final ISearchList alreadySearched, final boolean one) {
 		LookupResultList result = Result;
 
 		for (final Expectation expectation : getExpectations()) {

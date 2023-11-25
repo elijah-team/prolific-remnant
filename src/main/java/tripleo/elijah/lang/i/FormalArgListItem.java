@@ -14,7 +14,7 @@ public interface FormalArgListItem extends OS_Element, OS_NamedElement, ClassIte
 	OS_Element getParent();
 
 	@Override
-		// OS_Element2
+		// OS_NamedElement
 	OS_ElementName name();
 
 	void setName(IdentExpression s);

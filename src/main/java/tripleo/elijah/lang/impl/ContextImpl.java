@@ -8,14 +8,12 @@
  */
 package tripleo.elijah.lang.impl;
 
+import com.google.common.collect.*;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.Eventual;
 import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.contexts.ModuleContext;
-import tripleo.elijah.lang.i.Context;
-import tripleo.elijah.lang.i.LookupResultList;
-import tripleo.elijah.lang.i.OS_Element;
-import tripleo.elijah.lang.i.OS_Module;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.nextgen.names.i.EN_Name;
 
 import java.util.ArrayList;
@@ -99,7 +97,6 @@ public abstract class ContextImpl implements Context {
 //			name = aName;
 //		}
 	}
-
 }
 
 //

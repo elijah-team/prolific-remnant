@@ -85,7 +85,7 @@ public class FormalArgListItemImpl implements FormalArgListItem {
 		return tn;
 	}
 
-	@Override // OS_Element2
+	@Override // OS_NamedElement
 	public OS_ElementName name() {
 		return OS_ElementName_.ofString(name.getText());
 	}

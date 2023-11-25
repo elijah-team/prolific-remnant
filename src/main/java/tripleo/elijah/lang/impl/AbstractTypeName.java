@@ -15,7 +15,6 @@ import tripleo.elijah.lang.i.TypeModifiers;
 import java.util.Objects;
 
 public abstract class AbstractTypeName implements NormalTypeName {
-
 	protected boolean       pr_out;
 	protected boolean       pr_constant;
 	protected boolean       pr_in;

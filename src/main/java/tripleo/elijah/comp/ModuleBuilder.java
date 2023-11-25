@@ -7,7 +7,7 @@ import tripleo.elijah.comp.i.CompilationFlow;
 import tripleo.elijah.comp.impl.DefaultCompilationFlow;
 import tripleo.elijah.comp.internal.CompilationImpl;
 import tripleo.elijah.compiler_model.CM_Filename;
-import tripleo.elijah.contexts.ModuleContext;
+import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.i.OS_Module;
 import tripleo.elijah.lang.impl.OS_ModuleImpl;
 import tripleo.elijah.util.Mode;
@@ -41,7 +41,7 @@ public class ModuleBuilder {
 	}
 
 	public @NotNull ModuleBuilder setContext() {
-		final ModuleContext mctx = new ModuleContext(mod);
+		final ModuleContext mctx = new ModuleContext__(mod);
 		mod.setContext(mctx);
 		return this;
 	}

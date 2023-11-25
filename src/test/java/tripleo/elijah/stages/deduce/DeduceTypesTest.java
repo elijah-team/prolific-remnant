@@ -14,8 +14,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import tripleo.elijah.comp.i.Compilation;
-import tripleo.elijah.contexts.FunctionContext;
-import tripleo.elijah.contexts.ModuleContext;
+import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.*;
 import tripleo.elijah.lang.types.OS_BuiltinType;
@@ -53,7 +52,7 @@ public class DeduceTypesTest {
 		boilerplate.getGenerateFiles(boilerplate.defaultMod());
 
 		final OS_Module     mod  = boilerplate.defaultMod();
-		final ModuleContext mctx = new ModuleContext(mod);
+		final ModuleContext mctx = new ModuleContext__(mod);
 		mod.setContext(mctx);
 
 		final ClassStatement cs = new ClassStatementImpl(mod, mod.getContext());

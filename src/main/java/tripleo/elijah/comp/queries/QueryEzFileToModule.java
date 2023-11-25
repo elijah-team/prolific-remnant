@@ -4,6 +4,8 @@ import antlr.RecognitionException;
 import antlr.TokenStreamException;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.ci.CompilerInstructions;
+import tripleo.elijah.ci_impl.*;
+import tripleo.elijah.comp.internal.*;
 import tripleo.elijah.lang.i.OS_Module;
 import tripleo.elijah.nextgen.query.QueryDatabase;
 import tripleo.elijah.util.NotImplementedException;
@@ -28,6 +30,9 @@ public class QueryEzFileToModule {
 		lexer.setFilename(f);
 		final EzParser parser = new EzParser(lexer);
 		parser.setFilename(f);
+		parser.pcon = new PCon();
+		parser.ci   = //parser.pcon.newCompilerInstructionsImpl();
+			new CompilerInstructionsBuilderImpl();
 		try {
 			parser.program();
 		} catch (RecognitionException aE) {

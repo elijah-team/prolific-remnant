@@ -22,15 +22,18 @@ public interface Context {
 
 	LookupResultList lookup(@NotNull String name);
 
-	LookupResultList lookup(String name, int level, LookupResultList Result, SearchList alreadySearched,
-							boolean one);
+	LookupResultList lookup(String name,
+	                        int level,
+	                        @NotNull LookupResultList Result,
+	                        @NotNull ISearchList alreadySearched,
+	                        boolean one);
 
 	@NotNull
 	OS_Module module();
 
 	void addName(EN_Name aName);
 
-	class SearchList {
+	class SearchList implements ISearchList {
 		@NotNull List<Context> alreadySearched = new ArrayList<>();
 
 		public void add(Context c) {

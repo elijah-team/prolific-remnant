@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import tripleo.elijah.context_mocks.ContextMock;
-import tripleo.elijah.contexts.ModuleContext;
+import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.ClassStatementImpl;
 import tripleo.elijah.lang.impl.FunctionDefImpl;
@@ -38,7 +38,7 @@ public class GetRealTargetNameTest {
 		//FunctionDef fd = mock(FunctionDef.class);
 
 		final OS_Module      mod2 = new OS_ModuleImpl();
-		final ModuleContext  ctx  = new ModuleContext(mod2);
+		final ModuleContext  ctx  = new ModuleContext__(mod2);
 		final ClassStatement cs   = new ClassStatementImpl(mod2, ctx);
 
 

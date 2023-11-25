@@ -6,7 +6,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.contexts.ClassContext;
-import tripleo.elijah.lang.impl.InvariantStatement;
 import tripleo.elijah.lang2.ElElementVisitor;
 
 import java.util.Collection;
@@ -68,7 +67,7 @@ public interface ClassStatement
 
 	void setType(ClassTypes aClassTypes);
 
-	InvariantStatement invariantStatement();
+	IInvariantStatement invariantStatement();
 
 	void postConstruct();
 

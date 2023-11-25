@@ -13,7 +13,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import tripleo.elijah.ReadySupplier_1;
 import tripleo.elijah.context_mocks.ContextMock;
-import tripleo.elijah.contexts.ModuleContext;
+import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.*;
 import tripleo.elijah.nextgen.rosetta.DeduceTypes2.DeduceTypes2Request;
@@ -127,7 +127,7 @@ public class TestIdentNormal {
 		//
 		//
 
-		mod.setContext(new ModuleContext(mod));
+		mod.setContext(new ModuleContext__(mod));
 
 		ClassStatement        cs       = new ClassStatementImpl(mod, mod.getContext());
 		final IdentExpression capitalX = IdentExpression.forString("X");

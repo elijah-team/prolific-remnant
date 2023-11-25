@@ -9,19 +9,19 @@
 package tripleo.elijah.lang.impl;
 
 import antlr.Token;
-import tripleo.elijah.lang.i.IExpression;
+import tripleo.elijah.lang.i.*;
 
 /**
  * @author Tripleo
  * <p>
  * Created Apr 19, 2020 at 00:32:00 AM
  */
-public class InvariantStatementPartImpl implements tripleo.elijah.lang.i.InvariantStatementPart {
+public class InvariantStatementPartImpl implements InvariantStatementPart {
 	private       IExpression        expr;
 	private final Token              name;
-	private final InvariantStatement parent;
+	private final IInvariantStatement parent;
 
-	public InvariantStatementPartImpl(final InvariantStatement cr, final Token token) {
+	public InvariantStatementPartImpl(final IInvariantStatement cr, final Token token) {
 		this.parent = cr;
 		this.name   = token;
 	}
