@@ -1,8 +1,7 @@
 package tripleo.elijah.comp.internal;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.ci.i.CompilerInstructions;
-import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.ci.CompilerInstructions;
 import tripleo.elijah.comp.CompilerInput;
 import tripleo.elijah.comp.Finally;
 import tripleo.elijah.comp.diagnostic.TooManyEz_ActuallyNone;
@@ -18,7 +17,6 @@ import tripleo.elijah.util.Operation2;
 
 import java.io.File;
 import java.util.List;
-import java.util.function.Consumer;
 
 import static tripleo.elijah.util.Helpers.List_of;
 

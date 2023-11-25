@@ -1,7 +1,6 @@
 package tripleo.elijah.ci_impl;
 
 import tripleo.elijah.ci.*;
-import tripleo.elijah.ci.i.*;
 import tripleo.elijah.compiler_model.*;
 import tripleo.elijah.util.*;
 import tripleo.elijah.xlang.*;

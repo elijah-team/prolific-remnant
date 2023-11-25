@@ -4,7 +4,7 @@ import io.reactivex.rxjava3.core.Observer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.ci.i.CompilerInstructions;
+import tripleo.elijah.ci.CompilerInstructions;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.comp.internal.CIS;
 import tripleo.elijah.comp.internal.CompilationRunner;
