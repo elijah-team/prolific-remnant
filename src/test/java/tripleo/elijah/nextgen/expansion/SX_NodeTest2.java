@@ -96,7 +96,6 @@ public class SX_NodeTest2 extends TestCase {
 		final List<EOT_OutputFile> wmainl = l.stream()
 				.filter(eof -> eof.getFilename().replace("//", "/").equals("/while100/Main.c"))
 				.collect(Collectors.toList());
-
 		assert wmainl.size() > 0;
 
 		wmainl.stream()

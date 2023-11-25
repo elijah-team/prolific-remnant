@@ -20,9 +20,7 @@ import tripleo.elijah.comp.queries.QuerySourceFileToModuleParams;
 import tripleo.elijah.compiler_model.CM_Filename;
 import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.i.OS_Module;
-import tripleo.elijah.util.Helpers;
-import tripleo.elijah.util.Operation;
-import tripleo.elijah.util.Operation2;
+import tripleo.elijah.util.*;
 import tripleo.elijah.world.i.WorldModule;
 import tripleo.elijah.world.impl.DefaultWorldModule;
 
@@ -38,7 +36,7 @@ import static tripleo.elijah.util.Mode.FAILURE;
 import static tripleo.elijah.util.Mode.SUCCESS;
 
 public class USE {
-	private static final FilenameFilter         accept_source_files = new FilenameFilter() {
+	private static final FilenameFilter accept_source_files = new FilenameFilter() {
 		@Override
 		public boolean accept(final File directory, final String file_name) {
 			final boolean matches = Pattern.matches(".+\\.elijah$", file_name)
@@ -46,19 +44,19 @@ public class USE {
 			return matches;
 		}
 	};
-	private final        Compilation            c;
-	private final        ErrSink                errSink;
+	private final Compilation c;
+	private final ErrSink errSink;
 	private final Map<CM_Filename, WorldModule> fn2m = new HashMap<>();
 
 	@Contract(pure = true)
 	public USE(final Compilation aCompilation) {
-		c       = aCompilation;
+		c = aCompilation;
 		errSink = c.getErrSink();
 	}
 
 	public void addModule(final OS_Module aModule, final @Nullable CM_Filename aFn) {
 		final @NotNull CompilationEnclosure ce = c.getCompilationEnclosure();
-		final WorldModule                   module = new DefaultWorldModule(aModule, ce);
+		final WorldModule module = new DefaultWorldModule(aModule, ce);
 		fn2m.put(aFn, module);
 	}
 
@@ -85,7 +83,7 @@ public class USE {
 				assert pl.mode() == SUCCESS;
 
 				final WorldModule mm1 = om.success();
-				final OS_Module   mm  = mm1.module();
+				final OS_Module mm = mm1.module();
 
 				if (mm.getLsp() == null) {
 					//assert mm.prelude  == null;
@@ -122,20 +120,20 @@ public class USE {
 		}
 
 		switch (om.mode()) {
-		case SUCCESS:
-			return Operation2.success(om.success());
-		case FAILURE:
-			final Exception e = om.failure();
-			errSink.exception(e);
-			return Operation2.failure(new ExceptionDiagnostic(e));
-		default:
-			throw new IllegalStateException("Unexpected value: " + om.mode());
+			case SUCCESS:
+				return Operation2.success(om.success());
+			case FAILURE:
+				final Exception e = om.failure();
+				errSink.exception(e);
+				return Operation2.failure(new ExceptionDiagnostic(e));
+			default:
+				throw new IllegalStateException("Unexpected value: " + om.mode());
 		}
 	}
 
 	public Operation<WorldModule> realParseElijjahFile(final CompFactory.@NotNull InputRequest aInputRequest) {
-		var file   = aInputRequest.file();
-		var f      = aInputRequest.file().toString();
+		var file = aInputRequest.file();
+		var f = aInputRequest.file().toString();
 		var do_out = aInputRequest.do_out();
 
 		try {
@@ -155,7 +153,7 @@ public class USE {
 
 			// tree add something
 
-			final InputStream          s  = io.readFile(file);
+			final InputStream s = io.readFile(file);
 			final Operation<OS_Module> om = parseFile_(f, s, do_out);
 			if (om.mode() != SUCCESS) {
 				final Exception e = om.failure();
@@ -168,7 +166,7 @@ public class USE {
 			}
 
 			@NotNull final CompilationEnclosure ce = c.getCompilationEnclosure();
-			final WorldModule                   R = new DefaultWorldModule(om.success(), ce);
+			final WorldModule R = new DefaultWorldModule(om.success(), ce);
 			fn2m.put(absolutePath, R);
 			s.close();
 			return Operation.success(R);
@@ -179,7 +177,7 @@ public class USE {
 
 	private Operation<OS_Module> parseFile_(final String f, final InputStream s, final boolean do_out) {
 		final QuerySourceFileToModuleParams qp = new QuerySourceFileToModuleParams(do_out, s, f);
-		final QuerySourceFileToModule       q  = new QuerySourceFileToModule(qp, c);
+		final QuerySourceFileToModule q = new QuerySourceFileToModule(qp, c);
 		return q.calculate();
 	}
 
@@ -205,12 +203,17 @@ public class USE {
 		final File instruction_dir = new File(filename).getParentFile();
 		for (final LibraryStatementPart lsp : compilerInstructions.getLibraryStatementParts()) {
 			final String dir_name = Helpers.remove_single_quotes_from_string(lsp.getDirName());
-			File         dir;
+			File dir;
 			if (dir_name.equals(".."))
 				dir = instruction_dir/*.getAbsoluteFile()*/.getParentFile();
 			else
 				dir = new File(instruction_dir, dir_name);
 			use_internal(dir, do_out, lsp);
+			if (lsp.getInstructions() == null) {
+				lsp.setInstructions(compilerInstructions);
+				throw new ProgramMightBeWrongIfYouAreHere();
+			}
+
 		}
 		final LibraryStatementPart lsp = new LibraryStatementPartImpl();
 		lsp.setName(Helpers.makeToken("default")); // TODO: make sure this doesn't conflict
@@ -235,7 +238,7 @@ public class USE {
 				// TODO 11/24 supplier<calculated<>>
 				var nameable = new Finally.Nameable() {
 					@Override
-					public String getName() {
+					public String getNameableString() {
 						return inp.file().toString();
 					}
 				};

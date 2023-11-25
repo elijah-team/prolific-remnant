@@ -90,7 +90,7 @@ public class CM_CompilerInput {
     public Finally.Input createInput(final Finally.Out2 aTy) {
         var nameable = new Finally.Nameable() {
             @Override
-            public String getName() {
+            public String getNameableString() {
                 return inp;
             }
         };

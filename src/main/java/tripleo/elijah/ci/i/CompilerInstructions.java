@@ -8,32 +8,49 @@
  */
 package tripleo.elijah.ci.i;
 
-import antlr.Token;
-import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.ci.CiIndexingStatement;
 import tripleo.elijah.ci.GenerateStatement;
 import tripleo.elijah.ci.LibraryStatementPart;
+import tripleo.elijah.xlang.LocatableString;
+import tripleo.elijah.compiler_model.CM_Filename;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CompilerInstructions {
 	void add(GenerateStatement generateStatement);
 
 	void add(LibraryStatementPart libraryStatementPart);
 
-	@Nullable String genLang();
+	List<LibraryStatementPart> getLibraryStatementParts();
 
-	String getFilename();
+	Optional<String> genLang();  // not a promise? Calculated? C<O<S>>>??
+
+	CM_Filename getFilename();
+
+	void setFilename(CM_Filename filename);
 
 	String getName();
 
-	void setFilename(String filename);
+	LocatableString getLocatableName();
 
 	CiIndexingStatement indexingStatement();
 
-	void setName(String name);
+	void setName(LocatableString name);
 
-	void setName(Token name);
+	interface CompilerInstructionsBuilder {
+		CompilerInstructions build();
 
-	List<LibraryStatementPart> lsps();
+		void add(GenerateStatement generateStatement);
+
+		void add(LibraryStatementPart libraryStatementPart);
+
+		void setGenLang(String aGenLangString);  // ??
+
+		void setFilename(CM_Filename filename);
+
+		CiIndexingStatement createIndexingStatement();
+
+		void setName(LocatableString name);
+	}
 }
