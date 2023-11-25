@@ -57,7 +57,7 @@ public class LoopContextImpl extends ContextImpl implements ILoopContext {
 					&& !(item instanceof AliasStatementImpl))
 				continue;
 			if (item instanceof OS_NamedElement) {
-				if (((OS_NamedElement) item).name().equals(name)) {
+				if (((OS_NamedElement) item).name().sameName(name)) {
 					Result.add(name, level, (OS_Element) item, this);
 				}
 			}

@@ -70,7 +70,7 @@ public class ModuleContext__ extends ContextImpl implements ModuleContext {
 				continue;
 			if (item instanceof OS_NamedElement) {
 //				LogEvent.logEvent(102, ((OS_NamedElement) item).name());
-				if (((OS_NamedElement) item).name().equals(name)) {
+				if (((OS_NamedElement) item).name().sameName(name)) {
 					Result.add(name, level, item, this);
 				}
 			}

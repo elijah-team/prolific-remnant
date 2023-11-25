@@ -6,6 +6,7 @@ import tripleo.elijah.util.Operation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public interface CM_Filename {
 	static CM_Filename fromFileToString(File file) {
@@ -73,5 +74,9 @@ public interface CM_Filename {
 
 	default String printableString() {
 		return getString();
+	}
+
+	default boolean sameString(String string) {
+		return Objects.equals(string, getString());
 	}
 }

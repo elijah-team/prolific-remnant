@@ -41,8 +41,12 @@ public class GenerateStatementImpl implements GenerateStatement {
 		}
 
 		public boolean sameName(String aName) {
-			return Objects.equals(aName, this.name);
+			return this.name.sameString(aName);
         }
+
+		public IExpression getExpression() {
+			return this.expression;
+		}
     }
 }
 
