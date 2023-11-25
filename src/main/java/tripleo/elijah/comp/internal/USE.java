@@ -195,8 +195,8 @@ public class USE {
 	}
 
 	public void use(final @NotNull CompilerInstructions compilerInstructions, final boolean do_out) {
-		final File instruction_dir = new File(compilerInstructions.getFilename()).getParentFile();
-		for (final LibraryStatementPart lsp : compilerInstructions.lsps()) {
+		final File instruction_dir = compilerInstructions.getFilename().fileOf().getParentFile();
+		for (final LibraryStatementPart lsp : compilerInstructions.getLibraryStatementParts()) {
 			final String dir_name = Helpers.remove_single_quotes_from_string(lsp.getDirName());
 			File         dir;
 			if (dir_name.equals(".."))

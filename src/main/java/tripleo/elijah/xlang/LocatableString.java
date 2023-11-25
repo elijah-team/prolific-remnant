@@ -18,7 +18,21 @@ public interface LocatableString {
         };
     }
 
-    Locatable getLocatable();
+	static LocatableString of(String aString) {
+        return new LocatableString() {
+            @Override
+            public Locatable getLocatable() {
+                return null;
+            }
+
+            @Override
+            public String getString() {
+                return aString;
+            }
+        };
+	}
+
+	Locatable getLocatable();
 
     String getString();
 }

@@ -12,6 +12,7 @@ import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.*;
 import tripleo.elijah.lang.types.OS_BuiltinType;
 import tripleo.elijah.lang2.BuiltInTypes;
+import tripleo.elijah.xlang.*;
 
 public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 
@@ -1577,7 +1578,7 @@ public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 			i1 = LT(1);
 			match(IDENT);
 			if (inputState.guessing == 0) {
-				ci.setName(i1);
+				ci.setName(LocatableString.of(i1));
 			}
 			library_statement();
 			gen = generate_statement();

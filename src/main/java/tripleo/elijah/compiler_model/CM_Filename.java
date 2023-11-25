@@ -13,4 +13,8 @@ public interface CM_Filename {
     }
 
     String getString();
+
+	default File fileOf() {
+      return new File(getString());
+  }
 }

@@ -1,5 +1,6 @@
 package tripleo.elijah.stages.gen_generic;
 
+import com.google.common.base.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,24 +15,33 @@ import java.util.Objects;
 public enum OutputFileFactory {
 	;
 
+	private static Map<OS_Module, GenerateFiles> mgfMap = new HashMap<>();
+
 	@Contract("_, _, _ -> new")
-	public static @NotNull GenerateFiles create(final @NotNull String lang,
-												final @NotNull OutputFileFactoryParams params,
-												final GenerateResultEnv aFileGen) {
+	public static @NotNull GenerateFiles
+	create(final String lang,
+	       final OutputFileFactoryParams params,
+	       final GenerateResultEnv aFileGen) {
+		@NotNull GenerateFiles result;
+
+		Preconditions.checkNotNull(lang);
+		Preconditions.checkNotNull(params);
+
 		if (Objects.equals(lang, "c")) {
 			final OS_Module mod = params.getMod();
 
 			if (mgfMap.containsKey(mod)) {
-				return mgfMap.get(mod);
+				result = mgfMap.get(mod);
+			} else {
+				final GenerateFiles generateC = new GenerateC(params, aFileGen);
+				mgfMap.put(mod, generateC);
+				result = generateC;
 			}
-
-			final GenerateFiles generateC = new GenerateC(params, aFileGen);
-			mgfMap.put(mod, generateC);
-
-			return generateC;
-		} else
+		} else {
 			throw new NotImplementedException();
-	}
+		}
 
-	private static Map<OS_Module, GenerateFiles> mgfMap = new HashMap<>();
+		Preconditions.checkNotNull(result);
+		return result;
+	}
 }

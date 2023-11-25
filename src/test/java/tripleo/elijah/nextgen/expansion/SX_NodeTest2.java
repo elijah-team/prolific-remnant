@@ -14,7 +14,7 @@ import tripleo.elijah.nextgen.outputstatement.*;
 import tripleo.elijah.nextgen.outputtree.EOT_OutputFile;
 import tripleo.elijah.nextgen.outputtree.EOT_OutputTree;
 import tripleo.elijah.nextgen.outputtree.EOT_OutputType;
-import tripleo.elijah.util.Helpers;
+import tripleo.elijah.util.*;
 import tripleo.small.ES_Symbol;
 
 import java.util.List;
@@ -92,6 +92,15 @@ public class SX_NodeTest2 extends TestCase {
 		assert l != null;
 
 		final int yyy = 2;
+
+
+		var a = l.stream()
+				.filter(eof -> eof.getFilename().startsWith("/"))
+				.findAny();
+		if (a.isPresent()) {
+			throw new ProgramIsWrongIfYouGetHere("eof SOURCE filenames begin with /");
+		}
+
 		final List<EOT_OutputFile> wmainl = l.stream()
 				.filter(eof -> eof.getFilename().replace("//", "/").equals("/while100/Main.c"))
 				.collect(Collectors.toList());

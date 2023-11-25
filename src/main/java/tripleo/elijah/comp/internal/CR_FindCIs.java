@@ -41,7 +41,13 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 	public @NotNull Operation<Ok> execute(final @NotNull CR_State st, final @NotNull CB_Output aO) {
 		final Compilation c = st.ca().getCompilation();
 
-		final List<CompilerInput> x = find_cis(inputs, c, c.getErrSink());
+		final @NotNull ErrSink errSink = c.getErrSink();
+		final List<CompilerInput> x = new ArrayList<>();
+
+		for (final CompilerInput input : inputs) {
+			_processInput(c, errSink, x, input);
+		}
+
 		for (final CompilerInput compilerInput : x) {
 			cci.accept(compilerInput.acceptance_ci(), _ps);
 		}
@@ -51,18 +57,6 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 
 	@Override
 	public void attach(final @NotNull CompilationRunner cr) {
-	}
-
-	protected @NotNull List<CompilerInput> find_cis(final @NotNull List<CompilerInput> inputs,
-													final @NotNull Compilation c,
-													final @NotNull ErrSink errSink) {
-		final List<CompilerInput> x = new ArrayList<>();
-
-		for (final CompilerInput input : inputs) {
-			_processInput(c, errSink, x, input);
-		}
-
-		return x;
 	}
 
 	private void _processInput(final @NotNull Compilation c,

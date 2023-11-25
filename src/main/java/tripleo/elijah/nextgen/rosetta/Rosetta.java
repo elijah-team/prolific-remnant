@@ -3,6 +3,7 @@ package tripleo.elijah.nextgen.rosetta;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import tripleo.elijah.comp.notation.*;
 import tripleo.elijah.nextgen.rosetta.DeduceTypes2.DeduceTypes2Request;
 import tripleo.elijah.nextgen.rosetta.DeduceTypes2.DeduceTypes2Request_TWO;
 import tripleo.elijah.nextgen.rosetta.DeduceTypes2.DeduceTypes2_deduceFunctions_Request;
@@ -16,6 +17,8 @@ import tripleo.elijah.stages.gen_fn.GenerateFunctions2;
 import tripleo.elijah.stages.gen_fn_r.GenerateEvaClassRequest;
 import tripleo.elijah.stages.gen_fn_r.GenerateEvaClassResponse;
 import tripleo.elijah.stages.gen_fn_r.RegisterClassInvocation_env;
+import tripleo.elijah.stages.gen_generic.pipeline_impl.*;
+import tripleo.elijah.work.*;
 
 @SuppressWarnings({"UtilityClassCanBeEnum", "ClassWithOnlyPrivateConstructors", "NonFinalUtilityClass"})
 public class Rosetta {
@@ -38,6 +41,17 @@ public class Rosetta {
 
 	public static RCIE create(final RegisterClassInvocation_env aEnv, final RegisterClassInvocation_resp aResp) {
 		return new RCIE(aEnv, aResp);
+	}
+
+	public static RosettaApplyable create(final GM_GenerateModuleRequest gmr, final @NotNull WorkManager wm, final @NotNull GenerateResultSink aResultSink1) {
+		return new RosettaApplyable() {
+			@Override
+			public void apply() {
+				final GM_GenerateModule        gm   = new GM_GenerateModule(gmr);
+				final GM_GenerateModuleResult  ggmr = gm.getModuleResult(wm, aResultSink1);
+				ggmr.doResult(wm);
+			}
+		};
 	}
 
 	@SuppressWarnings("FinalClass")

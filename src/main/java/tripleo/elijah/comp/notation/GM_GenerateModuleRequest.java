@@ -16,10 +16,10 @@ public record GM_GenerateModuleRequest(@NotNull GN_GenerateNodesIntoSink generat
 	@Contract("_ -> new")
 	public @NotNull GenerateFiles getGenerateFiles(final Supplier<GenerateResultEnv> fgs) {
 		var params = params();
-		return env.getGenerateFiles(params, params.getMod(), fgs);
+		return GN_GenerateNodesIntoSinkEnv.getGenerateFiles(params, params.getMod(), fgs);
 	}
 
 	public @NotNull OutputFileFactoryParams params() {
-		return env.getParams(mod, generateNodesIntoSink);
+		return new OutputFileFactoryParams(mod, generateNodesIntoSink._env().ce());
 	}
 }

@@ -40,6 +40,11 @@ public interface CompilerInstructions {
 	CiIndexingStatement indexingStatement();
 
 	void setName(LocatableString name);
+
+	default void setFilename(String aString) {
+		setName(LocatableString.of(aString));
+	}
+
 	public interface CompilerInstructionsBuilder {
 		CompilerInstructions build();
 
