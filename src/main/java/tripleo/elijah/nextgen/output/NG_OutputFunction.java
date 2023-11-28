@@ -1,5 +1,7 @@
 package tripleo.elijah.nextgen.output;
 
+import kotlin.*;
+import kotlin.jvm.functions.*;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.nextgen.outputstatement.EG_Statement;
 import tripleo.elijah.nextgen.outputtree.EOT_FileNameProvider;
@@ -31,6 +33,12 @@ public class NG_OutputFunction implements NG_OutputItem {
 				r.add(new NG_OutputFunctionStatement(c2c));
 			}
 		}
+
+		var filename_$delegate = LazyKt.lazy((Function0)(new Function0() {
+			public final String invoke() {
+				return "";
+			}
+		}));
 
 		return r;
 	}
