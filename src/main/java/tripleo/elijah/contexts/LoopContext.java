@@ -23,7 +23,7 @@ import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
  * <p>
  * Created 	Mar 26, 2020 at 9:40:43 PM
  */
-public class LoopContext extends ContextImpl implements Context {
+public class LoopContext extends ContextImpl implements Context, ILoopContext {
 
 	private final Context _parent;
 	private final Loop    carrier;

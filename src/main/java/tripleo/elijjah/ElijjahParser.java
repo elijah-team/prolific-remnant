@@ -6,6 +6,8 @@ import antlr.*;
 import antlr.collections.impl.BitSet;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.comp.internal.Out;
+import tripleo.elijah.comp.internal.PCon;
+import tripleo.elijah.comp.internal.PConParser;
 import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.builder.TypeAliasBuilder;
 import tripleo.elijah.lang.i.*;
@@ -498,6 +500,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	}
 
 	Qualident xy;
+	private PConParser pcon;
 
 	private static final long[] mk_tokenSet_60() {
 		long[] data = {274877906944L, 229376L, 0L, 0L};
@@ -635,7 +638,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 		Token        category1  = null;
 		Token        shorthand1 = null;
 		TypeNameList tnl        = null;
-		acs = new AccessNotationImpl();
+		acs = pcon.new_AccessNotation();
 
 		try {      // for error handling
 			match(LITERAL_access);
@@ -775,7 +778,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 		AliasStatement pc;
 
 		IdentExpression i1 = null;
-		pc = new AliasStatementImpl(cont);
+		pc = pcon.new_AliasStatementImpl(cont);
 
 		try {      // for error handling
 			match(LITERAL_alias);
@@ -838,7 +841,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 
 		Qualident      q  = null;
 		ExpressionList el = null;
-		a = new AnnotationClauseImpl();
+		a = pcon.new_AnnotationClauseImpl();
 		AnnotationPart ap = null;
 
 		try {      // for error handling
@@ -849,7 +852,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				do {
 					if ((LA(1) == IDENT)) {
 						if (inputState.guessing == 0) {
-							ap = new AnnotationPartImpl();
+							ap = pcon.new_AnnotationPartImpl();
 						}
 						q = qualident();
 						if (inputState.guessing == 0) {
@@ -1098,7 +1101,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 			}
 			match(LITERAL_class);
 			if (inputState.guessing == 0) {
-				ch = new ClassHeaderImpl(extends_, as);
+				ch = pcon.new_ClassHeaderImpl(extends_, as);
 			}
 			class_modifier(ch);
 			class_name = ident();
@@ -1458,7 +1461,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 		try {      // for error handling
 			ch = class_header(as);
 			if (inputState.guessing == 0) {
-				cls = new ClassStatementImpl(parent, cctx);
+				cls = pcon.new_ClassStatementImpl(parent, cctx);
 				cls.setHeader(ch);
 			}
 			match(LCURLY);
@@ -1569,7 +1572,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				s = LT(1);
 				match(STRING_LITERAL);
 				if (inputState.guessing == 0) {
-					e = new StringExpressionImpl(s);
+					e = pcon.new_StringExpressionImpl(s);
 				}
 				break;
 			}
@@ -1577,7 +1580,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				c = LT(1);
 				match(CHAR_LITERAL);
 				if (inputState.guessing == 0) {
-					e = new CharLitExpressionImpl(c);
+					e = pcon.new_CharLitExpressionImpl(c);
 				}
 				break;
 			}
@@ -1585,7 +1588,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				n = LT(1);
 				match(NUM_INT);
 				if (inputState.guessing == 0) {
-					e = new NumericExpressionImpl(n);
+					e = pcon.new_NumericExpressionImpl(n);
 				}
 				break;
 			}
@@ -1593,7 +1596,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				f = LT(1);
 				match(NUM_FLOAT);
 				if (inputState.guessing == 0) {
-					e = new FloatExpressionImpl(f);
+					e = pcon.new_FloatExpressionImpl(f);
 				}
 				break;
 			}
@@ -1756,7 +1759,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 			match(LITERAL_def);
 			fh = function_header();
 			if (inputState.guessing == 0) {
-				fd  = new DefFunctionDefImpl(parent, ctx);
+				fd  = pcon.new_DefFunctionDefImpl(parent, ctx);
 				cur = fd.getContext();
 			}
 			fb = expression();
@@ -1970,7 +1973,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 		try {      // for error handling
 			e = ident();
 			if (inputState.guessing == 0) {
-				ee = new DotExpressionImpl(e1, e);
+				ee = pcon.new_DotExpressionImpl(e1, e);
 			}
 			{
 				if ((LA(1) == LPAREN) && (_tokenSet_59.member(LA(2)))) {
@@ -2010,7 +2013,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 						}
 					}
 					if (inputState.guessing == 0) {
-						ProcedureCallExpression pce = new ProcedureCallExpressionImpl();
+						ProcedureCallExpression pce = pcon.new_ProcedureCallExpressionImpl();
 						pce.identifier(ee);
 						pce.setArgs(el);
 						ee = pce;
@@ -2187,7 +2190,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	public final ExpressionList expressionList() throws RecognitionException, TokenStreamException {
 		ExpressionList el;
 
-		el = new ExpressionListImpl();
+		el = pcon.new_ExpressionListImpl();
 
 		try {      // for error handling
 			expr = expression();
@@ -2225,13 +2228,13 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 									) throws RecognitionException, TokenStreamException {
 
 		Loop            loop = cr.loop();
-		LoopContext     ctx  = null;
+		ILoopContext     ctx  = null;
 		IdentExpression i1   = null, i2 = null, i3 = null;
 
 		try {      // for error handling
 			match(LITERAL_iterate);
 			if (inputState.guessing == 0) {
-				ctx = new LoopContext(cur, loop);
+				ctx = pcon.new_LoopContext(cur, loop);
 				loop.setContext(ctx);
 				cur = ctx;
 			}
@@ -2390,7 +2393,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 						}
 					}
 					if (inputState.guessing == 0) {
-						ctx = new FuncExprContext(cur, pc);
+						ctx = pcon.new_FuncExprContext(cur, pc);
 						pc.setContext(ctx);
 						cur = ctx;
 					}
@@ -2439,7 +2442,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 						}
 					}
 					if (inputState.guessing == 0) {
-						ctx = new FuncExprContext(cur, pc);
+						ctx = pcon.new_FuncExprContext(cur, pc);
 						pc.setContext(ctx);
 						cur = ctx;
 					}
@@ -2451,11 +2454,11 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				}
 				case LCURLY: {
 					if (inputState.guessing == 0) {
-						sc = new Scope3Impl(pc);
+						sc = pcon.new_Scope3Impl(pc);
 					}
 					match(LCURLY);
 					if (inputState.guessing == 0) {
-						ctx = new FuncExprContext(cur, pc);
+						ctx = pcon.new_FuncExprContext(cur, pc);
 						pc.setContext(ctx);
 						cur = ctx;
 					}
@@ -2526,8 +2529,8 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 													 ) throws RecognitionException, TokenStreamException {
 		FunctionBody fb;
 
-		fb = new FunctionBodyImpl();
-		Scope3         sc  = new Scope3Impl(parent);
+		fb = pcon.new_FunctionBodyImpl();
+		Scope3         sc  = pcon.new_Scope3Impl(parent);
 		ClassStatement cls = null;
 		fb.setScope3(sc);
 
@@ -2807,7 +2810,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	public final FunctionHeader function_header() throws RecognitionException, TokenStreamException {
 		FunctionHeader fh;
 
-		fh = new FunctionHeaderImpl();
+		fh = pcon.new_FunctionHeaderImpl();
 		IdentExpression i1  = null;
 		FormalArgList   fal = null;
 		TypeName        tn  = null;
@@ -2953,7 +2956,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 			case LITERAL_property: {
 				opt_semi();
 				if (inputState.guessing == 0) {
-					fb = new FunctionBodyEmptyImpl();
+					fb = pcon.new_FunctionBodyEmptyImpl();
 				}
 				break;
 			}
@@ -2977,7 +2980,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 									 ) throws RecognitionException, TokenStreamException {
 		Scope3 sc;
 
-		sc = new Scope3Impl(parent);
+		sc = pcon.new_Scope3Impl(parent);
 		ClassStatement cls = null;
 
 		try {      // for error handling
@@ -3124,7 +3127,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	public final FuncTypeName functionTypeName2_function() throws RecognitionException, TokenStreamException {
 		FuncTypeName tn;
 
-		tn = new FuncTypeNameImpl(cur);
+		tn = pcon.new_FuncTypeNameImpl(cur);
 		TypeName      rtn = null;
 		TypeNameList  tnl = null;
 		FormalArgList op  = null;
@@ -3223,7 +3226,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 		TypeNameList cr;
 
 		TypeName tn = null;
-		cr = new TypeNameListImpl();
+		cr = pcon.new_TypeNameListImpl();
 
 		try {      // for error handling
 			tn = typeName2();
@@ -3259,7 +3262,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	public final FormalArgList formalArgList() throws RecognitionException, TokenStreamException {
 		FormalArgList fal;
 
-		fal = new FormalArgListImpl();
+		fal = pcon.new_FormalArgListImpl();
 
 		try {      // for error handling
 			formalArgList_(fal);
@@ -3492,7 +3495,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	public final FuncTypeName functionTypeName2_procedure() throws RecognitionException, TokenStreamException {
 		FuncTypeName tn;
 
-		tn = new FuncTypeNameImpl(cur);
+		tn = pcon.new_FuncTypeNameImpl(cur);
 		TypeNameList  tnl = null;
 		FormalArgList op  = null;
 
@@ -3562,7 +3565,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	public final GenericTypeName genericTypeName2() throws RecognitionException, TokenStreamException {
 		GenericTypeName tn;
 
-		tn = new GenericTypeNameImpl(cur);
+		tn = pcon.new_GenericTypeNameImpl(cur);
 		TypeName tn2 = null;
 
 		try {      // for error handling
@@ -3614,7 +3617,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 		Qualident q;
 
 		Token d1 = null;
-		q = new QualidentImpl();
+		q = pcon.new_QualidentImpl();
 		IdentExpression r1 = null, r2 = null;
 
 		try {      // for error handling
@@ -3810,8 +3813,8 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 			case LITERAL_from: {
 				match(LITERAL_from);
 				if (inputState.guessing == 0) {
-					pc  = new RootedImportStatement(el);
-					ctx = new ImportContext(cur, pc);
+					pc  = pcon.new_RootedImportStatement(el);
+					ctx = pcon.new_ImportContext(cur, pc);
 					pc.setContext(ctx);
 					cur = ctx;
 				}
@@ -3845,8 +3848,8 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 					}
 					if (synPredMatched40) {
 						if (inputState.guessing == 0) {
-							pc  = new AssigningImportStatement(el);
-							ctx = new ImportContext(cur, pc);
+							pc  = pcon.new_AssigningImportStatement(el);
+							ctx = pcon.new_ImportContext(cur, pc);
 							pc.setContext(ctx);
 							cur = ctx;
 						}
@@ -3882,8 +3885,8 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 						}
 						if (synPredMatched44) {
 							if (inputState.guessing == 0) {
-								pc  = new QualifiedImportStatement(el);
-								ctx = new ImportContext(cur, pc);
+								pc  = pcon.new_QualifiedImportStatement(el);
+								ctx = pcon.new_ImportContext(cur, pc);
 								pc.setContext(ctx);
 								cur = ctx;
 							}
@@ -3902,8 +3905,8 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 							}
 						} else if ((LA(1) == IDENT) && (_tokenSet_27.member(LA(2)))) {
 							if (inputState.guessing == 0) {
-								pc  = new NormalImportStatement(el);
-								ctx = new ImportContext(cur, pc);
+								pc  = pcon.new_NormalImportStatement(el);
+								ctx = pcon.new_ImportContext(cur, pc);
 								pc.setContext(ctx);
 								cur = ctx;
 							}
@@ -3988,7 +3991,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 		try {      // for error handling
 			match(LITERAL_indexing);
 			if (inputState.guessing == 0) {
-				idx = new PIndexingStatement(out);
+				idx = pcon.new_PIndexingStatement(out);
 			}
 			{
 				_loop7:
@@ -3999,7 +4002,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 						match(TOK_COLON);
 						el = expressionList();
 						if (inputState.guessing == 0) {
-							item = new IndexingItemImpl(i1, el);
+							item = pcon.new_IndexingItemImpl(i1, el);
 							idx.add(item);
 						}
 					} else {
@@ -4072,7 +4075,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				do {
 					if ((_tokenSet_18.member(LA(1)))) {
 						if (inputState.guessing == 0) {
-							isp = new InvariantStatementPartImpl(cr, i1);
+							isp = pcon.new_InvariantStatementPartImpl(cr, i1);
 						}
 						{
 							if ((LA(1) == IDENT) && (LA(2) == TOK_COLON)) {
@@ -4240,7 +4243,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 								 ) throws RecognitionException, TokenStreamException {
 
 		Qualident q3;
-		IdentList il = new IdentListImpl();
+		IdentList il = pcon.new_IdentListImpl();
 
 		try {      // for error handling
 			q3 = qualident();
@@ -4264,7 +4267,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 		IdentList ail;
 
 		IdentExpression s = null;
-		ail = new IdentListImpl();
+		ail = pcon.new_IdentListImpl();
 
 		try {      // for error handling
 			s = ident();
@@ -4575,7 +4578,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 			}
 			match(LCURLY);
 			if (inputState.guessing == 0) {
-				ctx = new NamespaceContext__(cur, cls);
+				ctx = pcon.new_NamespaceContext(cur, cls);
 				cls.setContext(ctx);
 				cur = ctx;
 			}
@@ -4607,7 +4610,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 		try {      // for error handling
 			fh = function_header();
 			if (inputState.guessing == 0) {
-				fd  = new FunctionDefImpl(parent, ctx);
+				fd  = pcon.new_FunctionDefImpl(parent, ctx);
 				cur = fd.getContext();
 			}
 			fb = function_body(fd);
@@ -4631,7 +4634,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	public final NormalTypeName normalTypeName2() throws RecognitionException, TokenStreamException {
 		NormalTypeName tn;
 
-		tn = new RegularTypeNameImpl(cur);
+		tn = pcon.new_RegularTypeNameImpl(cur);
 		TypeNameList rtn = null;
 
 		try {      // for error handling
@@ -4808,7 +4811,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 						rb   = LT(1);
 						match(RBRACK);
 						if (inputState.guessing == 0) {
-							ee = new GetItemExpressionImpl(ee, expr);
+							ee = pcon.new_GetItemExpressionImpl(ee, expr);
 							((GetItemExpression) ee).parens(lb, rb);
 						}
 						{
@@ -4816,7 +4819,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 								match(BECOMES);
 								expr = expression();
 								if (inputState.guessing == 0) {
-									ee = new SetItemExpressionImpl((GetItemExpression) ee, expr);
+									ee = pcon.new_SetItemExpressionImpl((GetItemExpression) ee, expr);
 								}
 							} else if ((_tokenSet_7.member(LA(1))) && (_tokenSet_56.member(LA(2)))) {
 							} else {
@@ -4861,7 +4864,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 							}
 						}
 						if (inputState.guessing == 0) {
-							ProcedureCallExpression pce = new ProcedureCallExpressionImpl();
+							ProcedureCallExpression pce = pcon.new_ProcedureCallExpressionImpl();
 							pce.identifier(ee);
 							pce.setArgs(el);
 							ee = pce;
@@ -4895,7 +4898,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 			{
 				if ((LA(1) == AS || LA(1) == CAST_TO) && (_tokenSet_61.member(LA(2)))) {
 					if (inputState.guessing == 0) {
-						tc = new TypeCastExpressionImpl();
+						tc = pcon.new_TypeCastExpressionImpl();
 						ee = tc;
 					}
 					{
@@ -4943,7 +4946,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	public final Postcondition postcondition() throws RecognitionException, TokenStreamException {
 		Postcondition postc;
 
-		postc = new PostconditionImpl();
+		postc = pcon.new_PostconditionImpl();
 		IdentExpression id = null;
 
 		try {      // for error handling
@@ -4978,7 +4981,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	public final void program() throws RecognitionException, TokenStreamException {
 
 		ParserClosure pc   = out.closure();
-		ModuleContext mctx = new ModuleContext__(out.module());
+		ModuleContext mctx = pcon.new_ModuleContext(out.module());
 		out.module().setContext(mctx);
 		cur = mctx;
 		IndexingStatement idx = null;
@@ -5020,7 +5023,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 						opt_semi();
 						if (inputState.guessing == 0) {
 							pkg = pc.defaultPackageName(xy);
-							cur = new PackageContext(cur, pkg);
+							cur = pcon.new_PackageContext(cur, pkg);
 							pkg.setContext((PackageContext) cur);
 						}
 						break;
@@ -5099,7 +5102,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				ee = assignmentExpression();
 				match(RPAREN);
 				if (inputState.guessing == 0) {
-					ee = new SubExpressionImpl(ee);
+					ee = pcon.new_SubExpressionImpl(ee);
 				}
 				break;
 			}
@@ -5107,7 +5110,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 			case LITERAL_function:
 			case LITERAL_procedure: {
 				if (inputState.guessing == 0) {
-					ppc = new FuncExprImpl();
+					ppc = pcon.new_FuncExprImpl();
 				}
 				funcExpr(ppc);
 				if (inputState.guessing == 0) {
@@ -5118,8 +5121,8 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 			case LBRACK: {
 				match(LBRACK);
 				if (inputState.guessing == 0) {
-					ee = new ListExpressionImpl();
-					el = new ExpressionListImpl();
+					ee = pcon.new_ListExpressionImpl();
+					el = pcon.new_ExpressionListImpl();
 				}
 				el = expressionList();
 				if (inputState.guessing == 0) {
@@ -5196,7 +5199,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	public final Precondition precondition() throws RecognitionException, TokenStreamException {
 		Precondition prec;
 
-		prec = new PreconditionImpl();
+		prec = pcon.new_PreconditionImpl();
 		IdentExpression id = null;
 
 		try {      // for error handling
@@ -5474,7 +5477,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 			r1 = LT(1);
 			match(IDENT);
 			if (inputState.guessing == 0) {
-				id = new IdentExpressionImpl(r1, inputState.getFilename(), cur);
+				id = pcon.new_IdentExpressionImpl(r1, inputState.getFilename(), cur);
 			}
 		} catch (RecognitionException ex) {
 			if (inputState.guessing == 0) {
@@ -5589,7 +5592,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 					match(LITERAL_is_a);
 					tn = typeName2();
 					if (inputState.guessing == 0) {
-						ee = new TypeCheckExpressionImpl(ee, tn);
+						ee = pcon.new_TypeCheckExpressionImpl(ee, tn);
 					}
 				} else {
 					throw new NoViableAltException(LT(1), getFilename());
@@ -5611,7 +5614,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 		QualidentList qal;
 
 		Qualident qid;
-		qal = new QualidentListImpl();
+		qal = pcon.new_QualidentListImpl();
 
 		try {      // for error handling
 			qid = qualident();
@@ -5711,7 +5714,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 							  ) throws RecognitionException, TokenStreamException {
 		Scope3 sc;
 
-		sc = new Scope3Impl(parent);
+		sc = pcon.new_Scope3Impl(parent);
 		ClassStatement cls = null;
 
 		try {      // for error handling
@@ -5811,12 +5814,12 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 			OS_Element aParent
 										 ) throws RecognitionException, TokenStreamException {
 
-		SyntacticBlock        sb  = new SyntacticBlockImpl(aParent);
+		SyntacticBlock        sb  = pcon.new_SyntacticBlockImpl(aParent);
 		SyntacticBlockContext ctx = null;
 
 		try {      // for error handling
 			if (inputState.guessing == 0) {
-				ctx = new SyntacticBlockContext(sb, cur);
+				ctx = pcon.new_SyntacticBlockContext(sb, cur);
 				sb.setContext(ctx);
 				cur = ctx;
 			}
@@ -5843,7 +5846,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 													   ) throws RecognitionException, TokenStreamException {
 		TypeAliasStatement cr;
 
-		TypeAliasBuilder tab = new TypeAliasBuilder();
+		TypeAliasBuilder tab = pcon.new_TypeAliasBuilder();
 		cr = null;
 
 		try {      // for error handling
@@ -6033,7 +6036,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	public final TypeOfTypeName typeOfTypeName2() throws RecognitionException, TokenStreamException {
 		TypeOfTypeName tn;
 
-		tn = new TypeOfTypeNameImpl(cur);
+		tn = pcon.new_TypeOfTypeNameImpl(cur);
 
 		try {      // for error handling
 			match(LITERAL_typeof);
@@ -6065,7 +6068,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				match(INC);
 				ee = unaryExpression();
 				if (inputState.guessing == 0) {
-					ee = new UnaryExpressionImpl(ExpressionKind.INCREMENT, ee);
+					ee = pcon.new_UnaryExpressionImpl(ExpressionKind.INCREMENT, ee);
 				}
 				break;
 			}
@@ -6073,7 +6076,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				match(DEC);
 				ee = unaryExpression();
 				if (inputState.guessing == 0) {
-					ee = new UnaryExpressionImpl(ExpressionKind.DECREMENT, ee);
+					ee = pcon.new_UnaryExpressionImpl(ExpressionKind.DECREMENT, ee);
 				}
 				break;
 			}
@@ -6081,7 +6084,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				match(MINUS);
 				ee = unaryExpression();
 				if (inputState.guessing == 0) {
-					ee = new UnaryExpressionImpl(ExpressionKind.NEG, ee);
+					ee = pcon.new_UnaryExpressionImpl(ExpressionKind.NEG, ee);
 				}
 				break;
 			}
@@ -6089,7 +6092,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				match(PLUS);
 				ee = unaryExpression();
 				if (inputState.guessing == 0) {
-					ee = new UnaryExpressionImpl(ExpressionKind.POS, ee);
+					ee = pcon.new_UnaryExpressionImpl(ExpressionKind.POS, ee);
 				}
 				break;
 			}
@@ -6139,7 +6142,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				match(BNOT);
 				ee = unaryExpression();
 				if (inputState.guessing == 0) {
-					ee = new UnaryExpressionImpl(ExpressionKind.BNOT, ee);
+					ee = pcon.new_UnaryExpressionImpl(ExpressionKind.BNOT, ee);
 				}
 				break;
 			}
@@ -6147,7 +6150,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				match(LNOT);
 				ee = unaryExpression();
 				if (inputState.guessing == 0) {
-					ee = new UnaryExpressionImpl(ExpressionKind.LNOT, ee);
+					ee = pcon.new_UnaryExpressionImpl(ExpressionKind.LNOT, ee);
 				}
 				break;
 			}
@@ -6479,7 +6482,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 							   ) throws RecognitionException, TokenStreamException {
 
 		Loop        loop = cr.loop();
-		LoopContext ctx;
+		ILoopContext ctx;
 
 		try {      // for error handling
 			{
@@ -6494,7 +6497,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 						loop.expr(expr);
 					}
 					if (inputState.guessing == 0) {
-						ctx = new LoopContext(cur, loop);
+						ctx = pcon.new_LoopContext(cur, loop);
 						loop.setContext((LoopContext) ctx);
 						cur = ctx;
 					}
@@ -6510,7 +6513,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 						loop.type(LoopTypes.DO_WHILE);
 					}
 					if (inputState.guessing == 0) {
-						ctx = new LoopContext(cur, loop);
+						ctx = pcon.new_LoopContext(cur, loop);
 						loop.setContext((LoopContext) ctx);
 						cur = ctx;
 					}
@@ -6544,8 +6547,8 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 			OS_Element aParent
 								   ) throws RecognitionException, TokenStreamException {
 
-		WithStatement ws  = new WithStatementImpl(aParent);
-		WithContext   ctx = null;
+		WithStatement ws  = pcon.new_WithStatementImpl(aParent);
+		IWithContext   ctx = null;
 
 		try {      // for error handling
 			match(LITERAL_with);
@@ -6555,7 +6558,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 				varStmt_i(ws.nextVarStmt());
 			}
 			if (inputState.guessing == 0) {
-				ctx = new WithContext(ws, cur);
+				ctx = pcon.new_WithContext(ws, cur);
 				ws.setContext(ctx);
 				cur = ctx;
 			}
