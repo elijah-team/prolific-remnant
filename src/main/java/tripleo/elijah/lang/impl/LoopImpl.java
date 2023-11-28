@@ -9,6 +9,8 @@
 package tripleo.elijah.lang.impl;
 
 import org.jetbrains.annotations.NotNull;
+
+import tripleo.elijah.contexts.ILoopContext;
 import tripleo.elijah.contexts.LoopContext;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang2.ElElementVisitor;
@@ -108,10 +110,9 @@ public class LoopImpl implements tripleo.elijah.lang.i.Loop {
 		iterName = s;
 	}
 
-	@Override
-	public void setContext(final LoopContext ctx) {
-		_a.setContext(ctx);
-	}
+//	public void setContext(final LoopContext ctx) {
+//		_a.setContext(ctx);
+//	}
 
 	@Override
 	public void scope(Scope3 sco) {
@@ -145,6 +146,11 @@ public class LoopImpl implements tripleo.elijah.lang.i.Loop {
 	//	@Override
 	public void visitGen1(@NotNull ElElementVisitor visit) {
 		visit.visitLoop(this);
+	}
+
+	@Override
+	public void setContext(ILoopContext ctx) {
+		this.setContext(ctx);
 	}
 
 }

@@ -1,6 +1,8 @@
 package tripleo.elijah.lang.i;
 
 import org.jetbrains.annotations.NotNull;
+
+import tripleo.elijah.contexts.ILoopContext;
 import tripleo.elijah.contexts.LoopContext;
 import tripleo.elijah.lang2.ElElementVisitor;
 
@@ -35,7 +37,7 @@ public interface Loop extends StatementItem, FunctionItem, OS_Element {
 
 	void scope(Scope3 aSco);
 
-	void setContext(LoopContext ctx);
+	void setContext(ILoopContext ctx);
 
 	void topart(IExpression aExpr);
 

@@ -11,6 +11,8 @@ package tripleo.elijah.lang.impl;
 import antlr.Token;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import tripleo.elijah.contexts.IWithContext;
 import tripleo.elijah.contexts.WithContext;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang2.ElElementVisitor;
@@ -102,8 +104,8 @@ public class WithStatementImpl implements OS_Element, OS_Container, StatementIte
 	}
 
 	@Override
-	public void setContext(final WithContext ctx) {
-		this.ctx = ctx;
+	public void setContext(final IWithContext ctx) {
+		this.ctx = (WithContext) ctx;
 	}
 
 }

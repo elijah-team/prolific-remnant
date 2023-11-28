@@ -1,6 +1,7 @@
 package tripleo.elijah.lang.i;
 
 import antlr.Token;
+import tripleo.elijah.contexts.IWithContext;
 import tripleo.elijah.contexts.WithContext;
 import tripleo.elijah.lang2.ElElementVisitor;
 
@@ -38,5 +39,5 @@ public interface WithStatement extends FunctionItem {
 
 	}
 
-	void setContext(WithContext ctx);
+	void setContext(IWithContext ctx);
 }

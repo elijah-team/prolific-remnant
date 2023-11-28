@@ -8,12 +8,15 @@ import tripleo.elijah.lang.impl.*;
 import tripleo.elijah.lang.imports.*;
 import tripleo.elijah.lang.types.*;
 import tripleo.elijah.lang2.*;
+import tripleo.elijjah.p.PIndexingStatement;
 
 import java.util.*;
 
+import org.jetbrains.annotations.Nullable;
+
 public class PConParser {
 
-	public AccessNotation new_AccessNotationImpl() {
+	public AccessNotation new_AccessNotation() {
 		return new AccessNotationImpl();
 	}
 
@@ -254,5 +257,9 @@ public class PConParser {
 		pce.identifier(ee);
 		pce.setArgs(el);
 		return pce;
+	}
+
+	public IndexingStatement new_PIndexingStatement(@Nullable Out out) {
+		return new PIndexingStatement(out);
 	}
 }
