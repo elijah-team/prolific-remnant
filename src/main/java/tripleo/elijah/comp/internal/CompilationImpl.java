@@ -157,12 +157,10 @@ public class CompilationImpl implements Compilation {
 		return _output_tree;
 	}
 
-
 	@Override
 	public CompilerBeginning beginning(final @NotNull CompilationRunner compilationRunner) {
-		return new CompilerBeginning(this, getRootCI(), getInputs(), compilationRunner.progressSink, cfg());
+		return new CompilerBeginning(this, rootCI, getInputs(), compilationRunner.progressSink, cfg());
 	}
-
 
 	@Override
 	public Finally reports() {
@@ -210,7 +208,7 @@ public class CompilationImpl implements Compilation {
 
 	@Override
 	public Map<String, CompilerInstructions> fn2ci() {
-		return getFn2ci();
+		return fn2ci;
 	}
 
 	@Override
@@ -496,14 +494,6 @@ public class CompilationImpl implements Compilation {
 		return _cis;
 	}
 
-
-	public Map<String, CompilerInstructions> getFn2ci() {
-		return fn2ci;
-	}
-
-	public CompilerInstructions getRootCI() {
-		return rootCI;
-	}
 
 	//public void setRootCI(CompilerInstructions aRootCI) {
 	//	rootCI = aRootCI;

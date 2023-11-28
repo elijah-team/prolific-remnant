@@ -8,21 +8,8 @@ data class NG_OutDep(
 		val module_: OS_Module
 ) : CM_Module {
 
-	// TODO 11/04 Find how these are different
-//	val filename: String by lazy { module.getFileName() }
-//	val filename: String = module.getFileName()
-//	fun getFilename(): String = module.getFileName()
-//	val filename_: String
-//		get() = module_.getFileName()
-/*
-	val filename_: String
-		get() = module_.getFileName()
-*/
+	val filename_: String by lazy { module_.fileName.string }
 
-
-//	companion object : CM_Module {
-		override fun getFilename(): String = module_.fileName.string
-		override fun getModule(): OS_Module = module_
-//	}
-
+	override fun getFilename(): String = filename_
+	override fun getModule(): OS_Module = module_
 }
