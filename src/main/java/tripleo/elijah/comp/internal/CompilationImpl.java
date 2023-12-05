@@ -65,7 +65,6 @@ public class CompilationImpl implements Compilation {
 	private final          CompilationEnclosure              compilationEnclosure;
 	private @Nullable      EOT_OutputTree                    _output_tree = null;
 	private                CompilerInstructions              rootCI;
-	private                List<CompilerInput>               _inputs;
 	private                IPipelineAccess                   _pa;
 	private                IO                                io;
 
@@ -159,7 +158,7 @@ public class CompilationImpl implements Compilation {
 
 	@Override
 	public CompilerBeginning beginning(final @NotNull CompilationRunner compilationRunner) {
-		return new CompilerBeginning(this, rootCI, getInputs(), compilationRunner.progressSink, cfg());
+		return new CompilerBeginning(this, rootCI, getCompilationEnclosure().getCompilerInput(), compilationRunner.progressSink, cfg());
 	}
 
 	@Override
@@ -292,7 +291,6 @@ public class CompilationImpl implements Compilation {
 			int y = 2;
 		}
 
-		_inputs = inputs; // !!
 		compilationEnclosure.setCompilerInput(inputs);
 		controller.setEnclosure(compilationEnclosure);
 
@@ -360,11 +358,6 @@ public class CompilationImpl implements Compilation {
 	@Override
 	public IPipelineAccess get_pa() {
 		return _pa;
-	}
-
-	@Override
-	public List<CompilerInput> getInputs() {
-		return _inputs;
 	}
 
 	@Override
