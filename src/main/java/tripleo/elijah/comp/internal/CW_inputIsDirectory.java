@@ -21,13 +21,15 @@ import java.util.List;
 import static tripleo.elijah.util.Helpers.List_of;
 
 public class CW_inputIsDirectory {
-	public static void apply(final @NotNull CompilerInput input,
+	public static void apply(final CM_CompilerInput cm,
 	                         final CompilationClosure c,
 	                         final @NotNull File f) {
 		CompilerInstructions ez_file;
 
-		final CM_CompilerInput cm = c.getCompilation().get(input);
+//		final CM_CompilerInput cm = c.getCompilation().get(input);
 		cm.setDirectory(f);
+
+		final @NotNull CompilerInput input = cm.getCarrier();
 
 		final List<CompilerInstructions> ezs = searchEzFiles(f, c);
 

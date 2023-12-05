@@ -93,6 +93,6 @@ public class DefaultCompilerController implements CompilerController {
 
 	@Override
 	public void setEnclosure(final CompilationEnclosure aCompilationEnclosure) {
-		_setInputs(aCompilationEnclosure.getCompilation(), inputs);
+		_setInputs(aCompilationEnclosure.getCompilation(), aCompilationEnclosure.getCompilerInput());
 	}
 }
