@@ -73,9 +73,6 @@ public interface Compilation {
 
 	@NotNull FluffyComp getFluffy();
 
-	@Contract(pure = true)
-	List<CompilerInput> getInputs();
-
 	String getCompilationNumberString();
 
 	ErrSink getErrSink();
