@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.comp.CompilerInput;
 import tripleo.elijah.comp.i.*;
-import tripleo.elijah.comp.percy.CN_CompilerInputWatcher;
 import tripleo.elijah.nextgen.comp_model.CM_CompilerInput;
 import tripleo.elijah.stateful.DefaultStateful;
 import tripleo.elijah.stateful.State;
@@ -14,15 +13,13 @@ import tripleo.elijah.util.Ok;
 import tripleo.elijah.util.Operation;
 
 import java.io.File;
-import java.nio.file.NotDirectoryException;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.regex.Pattern;
 
 public class CR_FindCIs extends DefaultStateful implements CR_Action {
 	private final @NotNull List<CompilerInput> inputs;
-	private final @NotNull CCI                 cci;
-	private final @NotNull IProgressSink       _ps;
+	private final @NotNull CCI cci;
+	private final @NotNull IProgressSink _ps;
 
 	public CR_FindCIs(final @NotNull CompilerBeginning beginning) {
 		State st = CompilationRunner.ST.INITIAL; // que?? 07/01
@@ -45,7 +42,7 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 		final ErrSink errSink = c.getErrSink();
 
 		for (final CompilerInput input : inputs) {
-			_processInput(c.getCompilationClosure(), errSink, (compilerInput) -> {
+			_processInput(c.getCompilationClosure(), (compilerInput) -> {
 				final Maybe<ILazyCompilerInstructions> mcci = compilerInput.acceptance_ci();
 				if (mcci != null) {
 					cci.accept(mcci, _ps);
@@ -63,61 +60,26 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 	}
 
 	private void _processInput(final @NotNull CompilationClosure c,
-							   final @NotNull ErrSink errSink,
-							   final @NotNull Consumer<CompilerInput> x,
-							   final @NotNull CompilerInput input) {
+	                           final @NotNull Consumer<CompilerInput> x,
+	                           final @NotNull CompilerInput input) {
 		switch (input.ty()) {
-		case NULL -> {
-		}
-		case SOURCE_ROOT -> {
-		}
-		default -> {
-			return;
-		}
+			case NULL -> {
+			}
+			case SOURCE_ROOT -> {
+			}
+			default -> {
+				return;
+			}
 		}
 
 		final CM_CompilerInput cm = c.getCompilation().get(input);
 		final File f = cm.fileOf();
 		if (f.isDirectory()) {
 			//errSink.reportError("9996 Not an .ez file "+file_name);
-			_inputIsDirectory(c, input, f);
+			cm.trigger_inputIsDirectory();
 		} else {
-			final String file_name = cm.getInp();
-			final boolean matches2 = Pattern.matches(".+\\.ez$", file_name);
-			if (matches2) {
-				// TODO 11/24 access3/4
-				c.compilerInputWatcher_Event(CN_CompilerInputWatcher.e.IS_EZ, input, cm);
-				x.accept(input);
-			} else {
-				//errSink.reportError("9996 Not an .ez file "+file_name);
-                final NotDirectoryException d = new NotDirectoryException(f.toString());
-                errSink.reportError("9995 Not a directory " + f.getAbsolutePath());
-            }
+			cm.trigger_inputIsEz(c, x);
 		}
-	}
-
-	private void _inputIsDirectory(final @NotNull CompilationClosure c,
-								   final @NotNull CompilerInput input,
-								   final @NotNull File f) {
-		c.getCompilation().addCompilerInputWatcher(new CN_CompilerInputWatcher() {
-			@Override
-			public void event(final e aEvent, final CompilerInput aCompilerInput, final Object aObject) {
-				switch (aEvent) {
-					case ACCEPT_CI -> {
-						final Maybe<ILazyCompilerInstructions> mci = (Maybe<ILazyCompilerInstructions>) aObject;
-						input.accept_ci(mci);
-					}
-					case IS_EZ -> {
-						final CM_CompilerInput cm = (CM_CompilerInput) aObject;
-						cm.onIsEz();
-					}
-					default -> {
-						System.err.println("~~ [11/24 111] " + aEvent + " " + aCompilerInput);
-					}
-				}
-			}
-		});
-		CW_inputIsDirectory.apply(input, c, f);
 	}
 
 	@Override
