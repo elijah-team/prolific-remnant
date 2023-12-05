@@ -12,4 +12,6 @@ public interface CompilerController {
 	void processOptions();
 
 	void runner();
+
+	void setEnclosure(CompilationEnclosure aCompilationEnclosure);
 }

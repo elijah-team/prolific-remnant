@@ -90,4 +90,9 @@ public class DefaultCompilerController implements CompilerController {
 
 		cb.runProcesses();
 	}
+
+	@Override
+	public void setEnclosure(final CompilationEnclosure aCompilationEnclosure) {
+		_setInputs(aCompilationEnclosure.getCompilation(), inputs);
+	}
 }
