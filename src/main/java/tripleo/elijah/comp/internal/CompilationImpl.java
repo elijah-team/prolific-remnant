@@ -294,12 +294,7 @@ public class CompilationImpl implements Compilation {
 
 		_inputs = inputs; // !!
 		compilationEnclosure.setCompilerInput(inputs);
-
-		if (controller instanceof DefaultCompilerController) {
-			controller._setInputs(this, inputs);
-			//} else if (controller instanceof UT_Controller uctl) {
-			//	uctl._setInputs(this, inputs);
-		}
+		controller.setEnclosure(compilationEnclosure);
 
 		controller.processOptions();
 		controller.runner();
