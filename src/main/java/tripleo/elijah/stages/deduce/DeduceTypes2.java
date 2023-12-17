@@ -69,7 +69,7 @@ import tripleo.elijah.work.WorkList;
 import tripleo.elijah.work.WorkManager;
 
 import java.util.*;
-import java.util.function.Supplier;
+import java.util.function.*;
 import java.util.regex.Pattern;
 
 /**
@@ -245,7 +245,7 @@ public class DeduceTypes2 {
 		}
 	}
 
-	public void deduceFunctions(final @NotNull Iterable<EvaNode> lgf) {
+	public void deduceFunctions(final @NotNull Iterable<EvaNode> lgf, final Consumer<DeducePhase.GeneratedClasses> aRunnable) {
 		for (final EvaNode evaNode : lgf) {
 			if (evaNode instanceof @NotNull final EvaFunction generatedFunction) {
 				deduceOneFunction(generatedFunction, phase);
@@ -262,6 +262,8 @@ public class DeduceTypes2 {
 			size             = df_helper(generatedClasses, new dfhi_constructors());
 			generatedClasses = phase.generatedClasses.copy();
 		} while (size > 0);
+
+		aRunnable.accept(_phase().generatedClasses);
 	}
 
 	public IInvocation getInvocation(@NotNull EvaFunction generatedFunction) {

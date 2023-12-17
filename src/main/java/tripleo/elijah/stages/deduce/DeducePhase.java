@@ -71,50 +71,50 @@ public class DeducePhase extends _RegistrationTarget implements ReactiveDimensio
 	final DeducePhaseInjector __inj = new DeducePhaseInjector();
 
 
-	public final @NotNull  ICodeRegistrar                               codeRegistrar;
-	public final @NotNull  GeneratedClasses                             generatedClasses;
-	public final @NotNull  GeneratePhase                                generatePhase;
+	public final @NotNull ICodeRegistrar codeRegistrar;
+	public final @NotNull GeneratedClasses generatedClasses;
+	public final @NotNull GeneratePhase generatePhase;
 	@NotNull
-	public final           List<IFunctionMapHook>                       functionMapHooks        = _inj().new_ArrayList__IFunctionMapHook();
+	public final List<IFunctionMapHook> functionMapHooks = _inj().new_ArrayList__IFunctionMapHook();
 	private final String PHASE = "DeducePhase";
 	final Multimap<OS_Module, Consumer<DeduceTypes2>> iWantModules = ArrayListMultimap.create();
-	private final @NotNull ICompilationAccess                           ca;
-	private final          Map<NamespaceStatement, NamespaceInvocation> namespaceInvocationMap  = _inj().new_HashMap__NamespaceInvocationMap();
-	private final          ExecutorService                              classGenerator          = Executors.newCachedThreadPool();
-	private final          Country1                                     country                 = _inj().new_Country1(this);
-	private final          List<DeferredMemberFunction>                 deferredMemberFunctions = _inj().new_ArrayList__DeferredaMemberFunction();
-	private final          List<FoundElement>                           foundElements           = _inj().new_ArrayList__FoundElement();
-	private final          Multimap<FunctionDef, EvaFunction>           functionMap             = ArrayListMultimap.create();
-	private final          Map<IdentTableEntry, OnType>                 idte_type_callbacks     = _inj().new_HashMap__IdentTableEntry();
-	private final @NotNull ElLog                                        LOG;
-	private final @NotNull PipelineLogic                                pipelineLogic;
-	private final          List<DE3_Active>                             _actives                = _inj().new_ArrayList__DE3_Active();
-	private final @NotNull Multimap<ClassStatement, ClassInvocation>    classInvocationMultimap = ArrayListMultimap.create();
-	private final @NotNull List<DeferredMember>                         deferredMembers         = _inj().new_ArrayList__DeferredMember();
-	private final @NotNull Multimap<ClassStatement, OnClass>       onclasses          = ArrayListMultimap.create();
+	private final @NotNull ICompilationAccess ca;
+	private final Map<NamespaceStatement, NamespaceInvocation> namespaceInvocationMap = _inj().new_HashMap__NamespaceInvocationMap();
+	private final ExecutorService classGenerator = Executors.newCachedThreadPool();
+	private final Country1 country = _inj().new_Country1(this);
+	private final List<DeferredMemberFunction> deferredMemberFunctions = _inj().new_ArrayList__DeferredaMemberFunction();
+	private final List<FoundElement> foundElements = _inj().new_ArrayList__FoundElement();
+	private final Multimap<FunctionDef, EvaFunction> functionMap = ArrayListMultimap.create();
+	private final Map<IdentTableEntry, OnType> idte_type_callbacks = _inj().new_HashMap__IdentTableEntry();
+	private final @NotNull ElLog LOG;
+	private final @NotNull PipelineLogic pipelineLogic;
+	private final List<DE3_Active> _actives = _inj().new_ArrayList__DE3_Active();
+	private final @NotNull Multimap<ClassStatement, ClassInvocation> classInvocationMultimap = ArrayListMultimap.create();
+	private final @NotNull List<DeferredMember> deferredMembers = _inj().new_ArrayList__DeferredMember();
+	private final @NotNull Multimap<ClassStatement, OnClass> onclasses = ArrayListMultimap.create();
 	private final @NotNull Multimap<OS_Element, ResolvedVariables> resolved_variables = ArrayListMultimap.create();
-	private final @NotNull DRS                                     drs                = _inj().new_DRS();
-	private final @NotNull WAITS                                        waits                   = _inj().new_WAITS();
-	public                 IPipelineAccess                              pa;
+	private final @NotNull DRS drs = _inj().new_DRS();
+	private final @NotNull WAITS waits = _inj().new_WAITS();
+	public IPipelineAccess pa;
 
 	public DeducePhase(final @NotNull CompilationEnclosure ace) {
 		this(ace.getCompilationAccess(), ace.getPipelineAccess(), ace.getPipelineLogic());
 	}
 
 	public DeducePhase(final @NotNull ICompilationAccess aca,
-					   final @NotNull IPipelineAccess pa0,
-					   final @NotNull PipelineLogic aPipelineLogic) {
+	                   final @NotNull IPipelineAccess pa0,
+	                   final @NotNull PipelineLogic aPipelineLogic) {
 		// given
 		pipelineLogic = aPipelineLogic;
-		ca            = aca;
-		pa            = pa0;
+		ca = aca;
+		pa = pa0;
 
 		// transitive
 		generatePhase = pipelineLogic.generatePhase;
 
 		// created
 		codeRegistrar = _inj().new_DefaultCodeRegistrar(ca.getCompilation());
-		LOG           = _inj().new_ElLog("(DEDUCE_PHASE)", pipelineLogic.getVerbosity(), PHASE);
+		LOG = _inj().new_ElLog("(DEDUCE_PHASE)", pipelineLogic.getVerbosity(), PHASE);
 
 		// using
 		pa.getCompilationEnclosure().getPipelineLogic().addLog(LOG);
@@ -241,7 +241,7 @@ public class DeducePhase extends _RegistrationTarget implements ReactiveDimensio
 
 	@ElijahInternal
 	public void __DeduceTypes2_deduceFunctions_Request__run(final boolean b,
-															final DeducePhase_deduceModule_Request aRequest) {
+	                                                        final DeducePhase_deduceModule_Request aRequest) {
 
 
 
@@ -257,36 +257,13 @@ public class DeducePhase extends _RegistrationTarget implements ReactiveDimensio
 		OS_Module         m   = aRequest.getModule();
 		Iterable<EvaNode> lgf = aRequest.getListOfEvaFunctions();
 
-		deduceTypes2.deduceFunctions(lgf);
-
+		Consumer<GeneratedClasses> runnable;
 		if (b) {
-//		deduceTypes2.deduceClasses(generatedClasses.copy().stream()
-//				.filter(c -> c.module() == m)
-//				.collect(Collectors.toList()));
-
-			for (EvaNode evaNode : generatedClasses.copy()) {
-				if (evaNode.module() != m) continue;
-
-				if (evaNode instanceof final @NotNull EvaClass evaClass) {
-
-					evaClass.fixupUserClasses(deduceTypes2, evaClass.getKlass().getContext());
-					deduceTypes2.deduceOneClass(evaClass);
-				}
-			}
-
-			for (EvaNode evaNode : lgf) {
-				final BaseEvaFunction bef;
-
-				if (evaNode instanceof BaseEvaFunction) {
-					bef = (BaseEvaFunction) evaNode;
-				} else continue;
-				for (final IFunctionMapHook hook : functionMapHooks) {
-					if (hook.matches(bef.getFD())) {
-						hook.apply(List_of((EvaFunction) bef));
-					}
-				}
-			}
+			runnable = new GeneratedClassesConsumer(m, deduceTypes2, lgf, functionMapHooks);
+		} else {
+			runnable = (GeneratedClasses aGeneratedClasses) -> { };
 		}
+		deduceTypes2.deduceFunctions(lgf, runnable);
 	}
 
 //	public List<ElLog> deduceLogs = new ArrayList<ElLog>();
@@ -812,6 +789,52 @@ public class DeducePhase extends _RegistrationTarget implements ReactiveDimensio
 
 		public Iterable<DeduceTypes2> iterator() {
 			return waits;
+		}
+	}
+
+	private static class GeneratedClassesConsumer implements Consumer<GeneratedClasses> {
+		private final OS_Module m;
+		private final @NotNull DeduceTypes2 deduceTypes2;
+		private final Iterable<EvaNode> lgf;
+		private final Iterable<? extends IFunctionMapHook> functionMapHooks;
+
+		public GeneratedClassesConsumer(final OS_Module aM,
+		                                final @NotNull DeduceTypes2 aDeduceTypes2,
+		                                final Iterable<EvaNode> aLgf,
+		                                final Iterable<? extends IFunctionMapHook> aFunctionMapHooks) {
+			m = aM;
+			deduceTypes2 = aDeduceTypes2;
+			lgf = aLgf;
+			functionMapHooks = aFunctionMapHooks;
+		}
+
+		@Override
+		public void accept(final GeneratedClasses aEvaNodes) {
+//		deduceTypes2.deduceClasses(generatedClasses.copy().stream()
+//				.filter(c -> c.module() == m)
+//				.collect(Collectors.toList()));
+
+			for (EvaNode evaNode : aEvaNodes.copy()) {
+				if (evaNode.module() != m) continue;
+
+				if (evaNode instanceof final @NotNull EvaClass evaClass) {
+
+					evaClass.fixupUserClasses(deduceTypes2, evaClass.getKlass().getContext());
+					deduceTypes2.deduceOneClass(evaClass);
+				}
+			}
+
+			for (EvaNode evaNode : lgf) {
+				if (evaNode instanceof BaseEvaFunction) {
+					final BaseEvaFunction bef = (BaseEvaFunction) evaNode;
+
+					for (final IFunctionMapHook hook : functionMapHooks) {
+						if (hook.matches(bef.getFD())) {
+							hook.apply(List_of((EvaFunction) bef));
+						}
+					}
+				}
+			}
 		}
 	}
 
