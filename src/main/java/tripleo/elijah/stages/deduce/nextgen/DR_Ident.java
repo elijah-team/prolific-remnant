@@ -1,12 +1,11 @@
 package tripleo.elijah.stages.deduce.nextgen;
 
 import org.jdeferred2.DoneCallback;
-import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.*;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.nextgen.names.i.EN_Understanding;
-import tripleo.elijah.lang.nextgen.names.impl.ENU_LookupResult;
 import tripleo.elijah.stages.deduce.post_bytecode.DG_ClassStatement;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.IdentIA;
@@ -18,58 +17,52 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DR_Ident implements DR_Item {
+	private final List<Understanding> u = new ArrayList<>();
 	private final List<DT_ResolveObserver> resolveObserverList = new LinkedList<>();
-
-	private final @Nullable IdentExpression                     ident;
-	private final @Nullable VariableTableEntry                  vteBl1;
-	@NotNull                List<DoneCallback<DR_PossibleType>> typePossibles = new ArrayList<>();
-	boolean _b;
+	private final List<DoneCallback<DR_PossibleType>> typePossibles = new ArrayList<>();
+	private final Eventual<DR_PossibleType> typePossibleDeferred = new Eventual<>();
+	private final @Nullable IdentExpression ident;
+	private final @Nullable VariableTableEntry vteBl1;
 	private final @Nullable IdentTableEntry _identTableEntry;
-
 	private final BaseEvaFunction baseEvaFunction;
+	private final int mode;
+	private final List<DR_PossibleType> typeProposals = new ArrayList<>();
+	private boolean _b;
 
 	public DR_Ident(final @NotNull IdentTableEntry aIdentTableEntry, final BaseEvaFunction aBaseEvaFunction) {
-		ident            = aIdentTableEntry.getIdent();
-		vteBl1           = null;
+		ident = aIdentTableEntry.getIdent();
+		vteBl1 = null;
 		_identTableEntry = aIdentTableEntry;
-		baseEvaFunction  = aBaseEvaFunction;
-		mode             = 1;
+		baseEvaFunction = aBaseEvaFunction;
+		mode = 1;
 	}
 
-	private final int mode;
+	public DR_Ident(final IdentExpression aIdent, final VariableTableEntry aVteBl1, final BaseEvaFunction aBaseEvaFunction) {
+		ident = aIdent;
+		vteBl1 = aVteBl1;
+		this._identTableEntry = null;
+		baseEvaFunction = aBaseEvaFunction;
+		mode = 1;
+	}
 
-	private final DeferredObject<DR_PossibleType, Void, Void> typePossibleDeferred = new DeferredObject<>();
+	public DR_Ident(final VariableTableEntry aVteBl1, final BaseEvaFunction aBaseEvaFunction) {
+		vteBl1 = aVteBl1;
+		baseEvaFunction = aBaseEvaFunction;
+		mode = 2;
+		_identTableEntry = null;
+		ident = null;
+	}
 
 	public static @NotNull DR_Ident create(final IdentExpression aIdent, final VariableTableEntry aVteBl1, final BaseEvaFunction aBaseEvaFunction) {
 		return new DR_Ident(aIdent, aVteBl1, aBaseEvaFunction);
 	}
 
-	private final List<DR_PossibleType> typeProposals = new ArrayList<>();
-
-	public final List<Understanding> u = new ArrayList<>();
-
 	public static @NotNull DR_Ident create(@NotNull IdentTableEntry aIdentTableEntry, BaseEvaFunction aGeneratedFunction) {
 		return new DR_Ident(aIdentTableEntry, aGeneratedFunction);
 	}
 
-	public DR_Ident(final IdentExpression aIdent, final VariableTableEntry aVteBl1, final BaseEvaFunction aBaseEvaFunction) {
-		ident                 = aIdent;
-		vteBl1                = aVteBl1;
-		this._identTableEntry = null;
-		baseEvaFunction       = aBaseEvaFunction;
-		mode                  = 1;
-	}
-
 	public static @NotNull DR_Ident create(final VariableTableEntry aVariableTableEntry, final BaseEvaFunction aGeneratedFunction) {
 		return new DR_Ident(aVariableTableEntry, aGeneratedFunction);
-	}
-
-	public DR_Ident(final VariableTableEntry aVteBl1, final BaseEvaFunction aBaseEvaFunction) {
-		vteBl1           = aVteBl1;
-		baseEvaFunction  = aBaseEvaFunction;
-		mode             = 2;
-		_identTableEntry = null;
-		ident            = null;
 	}
 
 	private void addElementUnderstanding(OS_Element x) {
@@ -92,7 +85,7 @@ public class DR_Ident implements DR_Item {
 	}
 
 	public boolean isResolved() {
-		for (Understanding understanding : u) {
+		for (Understanding understanding : getUnderstandings()) {
 			if (understanding instanceof PTEUnderstanding ptu) {
 				var ci = ptu.pte.getClassInvocation();
 				var fi = ptu.pte.getFunctionInvocation();
@@ -194,7 +187,11 @@ public class DR_Ident implements DR_Item {
 	}
 
 	@Override
-	public @NotNull String toString() {
+	public String toString() {
+		return asString();
+	}
+
+	public @NotNull String asString() {
 		return "DR_Ident{" +
 				"ident=" + ident +
 				", vteBl1=" + vteBl1 +
@@ -208,7 +205,7 @@ public class DR_Ident implements DR_Item {
 	}
 
 	public void try_resolve_normal(final @NotNull Context aContext) {
-		LookupResultList     lrl1 = aContext.lookup(this._identTableEntry.getIdent().getText());
+		LookupResultList lrl1 = aContext.lookup(this._identTableEntry.getIdent().getText());
 		@Nullable OS_Element best = lrl1.chooseBest(null);
 
 		for (DT_ResolveObserver resolveObserver : resolveObserverList) {
@@ -229,17 +226,16 @@ public class DR_Ident implements DR_Item {
 		ident.getName().addUnderstanding(u);
 	}
 
-	class BacklinkUnderstanding implements Understanding {
-		private final InstructionArgument ia;
+	public BaseEvaFunction getNode() {
+		return baseEvaFunction;
+	}
 
-		public BacklinkUnderstanding(final InstructionArgument aIa) {
-			ia = aIa;
-		}
+	public List<Understanding> getUnderstandings() {
+		return u;
+	}
 
-		@Override
-		public String asString() {
-			return String.format("BacklinkUnderstanding %s", ia);
-		}
+	public interface Understanding {
+		String asString();
 	}
 
 	public static class ElementUnderstanding implements Understanding {
@@ -262,6 +258,19 @@ public class DR_Ident implements DR_Item {
 
 		public OS_Element getElement() {
 			return x;
+		}
+	}
+
+	class BacklinkUnderstanding implements Understanding {
+		private final InstructionArgument ia;
+
+		public BacklinkUnderstanding(final InstructionArgument aIa) {
+			ia = aIa;
+		}
+
+		@Override
+		public String asString() {
+			return String.format("BacklinkUnderstanding %s", ia);
 		}
 	}
 
@@ -290,13 +299,5 @@ public class DR_Ident implements DR_Item {
 		public String asString() {
 			return String.format("PTEUnderstanding " + pte.__debug_expression);
 		}
-	}
-
-	public interface Understanding {
-		String asString();
-	}
-
-	public BaseEvaFunction getNode() {
-		return baseEvaFunction;
 	}
 }

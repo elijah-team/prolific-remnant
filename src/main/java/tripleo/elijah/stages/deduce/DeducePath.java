@@ -167,9 +167,9 @@ public class DeducePath {
 
 			if (el != null) {
 				final DR_Ident.ElementUnderstanding understanding = dt2._inj().new_DR_Ident_ElementUnderstanding(el);
-				id.u.add(understanding);
+				id.addUnderstanding(understanding);
 			} else {
-				for (DR_Ident.Understanding understanding : id.u) {
+				for (DR_Ident.Understanding understanding : id.getUnderstandings()) {
 					if (understanding instanceof DR_Ident.ElementUnderstanding eu) {
 						el = eu.getElement();
 					}
