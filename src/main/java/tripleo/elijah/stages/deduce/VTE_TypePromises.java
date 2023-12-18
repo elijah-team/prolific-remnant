@@ -164,7 +164,7 @@ public enum VTE_TypePromises {
 
 					final Compilation c = fd.getContext().compilation();
 					if (c.reports().outputOn(Finally.Outs.Out_EVTE_159)) {
-						System.err.println("EVTE-159 violation (likely String vs ConstString)");
+						DebugPrint.System_err_println(String.format("EVTE-159 violation (likely String vs ConstString)"));
 					}
 
 				}

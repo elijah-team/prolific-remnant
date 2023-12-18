@@ -97,8 +97,10 @@ public class DT_External_2 implements DT_External {
 			target_p2.then(target0 -> {
 
 				if (target0 == null) {
-					if (false)
-						System.err.println("542542  ");
+					final Compilation c = this.dc._deduceTypes2().module.getCompilation();
+					if (c.reports().outputOn(Finally.Outs.Out_998100)) {
+						DebugPrint.System_err_println(String.format("542542  "));
+					}
 					return;
 				}
 
@@ -201,7 +203,7 @@ public class DT_External_2 implements DT_External {
 			if (fi.pte == null) {
 				final Compilation c = dc._deduceTypes2().module.getCompilation();
 				if (c.reports().outputOn(Finally.Outs.Out_252)) {
-					System.err.println("******************************* Unexpected error");
+					DebugPrint.System_err_println(String.format("******************************* Unexpected error"));
 				}
 				return;
 			}

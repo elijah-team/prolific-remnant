@@ -3,6 +3,7 @@ package tripleo.elijah.stages.deduce.post_bytecode;
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.DebugFlags;
 import tripleo.elijah.ReadySupplier_1;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.AliasStatementImpl;
@@ -71,7 +72,9 @@ public class DeduceElement3_VarTableEntry implements IDeduceElement3 {
 
 			var dt2 = deduceTypes2();
 
-			//System.err.println((__passthru));
+			if (DebugFlags.DP_74) {
+				DebugPrint.System_err_println(String.format(""+__passthru));
+			}
 
 			if (attachedType == OS_Type.Type.USER_CLASS) {
 				var xci = dt2._inj().new_ClassInvocation(potentialType.getAttached().getClassOf(), null, new ReadySupplier_1<>(dt2));

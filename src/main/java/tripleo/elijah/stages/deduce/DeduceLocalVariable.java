@@ -285,7 +285,7 @@ public class DeduceLocalVariable {
 					throw new RuntimeException(aE);
 				}
 
-				System.err.println("410 " + t);
+				DebugPrint.System_err_println(String.format("410 " + t));
 */
 
 				// TODO for argument, we need a DeduceExpression (DeduceProcCall) which is bounud to self
@@ -485,7 +485,7 @@ public class DeduceLocalVariable {
 				} else {
 					var c = deduceTypes2.module.getCompilation();
 					if (c.reports().outputOn(Finally.Outs.Out_486)) {
-						System.err.println("********************************* not a Constructor");
+						DebugPrint.System_err_println(String.format("********************************* not a Constructor"));
 					}
 				}
 			});

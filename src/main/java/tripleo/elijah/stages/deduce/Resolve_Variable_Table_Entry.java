@@ -11,6 +11,7 @@ package tripleo.elijah.stages.deduce;
 import org.jdeferred2.DoneCallback;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.DebugFlags;
 import tripleo.elijah.comp.i.ErrSink;
 import tripleo.elijah.contexts.FunctionContext;
 import tripleo.elijah.diagnostic.Diagnostic;
@@ -81,14 +82,20 @@ class Resolve_Variable_Table_Entry {
 					if (attached.getTypeName() instanceof RegularTypeName rtn) {
 						if (rtn.getGenericPart() != null) {
 							// README Can't resolve generic typenames, need a classInvocation ...
-							//08/13 System.err.println("===== future 8181");
+							//08/13
+							if (DebugFlags.DP_AUG13) {
+									DebugPrint.System_err_println("===== future 8181");
+							}
 							return;
 						}
 					}
 					if (attached.getTypeName() instanceof FuncTypeName ftn) {
 						if (ftn.argListIsGeneric() || ((FuncTypeNameImpl) ftn)._arglist.p() != null) {
 							// README Can't resolve generic typenames, need a classInvocation ...
-							//08/13 System.err.println("===== future 8181");
+							//08/13
+							if (DebugFlags.DP_AUG13) {
+								DebugPrint.System_err_println("===== future 8181");
+							}
 							return;
 						}
 					}
@@ -341,7 +348,7 @@ class Resolve_Variable_Table_Entry {
 						});
 					}
 
-					System.err.println("118118 Making external for " + debugExpression);
+					DebugPrint.System_err_println(String.format("118118 Making external for " + debugExpression));
 				}
 			} else if (aPot.tableEntry == null) {
 				final OS_Element el = vte.getResolvedElement();

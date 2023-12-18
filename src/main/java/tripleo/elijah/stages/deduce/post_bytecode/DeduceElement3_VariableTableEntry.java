@@ -440,9 +440,9 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
 	}
 
 	private void __doLogic_pot_size_0(final @NotNull Promise<GenType, Void, Void> p, final @NotNull ElLog LOG, final @NotNull VariableTableEntry vte1, final @NotNull ErrSink errSink, final @NotNull Context ctx, final @NotNull String e_text, final @NotNull VariableTableEntry vte) {
-		// README moved up here to elimiate work
+		// README moved up here to eliminate work
 		if (p.isResolved()) {
-			System.out.printf("890-1 Already resolved type: vte1.type = %s, gf = %s %n", vte1.getType(), generatedFunction);
+			DebugPrint.System_err_println(String.format("890-1 Already resolved type: vte1.type = %s, gf = %s %n", vte1.getType(), generatedFunction));
 			return;
 		}
 		final LookupResultList     lrl  = ctx.lookup(e_text);
@@ -465,7 +465,7 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
 		@Nullable final InstructionArgument vte2_ia = generatedFunction.vte_lookup(vs.getName());
 		@NotNull final VariableTableEntry   vte2    = generatedFunction.getVarTableEntry(to_int(vte2_ia));
 		if (p.isResolved())
-			System.out.printf("915 Already resolved type: vte2.type = %s, gf = %s %n", vte1.getType(), generatedFunction);
+			DebugPrint.System_err_println(String.format("915 Already resolved type: vte2.type = %s, gf = %s %n", vte1.getType(), generatedFunction));
 		else {
 			final GenType gt       = vte1.getGenType();
 			final OS_Type attached = vte2.getType().getAttached();
@@ -482,9 +482,9 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
 		final @NotNull OS_Type osType = deduceTypes2._inj().new_OS_UserType(fali.typeName());
 		if (!osType.equals(vte.getType().getAttached())) {
 			final TypeTableEntry tte1 = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.SPECIFIED, osType, fali.getNameToken(), vte1);
-			/*if (p.isResolved())
-				System.out.printf("890 Already resolved type: vte1.type = %s, gf = %s, tte1 = %s %n", vte1.type, generatedFunction, tte1);
-			else*/
+			/*if (p.isResolved()) {
+				DebugPrint.System_err_println(String.format("890 Already resolved type: vte1.type = %s, gf = %s, tte1 = %s %n", vte1.type, generatedFunction, tte1));
+			} else*/
 			{
 				final OS_Type attached = tte1.getAttached();
 				switch (attached.getType()) {

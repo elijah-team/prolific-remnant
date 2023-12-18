@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.*;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.nextgen.names.i.EN_Understanding;
+import tripleo.elijah.stages.deduce.DebugPrint;
 import tripleo.elijah.stages.deduce.post_bytecode.DG_ClassStatement;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.IdentIA;
@@ -67,7 +68,9 @@ public class DR_Ident implements DR_Item {
 
 	private void addElementUnderstanding(OS_Element x) {
 		addUnderstanding(new ElementUnderstanding(x));
-		//System.err.println("104 addElementUnderstanding %s %s".formatted(name(), x));
+		if (DebugFlags.DP_DEC17) {
+			DebugPrint.System_err_println(String.format("104 addElementUnderstanding %s %s".formatted(name(), x)));
+		}
 	}
 
 	public void addPossibleType(final DR_PossibleType aPt) {
@@ -77,7 +80,9 @@ public class DR_Ident implements DR_Item {
 	}
 
 	public void addUnderstanding(final @NotNull Understanding aUnderstanding) {
-		//System.err.println("*** 162 Understanding DR_Ident >> " + this.simplified() + " " + aUnderstanding.asString());
+		if (DebugFlags.DP_DEC17) {
+			DebugPrint.System_err_println(("*** 162 Understanding DR_Ident >> %s %s".formatted(this.simplified(), aUnderstanding.asString())));
+		}
 		u.add(aUnderstanding);
 	}
 
@@ -142,7 +147,9 @@ public class DR_Ident implements DR_Item {
 
 			vteBl1.elementPromise((OS_Element x) -> {
 				addUnderstanding(new ElementUnderstanding(x));
-//				System.err.println("-- [DR_Ident:104] addElementUnderstanding for vte " + x);
+				if (DebugFlags.DP_DEC17) {
+					DebugPrint.System_err_println(String.format("-- [DR_Ident:104] addElementUnderstanding for vte " + x));
+				}
 			}, null);
 			return;
 		}

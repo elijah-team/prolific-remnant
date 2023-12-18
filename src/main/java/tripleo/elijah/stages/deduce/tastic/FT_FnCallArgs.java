@@ -12,6 +12,7 @@ package tripleo.elijah.stages.deduce.tastic;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.DebugFlags;
 import tripleo.elijah.ReadySupplier_1;
 import tripleo.elijah.comp.i.ErrSink;
 import tripleo.elijah.lang.i.*;
@@ -152,7 +153,10 @@ public class FT_FnCallArgs implements ITastic {
 
 		if (pte.expression_num instanceof @NotNull final IdentIA identIA) {
 
-			//08/13 System.err.println("--------------------- 158 "+(generatedFunction._getIdentIAResolvable(identIA).getNormalPath(generatedFunction, identIA)));
+			//08/13
+			if (DebugFlags.DP_AUG13) {
+				DebugPrint.System_err_println(String.format("--------------------- 158 " + (generatedFunction._getIdentIAResolvable(identIA).getNormalPath(generatedFunction, identIA))));
+			}
 
 			final FT_FCA_IdentIA             fca_ident = deduceTypes2._inj().new_FT_FCA_IdentIA(FT_FnCallArgs.this, identIA, vte);
 			final FT_FCA_IdentIA.Resolve_VTE rvte      = deduceTypes2._inj().new_FT_FCA_IdentIA_Resolve_VTE(vte, ctx, pte, instruction, fca);

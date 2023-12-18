@@ -17,6 +17,7 @@ import org.jdeferred2.DoneCallback;
 import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.DebugFlags;
 import tripleo.elijah.ElijahInternal;
 import tripleo.elijah.Eventual;
 import tripleo.elijah.comp.i.Compilation;
@@ -417,8 +418,10 @@ public class DeducePhase extends _RegistrationTarget implements ReactiveDimensio
 			final BaseEvaFunction ef = pair.getLeft();
 			final DR_Item         dr = pair.getRight();
 
-			//System.err.println("611a " + ef);
-			//System.err.println("611b " + dr);
+			if (DebugFlags.DP_419) {
+				DebugPrint.System_err_println(String.format("611a " + ef));
+				DebugPrint.System_err_println(String.format("611b " + dr));
+			}
 
 			if (dr instanceof DR_ProcCall drpc) {
 				var fi = drpc.getFunctionInvocation();
@@ -428,19 +431,19 @@ public class DeducePhase extends _RegistrationTarget implements ReactiveDimensio
 
 					if (ef1[0] == null) {
 						//throw new AssertionError();
-						System.err.println("****************************** no function generated");
+						DebugPrint.System_err_println(String.format("****************************** no function generated"));
 					} else {
 						pa.activeFunction(ef1[0]);
 					}
 				}
 			} else if (dr instanceof DR_Ident drid) {
 				if (this.ca.getCompilation().reports().outputOn(Finally.Outs.Out_323626)) {
-					System.err.println(String.format("***** 623623 -- %s %b", drid.name(), drid.isResolved()));
+					DebugPrint.System_err_println(String.format("***** 623623 -- %s %b", drid.name(), drid.isResolved()));
 				}
 
 				for (DR_Ident.Understanding understanding : drid.getUnderstandings()) {
 					if (this.ca.getCompilation().reports().outputOn(Finally.Outs.Out_323626)) {
-						System.err.println(String.format("**** 623626 -- %s", understanding.asString()));
+						DebugPrint.System_err_println(String.format("**** 623626 -- %s", understanding.asString()));
 					}
 				}
 			}

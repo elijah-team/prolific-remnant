@@ -27,10 +27,9 @@ public class FT_FCA_FormalArgListItem {
 					osType,
 					fali.getNameToken(),
 					vte1);
-			/*if (p.isResolved())
-				System.out.printf("890 Already resolved type: vte1.type = %s, gf = %s, tte1 = %s %n", vte1.type, generatedFunction, tte1);
-			else*/
-			{
+			if (false /*|| p.isResolved()*/) {
+				System.out.printf("890 Already resolved type: vte1.type = %s, gf = %s, tte1 = %s %n", vte1.getType(), generatedFunction, tte1);
+			} else {
 				final OS_Type attached = tte1.getAttached();
 				switch (attached.getType()) {
 				case USER:

@@ -4,6 +4,7 @@ import org.jdeferred2.DoneCallback;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.DebugFlags;
 import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.comp.Finally;
 import tripleo.elijah.contexts.ModuleContext;
@@ -350,7 +351,7 @@ public class DeduceElement3_IdentTableEntry extends DefaultStateful implements I
 		} else {
 			var c = dt2._phase().pa.getCompilation();
 			if (c.reports().outputOn(Finally.Outs.Out_353)) {
-				System.err.printf("DeduceElement3_IdentTableEntry >> cant sneakResolve %s based on %s%n", ident.getText(), "" + el/*((IdentExpression)el).getText()*/);
+				DebugPrint.System_err_println(String.format("DeduceElement3_IdentTableEntry >> cant sneakResolve %s based on %s%n", ident.getText(), "" + el/*((IdentExpression)el).getText()*/));
 			}
 		}
 	}
@@ -384,8 +385,10 @@ public class DeduceElement3_IdentTableEntry extends DefaultStateful implements I
 							var ci = pte.getClassInvocation();
 							var fi = pte.getFunctionInvocation();
 
-							//System.err.println("322 " + ci);
-							//System.err.println("323 " + fi);
+							if (DebugFlags.DP_388) {
+								DebugPrint.System_err_println(String.format("322 " + ci));
+								DebugPrint.System_err_println(String.format("323 " + fi));
+							}
 
 
 							var pt = dt2._inj().new_DR_PossibleTypeCI(ci, fi);
@@ -396,7 +399,7 @@ public class DeduceElement3_IdentTableEntry extends DefaultStateful implements I
 							// README taking a chance here
 							var eef = deduceTypes2.creationContext().makeGenerated_fi__Eventual(fi);
 
-							eef.then(new DoneCallback<BaseEvaFunction>() {
+							eef.then(new DoneCallback<>() {
 								@Override
 								public void onDone(final BaseEvaFunction gf) {
 									printString(330, "" + gf);
@@ -431,7 +434,7 @@ public class DeduceElement3_IdentTableEntry extends DefaultStateful implements I
 											} else {
 												final Compilation c = deduceTypes2.module.getCompilation();
 												if (c.reports().outputOn(Finally.Outs.Out_364)) {
-													System.err.println("364 " + principal.getIdent().getText());
+													DebugPrint.System_err_println(String.format("364 " + principal.getIdent().getText()));
 												}
 											}
 										}
@@ -440,7 +443,7 @@ public class DeduceElement3_IdentTableEntry extends DefaultStateful implements I
 
 								private static void printString(final int code, final String txt) {
 									if (code == 330) return;
-									System.err.println(""+code+" "+txt);
+									DebugPrint.System_err_println(("%d %s".formatted(code, txt)));
 									if (code == 336)
 										printString(336, "********************");
 								}
@@ -652,7 +655,7 @@ public class DeduceElement3_IdentTableEntry extends DefaultStateful implements I
 
 							for (EvaContainer.VarTableEntry entry : ((EvaContainerNC) result.getNode()).varTable) {
 								if (!entry.isResolved()) {
-									System.err.println("629 entry not resolved " + entry.nameToken);
+									DebugPrint.System_err_println(String.format("629 entry not resolved " + entry.nameToken));
 								}
 							}
 						});

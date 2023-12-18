@@ -160,7 +160,7 @@ import static tripleo.elijah.stages.deduce.DeduceTypes2.to_int;
 				private void doLogic0() {
 					// README moved up here to elimiate work
 					if (p.isResolved()) {
-						System.out.printf("890-1 Already resolved type: vte1.type = %s, gf = %s %n", vte1.getType(), generatedFunction);
+						DebugPrint.System_err_println(String.format("890-1 Already resolved type: vte1.type = %s, gf = %s %n", vte1.getType(), generatedFunction));
 						return;
 					}
 					LookupResultList     lrl  = ctx.lookup(e_text);

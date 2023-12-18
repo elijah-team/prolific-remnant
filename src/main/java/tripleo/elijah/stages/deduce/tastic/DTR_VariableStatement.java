@@ -1,8 +1,14 @@
-package tripleo.elijah.stages.deduce;
+package tripleo.elijah.stages.deduce.tastic;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.lang.i.*;
+import tripleo.elijah.stages.deduce.ClassInvocation;
+import tripleo.elijah.stages.deduce.DebugPrint;
+import tripleo.elijah.stages.deduce.DeduceElement3Holder;
+import tripleo.elijah.stages.deduce.DeduceTypeResolve;
+import tripleo.elijah.stages.deduce.DeduceTypes2;
+import tripleo.elijah.stages.deduce.ResolveError;
 import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_IdentTableEntry;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.InstructionArgument;
@@ -66,7 +72,7 @@ public class DTR_VariableStatement {
 							if (entry.nameToken.getText().equals(variableStatement.getName())) {
 								entry.resolve_varType_cb(result -> {
 									int y = 2;
-									System.err.println("7676 DTR_VariableStatement >> " + result);
+									DebugPrint.System_err_println(String.format("7676 DTR_VariableStatement >> " + result));
 								});
 								break;
 							}

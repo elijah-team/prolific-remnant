@@ -141,7 +141,7 @@ public class DeducePath {
 
 			final Compilation c = this.base._deduceTypes2().module.getCompilation();
 			if (c.reports().outputOn(Finally.Outs.Out_141)) {
-				System.err.println(drIdent);
+				DebugPrint.System_err_println(""+drIdent);
 			}
 
 //			identTableEntry.elementPromise((x)->{}, null);
@@ -181,7 +181,7 @@ public class DeducePath {
 		if (el == null) {
 			if (procTableEntry.expression_num instanceof IdentIA identIA) {
 				var ite = (identIA.getEntry());
-				System.err.println("139 element not found for " + ite.getIdent().getText());
+				DebugPrint.System_err_println(String.format("139 element not found for " + ite.getIdent().getText()));
 			}
 			//throw new AssertionError();
 		}

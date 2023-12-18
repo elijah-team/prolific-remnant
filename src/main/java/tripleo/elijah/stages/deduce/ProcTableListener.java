@@ -11,6 +11,7 @@ package tripleo.elijah.stages.deduce;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import tripleo.elijah.DebugFlags;
 import tripleo.elijah.lang.LangGlobals;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.nextgen.rosetta.Rosetta;
@@ -70,7 +71,7 @@ public class ProcTableListener implements BaseTableEntry.StatusListener {
 				final DR_Ident        ident = generatedFunction.getIdent(entry);
 				ident.resolve(eh, pte);
 			} else {
-				System.err.println("*************************** i still refuse");
+				DebugPrint.System_err_println(String.format("*************************** i still refuse"));
 			}
 		}
 	}
@@ -126,9 +127,11 @@ public class ProcTableListener implements BaseTableEntry.StatusListener {
 	//}
 
 	private static void resolved_element_pte_ClassStatement_EvaClass(final EvaClass result, final @NotNull ClassStatement e, final @NotNull Constructable co, final @NotNull DG_ClassStatement dcs) {
-		//System.err.println("828282 "+((ClassStatement) e).name());
+		if (DebugFlags.DP_DEC17) {
+			DebugPrint.System_err_println(String.format("828282 "+((ClassStatement) e).name()));
+		}
 		if ((e.name()).sameName("Foo")) {
-			System.out.println("828282 Foo found");
+			DebugPrint.System_err_println(String.format("828282 Foo found"));
 		}
 
 		co.resolveTypeToClass(result);

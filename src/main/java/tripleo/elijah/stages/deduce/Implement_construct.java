@@ -136,7 +136,7 @@ public class Implement_construct {
 
 		dpc.targetP2().then((final @NotNull DeduceElement target) -> {
 			DeclAnchor xxv = target.declAnchor();
-			System.out.println("144 " + xxv);
+			DebugPrint.System_err_println(String.format("144 " + xxv));
 
 			{
 				// for class_instantiation2: class Bar {constructor x{}} class Main {main(){var bar:Bar[SysInt];construct bar.x ...}}

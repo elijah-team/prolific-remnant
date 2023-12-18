@@ -17,9 +17,10 @@ import tripleo.elijah.ReadySupplier_1;
 import tripleo.elijah.comp.i.ErrSink;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.VariableStatementImpl;
+import tripleo.elijah.stages.deduce.tastic.DT_Resolvable11;
+import tripleo.elijah.stages.deduce.tastic.FCA_Stop;
 import tripleo.elijah.util.Mode;
 import tripleo.elijah.stages.deduce.nextgen.DR_Variable;
-import tripleo.elijah.stages.deduce.tastic.FCA_Stop;
 import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
 import tripleo.elijah.stages.gen_fn.DeferredObject2;
 import tripleo.elijah.stages.gen_fn.ProcTableEntry;
@@ -29,14 +30,14 @@ import tripleo.elijah.util.Operation;
  * Created 11/30/21 11:56 PM
  */
 public class DeduceProcCall {
-	private final @NotNull ProcTableEntry                                 procTableEntry;
-	private final          DT_Resolvable11<DeduceElement>                 _pr_target  = new DT_Resolvable11<>();
-	private final          DeferredObject2<DeduceElement, FCA_Stop, Void> _p_targetP2 = new DeferredObject2<>();
-	private                Context                                        _g_context;
-	private                DeduceTypes2                                   _g_deduceTypes2;
-	private                ErrSink                                        _g_errSink;
-	private                BaseEvaFunction                                _g_generatedFunction;
-	private                DeduceElement                                  target;
+	private final ProcTableEntry                                 procTableEntry;
+	private final DT_Resolvable11<DeduceElement>                 _pr_target  = new DT_Resolvable11<>();
+	private final DeferredObject2<DeduceElement, FCA_Stop, Void> _p_targetP2 = new DeferredObject2<>();
+	private       Context                                        _g_context;
+	private       DeduceTypes2                                   _g_deduceTypes2;
+	private       ErrSink                                        _g_errSink;
+	private       BaseEvaFunction                                _g_generatedFunction;
+	private       DeduceElement                                  target;
 
 	public BaseEvaFunction _generatedFunction() {
 		return _g_generatedFunction;
@@ -111,7 +112,7 @@ public class DeduceProcCall {
 			case VAR -> {
 				DR_Variable v = _g_generatedFunction.getVar((VariableStatement) element);
 				if (v.declaredTypeIsEmpty()) {
-					System.err.println("8787 declaredTypeIsEmpty for " + ((VariableStatement) element).getName());
+					DebugPrint.System_err_println(String.format("8787 declaredTypeIsEmpty for " + ((VariableStatement) element).getName()));
 					throw new FCA_Stop();
 				} else {
 					final NormalTypeName             normalTypeName = (NormalTypeName) ((VariableStatementImpl) element).typeName();

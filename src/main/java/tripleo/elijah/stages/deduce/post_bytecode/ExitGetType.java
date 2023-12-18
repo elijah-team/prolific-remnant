@@ -44,7 +44,7 @@ class ExitGetType implements State {
 
 				@Override
 				public void foundElement(final @NotNull OS_Element x) {
-					System.err.println("590-590 " + x);
+					DebugPrint.System_err_println(String.format("590-590 " + x));
 
 
 					if (ite.getResolvedElement() != x)

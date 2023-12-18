@@ -18,6 +18,7 @@ import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.DebugFlags;
 import tripleo.elijah.Eventual;
 import tripleo.elijah.ReadySupplier_1;
 import tripleo.elijah.UnintendedUseException;
@@ -724,7 +725,7 @@ public class DeduceTypes2 {
 				}
 //		vte.type = cte.type;
 				vte.addPotentialType(instruction.getIndex(), cte.type);
-				DebugPrint.addPotentialType(vte, cte);
+				DebugPrint.addPotentialType(module.getCompilation(), vte, cte);
 			} else if (i2 instanceof IdentIA identIA) {
 				@NotNull IdentTableEntry idte = identIA.getEntry();
 
@@ -1195,7 +1196,10 @@ public class DeduceTypes2 {
 					errSink.reportError("369 ARG USER type (not deduced) " + vte);
 				}
 			} else {
-				//08/13 errSink.reportError("457 ARG type not deduced/attached " + vte);
+				//08/13
+				if (DebugFlags.DP_AUG13) {
+					errSink.reportError("457 ARG type not deduced/attached " + vte);
+				}
 			}
 		}
 	}
@@ -1700,7 +1704,7 @@ public class DeduceTypes2 {
 			//assert genericTypeName != null;
 			if (genericTypeName == null) {
 
-				System.err.println("1860 who cares // assert genericTypeName != null");
+				DebugPrint.System_err_println(String.format("1860 who cares // assert genericTypeName != null"));
 
 			}
 /*
