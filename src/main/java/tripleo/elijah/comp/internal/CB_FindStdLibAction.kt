@@ -63,7 +63,7 @@ internal class CB_FindStdLibAction(private val ce: CompilationEnclosure, private
 
 			// README 09/09 not double
 			//c.pushItem(oci.success());
-			c.use(oci.success(), true)
+			c.use(oci.success())
 		} else {
 			throw IllegalStateException(oci.failure())
 		}

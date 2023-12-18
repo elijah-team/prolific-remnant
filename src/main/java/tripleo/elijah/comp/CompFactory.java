@@ -16,19 +16,17 @@ public interface CompFactory {
 
 	Qualident createQualident(List<String> sl);
 
-	InputRequest createInputRequest(File aFile, final boolean aDo_out, final @Nullable LibraryStatementPart aLsp);
+	InputRequest createInputRequest(File aFile, final @Nullable LibraryStatementPart aLsp);
 
 	WorldModule createWorldModule(OS_Module aM);
 
 	class InputRequest {
 		private final File    _file;
-		private final boolean _do_out;
 		private final LibraryStatementPart    lsp;
 		private       Operation2<WorldModule> op;
 
-		public InputRequest(final File aFile, final boolean aDoOut, final @Nullable LibraryStatementPart aLsp) {
+		public InputRequest(final File aFile, final @Nullable LibraryStatementPart aLsp) {
 			_file   = aFile;
-			_do_out = aDoOut;
 			lsp     = aLsp;
 		}
 
@@ -37,7 +35,7 @@ public interface CompFactory {
 		}
 
 		public boolean do_out() {
-			return _do_out;
+			return false;
 		}
 
 		public LibraryStatementPart lsp() {

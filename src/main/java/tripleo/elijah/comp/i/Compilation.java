@@ -104,7 +104,7 @@ public interface Compilation {
 
 	void subscribeCI(Observer<CompilerInstructions> aCio);
 
-	void use(@NotNull CompilerInstructions compilerInstructions, boolean do_out);
+	void use(@NotNull CompilerInstructions compilerInstructions);
 
 	LivingRepo world();
 
@@ -152,7 +152,6 @@ public interface Compilation {
 	}
 
 	class CompilationConfig {
-		public          boolean do_out;
 		public          boolean showTree = false;
 		public          boolean silent   = false;
 		public @NotNull Stages  stage    = Stages.O; // Output

@@ -10,18 +10,15 @@ import tripleo.elijah.util.Operation;
 public class CR_ProcessInitialAction implements CR_Action {
 	private final @NotNull CompilerInstructionsImpl ci;
 	private                CompilationRunner        compilationRunner;
-	private final          boolean                  do_out;
 
 	@Contract(pure = true)
 	public CR_ProcessInitialAction(final @NotNull CompilerBeginning beginning) {
-		this((CompilerInstructionsImpl) beginning.compilerInstructions(), beginning.cfg().do_out);
+		this((CompilerInstructionsImpl) beginning.compilerInstructions());
 	}
 
 	@Contract(pure = true)
-	public CR_ProcessInitialAction(final @NotNull CompilerInstructionsImpl aCi,
-								   final boolean aDo_out) {
+	public CR_ProcessInitialAction(final @NotNull CompilerInstructionsImpl aCi) {
 		ci     = aCi;
-		do_out = aDo_out;
 	}
 
 	@Override
@@ -34,7 +31,7 @@ public class CR_ProcessInitialAction implements CR_Action {
 		compilationRunner = st.runner();
 
 		try {
-			compilationRunner._accessCompilation().use(ci, do_out);
+			compilationRunner._accessCompilation().use(ci);
 			return Operation.success(Ok.instance());
 		} catch (final Exception aE) {
 			return Operation.failure(aE);

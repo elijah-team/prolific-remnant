@@ -136,7 +136,6 @@ public class USE {
 	public Operation<WorldModule> realParseElijjahFile(final CompFactory.@NotNull InputRequest aInputRequest) {
 		var file   = aInputRequest.file();
 		var f      = aInputRequest.file().toString();
-		var do_out = aInputRequest.do_out();
 
 		try {
 			final Operation<CM_Filename> fnop = CM_Filename.fromInputRequestCanonicalFileToStringOperation(aInputRequest);
@@ -156,7 +155,7 @@ public class USE {
 			// tree add something
 
 			final InputStream          s  = io.readFile(file);
-			final Operation<OS_Module> om = parseFile_(f, s, do_out);
+			final Operation<OS_Module> om = parseFile_(f, s);
 			if (om.mode() != SUCCESS) {
 				final Exception e = om.failure();
 				assert e != null;
@@ -177,8 +176,8 @@ public class USE {
 		}
 	}
 
-	private Operation<OS_Module> parseFile_(final String f, final InputStream s, final boolean do_out) {
-		final QuerySourceFileToModuleParams qp = new QuerySourceFileToModuleParams(do_out, s, f);
+	private Operation<OS_Module> parseFile_(final String f, final InputStream s) {
+		final QuerySourceFileToModuleParams qp = new QuerySourceFileToModuleParams(s, f);
 		final QuerySourceFileToModule       q  = new QuerySourceFileToModule(qp, c);
 		return q.calculate();
 	}
@@ -190,7 +189,7 @@ public class USE {
 			return Operation2.failure(new FileNotFoundDiagnostic(local_prelude));
 		}
 
-		final Operation2<WorldModule> om = realParseElijjahFile2(c.con().createInputRequest(local_prelude, c.cfg().do_out, null)); // TODO 09/05 fix null
+		final Operation2<WorldModule> om = realParseElijjahFile2(c.con().createInputRequest(local_prelude, null)); // TODO 09/05 fix null
 		if (om.mode() == FAILURE) {
 			om.failure().report(System.out);
 			return om;
@@ -199,7 +198,7 @@ public class USE {
 		return Operation2.success(om.success());
 	}
 
-	public void use(final @NotNull CompilerInstructions compilerInstructions, final boolean do_out) {
+	public void use(final @NotNull CompilerInstructions compilerInstructions) {
 		final CM_Filename filename1 = compilerInstructions.getFilename();
 		final String filename = filename1.getString();
 		final File instruction_dir = new File(filename).getParentFile();
@@ -210,16 +209,16 @@ public class USE {
 				dir = instruction_dir/*.getAbsoluteFile()*/.getParentFile();
 			else
 				dir = new File(instruction_dir, dir_name);
-			use_internal(dir, do_out, lsp);
+			use_internal(dir, lsp);
 		}
 		final LibraryStatementPart lsp = new LibraryStatementPartImpl();
 		lsp.setName(Helpers.makeToken("default")); // TODO: make sure this doesn't conflict
 		lsp.setDirName(Helpers.makeToken(String.format("\"%s\"", instruction_dir)));
 		lsp.setInstructions(compilerInstructions);
-		use_internal(instruction_dir, do_out, lsp);
+		use_internal(instruction_dir, lsp);
 	}
 
-	private void use_internal(final @NotNull File dir, final boolean do_out, @NotNull LibraryStatementPart lsp) {
+	private void use_internal(final @NotNull File dir, @NotNull LibraryStatementPart lsp) {
 		if (!dir.isDirectory()) {
 			errSink.reportError("9997 Not a directory " + dir);
 			return;
@@ -228,7 +227,7 @@ public class USE {
 		final File[] files = dir.listFiles(accept_source_files);
 		if (files != null) {
 			for (final File file : files) {
-				final CompFactory.InputRequest inp = c.con().createInputRequest(file, do_out, lsp);
+				final CompFactory.InputRequest inp = c.con().createInputRequest(file, lsp);
 
 				parseElijjahFile(inp);
 

@@ -22,11 +22,6 @@ public class CD_CompilationRunnerStart_1 implements CD_CompilationRunnerStart {
 	public void start(final @NotNull CompilerInstructions aCompilerInstructions,
 	                  final @NotNull CR_State crState,
 	                  final @NotNull CB_Output out) {
-
-//		final CK_ConnectionPlane plane = crState.ca.getCompilation().getConnectionPlane();
-//		plane.onCrState();
-
-//		final CompilationRunner             cr             = crState.runner();
 		final Compilation                   compilation    = crState.ca().getCompilation();
 		final Compilation.CompilationConfig cfg            = compilation.cfg();
 		final CompilationEnclosure          ce             = compilation.getCompilationEnclosure();

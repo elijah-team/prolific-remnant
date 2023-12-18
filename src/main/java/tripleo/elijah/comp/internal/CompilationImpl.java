@@ -129,8 +129,8 @@ public class CompilationImpl implements Compilation {
 		}
 
 		@Override
-		public @NotNull InputRequest createInputRequest(final File aFile, final boolean aDo_out, final @Nullable LibraryStatementPart aLsp) {
-			return new InputRequest(aFile, aDo_out, aLsp);
+		public @NotNull InputRequest createInputRequest(final File aFile, final @Nullable LibraryStatementPart aLsp) {
+			return new InputRequest(aFile, aLsp);
 		}
 
 		@Override
@@ -450,9 +450,8 @@ public class CompilationImpl implements Compilation {
 		_cis.subscribe(aCio);
 	}
 
-	@Override
-	public void use(final @NotNull CompilerInstructions compilerInstructions, final boolean do_out) {
-		use.use(compilerInstructions, do_out);    // NOTE Rust
+	public void use(final @NotNull CompilerInstructions compilerInstructions) {
+		use.use(compilerInstructions);
 	}
 
 	@Override
