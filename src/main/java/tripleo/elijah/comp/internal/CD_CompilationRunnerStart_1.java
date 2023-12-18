@@ -1,5 +1,6 @@
 package tripleo.elijah.comp.internal;
 
+import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.ci.i.CompilerInstructions;
 import tripleo.elijah.comp.CompilerInput;
@@ -17,28 +18,29 @@ import java.util.List;
 import static tripleo.elijah.util.Helpers.List_of;
 
 public class CD_CompilationRunnerStart_1 implements CD_CompilationRunnerStart {
-
 	@Override
 	public void start(final @NotNull CompilerInstructions aCompilerInstructions,
-					  final @NotNull CR_State crState,
-					  final @NotNull CB_Output out) {
-		final @NotNull CompilationRunner             cr             = crState.runner();
-		final Compilation                            compilation    = crState.ca().getCompilation();
-		final @NotNull Compilation.CompilationConfig cfg            = compilation.cfg();
-		final CompilationEnclosure                   ce             = compilation.getCompilationEnclosure();
-		final List<CompilerInput>                    compilerInputs = ce.getCompilerInput();
+	                  final @NotNull CR_State crState,
+	                  final @NotNull CB_Output out) {
+
+//		final CK_ConnectionPlane plane = crState.ca.getCompilation().getConnectionPlane();
+//		plane.onCrState();
+
+//		final CompilationRunner             cr             = crState.runner();
+		final Compilation                   compilation    = crState.ca().getCompilation();
+		final Compilation.CompilationConfig cfg            = compilation.cfg();
+		final CompilationEnclosure          ce             = compilation.getCompilationEnclosure();
+		final CompilationRunner             cr             = ce.getCompilationRunner();
+		final List<CompilerInput>           compilerInputs = ce.getCompilerInput();
+
+		Preconditions.checkNotNull(cr);
+		Preconditions.checkNotNull(cfg);
 
 		// TODO 11/16 ca3??
 		//  also this maybe wanted to be progressive (see other )
 		final CompilerBeginning beginning = new CompilerBeginning(compilation, aCompilerInstructions, compilerInputs, cr.progressSink, cfg);
 
 		// TODO 11/16 pa.notate (? -> prob)
-		___start(crState, beginning, out);
-	}
-
-	protected void ___start(final @NotNull CR_State crState,
-							final @NotNull CompilerBeginning beginning,
-							final @NotNull CB_Output out) {
 		if (crState.started) {
 			boolean should_never_happen = true;
 			assert should_never_happen;
@@ -46,13 +48,11 @@ public class CD_CompilationRunnerStart_1 implements CD_CompilationRunnerStart {
 			crState.started = true;
 		}
 
-		final CR_FindCIs              f1 = crState.runner().cr_find_cis;
-		final CR_ProcessInitialAction f2 = new CR_ProcessInitialAction(beginning);
-		final CR_AlmostComplete       f3 = new CR_AlmostComplete();
-		final CR_RunBetterAction      f4 = new CR_RunBetterAction();
+		final CR_ProcessInitialAction f2                 = new CR_ProcessInitialAction(beginning);
+		final CR_RunBetterAction      f4                 = new CR_RunBetterAction();
 
-		final @NotNull List<CR_Action>     crActionList       = List_of(/*f1,*/ f2, f3, f4);
-		final @NotNull List<Operation<Ok>> crActionResultList = new ArrayList<>(crActionList.size());
+		final List<CR_Action>         crActionList       = List_of(f2, f4);
+		final List<Operation<Ok>>     crActionResultList = new ArrayList<>(crActionList.size());
 
 		for (final CR_Action each : crActionList) {
 			each.attach(crState.runner());
@@ -61,7 +61,7 @@ public class CD_CompilationRunnerStart_1 implements CD_CompilationRunnerStart {
 		}
 
 		for (int i = 0; i < crActionResultList.size(); i++) {
-			var                 action           = crActionList.get(i);
+			final CR_Action     action           = crActionList.get(i);
 			final Operation<Ok> booleanOperation = crActionResultList.get(i);
 
 			final String s = ("5959 %s %b").formatted(action.name(), (booleanOperation.mode() == Mode.SUCCESS));
