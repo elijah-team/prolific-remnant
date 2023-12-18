@@ -10,90 +10,94 @@ import tripleo.elijah.util.Maybe;
 import java.io.File;
 
 public class CM_CompilerInput {
-    private final CompilationImpl comp;
-    private final CompilerInput carrier;
-    private String inp;
-    private CompilerInput.Ty ty;
-    private File dir_carrier;
-    private String hash;
-    private Maybe<ILazyCompilerInstructions> accept_ci;
+	private final CompilationImpl                  comp;
+	private final CompilerInput                    carrier;
+	private       String                           inp;
+	private       CompilerInput.Ty                 ty;
+	private       File                             dir_carrier;
+	private       String                           hash;
+	private       Maybe<ILazyCompilerInstructions> accept_ci;
 
-    public CM_CompilerInput(final CompilerInput aCompilerInput, final CompilationImpl aCompilation) {
-        carrier = aCompilerInput;
-        comp = aCompilation;
-        inp = carrier.inp();
-    }
+	public CM_CompilerInput(final CompilerInput aCompilerInput, final CompilationImpl aCompilation) {
+		carrier = aCompilerInput;
+		comp    = aCompilation;
+		inp     = carrier.inp();
+	}
 
-    public boolean inpSameAs(final String aS) {
-        return aS.equals(this.inp);
-    }
+	public boolean inpSameAs(final String aS) {
+		return aS.equals(this.inp);
+	}
 
-    public void setInp(final String aInp) {
-        inp = aInp;
-    }
+	public void setSourceRoot() {
+		ty = CompilerInput.Ty.SOURCE_ROOT;
+	}
 
-    public void setSourceRoot() {
-        ty = CompilerInput.Ty.SOURCE_ROOT;
-    }
+	public void setDirectory(final File aF) {
+		ty          = CompilerInput.Ty.SOURCE_ROOT;
+		dir_carrier = aF;
+	}
 
-    public void setDirectory(final File aF) {
-        ty          = CompilerInput.Ty.SOURCE_ROOT;
-        dir_carrier = aF;
-    }
+	public void setArg() {
+		ty = CompilerInput.Ty.ARG;
+	}
 
-    public void setArg() {
-        ty = CompilerInput.Ty.ARG;
-    }
+	public void accept_hash(final String aHash) {
+		this.hash = aHash;
+	}
 
-    public void accept_hash(final String aHash) {
-        this.hash = aHash;
-    }
+	public String printableString() {
+		final String dir_carrierS = dir_carrier == null ? "<null>" : "" + dir_carrier;
+		final String hashS        = hash == null ? "<null>" : "" + hash;
+		final String accept_ciS   = accept_ci == null ? "<null>" : "" + accept_ci;
 
-    public String printableString() {
-        return MoreObjects.toStringHelper(this)
-                .add("ty", ty)
-                .add("inp", inp)
-                .add("accept_ci", accept_ci.toString())
-                .add("dir_carrier", dir_carrier)
-                .add("hash", hash)
-                .toString();
-    }
+		return MoreObjects.toStringHelper(this)
+				.add("ty", ty)
+				.add("inp", inp)
+				.add("accept_ci", accept_ciS)
+				.add("dir_carrier", dir_carrierS)
+				.add("hash", hashS)
+				.toString();
+	}
 
-    public CompilerInput.Ty getTy() {
-        return ty;
-    }
+	public void accept_ci(final Maybe<ILazyCompilerInstructions> mci) {
+		accept_ci = mci;
+	}
 
-    public void accept_ci(final Maybe<ILazyCompilerInstructions> mci) {
-        accept_ci = mci;
-    }
+	public Maybe<ILazyCompilerInstructions> acceptance_ci() {
+		return accept_ci;
+	}
 
-    public Maybe<ILazyCompilerInstructions> acceptance_ci() {
-        return accept_ci;
-    }
+	public String getInp() {
+		return inp;
+	}
 
-    public String getInp() {
-        return inp;
-    }
+	public CompilerInput.Ty getTy() {
+		return ty;
+	}
 
-    public File fileOf() {
-        final File    f         = new File(inp);
-        return f;
-    }
+	public void setInp(final String aInp) {
+		inp = aInp;
+	}
 
-    public void onIsEz() {
-        final ILazyCompilerInstructions ilci = ILazyCompilerInstructions.of(carrier, comp.getCompilationClosure());
+	public File fileOf() {
+		final File f = new File(inp);
+		return f;
+	}
 
-        final Maybe<ILazyCompilerInstructions> m4 = new Maybe<>(ilci, null);
-        carrier.accept_ci(m4);
-    }
+	public void onIsEz() {
+		final ILazyCompilerInstructions ilci = ILazyCompilerInstructions.of(carrier, comp.getCompilationClosure());
 
-    public Finally.Input createInput(final Finally.Out2 aTy) {
-        var nameable = new Finally.Nameable() {
-            @Override
-            public String getName() {
-                return inp;
-            }
-        };
-        return new Finally.Input(nameable, aTy);
-    }
+		final Maybe<ILazyCompilerInstructions> m4 = new Maybe<>(ilci, null);
+		carrier.accept_ci(m4);
+	}
+
+	public Finally.Input createInput(final Finally.Out2 aTy) {
+		var nameable = new Finally.Nameable() {
+			@Override
+			public String getName() {
+				return inp;
+			}
+		};
+		return new Finally.Input(nameable, aTy);
+	}
 }
