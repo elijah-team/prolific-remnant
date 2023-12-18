@@ -9,10 +9,10 @@
 package tripleo.elijah.comp.internal;
 
 import io.reactivex.rxjava3.core.Observer;
-import io.smallrye.mutiny.Multi;
 import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.*;
 import tripleo.elijah.ci.LibraryStatementPart;
 import tripleo.elijah.ci.i.CompilerInstructions;
 import tripleo.elijah.comp.*;
@@ -264,8 +264,9 @@ public class CompilationImpl implements Compilation {
 
 	@Override
 	public void feedCmdLine(List<String> args, CompilerController compilerController) {
-		final List<CompilerInput> inputs = stringListToInputList(args);
-		feedInputs(inputs, compilerController);
+//		final List<CompilerInput> inputs = stringListToInputList(args);
+//		feedInputs(inputs, compilerController);
+		throw new UnintendedUseException(); // 12/17 not in this branch
 	}
 
 	@Override
@@ -279,30 +280,6 @@ public class CompilationImpl implements Compilation {
 		if (inputs.size() == 0) {
 			controller.printUsage();
 			return;
-		}
-
-		{
-			//Uni.createFrom().item("hello")
-			//		.onItem().transform(item -> item + " mutiny")
-			//		.onItem().transform(String::toUpperCase)
-			//		.subscribe().with(item -> System.out.println(">> " + item))
-			//;
-
-			Multi.createFrom().items(1, 2, 3, 4)
-					//Multi.<Integer>createFrom()
-
-/*
-							//.emitter(em -> { new MultiEmitter<>() })
-
-							//.deferred(() -> Multi.createFrom()
-									.item(Helpers.List_of(1,2,3))
-							//)
-*/
-
-					.onItem().transform(item -> item)
-					.subscribe().with(item -> System.out.println(">> " + item));
-
-			int y = 2;
 		}
 
 		_inputs = inputs; // !!
