@@ -136,7 +136,7 @@ public class DTR_VariableStatement {
 			try {
 				final @NotNull GenType resolved = dt2.resolve_type(genType.getTypeName(), variableStatement.getContext());
 				if (resolved.getResolved().getType() == OS_Type.Type.GENERIC_TYPENAME) {
-					final BaseTableEntry backlink = deduceTypeResolve.backlink;
+					final BaseTableEntry backlink = deduceTypeResolve.getBacklink();
 
 					normalTypeName_generic_butNotNull_resolveToGeneric(genType, resolved, backlink);
 				} else {

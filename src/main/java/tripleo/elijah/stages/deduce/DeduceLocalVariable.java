@@ -10,9 +10,9 @@
 package tripleo.elijah.stages.deduce;
 
 import org.jdeferred2.DoneCallback;
-import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.comp.Finally;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.AliasStatementImpl;
@@ -437,7 +437,7 @@ public class DeduceLocalVariable {
 
 	private void __pt_work_002(final @NotNull VariableTableEntry vte, final @NotNull ProcTableEntry procTableEntry, final OS_Element Self) {
 		final @Nullable DeferredMemberFunction                   dm;
-		final DeferredObject<DeferredMemberFunction, Void, Void> pdm = new DeferredObject<>();
+		final Eventual<DeferredMemberFunction> pdm = new Eventual<>();
 
 		pdm.then(dm1 -> {
 			dm1.externalRef().then(new DoneCallback<BaseEvaFunction>() {

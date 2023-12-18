@@ -8,6 +8,7 @@ import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.impl.BaseFunctionDef;
 import tripleo.elijah.lang.impl.VariableStatementImpl;
 import tripleo.elijah.lang.types.OS_FuncType;
+import tripleo.elijah.stages.deduce.tastic.DT_Env;
 import tripleo.elijah.util.Mode;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.gen_fn.IdentTableEntry.ITE_Resolver_Result;
@@ -276,7 +277,7 @@ class Unnamed_ITE_Resolver1 implements ITE_Resolver {
 		}
 
 		private void onChangeITE(@NotNull IdentTableEntry identTableEntry) {
-			final DT_Env         env      = _inj().new_DT_Env(dt2.LOG, dt2._errSink(), dt2.central());
+			final DT_Env env      = _inj().new_DT_Env(dt2.LOG, dt2._errSink(), dt2.central());
 			final TypeTableEntry ite_type = identTableEntry.type;
 
 			if (ite_type != null) {
@@ -361,8 +362,9 @@ class Unnamed_ITE_Resolver1 implements ITE_Resolver {
 						final @NotNull TypeTableEntry tte = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.TRANSIENT, null);
 						// trying to keep genType up to date
 
-						if (!ty.getTypeName().isNull())
+						if (!ty.getTypeName().isNull()) {
 							tte.setAttached(ty);
+						}
 						tte.setAttached(ty2);
 
 						ite.type = tte;

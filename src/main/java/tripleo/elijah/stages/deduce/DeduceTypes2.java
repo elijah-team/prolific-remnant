@@ -429,7 +429,7 @@ public class DeduceTypes2 {
 				.applyState(ST2.getState___post_dof_idte_register_resolved(), new Times.Once(), __CHAIN__post_dof_idte_register_resolved);
 	}
 
-	void implement_is_a(final @NotNull BaseEvaFunction gf, final @NotNull Instruction instruction) {
+	public void implement_is_a(final @NotNull BaseEvaFunction gf, final @NotNull Instruction instruction) {
 		final IntegerIA testing_var_  = (IntegerIA) instruction.getArg(0);
 		final IntegerIA testing_type_ = (IntegerIA) instruction.getArg(1);
 		final Label     target_label  = ((LabelIA) instruction.getArg(2)).label;
@@ -466,7 +466,7 @@ public class DeduceTypes2 {
 		assert testing_type__.isResolved();
 	}
 
-	void do_agnk(final @NotNull BaseEvaFunction generatedFunction, final @NotNull Instruction instruction) {
+	public void do_agnk(final @NotNull BaseEvaFunction generatedFunction, final @NotNull Instruction instruction) {
 		final @NotNull IntegerIA          arg  = (IntegerIA) instruction.getArg(0);
 		final @NotNull VariableTableEntry vte  = generatedFunction.getVarTableEntry(arg.getIndex());
 		final InstructionArgument         i2   = instruction.getArg(1);
@@ -482,11 +482,11 @@ public class DeduceTypes2 {
 			}
 //		vte.type = cte.type;
 			vte.addPotentialType(instruction.getIndex(), cte.type);
-			DebugPrint.addPotentialType(vte, cte);
+			DebugPrint.addPotentialType(module.getCompilation(), vte, cte);
 		}
 	}
 
-	void do_calls(final @NotNull BaseEvaFunction generatedFunction, final @NotNull Context fd_ctx, final @NotNull Instruction instruction) {
+	public void do_calls(final @NotNull BaseEvaFunction generatedFunction, final @NotNull Context fd_ctx, final @NotNull Instruction instruction) {
 		final int                     i1  = to_int(instruction.getArg(0));
 		final InstructionArgument     i2  = (instruction.getArg(1));
 		final @NotNull ProcTableEntry fn1 = generatedFunction.getProcTableEntry(i1);
@@ -570,7 +570,7 @@ public class DeduceTypes2 {
 		}
 	}
 
-	void do_call(final @NotNull BaseEvaFunction generatedFunction, final @NotNull FunctionDef fd, final @NotNull Instruction instruction, final @NotNull Context context) {
+	public void do_call(final @NotNull BaseEvaFunction generatedFunction, final @NotNull FunctionDef fd, final @NotNull Instruction instruction, final @NotNull Context context) {
 		final int                     pte_num = ((ProcIA) instruction.getArg(0)).index();
 		final @NotNull ProcTableEntry pte     = generatedFunction.getProcTableEntry(pte_num);
 //				final InstructionArgument i2 = (instruction.getArg(1));
@@ -674,7 +674,7 @@ public class DeduceTypes2 {
 		});
 	}
 
-	interface DT_State {
+	public interface DT_State {
 		void applyState(Times.T aTimes, CHAIN aCHAIN, Object xx);
 	}
 
@@ -1180,8 +1180,9 @@ public class DeduceTypes2 {
 		if (vte.getVtt() == VariableTableType.ARG) {
 			final TypeTableEntry vteType = vte.getType();
 
-			if (vteType.genType instanceof ForwardingGenType fgt)
+			if (vteType.genType instanceof ForwardingGenType fgt) {
 				fgt.unsparkled();
+			}
 
 			if (vteType.genType != null) {
 				var vte_genType = vte.getGenType();
@@ -1229,7 +1230,8 @@ public class DeduceTypes2 {
 		}
 	}
 
-	@NotNull List<TypeTableEntry> getPotentialTypesVte(@NotNull VariableTableEntry vte) {
+	@NotNull
+	public List<TypeTableEntry> getPotentialTypesVte(@NotNull VariableTableEntry vte) {
 		return _inj().new_ArrayList__TypeTableEntry(vte.potentialTypes());
 	}
 

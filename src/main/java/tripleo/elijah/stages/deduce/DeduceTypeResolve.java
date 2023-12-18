@@ -21,6 +21,7 @@ import tripleo.elijah.lang.impl.AliasStatementImpl;
 import tripleo.elijah.lang.impl.MatchConditionalImpl;
 import tripleo.elijah.lang.impl.VariableStatementImpl;
 import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_IdentTableEntry;
+import tripleo.elijah.stages.deduce.tastic.*;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.IdentIA;
 import tripleo.elijah.stages.instructions.InstructionArgument;
@@ -36,7 +37,8 @@ import java.util.function.Supplier;
  */
 public class DeduceTypeResolve {
 	private final BaseTableEntry                               bte;
-	@Nullable     BaseTableEntry                               backlink;
+	@Nullable
+	private BaseTableEntry                               backlink;
 	private final Eventual<GenType> typeResolution = new Eventual<>();
 	//private final DeduceTypes2                                 _dt2;
 	private final Supplier<DeduceTypes2>                       _dt2s;
@@ -50,26 +52,26 @@ public class DeduceTypeResolve {
 				@Override
 				public void onDone(final InstructionArgument backlink0) {
 					if (backlink0 instanceof IdentIA) {
-						backlink = ((IdentIA) backlink0).getEntry();
+						setBacklink(((IdentIA) backlink0).getEntry());
 						setBacklinkCallback();
 					} else if (backlink0 instanceof IntegerIA) {
-						backlink = ((IntegerIA) backlink0).getEntry();
+						setBacklink(((IntegerIA) backlink0).getEntry());
 						setBacklinkCallback();
 					} else if (backlink0 instanceof ProcIA) {
-						backlink = ((ProcIA) backlink0).getEntry();
+						setBacklink(((ProcIA) backlink0).getEntry());
 						setBacklinkCallback();
 					} else
-						backlink = null;
+						setBacklink(null);
 				}
 			});
 		} else if (bte instanceof VariableTableEntry) {
-			backlink = null;
+			setBacklink(null);
 		} else if (bte instanceof ProcTableEntry) {
-			backlink = null;
+			setBacklink(null);
 		} else
 			throw new IllegalStateException();
 
-		if (backlink != null) {
+		if (getBacklink() != null) {
 		} else {
 			typeResolution().then(gt -> {
 				if (!bte.typeResolvePromise().isResolved()) { // TODO 07/20 everywhere where this check is is wrong, BTW
@@ -103,13 +105,21 @@ public class DeduceTypeResolve {
 
 	protected void setBacklinkCallback() {
 		_inj_then(inj -> {
-			assert backlink != null;
-			backlink.addStatusListener(inj.new__StatusListener__BTE_203(this));
+			assert getBacklink() != null;
+			getBacklink().addStatusListener(inj.new__StatusListener__BTE_203(this));
 		});
 	}
 
 	public Eventual<GenType> typeResolution() {
 		return typeResolution;
+	}
+
+	public BaseTableEntry getBacklink() {
+		return backlink;
+	}
+
+	public void setBacklink(BaseTableEntry aBacklink) {
+		backlink = aBacklink;
 	}
 
 	class _StatusListener__BTE_86 implements BaseTableEntry.StatusListener {
@@ -228,11 +238,11 @@ public class DeduceTypeResolve {
 		public void onChange(final @NotNull IElementHolder eh, final BaseTableEntry.Status newStatus) {
 			if (newStatus != BaseTableEntry.Status.KNOWN) return;
 
-			if (backlink instanceof final @NotNull IdentTableEntry identTableEntry) {
+			if (getBacklink() instanceof final @NotNull IdentTableEntry identTableEntry) {
 				identTableEntry.typeResolvePromise().then(result -> _203_backlink_isIDTE(result, identTableEntry));
-			} else if (backlink instanceof final @NotNull VariableTableEntry variableTableEntry) {
+			} else if (getBacklink() instanceof final @NotNull VariableTableEntry variableTableEntry) {
 				variableTableEntry.typeResolvePromise().then(result -> _203_backlink_is_VTE(result, eh, variableTableEntry));
-			} else if (backlink instanceof final ProcTableEntry procTableEntry) {
+			} else if (getBacklink() instanceof final ProcTableEntry procTableEntry) {
 				procTableEntry.typeResolvePromise().then(result -> _203_backlink_is_PTE(result, procTableEntry, eh));
 			}
 		}

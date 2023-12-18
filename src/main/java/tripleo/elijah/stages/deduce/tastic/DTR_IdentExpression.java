@@ -1,7 +1,8 @@
-package tripleo.elijah.stages.deduce;
+package tripleo.elijah.stages.deduce.tastic;
 
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.lang.i.IdentExpression;
+import tripleo.elijah.stages.deduce.DeduceTypeResolve;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.IntegerIA;
 

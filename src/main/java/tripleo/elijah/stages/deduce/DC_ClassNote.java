@@ -2,10 +2,11 @@ package tripleo.elijah.stages.deduce;
 
 import tripleo.elijah.lang.i.ClassStatement;
 import tripleo.elijah.lang.i.Context;
+import tripleo.elijah.stages.deduce.tastic.*;
 import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
 import tripleo.elijah.stages.gen_fn.IdentTableEntry;
 
-class DC_ClassNote {
+public class DC_ClassNote {
 	private final DeduceCentral    central;
 	private final Context          ctx;
 	private final ClassStatement   e;

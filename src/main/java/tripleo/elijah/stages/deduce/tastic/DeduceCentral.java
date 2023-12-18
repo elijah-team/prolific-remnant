@@ -1,10 +1,11 @@
-package tripleo.elijah.stages.deduce;
+package tripleo.elijah.stages.deduce.tastic;
 
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.lang.i.ClassStatement;
 import tripleo.elijah.lang.i.Context;
+import tripleo.elijah.stages.deduce.*;
 
-class DeduceCentral {
+public class DeduceCentral {
 	private final DeduceTypes2 deduceTypes2;
 
 	public DeduceCentral(final DeduceTypes2 aDeduceTypes2) {
