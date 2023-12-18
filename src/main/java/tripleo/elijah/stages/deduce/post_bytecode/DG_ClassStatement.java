@@ -10,7 +10,6 @@ import tripleo.elijah.stages.deduce.FunctionInvocation;
 import tripleo.elijah.stages.deduce.NULL_DeduceTypes2;
 import tripleo.elijah.stages.gen_fn.*;
 
-// DeduceGrand
 public class DG_ClassStatement implements DG_Item {
 	private final ClassStatement       classStatement;
 	@Getter
