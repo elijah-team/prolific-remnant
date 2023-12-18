@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.ElijahInternal;
 import tripleo.elijah.Eventual;
 import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.comp.Finally;
 import tripleo.elijah.comp.PipelineLogic;
 import tripleo.elijah.comp.i.CompilationEnclosure;
 import tripleo.elijah.comp.i.ICompilationAccess;
@@ -433,10 +434,14 @@ public class DeducePhase extends _RegistrationTarget implements ReactiveDimensio
 					}
 				}
 			} else if (dr instanceof DR_Ident drid) {
-				//System.err.println(String.format("***** 623623 -- %s %b", drid.name(), drid.isResolved()));
+				if (this.ca.getCompilation().reports().outputOn(Finally.Outs.Out_323626)) {
+					System.err.println(String.format("***** 623623 -- %s %b", drid.name(), drid.isResolved()));
+				}
 
-				for (DR_Ident.Understanding understanding : drid.u) {
-					//System.err.println(String.format("**** 623626 -- %s", understanding.asString()));
+				for (DR_Ident.Understanding understanding : drid.getUnderstandings()) {
+					if (this.ca.getCompilation().reports().outputOn(Finally.Outs.Out_323626)) {
+						System.err.println(String.format("**** 623626 -- %s", understanding.asString()));
+					}
 				}
 			}
 		}
