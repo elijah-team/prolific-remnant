@@ -1,7 +1,9 @@
 package tripleo.elijah.comp.internal;
 
 import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.*;
 import tripleo.elijah.ci.i.CompilerInstructions;
+import tripleo.elijah.comp.*;
 import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.comp.i.*;
 import tripleo.elijah.stateful.DefaultStateful;
@@ -14,63 +16,49 @@ import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 import java.util.function.Supplier;
 
 public class CompilationRunner extends _RegistrationTarget {
-	private final          Compilation                     _compilation;
-	public final           ICompilationBus                 cb;
-	public final           CR_State                        crState;
-	public final @NotNull  IProgressSink                   progressSink;
-	private final @NotNull CCI                             cci;
-	private final          EzM                             ezm = new EzM();
-	final                  CIS                             cis;
-
-	private CB_StartCompilationRunnerAction startAction;
+	private final    Compilation _compilation;
+	private @NotNull CCI         cci;
+	private final    EzM         ezm = new EzM();
+	private final          CR_State           __defer_CR_State;
+	private final          ICompilationAccess __defer_CompilationAccess;
+	public                 ICompilationBus    cb;
+	public                 CR_State           crState;
+	public @NotNull        IProgressSink      progressSink;
+	CIS        cis;
 	CR_FindCIs cr_find_cis;
-
-	public CompilationRunner(final @NotNull ICompilationAccess aca, final CR_State aCrState) {
-		_compilation = aca.getCompilation();
-
-		_compilation.getCompilationEnclosure().setCompilationAccess(aca);
-
-		cis = _compilation._cis();
-		cb  = _compilation.getCompilationEnclosure().getCompilationBus();
-
-		assert cb != null;
-
-		progressSink = cb.defaultProgressSink();
-
-		cci     = new DefaultCCI(_compilation, cis, progressSink);
-		crState = aCrState;
-
-		CompilationRunner.ST.register(this);
-	}
+	private CB_StartCompilationRunnerAction startAction;
 
 	public CompilationRunner(final @NotNull ICompilationAccess aca, final CR_State aCrState, final Supplier<CompilationBus> scb) {
 		_compilation = aca.getCompilation();
 
-		_compilation.getCompilationEnclosure().setCompilationAccess(aca);
+		this.__defer_CR_State          = aCrState;
+		this.__defer_CompilationAccess = aca;
 
 		cis = _compilation._cis();
 
 		var cb1 = _compilation.getCompilationEnclosure().getCompilationBus();
 
-		if (cb1 == null) {
+		if (cb1 == null && scb != null) {
 			cb = scb.get();
 			_compilation.getCompilationEnclosure().setCompilationBus(cb);
 		} else {
 			cb = _compilation.getCompilationEnclosure().getCompilationBus();
 		}
-
-		progressSink = cb.defaultProgressSink();
-
-		cci     = new DefaultCCI(_compilation, cis, progressSink);
-		crState = aCrState;
-
-		CompilationRunner.ST.register(this);
 	}
 
-	public void logProgress(final int number, final String text) {
-		if (number == 130) return;
+	public void connect(final CK_ConnectionPlane aPlane) {
+		aPlane.provide(this);
 
-		SimplePrintLoggerToRemoveSoon.println_err_3("%d %s".formatted(number, text));
+		aPlane.provide(__defer_CompilationAccess);
+		aPlane.provide(__defer_CR_State); // [T060096]
+
+		aPlane.onCrState ((CR_State aCrState) -> crState = aCrState);
+		aPlane.onCCI     ((CCI      aCCI)     -> cci     = aCCI);
+
+		progressSink = cb.defaultProgressSink();
+		aPlane._defaultCCI(progressSink);
+
+		CompilationRunner.ST.register(this);
 	}
 
 	public @NotNull Operation<CompilerInstructions> parseEzFile(final @NotNull SourceFileParserParams p) {
@@ -98,8 +86,29 @@ public class CompilationRunner extends _RegistrationTarget {
 		if (this.cr_find_cis == null) {
 			var beginning = _accessCompilation().beginning(this);
 			this.cr_find_cis = new CR_FindCIs(beginning);
+		} else {
+			throw new UnintendedUseException(); // 12/17 FIXME figure this out plz (aka find the fix you already fixed)
 		}
 		return this.cr_find_cis;
+	}
+
+	public CCI _accessCCI() {
+		return this.cci;
+	}
+
+	public void start(final CompilerInstructions ci, final @NotNull IPipelineAccess pa) {
+		// FIXME only run once 06/16
+		if (startAction == null) {
+			startAction = new CB_StartCompilationRunnerAction(this, pa, ci);
+			// FIXME CompilerDriven vs Process ('steps' matches "CK", so...)
+			cb.add(startAction.cb_Process());
+		}
+	}
+
+	public void logProgress(final int number, final String text) {
+		if (number == 130) return;
+
+		SimplePrintLoggerToRemoveSoon.println_err_3("%d %s".formatted(number, text));
 	}
 
 	public enum ST {
@@ -174,15 +183,6 @@ public class CompilationRunner extends _RegistrationTarget {
 			public void setIdentity(final StateRegistrationToken aId) {
 				identity = aId;
 			}
-		}
-	}
-
-	public void start(final CompilerInstructions ci, final @NotNull IPipelineAccess pa) {
-		// FIXME only run once 06/16
-		if (startAction == null) {
-			startAction = new CB_StartCompilationRunnerAction(this, pa, ci);
-			// FIXME CompilerDriven vs Process ('steps' matches "CK", so...)
-			cb.add(startAction.cb_Process());
 		}
 	}
 }

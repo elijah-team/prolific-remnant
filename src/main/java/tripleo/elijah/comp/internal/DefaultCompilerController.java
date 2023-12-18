@@ -2,9 +2,7 @@ package tripleo.elijah.comp.internal;
 
 import java.util.List;
 
-import tripleo.elijah.comp.ApacheOptionsProcessor;
-import tripleo.elijah.comp.CompilerInput;
-import tripleo.elijah.comp.CompilerInstructionsObserver;
+import tripleo.elijah.comp.*;
 import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.comp.i.CompilationEnclosure;
 import tripleo.elijah.comp.i.CompilerController;
@@ -18,7 +16,6 @@ public class DefaultCompilerController implements CompilerController {
 	private Compilation c;
 	CompilationBus      cb;
 	List<CompilerInput> inputs;
-	private Nov14Impl __nov14;
 
 	@Override
 	public void _setInputs(final Compilation aCompilation, final List<CompilerInput> aInputs) {
@@ -62,35 +59,24 @@ public class DefaultCompilerController implements CompilerController {
 		}
 	}
 
-	interface __Nov14 {
-
-	}
-
-	class Nov14Impl implements __Nov14 {
-
-		public Nov14Impl(CompilationEnclosure ce) {
-			// TODO Auto-generated constructor stub
-		}
-
-	}
-
 	@Override
 	public void runner() {
-
 		c.subscribeCI(c._cis()._cio);
 
 		final CompilationEnclosure ce = c.getCompilationEnclosure();
 
-		this.__nov14 = new Nov14Impl(ce);
+		var plane = new CK_ConnectionPlane(this.c, this);
+		c.setConnectionPlane(plane);
 
 		final ICompilationAccess compilationAccess = ce.getCompilationAccess();
 		assert compilationAccess != null;
+		plane.provide(compilationAccess);
 
 		final CR_State          crState = new CR_State(compilationAccess);
-		final CompilationRunner cr      = new CompilationRunner(compilationAccess, crState);
+		plane.provide(crState); // [T060096]
 
-		crState.setRunner(cr);
-		ce.setCompilationRunner(cr);
+		final CompilationRunner cr      = new CompilationRunner(compilationAccess, crState, null);
+		cr.connect(plane);
 
 		hook(cr);
 

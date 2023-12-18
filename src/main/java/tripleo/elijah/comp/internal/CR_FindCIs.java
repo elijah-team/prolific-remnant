@@ -32,8 +32,8 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 		var comp = beginning.compilation();
 		var progressSink = beginning.progressSink();
 
+		cci = beginning.compilation().getCompilationEnclosure().getCompilationRunner()._accessCCI();
 		// TODO 09/05 look at 2 different progressSinks
-		cci = new DefaultCCI(comp, comp._cis(), progressSink);
 		_ps = comp.getCompilationEnclosure().getCompilationBus().defaultProgressSink();
 
 		//eventualCR_FindCIs.resolve(this);

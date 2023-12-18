@@ -1,9 +1,7 @@
 package tripleo.elijah.test_help;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.comp.IO;
-import tripleo.elijah.comp.PipelineLogic;
-import tripleo.elijah.comp.StdErrSink;
+import tripleo.elijah.comp.*;
 import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.comp.i.ICompilationAccess;
 import tripleo.elijah.comp.i.ProcessRecord;
@@ -51,7 +49,8 @@ public class Boilerplate {
 
 
 
-
+		final CK_ConnectionPlane plane          = new CK_ConnectionPlane(comp, new DefaultCompilerController());
+		comp.setConnectionPlane(plane);
 
 		final ICompilationAccess aca1 = ((CompilationImpl) comp)._access();
 		if (aca1 != null) {
@@ -61,12 +60,24 @@ public class Boilerplate {
 			aca = new DefaultCompilationAccess(comp);
 		}
 
-		CR_State crState;
-		crState = new CR_State(aca);
-		cr = new CompilationRunner(aca, crState, () -> new CompilationBus(aca.getCompilation().getCompilationEnclosure()));
-		crState.setRunner(cr);
+		plane.provide(aca);
 
-		comp.getCompilationEnclosure().setCompilationRunner(cr);
+		final CR_State           crState        = new CR_State(aca);
+		plane.provide(crState);
+
+		final CompilationBus     compilationBus = new CompilationBus(aca.getCompilation().getCompilationEnclosure());
+
+		cr = new CompilationRunner(aca, crState, () -> compilationBus);
+		cr.connect(plane);
+
+		// no hook
+
+//		crState.setRunner(cr);
+
+		assert null != crState.runner();
+
+//		comp.getCompilationEnclosure().setCompilationRunner(cr);
+		assert null != comp.getCompilationEnclosure().getCompilationRunner();
 
 		//crState = comp.getCompilationEnclosure().getCompilationRunner().crState;
 		crState.ca();

@@ -68,6 +68,7 @@ public class CompilationImpl implements Compilation {
 	private                List<CompilerInput>               _inputs;
 	private                IPipelineAccess                   _pa;
 	private                IO                                io;
+	private CK_ConnectionPlane _connectionPlane;
 
 
 	public CompilationImpl(final ErrSink aErrSink, final IO aIo) {
@@ -206,6 +207,11 @@ public class CompilationImpl implements Compilation {
 		CM_CompilerInput result = new CM_CompilerInput(aCompilerInput, this);
 		_ci_models.put(aCompilerInput, result);
 		return result;
+	}
+
+	@Override
+	public void setConnectionPlane(final CK_ConnectionPlane aPlane) {
+		this._connectionPlane = aPlane;
 	}
 
 	@Override

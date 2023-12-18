@@ -132,6 +132,8 @@ public interface Compilation {
 
 	CM_CompilerInput get(CompilerInput aCompilerInput);
 
+	void setConnectionPlane(CK_ConnectionPlane aPlane);
+
 	enum CompilationAlways {
 		;
 
