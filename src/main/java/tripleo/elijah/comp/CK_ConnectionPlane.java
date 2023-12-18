@@ -24,18 +24,18 @@ public class CK_ConnectionPlane {
 	}
 
 	public void provide(final CompilationRunner aCompilationRunner) {
-		if (compilation.getCompilationEnclosure().getCompilationRunner() != null) {
+		if (compilation.getCompilationEnclosure().getCompilationRunner() == null) {
 			compilation.getCompilationEnclosure().setCompilationRunner(aCompilationRunner);
 
 			__defer_CompilationRunner = aCompilationRunner;
 
-			compilation.getCompilationEnclosure().setCompilationRunner(aCompilationRunner); // cool if this actually works
+//			compilation.getCompilationEnclosure().setCompilationRunner(aCompilationRunner); // cool if this actually works
 		}
 	}
 
 	public void provide(final ICompilationAccess aca) {
 		//noinspection ConstantValue
-		if (compilation.getCompilationEnclosure().getCompilationAccess() != null) {
+		if (compilation.getCompilationEnclosure().getCompilationAccess() == null) {
 			compilation.getCompilationEnclosure().setCompilationAccess(aca);
 		}
 	}

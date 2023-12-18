@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 
 public class CR_FindCIs extends DefaultStateful implements CR_Action {
 	private final @NotNull List<CompilerInput> inputs;
-	private final @NotNull CCI                 cci;
+	private @NotNull       CCI                 cci;
 	private final @NotNull IProgressSink       _ps;
 
 	public CR_FindCIs(final @NotNull CompilerBeginning beginning) {
@@ -32,7 +32,9 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 		var comp = beginning.compilation();
 		var progressSink = beginning.progressSink();
 
-		cci = beginning.compilation().getCompilationEnclosure().getCompilationRunner()._accessCCI();
+		var plane = beginning.compilation().getConnectionPlane();
+		plane.onCCI(acci->{cci=acci;});
+		//cci = beginning.compilation().getCompilationEnclosure().getCompilationRunner()._accessCCI();
 		// TODO 09/05 look at 2 different progressSinks
 		_ps = comp.getCompilationEnclosure().getCompilationBus().defaultProgressSink();
 

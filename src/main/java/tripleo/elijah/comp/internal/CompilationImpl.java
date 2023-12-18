@@ -215,6 +215,11 @@ public class CompilationImpl implements Compilation {
 	}
 
 	@Override
+	public CK_ConnectionPlane getConnectionPlane() {
+		return this._connectionPlane;
+	}
+
+	@Override
 	public Map<String, CompilerInstructions> fn2ci() {
 		return getFn2ci();
 	}

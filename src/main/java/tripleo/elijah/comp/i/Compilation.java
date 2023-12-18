@@ -134,6 +134,8 @@ public interface Compilation {
 
 	void setConnectionPlane(CK_ConnectionPlane aPlane);
 
+	CK_ConnectionPlane getConnectionPlane();
+
 	enum CompilationAlways {
 		;
 
