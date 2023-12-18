@@ -10,10 +10,10 @@ public final class NG_OutDep implements CM_Module {
    @NotNull
    private final OS_Module module_;
 
-   public NG_OutDep(@NotNull OS_Module module_) {
-      Intrinsics.checkNotNullParameter(module_, "module_");
+   public NG_OutDep(@NotNull OS_Module aModule) {
+      Intrinsics.checkNotNullParameter(aModule, "aModule");
       
-      this.module_ = module_;
+      module_ = aModule;
    }
 
    @NotNull
@@ -45,13 +45,13 @@ public final class NG_OutDep implements CM_Module {
    }
 
    // $FF: synthetic method
-   public static NG_OutDep copy$default(NG_OutDep var0, OS_Module var1, int var2, Object var3) {
-      if ((var2 & 1) != 0) {
-         var1 = var0.module_;
-      }
-
-      return var0.copy(var1);
-   }
+//   public static NG_OutDep copy$default(NG_OutDep var0, OS_Module var1, int var2, Object var3) {
+//      if ((var2 & 1) != 0) {
+//         var1 = var0.module_;
+//      }
+//
+//      return var0.copy(var1);
+//   }
 
    @NotNull
    public String toString() {
