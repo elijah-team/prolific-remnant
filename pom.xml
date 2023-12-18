@@ -283,35 +283,37 @@
         </repository>
     </distributionManagement>
 
-
     <!--
     <distributionManagement>
         <repository>
             <id>gitlab-maven</id>
             <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
         </repository>
-    </distributionManagement>
--->
+    </distributionManagement>-->
 
     <build>
-        <!--
-        <plugins>
-        <plugin>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr4-maven-plugin</artifactId>
-            <version>4.7.1</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>antlr4</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-        </plugins>
-        -->
         <plugins>
 
+            <!--<plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>4.7.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin> -->
+
+<!--
+            <plugin>
+                <groupId>org.apache.netbeans.modules.jackpot30</groupId>
+                <artifactId>jackpot30-maven-plugin</artifactId>
+                <version>13.0</version>
+            </plugin>
+-->
 
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -327,9 +329,9 @@
                         </goals>
                         <configuration>
                             <sources>
-<!--
-                                <source>src-mal/java/</source>
--->
+                                <!--
+                                    <source>src-mal/java/</source>
+                                -->
                                 <source>src-undertow/java/</source>
                                 <source>src-cef/java/</source>
                             </sources>
@@ -338,34 +340,36 @@
                 </executions>
             </plugin>
 
-
+<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>3.0.0</version>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
             </plugin>
 
-            <!-- To use the plugin goals in your POM or parent POM -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>3.0.0-M5</version>
             </plugin>
+-->
 
+<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <!--
-                                        <outputDirectory>/absolute/path/to/the/output/directory</outputDirectory>
-                                        <finalName>filename-of-generated-jar-file</finalName>
-                    -->
+                    &lt;!&ndash;
+                        <outputDirectory>/absolute/path/to/the/output/directory</outputDirectory>
+                        <finalName>filename-of-generated-jar-file</finalName>
+                    &ndash;&gt;
                     <attach>true</attach>
                 </configuration>
                 <executions>
@@ -377,6 +381,8 @@
                     </execution>
                 </executions>
             </plugin>
+-->
+
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
@@ -401,6 +407,7 @@
                     <jvmTarget>${maven.compiler.target}</jvmTarget>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

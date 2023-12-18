@@ -1,0 +1,4 @@
+System.err.println($args$)
+=>
+System.out.println($args$)
+;;
