@@ -3,14 +3,14 @@ package tripleo.elijah.nextgen.comp_model;
 import com.google.common.base.MoreObjects;
 import tripleo.elijah.comp.CompilerInput;
 import tripleo.elijah.comp.Finally;
-import tripleo.elijah.comp.i.ILazyCompilerInstructions;
+import tripleo.elijah.comp.i.*;
 import tripleo.elijah.comp.internal.CompilationImpl;
 import tripleo.elijah.util.Maybe;
 
 import java.io.File;
 
 public class CM_CompilerInput {
-	private final CompilationImpl                  comp;
+	private final Compilation                      comp;
 	private final CompilerInput                    carrier;
 	private       String                           inp;
 	private       CompilerInput.Ty                 ty;
@@ -71,12 +71,12 @@ public class CM_CompilerInput {
 		return inp;
 	}
 
-	public CompilerInput.Ty getTy() {
-		return ty;
-	}
-
 	public void setInp(final String aInp) {
 		inp = aInp;
+	}
+
+	public CompilerInput.Ty getTy() {
+		return ty;
 	}
 
 	public File fileOf() {
