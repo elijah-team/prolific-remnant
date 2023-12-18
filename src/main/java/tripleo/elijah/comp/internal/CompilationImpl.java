@@ -393,8 +393,12 @@ public class CompilationImpl implements Compilation {
 	}
 
 	@Override
-	public void hasInstructions(final @NotNull List<CompilerInstructions> cis) {
-		assert cis.size() == 1;
+	public void hasInstructions(final @NotNull List<CompilerInstructions> cis0) {
+		var cis = new HashSet<>(cis0).stream().toList(); // README uniqueness again
+		if (cis.size() != 1) {
+			System.err.println("*************** "+cis.size());
+			throw new AssertionError();
+		}
 		final CompilationEnclosure ce = getCompilationEnclosure();
 		assert !ce.getCompilerInput().isEmpty();
 		hasInstructions(cis.get(0), pa(), ce);

@@ -18,6 +18,8 @@ import java.util.List;
 import static tripleo.elijah.util.Helpers.List_of;
 
 public class CD_CompilationRunnerStart_1 implements CD_CompilationRunnerStart {
+	private static boolean __REMOVE_ME_SOON__PROB_NOT_NECC = false;
+
 	@Override
 	public void start(final @NotNull CompilerInstructions aCompilerInstructions,
 	                  final @NotNull CR_State crState,
@@ -48,6 +50,11 @@ public class CD_CompilationRunnerStart_1 implements CD_CompilationRunnerStart {
 
 		final List<CR_Action>         crActionList       = List_of(f2, f4);
 		final List<Operation<Ok>>     crActionResultList = new ArrayList<>(crActionList.size());
+
+		if (!__REMOVE_ME_SOON__PROB_NOT_NECC) {
+			var plane = crState.ca.getCompilation().getConnectionPlane();
+			plane.onCompilationRunner(crState::setRunner);
+		}
 
 		for (final CR_Action each : crActionList) {
 			each.attach(crState.runner());

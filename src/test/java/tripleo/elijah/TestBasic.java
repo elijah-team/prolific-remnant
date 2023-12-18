@@ -43,7 +43,7 @@ import static tripleo.elijah.util.Helpers.List_of;
 @SuppressWarnings("MagicNumber")
 public class TestBasic {
 
-	/*@Ignore*/ @Test public final void testBasicParse() throws Exception {
+	@Ignore @Test public final void testBasicParse() throws Exception {
 		final List<String> ez_files = Files.readLines(new File("test/basic/ez_files.txt"), Charsets.UTF_8);
 		final List<String> args     = new ArrayList<String>();
 		args.addAll(ez_files);

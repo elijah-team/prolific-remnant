@@ -33,9 +33,6 @@ import java.util.stream.Collectors;
 
 /*
  * Created on Sep 1, 2005 8:16:32 PM
- *
- * $Id$
- *
  */
 public class OS_ModuleImpl implements OS_Element, OS_Container, tripleo.elijah.lang.i.OS_Module {
 
@@ -316,7 +313,7 @@ public class OS_ModuleImpl implements OS_Element, OS_Container, tripleo.elijah.l
 
 	@Override
 	public String toString() {
-		return "<OS_Module %s>".formatted(_fileName);
+		return "<OS_Module %s>".formatted(_fileName.getString());
 	}
 }
 

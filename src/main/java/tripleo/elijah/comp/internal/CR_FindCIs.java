@@ -99,11 +99,6 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 				case ACCEPT_CI -> {
 					final Maybe<ILazyCompilerInstructions> mci = (Maybe<ILazyCompilerInstructions>) aObject;
 					aCompilerInput.accept_ci(mci);
-
-					if (aCompilerInput.ty() == CompilerInput.Ty.SOURCE_ROOT) {
-						var c = aCompilerInput.oc().get();
-						c.pushItem(aCompilerInput.acceptance_ci().o.get());
-					}
 				}
 				case IS_EZ -> {
 					final CM_CompilerInput cm = (CM_CompilerInput) aObject;
@@ -112,6 +107,11 @@ public class CR_FindCIs extends DefaultStateful implements CR_Action {
 				default -> {
 					System.err.println("~~ [11/24 111] " + aEvent + " " + aCompilerInput);
 				}
+			}
+
+			if (aCompilerInput.ty() == CompilerInput.Ty.SOURCE_ROOT) {
+				var c = aCompilerInput.oc().get();
+				c.pushItem(aCompilerInput.acceptance_ci().o.get());
 			}
 		}
 	}
