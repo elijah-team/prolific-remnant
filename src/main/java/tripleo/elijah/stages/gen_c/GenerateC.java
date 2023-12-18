@@ -680,7 +680,9 @@ public class GenerateC implements CodeGenerator, GenerateFiles, ReactiveDimensio
 				generateC.generate_constructor((EvaConstructor) gf, gr, wl, resultSink, aWorkManager, fileGen);
 			_isDone = true;
 		}
-	}	public void generateCodeForMethod(final GenerateResultEnv aFileGen, final BaseEvaFunction aEvaFunction) {
+	}
+
+	public void generateCodeForMethod(final GenerateResultEnv aFileGen, final BaseEvaFunction aEvaFunction) {
 		final WhyNotGarish_Function cf = this.a_lookup(aEvaFunction);
 
 		cf.resolveFileGenPromise(aFileGen);
