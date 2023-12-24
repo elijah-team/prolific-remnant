@@ -12,4 +12,6 @@ public interface FluffyModule {
 	List<FluffyMember> members();
 
 	String name();
+
+	void find_multiple_items();
 }
