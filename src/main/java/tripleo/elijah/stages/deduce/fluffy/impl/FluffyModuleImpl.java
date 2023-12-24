@@ -3,7 +3,7 @@ package tripleo.elijah.stages.deduce.fluffy.impl;
 import com.google.common.collect.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.comp.igs.Compilation;
+import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.entrypoints.MainClassEntryPoint;
 import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.deduce.fluffy.i.FluffyComp;
