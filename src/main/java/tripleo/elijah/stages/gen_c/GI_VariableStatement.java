@@ -92,7 +92,7 @@ public class GI_VariableStatement implements GenerateC_Item {
 				var cp = cls.getParent();
 
 				if (cp instanceof OS_Module mod) {
-					assert mod.getFileName().equals("lib_elijjah/lib-c/Prelude.elijjah");
+					assert mod.getFileName().sameString("lib_elijjah/lib-c/Prelude.elijjah");
 				}
 
 				var gf  = ((IdentTableEntry) item.getTableEntry()).__gf;
