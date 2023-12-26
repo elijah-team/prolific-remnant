@@ -1,6 +1,8 @@
 package tripleo.elijah.ut;
 
 import tripleo.elijah.comp.*;
+import tripleo.elijah.comp.i.CB_Action;
+import tripleo.elijah.comp.i.ICompilationBus;
 
 import java.io.*;
 import java.nio.file.*;
@@ -10,7 +12,7 @@ import java.util.stream.*;
 import static tripleo.elijah.util.Helpers.*;
 
 class UT_Root {
-	private final Map<String, ICompilationBus.CB_Action> dcs = new HashMap<>();
+	private final Map<String, CB_Action> dcs = new HashMap<>();
 	List<Path> paths = List_of();
 
 	public UT_Root() {
@@ -37,11 +39,11 @@ class UT_Root {
 		return result;
 	}
 
-	public void dcs(final String aF, final ICompilationBus.CB_Action aAction) {
+	public void dcs(final String aF, final CB_Action aAction) {
 		dcs.put(aF, aAction);
 	}
 
-	public ICompilationBus.CB_Action dcs(final String aF) {
+	public CB_Action dcs(final String aF) {
 		return dcs.get(aF);
 	}
 }

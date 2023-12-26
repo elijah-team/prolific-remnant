@@ -8,18 +8,28 @@
  */
 package tripleo.elijah.stages.instructions;
 
-import tripleo.elijah.stages.gen_fn.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
+import tripleo.elijah.stages.gen_fn.ConstantTableEntry;
 
 /**
  * Created 9/10/20 3:35 PM
  */
 public class ConstTableIA implements InstructionArgument {
 	private final BaseEvaFunction gf;
-	private final int                   index;
+	private final int             index;
 
 	public ConstTableIA(final int index, final BaseEvaFunction generatedFunction) {
 		this.index = index;
 		this.gf    = generatedFunction;
+	}
+
+	public @NotNull ConstantTableEntry getEntry() {
+		return gf.getConstTableEntry(index);
+	}
+
+	public int getIndex() {
+		return index;
 	}
 
 	@Override
@@ -30,14 +40,6 @@ public class ConstTableIA implements InstructionArgument {
 			return String.format("(ct %d) [%s=%s]", index, name, constantTableEntry.initialValue);
 		else
 			return String.format("(ct %d) [%s]", index, constantTableEntry.initialValue);
-	}
-
-	public int getIndex() {
-		return index;
-	}
-
-	public ConstantTableEntry getEntry() {
-		return gf.getConstTableEntry(index);
 	}
 }
 

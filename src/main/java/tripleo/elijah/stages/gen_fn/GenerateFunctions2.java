@@ -2,9 +2,9 @@ package tripleo.elijah.stages.gen_fn;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.lang.ClassItem;
-import tripleo.elijah.lang.ClassStatement;
-import tripleo.elijah.lang.OS_Module;
+import tripleo.elijah.lang.i.ClassItem;
+import tripleo.elijah.lang.i.ClassStatement;
+import tripleo.elijah.lang.i.OS_Module;
 import tripleo.elijah.stages.deduce.ClassInvocation;
 import tripleo.elijah.stages.gen_fn_r.RegisterClassInvocation_env;
 import tripleo.elijah.stages.logging.ElLog;

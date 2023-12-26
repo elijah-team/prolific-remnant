@@ -1,7 +1,7 @@
 package tripleo.vendor.batoull22;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.comp.*;
+import tripleo.elijah.util.Operation;
 
 import java.io.InputStream;
 import java.util.ArrayList;

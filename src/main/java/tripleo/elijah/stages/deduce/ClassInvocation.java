@@ -8,15 +8,23 @@
  */
 package tripleo.elijah.stages.deduce;
 
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jdeferred2.Promise;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.ClassStatement;
+import tripleo.elijah.lang.i.OS_Type;
+import tripleo.elijah.lang.i.TypeName;
+import tripleo.elijah.lang.types.OS_UnknownType;
+import tripleo.elijah.lang.types.OS_UserClassType;
+import tripleo.elijah.stages.gen_fn.EvaClass;
+import tripleo.elijah.stages.gen_fn.EvaContainer;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Created 3/5/21 3:51 AM
@@ -27,7 +35,7 @@ public class ClassInvocation implements IInvocation {
 	private final          String                               constructorName;
 	private final          DeferredObject<EvaClass, Void, Void> resolvePromise = new DeferredObject<EvaClass, Void, Void>();
 	private                CI_GenericPart                       genericPart_;
-	//	public                 CI_Hint                              hint;
+	public                 CI_Hint                              hint;
 
 	public CI_GenericPart genericPart() {
 		if (_dt2s instanceof NULL_DeduceTypes2) {
@@ -35,7 +43,7 @@ public class ClassInvocation implements IInvocation {
 		}
 
 		if (genericPart_ == null) {
-			genericPart_ = new CI_GenericPart(cls.getGenericPart(), this);
+			genericPart_ = _inj().new_CI_GenericPart(cls.getGenericPart(), this);
 		}
 		return genericPart_;
 	}
@@ -91,16 +99,19 @@ public class ClassInvocation implements IInvocation {
 		return sb.toString();
 	}
 
+	private DeduceTypes2.DeduceTypes2Injector _inj() {
+		return _dt2s.get()._inj();
+	}
 
 	public class CI_GenericPart {
 		private final @NotNull Map<TypeName, OS_Type> genericPart;
 		private final          boolean                isEmpty;
 
-		public CI_GenericPart(final @NotNull Collection<TypeName> genericPart1, final ClassInvocation aClassInvocation) {
+		public CI_GenericPart(final @NotNull Collection<TypeName> genericPart1) {
 			if (!genericPart1.isEmpty()) {
 				genericPart = new HashMap<>(genericPart1.size());
 				for (TypeName typeName : genericPart1) {
-					genericPart.put(typeName, new OS_UnknownType(null)); // FIXME 08/27 remove usage of UnknownType
+					genericPart.put(typeName, _inj().new_OS_UnknownType(null)); // FIXME 08/27 remove usage of UnknownType
 				}
 				this.isEmpty = false;
 			} else {
@@ -113,7 +124,7 @@ public class ClassInvocation implements IInvocation {
 			return genericPart.get(aTypeName);
 		}
 
-		public @Nullable Map<TypeName, OS_Type> asMap() {
+		public @Nullable Map<TypeName, OS_Type> getMap() {
 			return genericPart;
 		}
 

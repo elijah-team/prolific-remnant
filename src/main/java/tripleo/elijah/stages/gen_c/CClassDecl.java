@@ -8,29 +8,31 @@
  */
 package tripleo.elijah.stages.gen_c;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.stages.gen_fn.EvaClass;
+import tripleo.elijah.util.Helpers;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Created 12/24/20 7:42 AM
  */
 public class CClassDecl {
-	private final EvaClass generatedClass;
-	public        String         prim_decl;
-	public        boolean        prim = false;
+	private final EvaClass evaClass;
+	public        boolean  prim = false;
+	public        String   prim_decl;
 
-	public CClassDecl(final EvaClass generatedClass) {
-		this.generatedClass = generatedClass;
+	public CClassDecl(EvaClass aEvaClass) {
+		this.evaClass = aEvaClass;
 	}
 
 	public void evaluatePrimitive() {
-		final ClassStatement xx = generatedClass.getKlass();
+		ClassStatement xx = evaClass.getKlass();
 		xx.walkAnnotations(new AnnotationWalker() {
 			@Override
-			public void annotation(final AnnotationPart anno) {
+			public void annotation(@NotNull AnnotationPart anno) {
 				if (anno.annoClass().equals(Helpers.string_to_qualident("C.repr"))) {
 					if (anno.getExprs() != null) {
 						final ArrayList<IExpression> expressions = new ArrayList<IExpression>(anno.getExprs().expressions());
@@ -39,7 +41,7 @@ public class CClassDecl {
 							final String str = ((StringExpression) str0).getText();
 							setDecl(str);
 						} else {
-							SimplePrintLoggerToRemoveSoon.println2("Illegal C.repr");
+							SimplePrintLoggerToRemoveSoon.println_out_2("Illegal C.repr");
 						}
 					}
 				}
@@ -49,7 +51,7 @@ public class CClassDecl {
 		});
 	}
 
-	public void setDecl(final String str) {
+	public void setDecl(String str) {
 		prim_decl = str;
 	}
 

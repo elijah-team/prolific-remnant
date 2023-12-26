@@ -8,64 +8,44 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.work.*;
+import org.jdeferred2.DoneCallback;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.NamespaceStatement;
+import tripleo.elijah.stages.deduce.DeducePhase;
+import tripleo.elijah.stages.deduce.NamespaceInvocation;
+import tripleo.elijah.stages.gen_generic.ICodeRegistrar;
+import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.work.WorkJob;
+import tripleo.elijah.work.WorkManager;
 
 /**
  * Created 5/31/21 3:01 AM
  */
 public class WlGenerateNamespace implements WorkJob {
-	private final GenerateFunctions                      generateFunctions;
-	private final NamespaceStatement                     namespaceStatement;
-	private final NamespaceInvocation                    namespaceInvocation;
-	private final DeducePhase.@Nullable EvaClasses coll;
-	private final ICodeRegistrar                         codeRegistrar;
-	private       boolean                                _isDone = false;
-	private       EvaNamespace                     Result;
+	private final          DeducePhase.@Nullable GeneratedClasses coll;
+	private final          NamespaceStatement                     namespaceStatement;
+	private                boolean                                _isDone = false;
+	private final @NotNull GenerateFunctions                      generateFunctions;
+	private final @NotNull NamespaceInvocation                    namespaceInvocation;
+	private                ICodeRegistrar                         cr;
+	private                EvaNamespace                           result;
 
-	public WlGenerateNamespace(@NotNull final GenerateFunctions aGenerateFunctions,
-	                           @NotNull final NamespaceInvocation aNamespaceInvocation,
-	                           @Nullable final DeducePhase.EvaClasses aColl,
-	                           final ICodeRegistrar aCodeRegistrar) {
+	public WlGenerateNamespace(@NotNull GenerateFunctions aGenerateFunctions,
+							   @NotNull NamespaceInvocation aNamespaceInvocation,
+							   @Nullable DeducePhase.GeneratedClasses aColl,
+							   final ICodeRegistrar aCr) {
 		generateFunctions   = aGenerateFunctions;
 		namespaceStatement  = aNamespaceInvocation.getNamespace();
 		namespaceInvocation = aNamespaceInvocation;
 		coll                = aColl;
-		codeRegistrar       = aCodeRegistrar;
+
+		cr = aCr;
 	}
 
-	@Override
-	public void run(final WorkManager aWorkManager) {
-		final DeferredObject<EvaNamespace, Void, Void> resolvePromise = namespaceInvocation.resolveDeferred();
-		switch (resolvePromise.state()) {
-		case PENDING:
-			@NotNull final EvaNamespace ns = generateFunctions.generateNamespace(namespaceStatement);
-			codeRegistrar.registerNamespace(ns);
-			if (coll != null)
-				coll.add(ns);
-
-			resolvePromise.resolve(ns);
-			Result = ns;
-			break;
-		case RESOLVED:
-			resolvePromise.then(new DoneCallback<EvaNamespace>() {
-				@Override
-				public void onDone(final EvaNamespace result) {
-					Result = result;
-				}
-			});
-			break;
-		case REJECTED:
-			throw new NotImplementedException();
-		}
-		_isDone = true;
-//		tripleo.elijah.util.Stupidity.println2(String.format("** GenerateNamespace %s at %s", namespaceInvocation.getNamespace().getName(), this));
+	public EvaNode getResult() {
+		return result;
 	}
 
 	@Override
@@ -73,11 +53,40 @@ public class WlGenerateNamespace implements WorkJob {
 		return _isDone;
 	}
 
-	public EvaNode getResult() {
-		return Result;
+	@Override
+	public void run(WorkManager aWorkManager) {
+		final DeferredObject<EvaNamespace, Void, Void> resolvePromise = namespaceInvocation.resolveDeferred();
+		switch (resolvePromise.state()) {
+		case PENDING:
+			@NotNull EvaNamespace ns = generateFunctions.generateNamespace(namespaceStatement);
+			//ns.setCode(generateFunctions.module.getCompilation().nextClassCode());
+
+
+			cr.registerNamespace(ns);
+
+
+			if (coll != null)
+				coll.add(ns);
+
+			resolvePromise.resolve(ns);
+			result = ns;
+			break;
+		case RESOLVED:
+			resolvePromise.then(new DoneCallback<EvaNamespace>() {
+				@Override
+				public void onDone(EvaNamespace result) {
+					WlGenerateNamespace.this.result = result;
+				}
+			});
+			break;
+		case REJECTED:
+			throw new NotImplementedException();
+		}
+		_isDone = true;
+//		tripleo.elijah.util.Stupidity.println_out_2(String.format("** GenerateNamespace %s at %s", namespaceInvocation.getNamespace().getName(), this));
 	}
 }
 
 //
-//
+// vim:set shiftwidth=4 softtabstop=0 noexpandtab:
 //

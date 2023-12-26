@@ -1,19 +1,12 @@
 package tripleo.elijah.comp.nextgen;
 
-//import org.jetbrains.annotations.NotNull;
-//import tripleo.elijah.comp.i.Compilation;
-//import tripleo.elijah.comp.nextgen.i.CP_RootType;
-//import tripleo.elijah.nextgen.ER_Node;
-//
-//import java.util.ArrayList;
-//import java.util.List;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.comp.nextgen.i.CP_RootType;
+import tripleo.elijah.nextgen.ER_Node;
 
-import org.wildfly.common.annotation.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.nextgen.i.*;
-import tripleo.elijah.nextgen.*;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CP_Paths {
 	private final          Compilation   _c;

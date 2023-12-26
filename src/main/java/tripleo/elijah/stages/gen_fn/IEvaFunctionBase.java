@@ -1,14 +1,17 @@
 package tripleo.elijah.stages.gen_fn;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.reactive.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_generic.*;
+import org.jdeferred2.Promise;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.nextgen.reactive.Reactive;
+import tripleo.elijah.stages.deduce.DeduceElement;
+import tripleo.elijah.stages.gen_generic.Dependency;
 import tripleo.elijah.stages.instructions.*;
-import tripleo.util.range.*;
+import tripleo.util.range.Range;
 
-import java.util.*;
+import java.util.List;
 
 public interface IEvaFunctionBase {
 	int add(InstructionName aName, List<InstructionArgument> args_, Context ctx);
@@ -87,7 +90,7 @@ public interface IEvaFunctionBase {
 
 	void setCode(int aCode);
 
-	void setParent(EvaContainerNC aEvaContainerNC);
+	void setParent(EvaContainerNC aGeneratedContainerNC);
 
 	//DeferredObject<GenType, Void, Void> typeDeferred();
 	//

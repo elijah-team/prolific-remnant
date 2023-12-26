@@ -9,38 +9,39 @@
  */
 package tripleo.elijah.nextgen;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.composable.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.ClassStatement;
+import tripleo.elijah.nextgen.composable.IComposable;
+import tripleo.elijah.stages.deduce.ClassInvocation;
+import tripleo.elijah.stages.gen_fn.EvaClass;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created 3/4/22 7:14 AM
  */
 public class ClassDefinition {
-	final ClassStatement      primary;
-	final Set<ClassStatement> extended = new HashSet<ClassStatement>();
-	ClassInvocation invocation;
-	EvaClass  node;
-	IComposable     composable;
-
-	public ClassDefinition(final ClassStatement aPrimary) {
-		primary = aPrimary;
-	}
+	private final ClassStatement      primary;
+	private final Set<ClassStatement> extended = new HashSet<ClassStatement>();
+	private       ClassInvocation     invocation;
+	private       EvaClass            node;
+	private       IComposable         composable;
 
 	public ClassDefinition(final @NotNull ClassInvocation aClassInvocation) {
 		primary    = aClassInvocation.getKlass();
 		invocation = aClassInvocation;
 	}
 
-	public ClassStatement getPrimary() {
-		return primary;
+	public ClassDefinition(final ClassStatement aPrimary) {
+		primary = aPrimary;
 	}
 
-	public Set<ClassStatement> getExtended() {
+	public IComposable getComposable() {
+		return composable;
+	}
+
+	public @NotNull Set<ClassStatement> getExtended() {
 		return extended;
 	}
 
@@ -48,24 +49,24 @@ public class ClassDefinition {
 		return invocation;
 	}
 
-	public void setInvocation(final ClassInvocation aInvocation) {
-		invocation = aInvocation;
-	}
-
 	public EvaClass getNode() {
 		return node;
 	}
 
-	public void setNode(final EvaClass aNode) {
-		node = aNode;
-	}
-
-	public IComposable getComposable() {
-		return composable;
+	public ClassStatement getPrimary() {
+		return primary;
 	}
 
 	public void setComposable(final IComposable aComposable) {
 		composable = aComposable;
+	}
+
+	public void setInvocation(final ClassInvocation aInvocation) {
+		invocation = aInvocation;
+	}
+
+	public void setNode(final EvaClass aNode) {
+		node = aNode;
 	}
 }
 

@@ -8,31 +8,12 @@
  */
 package tripleo.elijah.util;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 
 public class TabbedOutputStream {
-
-	int tabwidth;
-	@Nullable Writer  myStream;
-	private boolean dont_close = false;
-	private   boolean do_tabs = false;
-
-	public TabbedOutputStream(final OutputStream os) {
-		tabwidth = 0;
-		if (os == System.out) dont_close = true;
-		myStream = new BufferedWriter(new OutputStreamWriter(os));
-	}
-
-	public TabbedOutputStream(final Writer w, final boolean buffer_it) {
-		tabwidth = 0;
-		//if (os == System.out) dont_close = true;
-		if (buffer_it)
-			myStream = new BufferedWriter(w);//new BufferedWriter(new OutputStreamWriter(os));
-		else
-			myStream = w;
-	}
 
 	public static void main(final String[] args) {
 		final TabbedOutputStream tos = new TabbedOutputStream(System.out);
@@ -59,28 +40,28 @@ public class TabbedOutputStream {
 
 			tos.close();
 		} catch (final IOException ex) {
-			SimplePrintLoggerToRemoveSoon.println2("error");
+			SimplePrintLoggerToRemoveSoon.println_out_2("error");
 		}
 	}
 
-	public void put_string_ln(final String s) throws IOException {
-		if (!is_connected())
-			throw new IllegalStateException("is_connected assertion failed");
+	@Nullable Writer myStream;
+	int tabwidth;
+	private boolean do_tabs    = false;
+	private boolean dont_close = false;
 
-		if (do_tabs)
-			doIndent();
-		myStream.write(s);
-		myStream.write('\n');
-//		doIndent();
-		do_tabs = true;
+	public TabbedOutputStream(final @NotNull OutputStream os) {
+		tabwidth = 0;
+		if (os == System.out) dont_close = true;
+		myStream = new BufferedWriter(new OutputStreamWriter(os));
 	}
 
-	public void incr_tabs() {
-		tabwidth++;
-	}
-
-	public void dec_tabs() {
-		tabwidth--;
+	public TabbedOutputStream(final @NotNull Writer w, boolean buffer_it) {
+		tabwidth = 0;
+		//if (os == System.out) dont_close = true;
+		if (buffer_it)
+			myStream = new BufferedWriter(w);//new BufferedWriter(new OutputStreamWriter(os));
+		else
+			myStream = w;
 	}
 
 	public void close() throws IOException {
@@ -92,25 +73,44 @@ public class TabbedOutputStream {
 		myStream = null;
 	}
 
-	public boolean is_connected() {
-		return myStream != null;
+	public void dec_tabs() {
+		tabwidth--;
 	}
 
 	void doIndent() throws IOException {
 		for (int i = 0; i < tabwidth; i++)
-		     myStream.write('\t');
+			 myStream.write('\t');
 	}
 
-	public void put_string_ln_no_tabs(final String s) throws IOException {
+	public void flush() throws IOException {
+		myStream.flush();
+	}
+
+	public Writer getStream() {
+		return myStream;
+	}
+
+	public void incr_tabs() {
+		tabwidth++;
+	}
+
+	public void put_newline() throws IOException {
+		doIndent();
+	}
+
+	public void put_string_ln(final @NotNull String s) throws IOException {
 		if (!is_connected())
 			throw new IllegalStateException("is_connected assertion failed");
 
+		if (do_tabs)
+			doIndent();
 		myStream.write(s);
 		myStream.write('\n');
-//		do_tabs = true;
+//		doIndent();
+		do_tabs = true;
 	}
 
-	public void put_string(final String s) throws IOException {
+	public void put_string(final @NotNull String s) throws IOException {
 		if (!is_connected())
 			throw new IllegalStateException("is_connected assertion failed");
 
@@ -120,12 +120,17 @@ public class TabbedOutputStream {
 //		do_tabs = false;
 	}
 
-	public void put_newline() throws IOException {
-		doIndent();
+	public boolean is_connected() {
+		return myStream != null;
 	}
 
-	public int t() {
-		return tabwidth;
+	public void put_string_ln_no_tabs(final @NotNull String s) throws IOException {
+		if (!is_connected())
+			throw new IllegalStateException("is_connected assertion failed");
+
+		myStream.write(s);
+		myStream.write('\n');
+//		do_tabs = true;
 	}
 
 	public void quote_string(final @NotNull String s) throws IOException {
@@ -137,12 +142,8 @@ public class TabbedOutputStream {
 		myStream.write(34);
 	}
 
-	public void flush() throws IOException {
-		myStream.flush();
-	}
-
-	public Writer getStream() {
-		return myStream;
+	public int t() {
+		return tabwidth;
 	}
 }
 

@@ -1,7 +1,7 @@
 package tripleo.elijah.world.impl;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.world.i.*;
+import tripleo.elijah.lang.i.OS_Package;
+import tripleo.elijah.world.i.LivingPackage;
 
 public class DefaultLivingPackage implements LivingPackage {
 	private final OS_Package _element;
@@ -11,12 +11,12 @@ public class DefaultLivingPackage implements LivingPackage {
 	}
 
 	@Override
-	public OS_Package getElement() {
-		return _element;
+	public int getCode() {
+		return 0;
 	}
 
 	@Override
-	public int getCode() {
-		return 0;
+	public OS_Package getElement() {
+		return _element;
 	}
 }

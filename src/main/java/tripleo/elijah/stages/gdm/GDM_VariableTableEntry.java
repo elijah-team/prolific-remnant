@@ -2,8 +2,8 @@ package tripleo.elijah.stages.gdm;
 
 import org.jdeferred2.DoneCallback;
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.lang.IdentExpression;
-import tripleo.elijah.lang.OS_Element;
+import tripleo.elijah.lang.i.IdentExpression;
+import tripleo.elijah.lang.i.OS_Element;
 import tripleo.elijah.stages.deduce.nextgen.DR_Ident;
 import tripleo.elijah.stages.gen_fn.GenerateFunctions;
 import tripleo.elijah.stages.gen_fn.VariableTableEntry;

@@ -4,7 +4,7 @@ import org.jdeferred2.DoneCallback;
 import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.lang.nextgen.names.i.EN_Understanding;
 import tripleo.elijah.lang.nextgen.names.impl.ENU_LookupResult;
 import tripleo.elijah.stages.deduce.post_bytecode.DG_ClassStatement;

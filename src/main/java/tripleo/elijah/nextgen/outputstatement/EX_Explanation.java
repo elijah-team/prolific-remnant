@@ -1,14 +1,16 @@
 package tripleo.elijah.nextgen.outputstatement;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface EX_Explanation {
-	static EX_Explanation withMessage(String message) {
+	static @NotNull EX_Explanation withMessage(final @NotNull String message) {
 		return new EX_Explanation() {
 			@Override
-			public String getText() {
+			public String message() {
 				return message;
 			}
 		};
 	}
 
-	String getText();
+	String message();
 }

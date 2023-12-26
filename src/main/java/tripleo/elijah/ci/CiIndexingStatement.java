@@ -11,7 +11,7 @@
 package tripleo.elijah.ci;
 
 import antlr.Token;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.lang.i.ExpressionList;
 
 public interface CiIndexingStatement {
 	void setExprs(ExpressionList el);

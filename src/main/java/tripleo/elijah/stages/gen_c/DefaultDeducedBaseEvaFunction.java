@@ -4,15 +4,7 @@ import io.reactivex.rxjava3.subjects.Subject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tripleo.elijah.Eventual;
-import tripleo.elijah.lang.Context;
-import tripleo.elijah.lang.FunctionDef;
-import tripleo.elijah.lang.IExpression;
-import tripleo.elijah.lang.IdentExpression;
-import tripleo.elijah.lang.OS_Element;
-import tripleo.elijah.lang.OS_Module;
-import tripleo.elijah.lang.OS_Type;
-import tripleo.elijah.lang.TypeName;
-import tripleo.elijah.lang.VariableStatement;
+import tripleo.elijah.lang.i.*;
 import tripleo.elijah.stages.deduce.DeduceElement;
 import tripleo.elijah.stages.deduce.FunctionInvocation;
 import tripleo.elijah.stages.deduce.OnGenClass;
@@ -301,8 +293,8 @@ public class DefaultDeducedBaseEvaFunction implements DeducedBaseEvaFunction {
 	}
 
 	@Override
-	public void setParent(final EvaContainerNC aEvaContainerNC) {
-		carrier.setParent(aEvaContainerNC);
+	public void setParent(final EvaContainerNC aGeneratedContainerNC) {
+		carrier.setParent(aGeneratedContainerNC);
 	}
 
 	@Override

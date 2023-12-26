@@ -8,47 +8,67 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jdeferred2.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.work.*;
+import org.jdeferred2.DoneCallback;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.FunctionDef;
+import tripleo.elijah.lang.i.NamespaceStatement;
+import tripleo.elijah.lang.i.OS_Element;
+import tripleo.elijah.lang.i.OS_Module;
+import tripleo.elijah.stages.deduce.ClassInvocation;
+import tripleo.elijah.stages.deduce.Deduce_CreationClosure;
+import tripleo.elijah.stages.deduce.FunctionInvocation;
+import tripleo.elijah.stages.deduce.NamespaceInvocation;
+import tripleo.elijah.stages.gen_generic.ICodeRegistrar;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
+import tripleo.elijah.work.WorkJob;
+import tripleo.elijah.work.WorkManager;
 
 /**
  * Created 5/16/21 12:46 AM
  */
 public class WlGenerateFunction implements WorkJob {
-	private final FunctionDef        functionDef;
-	private final GenerateFunctions  generateFunctions;
-	private final FunctionInvocation functionInvocation;
-	private final ICodeRegistrar     codeRegistrar;
-	private       boolean            _isDone = false;
-	private       EvaFunction  result;
+	private final          ICodeRegistrar     cr;
+	private final          GenerateFunctions  generateFunctions;
+	private final          FunctionDef        functionDef;
+	private final @NotNull FunctionInvocation functionInvocation;
+	private                boolean            _isDone = false;
+	private @Nullable      EvaFunction        result;
 
-	public WlGenerateFunction(final GenerateFunctions aGenerateFunctions, @NotNull final FunctionInvocation aFunctionInvocation, final ICodeRegistrar aCodeRegistrar) {
-		functionDef        = (FunctionDef) aFunctionInvocation.getFunction();
+	public WlGenerateFunction(GenerateFunctions aGenerateFunctions, @NotNull FunctionInvocation aFunctionInvocation, final ICodeRegistrar aCr) {
+		functionDef        = aFunctionInvocation.getFunction();
 		generateFunctions  = aGenerateFunctions;
 		functionInvocation = aFunctionInvocation;
-		codeRegistrar      = aCodeRegistrar;
+		cr                 = aCr;
+	}
+
+	public WlGenerateFunction(final OS_Module aModule, final FunctionInvocation aFunctionInvocation, final @NotNull Deduce_CreationClosure aCl) {
+		this(aCl.generatePhase().getGenerateFunctions(aModule), aFunctionInvocation, aCl.deducePhase().getCodeRegistrar());
+	}
+
+	public EvaFunction getResult() {
+		return result;
 	}
 
 	@Override
-	public void run(final WorkManager aWorkManager) {
-//		if (_isDone) return;
+	public boolean isDone() {
+		return _isDone;
+	}
 
-		if (functionInvocation.getEva() == null) {
-			final OS_Element                 parent = functionDef.getParent();
-			@NotNull final EvaFunction gf     = generateFunctions.generateFunction(functionDef, parent, functionInvocation);
+	@Override
+	public void run(WorkManager aWorkManager) {
+		if (_isDone) return;
+
+		if (functionInvocation.getGenerated() == null) {
+			OS_Element           parent = functionDef.getParent();
+			@NotNull EvaFunction gf     = generateFunctions.generateFunction(functionDef, parent, functionInvocation);
 
 			{
 				int i = 0;
-				for (final TypeTableEntry tte : functionInvocation.getArgs()) {
+				for (TypeTableEntry tte : functionInvocation.getArgs()) {
 					i = i + 1;
 					if (tte.getAttached() == null) {
-						final String s = String.format("4949 null tte #%d %s in %s%n", i, tte, gf);
-						SimplePrintLoggerToRemoveSoon.println_err2(s);
+						SimplePrintLoggerToRemoveSoon.println_err_2(String.format("4949 null tte #%d %s in %s", i, tte, gf));
 					}
 				}
 			}
@@ -60,9 +80,10 @@ public class WlGenerateFunction implements WorkJob {
 				assert nsi != null;
 				nsi.resolveDeferred().done(new DoneCallback<EvaNamespace>() {
 					@Override
-					public void onDone(final EvaNamespace result) {
+					public void onDone(@NotNull EvaNamespace result) {
 						if (result.getFunction(functionDef) == null) {
-							codeRegistrar.registerFunction(gf);
+							cr.registerFunction1(gf);
+							//gf.setCode(generateFunctions.module.getCompilation().nextFunctionCode());
 							result.addFunction(functionDef, gf);
 						}
 						gf.setClass(result);
@@ -70,33 +91,22 @@ public class WlGenerateFunction implements WorkJob {
 				});
 			} else {
 				final ClassInvocation ci = functionInvocation.getClassInvocation();
-				ci.resolvePromise().done(new DoneCallback<EvaClass>() {
-					@Override
-					public void onDone(final EvaClass result) {
-						if (result.getFunction(functionDef) == null) {
-							codeRegistrar.registerFunction(gf);
-							result.addFunction(functionDef, gf);
-						}
-						gf.setClass(result);
+				ci.resolvePromise().done((EvaClass result) -> {
+					if (result.getFunction(functionDef) == null) {
+						cr.registerClass1(result);
+//							gf.setCode(generateFunctions.module.getCompilation().nextFunctionCode());
+						result.addFunction(functionDef, gf);
 					}
+					gf.setClass(result);
 				});
 			}
 			result = gf;
-			functionInvocation.setEva(result);
+			functionInvocation.setGenerated(result);
 			functionInvocation.generateDeferred().resolve(result);
 		} else {
-			result = (EvaFunction) functionInvocation.getEva();
+			result = (EvaFunction) functionInvocation.getGenerated();
 		}
 		_isDone = true;
-	}
-
-	@Override
-	public boolean isDone() {
-		return _isDone;
-	}
-
-	public EvaFunction getResult() {
-		return result;
 	}
 }
 

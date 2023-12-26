@@ -1,6 +1,6 @@
 package tripleo.elijah.stages.deduce.nextgen;
 
-import tripleo.elijah.lang.VariableStatement;
+import tripleo.elijah.lang.i.VariableStatement;
 import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
 
 public class DR_Variable implements DR_Item {

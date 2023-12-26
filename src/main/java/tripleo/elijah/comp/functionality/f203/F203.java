@@ -2,8 +2,8 @@ package tripleo.elijah.comp.functionality.f203;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.comp.Compilation;
-import tripleo.elijah.comp.ErrSink;
+import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.comp.i.ErrSink;
 
 import java.io.File;
 import java.time.LocalDateTime;

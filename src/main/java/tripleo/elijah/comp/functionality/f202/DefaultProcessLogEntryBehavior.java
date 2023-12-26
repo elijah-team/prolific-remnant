@@ -9,7 +9,7 @@
 package tripleo.elijah.comp.functionality.f202;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.comp.*;
+import tripleo.elijah.comp.i.ErrSink;
 import tripleo.elijah.stages.logging.LogEntry;
 
 import java.io.File;

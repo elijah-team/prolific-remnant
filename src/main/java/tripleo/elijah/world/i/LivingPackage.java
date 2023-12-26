@@ -1,9 +1,9 @@
 package tripleo.elijah.world.i;
 
-import tripleo.elijah.lang.*;
+import tripleo.elijah.lang.i.OS_Package;
 
 public interface LivingPackage {
-	OS_Package getElement();
-
 	int getCode();
+
+	OS_Package getElement();
 }

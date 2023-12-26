@@ -8,22 +8,26 @@
  */
 package tripleo.elijah.stages.deduce;
 
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jdeferred2.Promise;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.NamespaceStatement;
+import tripleo.elijah.stages.gen_fn.EvaNamespace;
 
 /**
  * Created 5/31/21 12:00 PM
  */
 public class NamespaceInvocation implements IInvocation {
 
+	private final NamespaceStatement                       namespaceStatement;
 	private final DeferredObject<EvaNamespace, Void, Void> resolveDeferred = new DeferredObject<EvaNamespace, Void, Void>();
-	private final NamespaceStatement                             namespaceStatement;
 
-	public NamespaceInvocation(final NamespaceStatement aNamespaceStatement) {
+	public NamespaceInvocation(NamespaceStatement aNamespaceStatement) {
 		namespaceStatement = aNamespaceStatement;
+	}
+
+	public NamespaceStatement getNamespace() {
+		return namespaceStatement;
 	}
 
 	public @NotNull DeferredObject<EvaNamespace, Void, Void> resolveDeferred() {
@@ -34,12 +38,8 @@ public class NamespaceInvocation implements IInvocation {
 		return resolveDeferred.promise();
 	}
 
-	public NamespaceStatement getNamespace() {
-		return namespaceStatement;
-	}
-
 	@Override
-	public void setForFunctionInvocation(@NotNull final FunctionInvocation aFunctionInvocation) {
+	public void setForFunctionInvocation(@NotNull FunctionInvocation aFunctionInvocation) {
 		aFunctionInvocation.setNamespaceInvocation(this);
 	}
 }

@@ -8,77 +8,92 @@
  */
 package tripleo.elijah.stages.generate;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.comp.i.Compilation;
 import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah.stages.gen_generic.GenerateResultItem;
+import tripleo.elijah.stages.gen_generic.Old_GenerateResult;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
-import java.util.*;
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Created 1/8/21 11:02 PM
  */
 public class ElSystem {
+	public final  Supplier<OutputStrategy> outputStrategyCreator;
 	private final Map<EvaFunction, String> gfm_map = new HashMap<EvaFunction, String>();
-	public        boolean                        verbose = true;
-	private       OutputStrategy                 outputStrategy;
-	private       Compilation                    compilation;
+	private final Compilation              c;
+	private final boolean                  verbose;
+	private       OutputStrategyC          _os;
 
-	public void generateOutputs(@NotNull final GenerateResult gr) {
-		final @NotNull OutputStrategyC outputStrategyC = new OutputStrategyC(this.outputStrategy);
-
-		for (final GenerateResultItem ab : gr.results()) {
-			final String s = generateOutputs_Internal(ab.node, ab.ty, outputStrategyC);
-			assert s != null;
-			ab.output = s;
-		}
-
-		if (verbose) {
-			for (final GenerateResultItem ab : gr.results()) {
-				if (ab.node instanceof EvaFunction) continue;
-				SimplePrintLoggerToRemoveSoon.println2("** " + ab.node + " " + ab.output);
-			}
-		}
+	public ElSystem(final boolean aB, final Compilation aC, final Supplier<OutputStrategy> aCreateOutputStratgy) {
+		verbose               = aB;
+		outputStrategyCreator = aCreateOutputStratgy;
+		c                     = aC;
 	}
 
-	String generateOutputs_Internal(final EvaNode node, final GenerateResult.TY ty, final OutputStrategyC outputStrategyC) {
+	String getFilenameForNode(final @NotNull EvaNode node,
+							  final Old_GenerateResult.TY ty,
+							  final @NotNull OutputStrategyC outputStrategyC) {
 		final String s;
-		String       ss;
-		if (node instanceof final EvaNamespace generatedNamespace) {
-			s = outputStrategyC.nameForNamespace(generatedNamespace, ty);
-//			tripleo.elijah.util.Stupidity.println2("41 "+generatedNamespace+" "+s);
-			for (final EvaFunction gf : generatedNamespace.functionMap.values()) {
-				ss = generateOutputs_Internal(gf, ty, outputStrategyC);
+
+		if (node instanceof EvaNamespace evaNamespace) {
+			s = outputStrategyC.nameForNamespace(evaNamespace, ty);
+
+			logProgress(41, evaNamespace, s);
+
+			for (final EvaFunction gf : evaNamespace.functionMap.values()) {
+				final String ss = getFilenameForNode(gf, ty, outputStrategyC);
 				gfm_map.put(gf, ss);
 			}
-		} else if (node instanceof final EvaClass generatedClass) {
-			s = outputStrategyC.nameForClass(generatedClass, ty);
-//			tripleo.elijah.util.Stupidity.println2("48 "+generatedClass+" "+s);
-			for (final EvaFunction gf : generatedClass.functionMap.values()) {
-				ss = generateOutputs_Internal(gf, ty, outputStrategyC);
+		} else if (node instanceof EvaClass evaClass) {
+			s = outputStrategyC.nameForClass(evaClass, ty);
+
+			logProgress(48, evaClass, s);
+
+			for (final EvaFunction gf : evaClass.functionMap.values()) {
+				final String ss = getFilenameForNode(gf, ty, outputStrategyC);
 				gfm_map.put(gf, ss);
 			}
-		} else if (node instanceof final EvaFunction generatedFunction) {
-			s = outputStrategyC.nameForFunction(generatedFunction, ty);
-//			tripleo.elijah.util.Stupidity.println2("55 "+generatedFunction+" "+s);
-		} else if (node instanceof final EvaConstructor generatedConstructor) {
-			s = outputStrategyC.nameForConstructor(generatedConstructor, ty);
-//			tripleo.elijah.util.Stupidity.println2("55 "+generatedConstructor+" "+s);
-		} else
+		} else if (node instanceof EvaFunction evaFunction) {
+			s = outputStrategyC.nameForFunction(evaFunction, ty);
+
+			logProgress(30, evaFunction, s);
+		} else if (node instanceof EvaConstructor evaConstructor) {
+			s = outputStrategyC.nameForConstructor(evaConstructor, ty);
+
+			logProgress(55, evaConstructor, s);
+			//throw new IllegalStateException("Unexpected value: " + node);
+		} else {
+			logProgress(140, null, null);
+
 			throw new IllegalStateException("Can't be here.");
+		}
+
 		return s;
 	}
 
-	public void setOutputStrategy(final OutputStrategy outputStrategy) {
-		this.outputStrategy = outputStrategy;
+	@Contract(pure = true)
+	private void logProgress(final int code, final @NotNull /*@NotNull*/ EvaNode evaNode, final String s) {
+		// code:
+		//   41:  EvaNamespace
+		//   48:  EvaClass
+		//   30:  EvaFunction
+		//   55:  EvaConstructor
+		//   140: not above
+		SimplePrintLoggerToRemoveSoon.println_out_2(MessageFormat.format("{0} {1} {2}", code, evaNode.toString(), s));
 	}
 
-	public void setCompilation(final Compilation compilation) {
-		this.compilation = compilation;
+	public String getFilenameForNode__(final @NotNull GenerateResultItem aGenerateResultItem) {
+		return getFilenameForNode(aGenerateResultItem.node(), aGenerateResultItem.__ty(), this._os);
 	}
 }
 
 //
-//
+// vim:set shiftwidth=4 softtabstop=0 noexpandtab:
 //

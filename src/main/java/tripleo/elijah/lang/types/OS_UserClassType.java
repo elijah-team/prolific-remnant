@@ -1,13 +1,17 @@
 package tripleo.elijah.lang.types;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.util.Mode;
+import tripleo.elijah.stages.deduce.ClassInvocation;
+import tripleo.elijah.stages.deduce.DeducePhase;
+import tripleo.elijah.stages.deduce.DeduceTypes2;
+import tripleo.elijah.stages.gen_fn.GenType;
+import tripleo.elijah.util.Operation;
 
-import java.text.*;
-import java.util.*;
+import java.text.MessageFormat;
+import java.util.List;
 
 public class OS_UserClassType extends __Abstract_OS_Type {
 	private final ClassStatement _classStatement;
@@ -17,35 +21,8 @@ public class OS_UserClassType extends __Abstract_OS_Type {
 	}
 
 	@Override
-	public OS_Element getElement() {
-		return _classStatement;
-	}
-
-	@Override
-	public Type getType() {
-		return Type.USER_CLASS;
-	}
-
-	@Override
-	public String asString() {
+	public @NotNull String asString() {
 		return MessageFormat.format("<OS_UserClassType {0}>", _classStatement);
-	}
-
-	@NotNull
-	public ClassInvocation resolvedUserClass(final @NotNull GenType genType, final TypeName aGenericTypeName, final DeducePhase phase, final DeduceTypes2 deduceTypes2, final ErrSink errSink) {
-		final ClassStatement   best            = _classStatement;
-		@Nullable final String constructorName = null; // TODO what to do about this, nothing I guess
-
-		@NotNull final List<TypeName> gp = best.getGenericPart();
-		@Nullable ClassInvocation     clsinv;
-		if (genType.ci == null) {
-			clsinv = DeduceTypes2.ClassInvocationMake.withGenericPart(best, constructorName, (NormalTypeName) aGenericTypeName, deduceTypes2, errSink);
-			if (clsinv == null) return null;
-			clsinv     = phase.registerClassInvocation(clsinv);
-			genType.ci = clsinv;
-		} else
-			clsinv = (ClassInvocation) genType.ci;
-		return clsinv;
 	}
 
 	@Override
@@ -53,7 +30,42 @@ public class OS_UserClassType extends __Abstract_OS_Type {
 		return _classStatement;
 	}
 
-	protected boolean _isEqual(final OS_Type aType) {
+	@Override
+	protected boolean _isEqual(final @NotNull OS_Type aType) {
 		return aType.getType() == Type.USER_CLASS && _classStatement.equals(((OS_UserClassType) aType)._classStatement);
+	}
+
+	@Override
+	public OS_Element getElement() {
+		return _classStatement;
+	}
+
+	@Override
+	public @NotNull Type getType() {
+		return Type.USER_CLASS;
+	}
+
+	@NotNull
+	public ClassInvocation resolvedUserClass(final @NotNull GenType genType, final TypeName aGenericTypeName, final @NotNull DeducePhase phase, final DeduceTypes2 deduceTypes2) {
+		final ClassStatement   best            = _classStatement;
+		@Nullable final String constructorName = null; // TODO what to do about this, nothing I guess
+
+		@NotNull final List<TypeName> gp = best.getGenericPart();
+		@Nullable ClassInvocation     clsinv;
+		if (genType.getCi() == null) {
+			final Operation<ClassInvocation> oi = DeduceTypes2.ClassInvocationMake.withGenericPart(best, constructorName, (NormalTypeName) aGenericTypeName, deduceTypes2);
+			assert oi.mode() == Mode.SUCCESS;
+			clsinv = oi.success();
+			if (clsinv == null) return null;
+			clsinv = phase.registerClassInvocation(clsinv);
+			genType.setCi(clsinv);
+		} else
+			clsinv = (ClassInvocation) genType.getCi();
+		return clsinv;
+	}
+
+	@Override
+	public String toString() {
+		return asString();
 	}
 }

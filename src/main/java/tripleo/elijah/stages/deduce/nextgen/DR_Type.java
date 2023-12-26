@@ -1,8 +1,8 @@
 package tripleo.elijah.stages.deduce.nextgen;
 
-import tripleo.elijah.lang.IdentExpression;
-import tripleo.elijah.lang.RegularTypeName;
-import tripleo.elijah.lang.TypeName;
+import tripleo.elijah.lang.i.IdentExpression;
+import tripleo.elijah.lang.i.RegularTypeName;
+import tripleo.elijah.lang.i.TypeName;
 import tripleo.elijah.lang.nextgen.names.i.EN_Usage;
 import tripleo.elijah.lang.nextgen.names.impl.ENU_IsTypeName;
 import tripleo.elijah.stages.gen_fn.BaseEvaFunction;

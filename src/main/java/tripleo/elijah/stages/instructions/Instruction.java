@@ -8,23 +8,53 @@
  */
 package tripleo.elijah.stages.instructions;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.Context;
+import tripleo.elijah.stages.deduce.DeduceElement;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Created 9/10/20 3:16 PM
  */
 public class Instruction {
-	public  DeduceElement   deduceElement;
+	public DeduceElement deduceElement;
 	List<InstructionArgument> args;
-	private InstructionName name;
+	private Context         context;
 	private int             index = -1;
-	private Context context;
+	private InstructionName name;
 
-	public void setArgs(final List<InstructionArgument> args_) {
-		args = args_;
+	public Instruction() {
+
+	}
+
+	public Instruction(final InstructionName aInstructionName) {
+		setName(aInstructionName);
+	}
+
+	public Instruction(final InstructionName aInstructionName, final List<InstructionArgument> aLi) {
+		setName(aInstructionName);
+		setArgs(aLi);
+	}
+
+	public InstructionArgument getArg(final int i) {
+		return args.get(i);
+	}
+
+	public int getArgsSize() {
+		return args.size();
+	}
+
+	public Context getContext() {
+		return context;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setContext(final Context context) {
+		this.context = context;
 	}
 
 	public InstructionName getName() {
@@ -35,37 +65,21 @@ public class Instruction {
 		name = aName;
 	}
 
-	public int getIndex() {
-		return index;
-	}
-
 	public void setIndex(final int l) {
 		index = l;
 	}
 
+	public void setArgs(final List<InstructionArgument> args_) {
+		args = args_;
+	}
+
 	@Override
-	public String toString() {
+	public @NotNull String toString() {
 		return "Instruction{" +
-		  "name=" + name +
-		  ", index=" + index +
-		  ", args=" + args +
-		  '}';
-	}
-
-	public InstructionArgument getArg(final int i) {
-		return args.get(i);
-	}
-
-	public Context getContext() {
-		return context;
-	}
-
-	public void setContext(final Context context) {
-		this.context = context;
-	}
-
-	public int getArgsSize() {
-		return args.size();
+				"name=" + name +
+				", index=" + index +
+				", args=" + args +
+				'}';
 	}
 
 //	public List<InstructionArgument> getArgs() {

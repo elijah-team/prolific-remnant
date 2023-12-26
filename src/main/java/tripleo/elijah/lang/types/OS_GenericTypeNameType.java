@@ -8,10 +8,13 @@
  */
 package tripleo.elijah.lang.types;
 
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.contexts.ClassContext;
+import tripleo.elijah.lang.i.OS_Element;
+import tripleo.elijah.lang.i.OS_Type;
+import tripleo.elijah.lang.i.TypeName;
 
-import java.text.*;
+import java.text.MessageFormat;
 
 
 /**
@@ -26,26 +29,27 @@ public class OS_GenericTypeNameType extends __Abstract_OS_Type {
 	}
 
 	@Override
+	public @NotNull String asString() {
+		return MessageFormat.format("<OS_GenericTypeNameType {0}>", genericTypename);
+	}
+
+	@Override
+	protected boolean _isEqual(final @NotNull OS_Type aType) {
+		return aType.getType() == Type.GENERIC_TYPENAME && genericTypename.equals(((OS_GenericTypeNameType) aType).genericTypename);
+	}
+
+	@Override
 	public OS_Element getElement() {
 		return genericTypename;
-	}
-
-	@Override
-	public Type getType() {
-		return Type.GENERIC_TYPENAME;
-	}
-
-	@Override
-	public String asString() {
-		return MessageFormat.format("<OS_GenericTypeNameType {0}>", genericTypename);
 	}
 
 	public TypeName getRealTypeName() {
 		return genericTypename.getTypeName();
 	}
 
-	protected boolean _isEqual(final OS_Type aType) {
-		return aType.getType() == Type.GENERIC_TYPENAME && genericTypename.equals(((OS_GenericTypeNameType) aType).genericTypename);
+	@Override
+	public @NotNull Type getType() {
+		return Type.GENERIC_TYPENAME;
 	}
 }
 

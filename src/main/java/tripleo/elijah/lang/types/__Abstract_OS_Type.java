@@ -1,16 +1,45 @@
 package tripleo.elijah.lang.types;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang2.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.AliasStatementImpl;
+import tripleo.elijah.lang2.BuiltInTypes;
 
 abstract class __Abstract_OS_Type implements OS_Type {
+	public abstract String asString();
+
 	@Override
-	public ClassStatement getClassOf() {
+	public @Nullable BuiltInTypes getBType() {
 		return null;
 	}
 
 	@Override
-	public OS_Type resolve(final Context ctx) {
+	public @Nullable TypeName getTypeName() {
+		return null;
+	}
+
+	@Override
+	public @Nullable ClassStatement getClassOf() {
+		return null;
+	}
+
+	@Override
+	public boolean isEqual(final @NotNull OS_Type aType) {
+		if (aType.getType() != getType()) return false;
+
+		return _isEqual(aType);
+	}
+
+	protected abstract boolean _isEqual(final OS_Type aType);
+
+	@Override
+	public boolean isUnitType() {
+		return false;
+	}
+
+	@Override
+	public @Nullable OS_Type resolve(final @NotNull Context ctx) {
 		assert ctx != null;
 		switch (getType()) {
 		case BUILT_IN: {
@@ -24,8 +53,8 @@ abstract class __Abstract_OS_Type implements OS_Type {
 
 				r    = ctx.lookup("SystemInteger");
 				best = r.chooseBest(null);
-				while (best instanceof final AliasStatement aliasStatement) {
-					final LookupResultList lrl            = aliasStatement.getContext().lookup(aliasStatement.getExpression().toString());
+				while (best instanceof final @NotNull AliasStatementImpl aliasStatement) {
+					final LookupResultList lrl = aliasStatement.getContext().lookup(aliasStatement.getExpression().toString());
 					best = lrl.chooseBest(null);
 				}
 				return ((ClassStatement) best).getOS_Type();
@@ -66,29 +95,6 @@ abstract class __Abstract_OS_Type implements OS_Type {
 		}
 	}
 
-	@Override
-	public boolean isUnitType() {
-		return false;
-	}
-
-	@Override
-	public BuiltInTypes getBType() {
-		return null;
-	}
-
-	@Override
-	public TypeName getTypeName() {
-		return null;
-	}
-
-	@Override
-	public boolean isEqual(final OS_Type aType) {
-		if (aType.getType() != getType()) return false;
-
-		return _isEqual(aType);
-	}
-
-	protected abstract boolean _isEqual(final OS_Type aType);
 
 }
 

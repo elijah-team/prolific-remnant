@@ -8,75 +8,98 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
+import org.jdeferred2.DoneCallback;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.Eventual;
+import tripleo.elijah.EventualRegister;
+import tripleo.elijah.comp.i.ErrSink;
+import tripleo.elijah.lang.i.Context;
+import tripleo.elijah.lang.i.IExpression;
+import tripleo.elijah.lang.i.OS_Type;
 import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.deduce.zero.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_ProcTableEntry;
+import tripleo.elijah.stages.deduce.post_bytecode.IDeduceElement3;
+import tripleo.elijah.stages.instructions.IdentIA;
+import tripleo.elijah.stages.instructions.InstructionArgument;
+import tripleo.elijah.stages.instructions.IntegerIA;
+import tripleo.elijah.stages.instructions.ProcIA;
+import tripleo.elijah.util.Helpers;
+import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.Ok;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created 9/12/20 10:07 PM
  */
 public class ProcTableEntry extends BaseTableEntry implements TableEntryIV {
-	public final  int                                             index;
-	public final  List<TypeTableEntry>                            args;
+	public final @NotNull List<TypeTableEntry> args;
 	/**
 	 * Either a hint to the programmer-- The compiler should be able to work without this.
 	 * <br/>
 	 * Or for synthetic methods
 	 */
-	public final  IExpression                                     expression;
-	public final  InstructionArgument                             expression_num;
-	public final  DeduceProcCall                                  dpc                   = new DeduceProcCall(this);
-	private final DeferredObject<ProcTableEntry, Void, Void>      completeDeferred      = new DeferredObject<ProcTableEntry, Void, Void>();
-	private final DeferredObject2<FunctionInvocation, Void, Void> onFunctionInvocations = new DeferredObject2<FunctionInvocation, Void, Void>();
-	private final DeferredObject<GenType, Void, Void> typeDeferred = new DeferredObject<GenType, Void, Void>();
-	private       ClassInvocation                                 classInvocation;
-	private       FunctionInvocation                              functionInvocation;
-	private       DeduceElement3_ProcTableEntry                   _de3;
-	private PTE_Zero _zero;
+	public final IExpression          __debug_expression;
+	public final InstructionArgument  expression_num;
 
-	public ProcTableEntry(final int aIndex, final IExpression aExpression, final InstructionArgument aExpressionNum, final List<TypeTableEntry> aArgs) {
-		index          = aIndex;
-		expression     = aExpression;
-		expression_num = aExpressionNum;
-		args           = aArgs;
+	public final @NotNull EvaExpression<IExpression> expression;
 
-		addStatusListener(new StatusListener() {
-			@Override
-			public void onChange(final IElementHolder eh, final Status newStatus) {
-				if (newStatus == Status.KNOWN) {
-					setResolvedElement(eh.getElement());
-				}
-			}
-		});
 
-		for (final TypeTableEntry tte : args) {
-			tte.addSetAttached(new TypeTableEntry.OnSetAttached() {
-				@Override
-				public void onSetAttached(final TypeTableEntry aTypeTableEntry) {
-					ProcTableEntry.this.onSetAttached();
-				}
-			});
+	public final    int                                             index;
+	private final   DeferredObject<Ok, Void, Void>                  _p_completeDeferred      = new DeferredObject<Ok, Void, Void>();
+	private final   DeferredObject2<FunctionInvocation, Void, Void> _p_onFunctionInvocations = new DeferredObject2<FunctionInvocation, Void, Void>();
+	public @NotNull DeduceProcCall                                  dpc                      = new DeduceProcCall(this);
+	@NotNull        ExpressionConfession                            expressionConfession     = new ExpressionConfession() {
+		@Override
+		public @NotNull ECT getType() {
+			return ECT.exp;
+		}
+	};
+	private         DeduceElement3_ProcTableEntry                   _de3;
+	private         ClassInvocation                                 classInvocation;
+	private         FunctionInvocation                              functionInvocation;
+
+	public ProcTableEntry(final int aIndex, final IExpression aExpression, final @Nullable InstructionArgument aExpressionNum, final List<TypeTableEntry> aArgs) {
+		index              = aIndex;
+		__debug_expression = aExpression;
+		expression_num     = aExpressionNum;
+
+//		expressionConfession = ExpressionConfession.from(expression, expression_num);
+
+		if (aArgs.size() == 0) {
+			args = Collections.emptyList();
+		} else {
+			args = aArgs;
 		}
 
+		addStatusListener(new _StatusListener_PTE_67());
+
 		setupResolve();
+		if (aExpressionNum != null) {
+			if (aExpressionNum instanceof IdentIA identIA) {
+				expression = new EvaExpression<>(__debug_expression, identIA.getEntry());
+			} else if (aExpressionNum instanceof IntegerIA integerIA) {
+				expression = new EvaExpression<>(__debug_expression, integerIA.getEntry());
+			} else if (aExpressionNum instanceof ProcIA procIA) {
+				expression = new EvaExpression<>(__debug_expression, procIA.getEntry());
+			} else
+				throw new Error();
+		} else {
+			expression = new EvaExpression<>(__debug_expression, this); // FIXME justify this
+		}
 	}
 
 	public void onSetAttached() {
 		int state = 0;
-		if (args != null) {
+		if (/*args != null ||*/ args != Collections.EMPTY_LIST) {
 			final int ac  = args.size();
 			int       acx = 0;
-			for (final TypeTableEntry tte : args) {
+			for (TypeTableEntry tte : args) {
 				if (tte.getAttached() != null)
 					acx++;
 			}
@@ -94,70 +117,76 @@ public class ProcTableEntry extends BaseTableEntry implements TableEntryIV {
 		case 0:
 			throw new IllegalStateException();
 		case 1:
-			SimplePrintLoggerToRemoveSoon.println_err2("136 pte not finished resolving " + this);
+			SimplePrintLoggerToRemoveSoon.println_err_2("136 pte not finished resolving " + this);
 			break;
 		case 2:
-			SimplePrintLoggerToRemoveSoon.println_err2("138 Internal compiler error");
+			SimplePrintLoggerToRemoveSoon.println_err_2("138 Internal compiler error");
 			break;
 		case 3:
-			if (completeDeferred.isPending())
-				completeDeferred.resolve(this);
+			if (_p_completeDeferred.isPending())
+				_p_completeDeferred.resolve(Ok.instance());
 			break;
 		default:
 			throw new NotImplementedException();
 		}
 	}
 
-	/**
-	 * Completes when all args have an attached typeEntry
-	 */
-//	@Contract(pure = true)
-//	private DeferredObject<ProcTableEntry, Void, Void> completeDeferred() {
-//		return completeDeferred;
-//	}
-
-	public void setArgType(final int aIndex, final OS_Type aType) {
-		args.get(aIndex).setAttached(aType);
+	private @NotNull DeferredObject<Ok, Void, Void> completeDeferred() {
+		return _p_completeDeferred;
 	}
 
-	/**
-	 * Call {@code cb} when all args have an attached typeEntry
-	 */
-	@Contract(pure = true)
-	private void onComplete(final DoneCallback<ProcTableEntry> cb) {
-		completeDeferred.then(cb);
+	public DeduceProcCall deduceProcCall() {
+		return dpc;
+	}
+
+	public @NotNull ExpressionConfession expressionConfession() {
+		if (expressionConfession == null) {
+			if (expression_num == null) {
+				expressionConfession = new ExpressionConfession() {
+					@Override
+					public @NotNull ECT getType() {
+						return ECT.exp;
+					}
+				};
+			} else {
+				expressionConfession = new ExpressionConfession() {
+					@Override
+					public @NotNull ECT getType() {
+						return ECT.exp_num;
+					}
+				};
+			}
+		}
+
+		return expressionConfession;
 	}
 
 	public ClassInvocation getClassInvocation() {
 		return classInvocation;
 	}
 
-	public void setClassInvocation(final ClassInvocation aClassInvocation) {
+	public void setClassInvocation(ClassInvocation aClassInvocation) {
 		classInvocation = aClassInvocation;
 	}
 
-	@Override
-	@NotNull
-	public String toString() {
-		return "ProcTableEntry{" +
-		  "index=" + index +
-		  ", expression=" + expression +
-		  ", expression_num=" + expression_num +
-		  ", args=" + args +
-		  '}';
+	public IDeduceElement3 getDeduceElement3() {
+		//assert dpc._deduceTypes2() != null; // TODO setDeduce... called; Promise?
+		//
+		//return getDeduceElement3(dpc._deduceTypes2(), dpc._generatedFunction());
+
+		return getDeduceElement3(_deduceTypes2(), __gf);
 	}
 
-	// have no idea what this is for
-	public void onFunctionInvocation(final DoneCallback<FunctionInvocation> callback) {
-		onFunctionInvocations.then(callback);
+	public DeduceTypes2 _deduceTypes2() {
+		return __dt2;
 	}
 
-	public DeferredObject<GenType, Void, Void> typeDeferred() {
-		return typeDeferred;
-	}
-
-	public Promise<GenType, Void, Void> typePromise() {
-		return typeDeferred.promise();
+	public @NotNull IDeduceElement3 getDeduceElement3(final @NotNull DeduceTypes2 aDeduceTypes2,
+													  final @NotNull BaseEvaFunction aGeneratedFunction) {
+		if (_de3 == null) {
+			_de3 = new DeduceElement3_ProcTableEntry(this, aDeduceTypes2, aGeneratedFunction);
+		}
+		return _de3;
 	}
 
 	public FunctionInvocation getFunctionInvocation() {
@@ -165,45 +194,38 @@ public class ProcTableEntry extends BaseTableEntry implements TableEntryIV {
 	}
 
 	// have no idea what this is for
-	public void setFunctionInvocation(final FunctionInvocation aFunctionInvocation) {
-		if (functionInvocation != null && functionInvocation.sameAs(aFunctionInvocation))
-			return; // short circuit for better behavior
-		//ABOVE 2b
+	public void setFunctionInvocation(FunctionInvocation aFunctionInvocation) {
 		if (functionInvocation != aFunctionInvocation) {
 			functionInvocation = aFunctionInvocation;
-			onFunctionInvocations.reset();
-			onFunctionInvocations.resolve(functionInvocation);
+			_p_onFunctionInvocations.reset();
+			_p_onFunctionInvocations.resolve(functionInvocation);
 		}
 	}
 
-	public DeduceProcCall deduceProcCall() {
-		return dpc;
-	}
-
 	@NotNull
-	public String getLoggingString(final @Nullable DeduceTypes2 aDeduceTypes2, final ElLog LOG) {
-		final String                pte_string;
-		@NotNull final List<String> l = new ArrayList<String>();
+	public String getLoggingString(final @Nullable DeduceTypes2 aDeduceTypes2) {
+		final String          pte_string;
+		@NotNull List<String> l = new ArrayList<String>();
 
-		for (@NotNull final TypeTableEntry typeTableEntry : getArgs()) {
-			final OS_Type attached = typeTableEntry.getAttached();
+		for (@NotNull TypeTableEntry typeTableEntry : getArgs()) {
+			OS_Type attached = typeTableEntry.getAttached();
 
 			if (attached != null)
 				l.add(attached.toString());
 			else {
-//				if (aDeduceTypes2 != null)
-//					LOG.err("267 attached == null for "+typeTableEntry);
+				if (aDeduceTypes2 != null)
+					aDeduceTypes2.LOG.err("267 attached == null for " + typeTableEntry);
 
-				if (typeTableEntry.expression != null)
-					l.add(String.format("<Unknown expression: %s>", typeTableEntry.expression));
+				if (typeTableEntry.__debug_expression != null)
+					l.add(String.format("<Unknown expression: %s>", typeTableEntry.__debug_expression));
 				else
 					l.add("<Unknkown>");
 			}
 		}
 
 		final String sb2 = "[" +
-		  Helpers.String_join(", ", l) +
-		  "]";
+				Helpers.String_join(", ", l) +
+				"]";
 		pte_string = sb2;
 		return pte_string;
 	}
@@ -212,30 +234,80 @@ public class ProcTableEntry extends BaseTableEntry implements TableEntryIV {
 		return args;
 	}
 
-	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2, final Context aContext, final BaseEvaFunction aEvaFunction, final ErrSink aErrSink) {
-		dpc.setDeduceTypes2(aDeduceTypes2, aContext, aEvaFunction, aErrSink);
+	// have no idea what this is for
+	public void onFunctionInvocation(final DoneCallback<FunctionInvocation> callback) {
+		_p_onFunctionInvocations.then(callback);
 	}
 
-	public IDeduceElement3 getDeduceElement3() {
-		assert dpc._deduceTypes2() != null; // TODO setDeduce... called; Promise?
-
-		return getDeduceElement3(dpc._deduceTypes2(), dpc._generatedFunction());
+	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2, final Context aContext, final BaseEvaFunction aGeneratedFunction, final ErrSink aErrSink) {
+		dpc.setDeduceTypes2(aDeduceTypes2, aContext, aGeneratedFunction, aErrSink);
 	}
 
-	public IDeduceElement3 getDeduceElement3(final DeduceTypes2 aDeduceTypes2, final BaseEvaFunction aEvaFunction) {
-		if (_de3 == null) {
-			_de3 = new DeduceElement3_ProcTableEntry(this, aDeduceTypes2, aEvaFunction);
-//			_de3.
+	public void setArgType(int aIndex, OS_Type aType) {
+		args.get(aIndex).setAttached(aType);
+	}
+
+	public void setExpressionConfession(final @NotNull ExpressionConfession aExpressionConfession) {
+		expressionConfession = aExpressionConfession;
+	}
+
+	@Override
+	@NotNull
+	public String toString() {
+		return "ProcTableEntry{" +
+				"index=" + index +
+				", expression=" + __debug_expression +
+				", expression_num=" + expression_num +
+				", status=" + status +
+				", args=" + args +
+				'}';
+	}
+
+	public void resolveType(final GenType aResult) {
+		if (typeDeferred().isResolved()) {
+			//typeDeferred().reset(); // !! 07/20
+			return; // README 11/10
 		}
-		return _de3;
+		typeDeferred().resolve(aResult);
 	}
 
-	public PTE_Zero zero() {
-		if (_zero == null)
-			_zero = new PTE_Zero(this);
-
-		return _zero;
+	public Eventual<GenType> typeDeferred() {
+		return typeResolve.typeResolution();
 	}
+
+	public Eventual<GenType> typePromise() {
+		return typeResolvePromise();
+	}
+
+	public EvaExpression<IExpression> getEvaExpression() {
+		return expression;
+	}
+
+	public DeduceTypes2.DeduceTypes2Injector _inj() {
+		return _deduceTypes2()._inj();
+	}
+
+	public void typePromise_setRegister(final EventualRegister aRegister) {
+		typePromise();
+	}
+
+	public enum ECT {exp, exp_num}
+
+	private class _StatusListener_PTE_67 implements StatusListener {
+		@Override
+		public void onChange(/*@NotNull*/ IElementHolder eh, Status newStatus) {
+			if (newStatus == Status.KNOWN) {
+				setResolvedElement(eh.getElement());
+			}
+		}
+	}
+
+	//public PTE_Zero zero() {
+	//	if (_zero == null)
+	//		_zero = new PTE_Zero(this);
+	//
+	//	return _zero;
+	//}
 }
 
 //

@@ -8,8 +8,8 @@
  */
 package tripleo.elijah.stages.instructions;
 
-import org.jdeferred2.*;
-import org.jetbrains.annotations.*;
+import org.jdeferred2.Promise;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.stages.gen_fn.*;
 
 /**
@@ -17,28 +17,17 @@ import tripleo.elijah.stages.gen_fn.*;
  */
 public class IntegerIA implements InstructionArgument, Constructable {
 
-	public final BaseEvaFunction gf;
-	private final int index;
+	public final  BaseEvaFunction gf;
+	private final int             index;
 
-	public IntegerIA(final int anIndex, final BaseEvaFunction aEvaFunction) {
+	public IntegerIA(final int anIndex, BaseEvaFunction aGeneratedFunction) {
 		index = anIndex;
-		gf    = aEvaFunction;
+		gf    = aGeneratedFunction;
 	}
 
 	@Override
-	public String toString() {
-		return "IntegerIA{" +
-		  "index=" + index +
-		  '}';
-	}
-
-	public int getIndex() {
-		return index;
-	}
-
-	@Override
-	public void setConstructable(final ProcTableEntry aPte) {
-		getEntry().setConstructable(aPte);
+	public Promise<ProcTableEntry, Void, Void> constructablePromise() {
+		return getEntry().constructablePromise();
 	}
 
 	public @NotNull VariableTableEntry getEntry() {
@@ -46,18 +35,29 @@ public class IntegerIA implements InstructionArgument, Constructable {
 	}
 
 	@Override
-	public void resolveTypeToClass(final EvaNode aNode) {
-		getEntry().resolveTypeToClass(aNode);
+	public void setConstructable(ProcTableEntry aPte) {
+		getEntry().setConstructable(aPte);
 	}
 
 	@Override
-	public void setGenType(final GenType aGenType) {
+	public void resolveTypeToClass(@NotNull EvaNode aNode) {
+		getEntry().resolveTypeToClass(aNode);
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	@Override
+	public void setGenType(@NotNull GenType aGenType) {
 		getEntry().setGenType(aGenType);
 	}
 
 	@Override
-	public Promise<ProcTableEntry, Void, Void> constructablePromise() {
-		return getEntry().constructablePromise();
+	public @NotNull String toString() {
+		return "IntegerIA{" +
+				"index=" + index +
+				'}';
 	}
 }
 

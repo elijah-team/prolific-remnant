@@ -8,15 +8,15 @@
  */
 package tripleo.elijah.stages.instructions;
 
-import tripleo.elijah.stages.gen_fn.*;
+import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
 
 /**
  * Created 9/10/20 3:17 PM
  */
 public class Label implements InstructionArgument {
 	private final BaseEvaFunction gf;
-	String name;
 	long   index;
+	String name;
 	private int number;
 
 //	public Label(String name) {
@@ -27,21 +27,17 @@ public class Label implements InstructionArgument {
 		this.gf = gf;
 	}
 
-	@Override
-	public String toString() {
-		return String.format("<Label %s index:%d number:%d>", getName(), getIndex(), getNumber());
+	public void setName(final String name) {
+		this.name = name;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(final String name) {
-		this.name = name;
-	}
-
-	public long getIndex() {
-		return index;
+	@Override
+	public String toString() {
+		return String.format("<Label %s index:%d number:%d>", getName(), getIndex(), getNumber());
 	}
 
 	/**
@@ -53,8 +49,8 @@ public class Label implements InstructionArgument {
 		this.index = index;
 	}
 
-	public int getNumber() {
-		return number;
+	public long getIndex() {
+		return index;
 	}
 
 	/**
@@ -64,6 +60,10 @@ public class Label implements InstructionArgument {
 	 */
 	public void setNumber(final int number) {
 		this.number = number;
+	}
+
+	public int getNumber() {
+		return number;
 	}
 }
 

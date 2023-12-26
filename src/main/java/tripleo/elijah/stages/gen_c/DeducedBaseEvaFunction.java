@@ -1,10 +1,11 @@
 package tripleo.elijah.stages.gen_c;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.Eventual;
+import tripleo.elijah.lang.i.OS_Module;
+import tripleo.elijah.stages.deduce.OnGenClass;
+import tripleo.elijah.stages.gen_fn.GenType;
+import tripleo.elijah.stages.gen_fn.IEvaFunctionBase;
 
 public interface DeducedBaseEvaFunction extends IEvaFunctionBase {
 	void onGenClass(@NotNull OnGenClass aOnGenClass);

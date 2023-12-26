@@ -8,15 +8,18 @@
  */
 package tripleo.elijah.lang2;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.ExpressionKind;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
 /**
  * Created 10/2/20 10:16 AM
  */
-public class SpecialFunctions {
-	public static String of(final ExpressionKind kind) {
+public enum SpecialFunctions {
+	;
+
+	public static @NotNull String of(final @NotNull ExpressionKind kind) {
 		switch (kind) {
 		case LT_:
 			return "__lt__";
@@ -59,7 +62,7 @@ public class SpecialFunctions {
 			return null;
 //		if (pn.equals("__eq__"))
 //			return "__req__";
-		SimplePrintLoggerToRemoveSoon.println_out("reverse_name: " + pn);
+		SimplePrintLoggerToRemoveSoon.println_out_2("reverse_name: " + pn);
 //		assert false;
 		return null;
 	}

@@ -1,28 +1,29 @@
 package tripleo.elijah.world.impl;
 
-import tripleo.elijah.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.inputtree.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.world.i.*;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.Eventual;
+import tripleo.elijah.comp.i.CompilationEnclosure;
+import tripleo.elijah.comp.notation.GN_PL_Run2;
+import tripleo.elijah.lang.i.OS_Module;
+import tripleo.elijah.nextgen.inputtree.EIT_ModuleInput;
+import tripleo.elijah.stages.deduce.DeducePhase;
+import tripleo.elijah.stages.inter.ModuleThing;
+import tripleo.elijah.world.i.WorldModule;
 
 public class DefaultWorldModule implements WorldModule {
-	final Eventual<DeducePhase.EvaClasses> _p_EvaClasses = new Eventual<>();
-//	private       ModuleThing thing;
-
-//	@Getter
-//	private GN_PL_Run2.GenerateFunctionsRequest rq;
 	private final OS_Module   mod;
+	private       ModuleThing thing;
 
-	public DefaultWorldModule(final OS_Module aMod, final CompilationEnclosure aCe) {
+	@Getter
+	private GN_PL_Run2.GenerateFunctionsRequest rq;
+
+	final Eventual<DeducePhase.GeneratedClasses> _p_GeneratedClasses = new Eventual<>();
+
+	public DefaultWorldModule(final OS_Module aMod, final GN_PL_Run2.GenerateFunctionsRequest aRq) {
 		mod = aMod;
+		rq  = aRq;
 	}
-
-//	public DefaultWorldModule(final OS_Module aMod, final GN_PL_Run2.GenerateFunctionsRequest aRq) {
-//		mod = aMod;
-//		rq  = aRq;
-//	}
 
 	@Override
 	public OS_Module module() {
@@ -34,31 +35,31 @@ public class DefaultWorldModule implements WorldModule {
 		return null;
 	}
 
-//	@Override
-//	public GN_PL_Run2.GenerateFunctionsRequest rq() {
-//		return rq;
-//	}
-
-//	public DefaultWorldModule(final OS_Module aMod, final @NotNull CompilationEnclosure ce) {
-//		mod = aMod;
-//		final ModuleThing mt = ce.addModuleThing(mod);
-//		setThing(mt);
-//	}
-
 	@Override
-	public Eventual<DeducePhase.EvaClasses> getEventual() {
-		return _p_EvaClasses;
+	public GN_PL_Run2.GenerateFunctionsRequest rq() {
+		return rq;
 	}
 
-//	public void setRq(final GN_PL_Run2.GenerateFunctionsRequest aRq) {
-//		rq = aRq;
-//	}
+	public DefaultWorldModule(final OS_Module aMod, final @NotNull CompilationEnclosure ce) {
+		mod = aMod;
+		final ModuleThing mt = ce.addModuleThing(mod);
+		setThing(mt);
+	}
 
-//	public ModuleThing thing() {
-//		return thing;
-//	}
+	@Override
+	public Eventual<DeducePhase.GeneratedClasses> getEventual() {
+		return _p_GeneratedClasses;
+	}
 
-//	public void setThing(final ModuleThing aThing) {
-//		thing = aThing;
-//	}
+	public void setRq(final GN_PL_Run2.GenerateFunctionsRequest aRq) {
+		rq = aRq;
+	}
+
+	public ModuleThing thing() {
+		return thing;
+	}
+
+	public void setThing(final ModuleThing aThing) {
+		thing = aThing;
+	}
 }

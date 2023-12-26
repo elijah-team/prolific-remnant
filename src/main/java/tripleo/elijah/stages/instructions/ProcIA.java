@@ -8,35 +8,28 @@
  */
 package tripleo.elijah.stages.instructions;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
+import tripleo.elijah.stages.gen_fn.ProcTableEntry;
 
 /**
  * Created 1/12/21 4:22 AM
  */
-public class ProcIA implements InstructionArgument {
-	private final int                   index;
-	private final BaseEvaFunction gf;
-
-	public ProcIA(final int i, final BaseEvaFunction generatedFunction) {
-		this.index = i;
-		this.gf    = generatedFunction;
-	}
-
+public record ProcIA(int index, BaseEvaFunction generatedFunction) implements InstructionArgument {
 	@Override
-	public String toString() {
+	public @NotNull String toString() {
 		return "ProcIA{" +
-		  "index=" + index + ", " +
-		  "func=" + gf.getProcTableEntry(index) +
-		  '}';
+				"index=" + index + ", " +
+				"func=" + getEntry() +
+				'}';
 	}
 
-	public int getIndex() {
-		return index;
-	}
+	//public int getIndex() {
+	//	return index;
+	//}
 
 	public @NotNull ProcTableEntry getEntry() {
-		return gf.getProcTableEntry(index);
+		return generatedFunction.getProcTableEntry(index);
 	}
 }
 

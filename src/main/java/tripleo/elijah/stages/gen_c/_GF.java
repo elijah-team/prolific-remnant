@@ -1,29 +1,40 @@
 package tripleo.elijah.stages.gen_c;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.outputstatement.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.IExpression;
+import tripleo.elijah.lang.i.IdentExpression;
+import tripleo.elijah.nextgen.outputstatement.EG_CompoundStatement;
+import tripleo.elijah.nextgen.outputstatement.EG_SingleStatement;
+import tripleo.elijah.nextgen.outputstatement.EG_Statement;
+import tripleo.elijah.nextgen.outputstatement.EX_Explanation;
+import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_ProcTableEntry;
+import tripleo.elijah.stages.deduce.post_bytecode.IDeduceElement3;
+import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
+import tripleo.elijah.stages.gen_fn.ProcTableEntry;
 import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah.util.Helpers;
+import tripleo.elijah.util.NotImplementedException;
 
-import java.util.*;
+import java.util.List;
 
-import static tripleo.elijah.stages.gen_c.Generate_Code_For_Method.AOG.*;
+import static tripleo.elijah.stages.gen_c.Generate_Code_For_Method.AOG.GET;
 
-public class _GF {
+public enum _GF {
+	;
+
 	@Contract("null, _ -> fail")
-	public static @NotNull EG_Statement forDeduceElement3(final IDeduceElement3 deduceElement3, final GenerateC gc) {
+	public static @NotNull EG_Statement forDeduceElement3(final IDeduceElement3 deduceElement3, final @NotNull GenerateC gc) {
 		//return deduceElement3.();
-		if (deduceElement3 instanceof final DeduceElement3_ProcTableEntry de_pte) {
+		if (deduceElement3 instanceof final @NotNull DeduceElement3_ProcTableEntry de_pte) {
 			return forDeduceElement3_ProcTableEntry(de_pte, gc);
 		}
 
 		throw new NotImplementedException();
 	}
 
-	private static @NotNull EG_Statement forDeduceElement3_ProcTableEntry(@NotNull final DeduceElement3_ProcTableEntry de_pte, final GenerateC gc) {
+	private static @NotNull EG_Statement forDeduceElement3_ProcTableEntry(@NotNull final DeduceElement3_ProcTableEntry de_pte, final @NotNull GenerateC gc) {
 		final EG_SingleStatement beginning;
 		final EG_SingleStatement ending;
 		final EG_Statement       middle;
@@ -33,12 +44,12 @@ public class _GF {
 
 		final ProcTableEntry pte = de_pte.getTablePrincipal();
 
-		final BaseEvaFunction gf          = de_pte.getEvaFunction();
-		final Instruction           instruction = de_pte.getInstruction();
+		final BaseEvaFunction gf          = de_pte.getGeneratedFunction();
+		final Instruction     instruction = de_pte.getInstruction();
 
 		final StringBuilder sb = XXX_YYY.dispatch(pte, new XXX_YYY() {
 			@Override
-			public StringBuilder itsABoy(final IExpression expression) {
+			public @NotNull StringBuilder itsABoy(final IExpression expression) {
 				final IdentExpression ptex = (IdentExpression) expression;
 				final String          text = ptex.getText();
 
@@ -59,17 +70,17 @@ public class _GF {
 			}
 
 			@Override
-			public StringBuilder itsAGirl(final InstructionArgument expression_num) {
+			public @NotNull StringBuilder itsAGirl(final InstructionArgument expression_num) {
 				final IdentIA identIA = (IdentIA) expression_num;
 
-				final CReference reference = new CReference();
+				final CReference reference = new CReference(gc.repo(), gc._ce());
 				reference.getIdentIAPath(identIA, GET, null);
 				final List<String> sl3 = gc.getArgumentStrings(() -> new InstructionFixedList(instruction));
 				reference.args(sl3);
 				final @NotNull String path = reference.build();
 
 				final StringBuilder sb = new StringBuilder();
-				sb.append(Emit.emit("/*427*/"));
+				sb.append(Emit.emit("/*427-1*/"));
 				sb.append(path);
 				sb.append(";");
 
@@ -77,8 +88,8 @@ public class _GF {
 			}
 		});
 
-		beginning   = new EG_SingleStatement("", EX_Explanation.withMessage("_GF.beginning"));
-		ending      = new EG_SingleStatement("",  EX_Explanation.withMessage(("_GF.ending")));
+		beginning   = new EG_SingleStatement("", EX_Explanation.withMessage("forDeduceElement3_ProcTableEntry >> beginning"));
+		ending      = new EG_SingleStatement("", EX_Explanation.withMessage("forDeduceElement3_ProcTableEntry >> ending"));
 		explanation = new EX_ProcTableEntryExplanation(de_pte);
 		middle      = new EG_SingleStatement(sb.toString(), explanation);
 
@@ -88,9 +99,9 @@ public class _GF {
 	}
 
 	interface XXX_YYY {
-		static StringBuilder dispatch(@NotNull final ProcTableEntry pte, final XXX_YYY xy) {
+		static StringBuilder dispatch(@NotNull final ProcTableEntry pte, final @NotNull XXX_YYY xy) {
 			if (pte.expression_num == null) {
-				return xy.itsABoy(pte.expression);
+				return xy.itsABoy(pte.__debug_expression);
 			} else {
 				return xy.itsAGirl(pte.expression_num);
 			}

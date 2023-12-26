@@ -1,15 +1,19 @@
 package tripleo.elijah.comp.functionality.f203;
 
-import org.apache.commons.codec.digest.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.nextgen.*;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.comp.nextgen.CP_OutputPath;
+import tripleo.elijah.comp.nextgen.CP_Path;
+import tripleo.elijah.comp.nextgen.CP_SubFile;
+import tripleo.elijah.comp.nextgen.CP_SubFile.CP_Path1;
 
-import java.io.*;
-import java.nio.file.*;
-import java.time.*;
-import java.time.format.*;
-import java.util.*;
+import java.io.File;
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_256;
 
@@ -33,11 +37,11 @@ public class ChooseHashDirectoryNameBehaviorPaths implements ChooseDirectoryName
 		final Path[] px = new Path[1];
 		p.getPathPromise().then(pp -> px[0] = pp);
 
-		CP_Path1 pp   = (CP_Path1) p;
-		File     root = null;
+		CP_SubFile.CP_Path1 pp   = (CP_Path1) p;
+		File                root = null;
 
 		if (pp.op == null) {
-			CP_Path1 pp2 = (CP_Path1) pp.parent;
+			CP_SubFile.CP_Path1 pp2 = (CP_Path1) pp.parent;
 
 			if (pp2.op == null) {
 				assert false;

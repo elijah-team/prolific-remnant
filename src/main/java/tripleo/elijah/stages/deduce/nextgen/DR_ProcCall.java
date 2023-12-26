@@ -1,6 +1,6 @@
 package tripleo.elijah.stages.deduce.nextgen;
 
-import tripleo.elijah.lang.IExpression;
+import tripleo.elijah.lang.i.IExpression;
 import tripleo.elijah.stages.deduce.FunctionInvocation;
 import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
 import tripleo.elijah.stages.gen_fn.ProcTableEntry;

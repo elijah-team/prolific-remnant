@@ -8,201 +8,230 @@
  */
 package tripleo.elijah.comp;
 
-import com.google.common.collect.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.functionality.f203.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.outputstatement.*;
-import tripleo.elijah.nextgen.outputtree.*;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import org.apache.commons.lang3.tuple.Pair;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.comp.AccessBus.AB_GenerateResultListener;
+import tripleo.elijah.comp.i.IPipelineAccess;
+import tripleo.elijah.comp.internal.CB_Output;
+import tripleo.elijah.comp.internal.CR_State;
+import tripleo.elijah.stages.gen_c.CDependencyRef;
+import tripleo.elijah.stages.gen_c.OutputFileC;
 import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.stages.generate.*;
-import tripleo.elijah.util.*;
-import tripleo.util.buffer.*;
-import tripleo.util.io.*;
+import tripleo.elijah.stages.generate.ElSystem;
+import tripleo.elijah.stages.generate.OutputStrategy;
+import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah.stages.write_stage.pipeline_impl.*;
+import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.Operation;
 
-import java.io.*;
-import java.nio.file.*;
-import java.util.*;
-import java.util.function.*;
-import java.util.stream.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+import static tripleo.elijah.util.Helpers.List_of;
 
 /**
  * Created 8/21/21 10:19 PM
  */
-public class WritePipeline implements PipelineMember, AccessBus.AB_GenerateResultListener {
-	final OutputStrategy os;
-	final ElSystem       sys;
-	private final Compilation    c;
-	private final File file_prefix;
-	private       GenerateResult gr;
+public class WritePipeline implements PipelineMember, Consumer<Supplier<GenerateResult>>, AB_GenerateResultListener {
+	public final DeferredObject<GenerateResult, Void, Void> generateResultPromise = new DeferredObject<>();
 
-	public WritePipeline(@NotNull final AccessBus ab) {
-		c = ab.getCompilation();
+	public final @NotNull  WritePipelineSharedState                                                 st;
+	private final @NotNull CompletedItemsHandler                                                    cih;
+	private final @NotNull DoubleLatch<GenerateResult>                                              latch;
+	private                Map<WP_Indiviual_Step, Pair<WP_Flow.FlowStatus, Operation<Boolean>>> ops;
 
-		file_prefix = new File("COMP", c.getCompilationNumberString());
+	@Override
+	public void accept(final @NotNull Supplier<GenerateResult> aGenerateResultSupplier) {
+		final GenerateResult gr = aGenerateResultSupplier.get();
+		int                  y  = 2;
+	}
 
-		os = new OutputStrategy();
+	public WritePipeline(final @NotNull IPipelineAccess pa) {
+		st = new WritePipelineSharedState(pa);
+
+		// computed
+
+		// created
+		latch = new DoubleLatch<GenerateResult>(gr -> {
+			st.setGr(gr);
+
+			final WP_Indiviual_Step wpis_go = new WPIS_GenerateOutputs();
+			final WP_Indiviual_Step wpis_wi = new WPIS_WriteInputs();
+			final WP_Indiviual_Step wpis_wb = new WPIS_WriteBuffers(this);
+
+			// TODO: Do something with op, like set in {@code pa} to proceed to next pipeline
+			final WP_Flow f = new WP_Flow(this, List_of(wpis_go, wpis_wi, wpis_wb));
+
+			ops = f.act();
+		});
+
+		// state
+		st.mmb         = ArrayListMultimap.create();
+		st.lsp_outputs = ArrayListMultimap.create();
+		st.grs         = pa.getGenerateResultSink();
+
+		// ??
+		st.sys = new ElSystem(false, st.c, this::createOutputStratgy);
+
+		cih = new CompletedItemsHandler(st);
+
+		pa.getAccessBus().subscribe_GenerateResult(this::gr_slot);
+		pa.getAccessBus().subscribe_GenerateResult(generateResultPromise::resolve);
+
+		pa.setWritePipeline(this);
+
+		//st.outputs = pa.getOutputs();
+	}
+
+	@NotNull OutputStrategy createOutputStratgy() {
+		final OutputStrategy os = new OutputStrategy();
 		os.per(OutputStrategy.Per.PER_CLASS); // TODO this needs to be configured per lsp
 
-		sys         = new ElSystem();
-		sys.verbose = false; // TODO flag? ie CompilationOptions
-		sys.setCompilation(c);
-		sys.setOutputStrategy(os);
-
-		ab.subscribe_GenerateResult(this);
+		return os;
 	}
 
-	@Override
-	public void run() throws Exception {
-		sys.generateOutputs(gr);
-
-		write_files();
-		// TODO flag?
-		write_buffers();
-	}
-
-	public void write_files() throws IOException {
-		final Multimap<String, Buffer> mb = ArrayListMultimap.create();
-
-		for (final GenerateResultItem ab : gr.results()) {
-			mb.put(ab.output, ab.buffer);
+	public @NotNull Consumer<Supplier<GenerateResult>> consumer() {
+		if (false) {
+			return new Consumer<Supplier<GenerateResult>>() {
+				@Override
+				public void accept(final Supplier<GenerateResult> aGenerateResultSupplier) {
+					// final GenerateResult gr = aGenerateResultSupplier.get();
+				}
+			};
 		}
 
-		final Map<String, OS_Module> modmap = new HashMap<String, OS_Module>();
-		for (final GenerateResultItem ab : gr.results()) {
-			modmap.put(ab.output, ab.node.module());
-		}
-
-		final List<EOT_OutputFile> leof = new ArrayList<>();
-
-		for (final String s : mb.keySet()) {
-			final Collection<Buffer> vs = mb.get(s);
-
-			final EOT_OutputFile eof = EOT_OutputFile.bufferSetToOutputFile(s, vs, c, modmap.get(s));
-			leof.add(eof);
-		}
-
-		c.getOutputTree().set(leof);
-
-		final File fn1 = choose_dir_name();
-
-		__rest(mb, fn1, leof);
-	}
-
-	public void write_buffers() throws FileNotFoundException {
-		file_prefix.mkdirs();
-
-		final PrintStream db_stream = new PrintStream(new File(file_prefix, "buffers.txt"));
-		PipelineLogic.debug_buffers(gr, db_stream);
-	}
-
-	private @NotNull File choose_dir_name() {
-		final File fn00 = new F203(c.getErrSink(), c).chooseDirectory();
-		final File fn01 = new File(fn00, "code");
-
-		return fn01;
-	}
-
-	private void __rest(final @NotNull Multimap<String, Buffer> mb, final @NotNull File aFile_prefix, final List<EOT_OutputFile> leof) throws IOException {
-		aFile_prefix.mkdirs();
-		final String prefix = aFile_prefix.toString();
-
-		// TODO flag?
-		write_inputs(aFile_prefix);
-
-		for (final Map.Entry<String, Collection<Buffer>> entry : mb.asMap().entrySet()) {
-			final String key  = entry.getKey();
-			final Path   path = FileSystems.getDefault().getPath(prefix, key);
-//			BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
-
-			path.getParent().toFile().mkdirs();
-
-			// TODO functionality
-			System.out.println("201 Writing path: " + path);
-			final CharSink x = c.getIO().openWrite(path);
-
-			final EG_SingleStatement beginning = new EG_SingleStatement("", EX_Explanation.withMessage("WritePipeline.beginning"));
-			final EG_Statement middle = new GE_BuffersStatement(entry);
-			final EG_SingleStatement ending = new EG_SingleStatement("", EX_Explanation.withMessage("WritePipeline.ending"));
-			final EX_Explanation explanation = EX_Explanation.withMessage("write output file");
-
-			final EG_CompoundStatement seq = new EG_CompoundStatement(beginning, ending, middle, false, explanation);
-
-//			for (final @NotNull Buffer buffer : entry.getValue()) {
-//				x.accept(buffer.getText());
-//			}
-			x.accept(seq.getText());
-			((FileCharSink) x).close();
-
-			final @NotNull EOT_OutputTree cot = c.getOutputTree();
-			cot._putSeq(key, path, seq);
-		}
-	}
-
-	private void write_inputs(final File file_prefix) throws IOException {
-		final DefaultBuffer buf = new DefaultBuffer("");
-//			FileBackedBuffer buf = new FileBackedBuffer(fn1);
-//			for (OS_Module module : modules) {
-//				final String fn = module.getFileName();
-//
-//				append_hash(buf, fn);
-//			}
-//
-//			for (CompilerInstructions ci : cis) {
-//				final String fn = ci.getFilename();
-//
-//				append_hash(buf, fn);
-//			}
-
-		final List<File> recordedreads = c.getIO().recordedreads;
-		final List<String> recordedread_filenames = recordedreads.stream()
-		                                                         .map(file -> file.toString())
-		                                                         .collect(Collectors.toList());
-
-		for (final @NotNull File file : recordedreads) {
-			final String fn = file.toString();
-
-			append_hash(buf, fn, c.getErrSink());
-		}
-
-		final File   fn1 = new File(file_prefix, "inputs.txt");
-		final String s   = buf.getText();
-		try (final Writer w = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fn1, true)))) {
-			w.write(s);
-		}
-	}
-
-	private void append_hash(final TextBuffer aBuf, final String aFilename, final ErrSink errSink) throws IOException {
-		@Nullable final String hh = Helpers.getHashForFilename(aFilename, errSink);
-		if (hh != null) {
-			aBuf.append(hh);
-			aBuf.append(" ");
-			aBuf.append_ln(aFilename);
-		}
-	}
-
-	@Override
-	public void gr_slot(final GenerateResult gr) {
-		this.gr = gr;
-	}
-
-	public Consumer<Supplier<GenerateResult>> consumer() {
-		return new Consumer<Supplier<GenerateResult>>() {
-			@Override
-			public void accept(final Supplier<GenerateResult> aGenerateResultSupplier) {
-//				if (grs != null) {
-//					tripleo.elijah.util.Stupidity.println_err2("234 grs not null "+grs.getClass().getName());
-//					return;
-//				}
-//
-//				assert false;
-//				grs = aGenerateResultSupplier;
-//				//final GenerateResult gr = aGenerateResultSupplier.get();
-				final int y = 2;
-			}
+		return (x) -> {
 		};
 	}
 
+	@Override
+	public void gr_slot(final @NotNull GenerateResult gr1) {
+		Objects.requireNonNull(gr1);
+		latch.notifyData(gr1);
+		gr1.subscribeCompletedItems(cih.observer());
+	}
+
+	@Override
+	public void run(final CR_State aSt, final CB_Output aOutput) throws Exception {
+		latch.notifyLatch(true);
+	}
+
+	private static class CompletedItemsHandler {
+		// README debugging purposes
+		private final          List<GenerateResultItem>                 abs  = new ArrayList<>();
+		private final          Multimap<Dependency, GenerateResultItem> gris = ArrayListMultimap.create();
+		private final @NotNull ElLog                                    LOG;
+		private final          WritePipelineSharedState                 sharedState;
+		private                Observer<GenerateResultItem>             observer;
+
+		public CompletedItemsHandler(final WritePipelineSharedState aSharedState) {
+			sharedState = aSharedState;
+
+			final ElLog.Verbosity verbosity = sharedState.c.cfg().silent ? ElLog.Verbosity.SILENT : ElLog.Verbosity.VERBOSE;
+
+			LOG = new ElLog("(WRITE-PIPELINE)", verbosity, "(write-pipeline)");
+
+			sharedState.pa.addLog(LOG);
+		}
+
+		@Contract(mutates = "this")
+		public @NotNull Observer<GenerateResultItem> observer() {
+			if (observer == null) {
+				observer = new Observer<GenerateResultItem>() {
+					@Override
+					public void onSubscribe(@NonNull Disposable d) {
+					}
+
+					@Override
+					public void onNext(@NonNull @NotNull GenerateResultItem ab) {
+						addItem(ab);
+					}
+
+					@Override
+					public void onError(@NonNull Throwable e) {
+					}
+
+					@Override
+					public void onComplete() {
+						completeSequence();
+					}
+				};
+			}
+
+			return observer;
+		}
+
+		public void completeSequence() {
+			final @NotNull GenerateResult generateResult = sharedState.getGr();
+
+			generateResult.outputFiles((final @NotNull Map<String, OutputFileC> outputFiles) -> {
+				//08/13 System.err.println("252252"); // 06/16
+			});
+		}
+
+		public void addItem(final @NotNull GenerateResultItem ab) {
+			NotImplementedException.raise();
+
+			// README debugging purposes
+			abs.add(ab);
+
+			LOG.info("-----------=-----------=-----------=-----------=-----------=-----------");
+			LOG.info("GenerateResultItem >> " + ab.jsonString());
+			LOG.info("abs.size >> " + abs.size());
+
+			final Dependency dependency = ab.getDependency();
+
+			LOG.info("ab.getDependency >> " + dependency.jsonString());
+
+			// README debugging purposes
+			final DependencyRef dependencyRef = dependency.getRef();
+
+			LOG.info("dependencyRef >> " + (dependencyRef != null ? dependencyRef.jsonString() : "null"));
+
+			if (dependencyRef == null) {
+				gris.put(dependency, ab);
+			} else {
+				final String output = ((CDependencyRef) dependencyRef).getHeaderFile();
+
+				LOG.info("CDependencyRef.getHeaderFile >> " + output);
+
+				sharedState.mmb.put(output, ab.buffer());
+				sharedState.lsp_outputs.put(ab.lsp().getInstructions(), output);
+				for (GenerateResultItem generateResultItem : gris.get(dependency)) {
+					final String output1 = generateResultItem.output();
+					sharedState.mmb.put(output1, generateResultItem.buffer());
+					sharedState.lsp_outputs.put(generateResultItem.lsp().getInstructions(), output1);
+				}
+
+				//for (Map.Entry<Dependency, Collection<GenerateResultItem>> entry : gris.asMap().entrySet()) {
+				//	System.out.println(entry.getKey().jsonString());
+				//	System.out.println(entry.getValue());
+				//}
+
+/*
+				if (gris.containsKey(dependency))
+					System.out.println("*** 235 yes");
+				else
+					System.out.println("*** 235 no");
+*/
+
+				gris.removeAll(dependency);
+			}
+
+			LOG.info("-----------=-----------=-----------=-----------=-----------=-----------");
+		}
+	}
 }
 
 //
