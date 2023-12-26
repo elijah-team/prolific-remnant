@@ -1,13 +1,22 @@
 package tripleo.elijah.comp.nextgen;
 
-import org.jdeferred2.Promise;
-import org.jdeferred2.impl.DeferredObject;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.comp.i.Compilation;
+//import org.jdeferred2.Promise;
+//import org.jdeferred2.impl.DeferredObject;
+//import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.Nullable;
+//import tripleo.elijah.comp.*;
+//import tripleo.elijah.comp.i.Compilation;
+//
+//import java.io.File;
+//import java.nio.file.Path;
 
-import java.io.File;
-import java.nio.file.Path;
+import org.jdeferred2.*;
+import org.jdeferred2.impl.*;
+import org.jetbrains.annotations.*;
+import tripleo.elijah.comp.*;
+
+import java.io.*;
+import java.nio.file.*;
 
 public class CP_StdlibPath implements CP_Path, _CP_RootPath {
 	private final Compilation                      c;

@@ -5,12 +5,12 @@ import org.jdeferred2.Promise;
 import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.comp.Compilation;
 import tripleo.elijah.comp.Finally;
+import tripleo.elijah.comp.Operation;
 import tripleo.elijah.nextgen.ER_Node;
 import tripleo.elijah.nextgen.outputstatement.EG_Statement;
-import tripleo.elijah.util.Operation;
-import tripleo.util.io.DisposableCharSink;
+import tripleo.util.io.*;
 
 import java.io.File;
 import java.nio.file.Path;

@@ -11,10 +11,13 @@ package tripleo.elijah.stages.gen_fn;
 import org.jdeferred2.*;
 import org.jetbrains.annotations.*;
 import tripleo.elijah.comp.*;
+import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.*;
+import tripleo.elijah.nextgen.query.*;
 import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.stages.deduce.zero.*;
+import tripleo.elijah.stages.logging.*;
 import tripleo.elijah.util.*;
 
 import java.util.*;
@@ -23,6 +26,117 @@ import java.util.*;
  * Created 5/31/21 1:32 PM
  */
 public class GenType {
+	static @Nullable GenType makeFromOSType(@NotNull OS_Type aVt, ClassInvocation.CI_GenericPart aGenericPart, @NotNull DeduceTypes2 dt2, DeducePhase phase, @NotNull ElLog aLOG, @NotNull ErrSink errSink) {
+		return makeGenTypeFromOSType(aVt, aGenericPart, aLOG, errSink, dt2, phase);
+	}
+	static @Nullable GenType makeGenTypeFromOSType(@NotNull OS_Type aType,
+	                                               ClassInvocation.@NotNull CI_GenericPart aGenericPart,
+	                                               @NotNull ElLog aLOG,
+	                                               @NotNull ErrSink errSink, @NotNull DeduceTypes2 dt2, DeducePhase phase) {
+		GenType gt = new GenType();
+		gt.setTypeName(aType);
+		if (aType.getType() == OS_Type.Type.USER) {
+			final TypeName tn1 = aType.getTypeName();
+			if (tn1.isNull()) return null; // TODO Unknown, needs to resolve somewhere
+
+			assert tn1 instanceof NormalTypeName;
+			final NormalTypeName       tn  = (NormalTypeName) tn1;
+			final LookupResultList     lrl = tn.getContext().lookup(tn.getName());
+			final @Nullable OS_Element el  = lrl.chooseBest(null);
+
+			DeduceTypes2.ProcessElement.processElement(el, new DeduceTypes2.IElementProcessor() {
+				private void __hasElement__typeNameElement(final ClassContext.@NotNull OS_TypeNameElement typeNameElement) {
+					assert aGenericPart != null;
+
+					final OS_Type x = aGenericPart.get(typeNameElement.getTypeName());
+
+					switch (x.getType()) {
+						case USER_CLASS:
+							final @Nullable ClassStatement classStatement1 = x.getClassOf(); // always a ClassStatement
+
+							assert classStatement1 != null;
+
+							// TODO test next 4 (3) lines are copies of above
+							gt.setResolved(classStatement1.getOS_Type());
+							break;
+						case USER:
+							final NormalTypeName tn2 = (NormalTypeName) x.getTypeName();
+							final LookupResultList lrl2 = tn.getContext().lookup(tn2.getName());
+							final @Nullable OS_Element el2 = lrl2.chooseBest(null);
+
+							// TODO test next 4 lines are copies of above
+							if (el2 instanceof final @NotNull ClassStatement classStatement2) {
+								gt.setResolved(classStatement2.getOS_Type());
+							} else
+								throw new NotImplementedException();
+							break;
+					}
+				}
+
+				@Override
+				public void elementIsNull() {
+					NotImplementedException.raise();
+				}
+
+				private void gotResolved(final @NotNull GenType gt) {
+					if (gt.getResolved().getClassOf().getGenericPart().size() != 0) {
+						//throw new AssertionError();
+						aLOG.info("149 non-generic type " + tn1);
+					}
+					gt.genCI(null, dt2, errSink, phase); // TODO aGenericPart
+					assert gt.getCi() != null;
+					genNodeForGenType2(gt);
+				}
+
+				@Override
+				public void hasElement(final OS_Element el) {
+					final Operation2<OS_Element> best1 = preprocess(el);
+					if (best1.mode() == Mode.FAILURE) {
+						aLOG.err("152 Can't resolve Alias statement " + el);
+						errSink.reportDiagnostic(best1.failure());
+						return;
+					}
+
+					final OS_Element best = best1.success();
+
+					switch (DecideElObjectType.getElObjectType(best)) {
+						case CLASS:
+							final ClassStatement classStatement = (ClassStatement) best;
+							gt.setResolved(classStatement.getOS_Type());
+							break;
+						case TYPE_NAME_ELEMENT:
+							final ClassContext.OS_TypeNameElement typeNameElement = (ClassContext.OS_TypeNameElement) best;
+							__hasElement__typeNameElement(typeNameElement);
+							break;
+						default:
+							aLOG.err("143 " + el);
+							throw new NotImplementedException();
+					}
+
+					if (gt.getResolved() != null)
+						gotResolved(gt);
+					else {
+						int y = 2; //05/22
+					}
+				}
+
+				private @NotNull Operation2<@NotNull OS_Element> preprocess(final OS_Element el) {
+					@Nullable OS_Element best = el;
+					try {
+						while (best instanceof AliasStatement) {
+							best = DeduceLookupUtils._resolveAlias2((AliasStatement) best, dt2);
+						}
+						assert best != null;
+						return Operation2.success(best);
+					} catch (ResolveError aResolveError) {
+						return Operation2.failure(aResolveError);
+					}
+				}
+			});
+		} else
+			throw new AssertionError("Not a USER Type");
+		return gt;
+	}
 	public NamespaceStatement resolvedn;
 	public OS_Type            typeName; // TODO or just TypeName ??
 	public TypeName           nonGenericTypeName;

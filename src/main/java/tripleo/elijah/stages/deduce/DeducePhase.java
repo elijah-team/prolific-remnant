@@ -19,11 +19,13 @@ import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.*;
 import tripleo.elijah.nextgen.*;
 import tripleo.elijah.nextgen.diagnostic.*;
+import tripleo.elijah.nextgen.rosetta.DeducePhase.*;
 import tripleo.elijah.stages.deduce.declarations.*;
 import tripleo.elijah.stages.deduce.post_bytecode.*;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.gen_generic.*;
 import tripleo.elijah.stages.logging.*;
+import tripleo.elijah.testing.comp.*;
 import tripleo.elijah.util.*;
 import tripleo.elijah.work.*;
 
@@ -59,7 +61,8 @@ public class DeducePhase {
 	@NotNull Multimap<ClassStatement, OnClass> onclasses = ArrayListMultimap.create();
 	//	Multimap<EvaClass, ClassInvocation> generatedClasses1 = ArrayListMultimap.create();
 	@NotNull Multimap<ClassStatement, ClassInvocation> classInvocationMultimap = ArrayListMultimap.create();
-	@NotNull List<DeferredMember> deferredMembers = new ArrayList<DeferredMember>();
+	@NotNull List<DeferredMember> deferredMembers = new ArrayList<>();
+	private final @NotNull WAITS                                        waits                   = new WAITS();
 
 	public DeducePhase(final GeneratePhase aGeneratePhase,
 	                   final PipelineLogic aPipelineLogic,
@@ -697,6 +700,18 @@ public class DeducePhase {
 			  })
 			  .map(x -> (EvaClass) x)
 			  .collect(Collectors.toList());
+		}
+	}
+
+	static class WAITS {
+		private final Set<DeduceTypes2> waits = new HashSet<>();
+
+		public void add(final DeduceTypes2 aDeduceTypes2) {
+			waits.add(aDeduceTypes2);
+		}
+
+		public Iterable<DeduceTypes2> iterator() {
+			return waits;
 		}
 	}
 }

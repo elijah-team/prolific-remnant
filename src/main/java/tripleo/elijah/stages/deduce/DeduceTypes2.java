@@ -17,6 +17,7 @@ import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.*;
 import tripleo.elijah.lang2.*;
+import tripleo.elijah.nextgen.rosetta.DeduceTypes2.*;
 import tripleo.elijah.stages.deduce.declarations.*;
 import tripleo.elijah.stages.deduce.post_bytecode.*;
 import tripleo.elijah.stages.deduce.zero.*;
@@ -32,8 +33,9 @@ import java.util.*;
  * Created 9/15/20 12:51 PM
  */
 public class DeduceTypes2 {
-	private static final   String             PHASE  = "DeduceTypes2";
-	final @NotNull         DeducePhase        phase;
+	public static final String      PHASE = "DeduceTypes2";
+	private final DeduceTypes2Rosetta  rosetta;
+	final @NotNull      DeducePhase phase;
 	final                  ErrSink            errSink;
 	final @NotNull         ElLog              LOG;
 	final    List<FunctionInvocation> functionInvocations = new ArrayList<>();
@@ -63,14 +65,29 @@ public class DeduceTypes2 {
 	}
 
 	public DeduceTypes2(@NotNull final OS_Module module, @NotNull final DeducePhase phase, final ElLog.Verbosity verbosity) {
-		this.module  = module;
-		this.phase   = phase;
-		this.errSink = module.getCompilation().getErrSink();
-		this.LOG     = new ElLog(module.getFileName(), verbosity, PHASE);
-		//
-		phase.addLog(LOG);
-		//
-		DeduceElement3_VariableTableEntry.ST.register(phase);
+//		this.module  = module;
+//		this.phase   = phase;
+//		this.errSink = module.getCompilation().getErrSink();
+//		this.LOG     = new ElLog(module.getFileName(), verbosity, PHASE);
+//		//
+//		phase.addLog(LOG);
+//		//
+//		DeduceElement3_VariableTableEntry.ST.register(phase);
+
+		this(new DeduceTypes2Request(module, phase, verbosity));
+	}
+
+
+	public DeduceTypes2(DeduceTypes2Request aRequest) {
+		this.rosetta = new DeduceTypes2Rosetta(aRequest);
+
+		this.module  = rosetta.getModule();
+		this.phase   = rosetta.getDeducePhase();
+		this.errSink = rosetta.getErrSink();
+
+		this.LOG     = rosetta.createAndAddLog_DeduceTypes2();
+
+		phase.waitOn(this);
 	}
 
 	public static int to_int(@NotNull final InstructionArgument arg) {
@@ -432,7 +449,7 @@ public class DeduceTypes2 {
 	private void dof_uc(@NotNull final VariableTableEntry aVte, final OS_Type aA) {
 		// we really want a ci from somewhere
 		assert aA.getClassOf().getGenericPart().size() == 0;
-		@Nullable ClassInvocation ci = new ClassInvocation(aA.getClassOf(), null);
+		@Nullable ClassInvocation ci = new ClassInvocation(aA.getClassOf(), null, ()->this);
 		ci = phase.registerClassInvocation(ci);
 
 		aVte.genType.resolved = aA; // README assuming OS_Type cannot represent namespaces
@@ -584,7 +601,7 @@ public class DeduceTypes2 {
 			final ClassStatement          best            = genType.resolved.getClassOf();
 			//
 			@NotNull final List<TypeName> gp     = best.getGenericPart();
-			@Nullable ClassInvocation     clsinv = new ClassInvocation(best, constructorName);
+			@Nullable ClassInvocation     clsinv = new ClassInvocation(best, constructorName, ()->this);
 			if (gp.size() > 0) {
 				final TypeNameList gp2 = aTyn1.getGenericPart();
 				for (int i = 0; i < gp.size(); i++) {
@@ -2325,6 +2342,22 @@ public class DeduceTypes2 {
 		return (Zero_FuncExprType) _zeros.get(aFuncExprType);
 	}
 
+	public void deduceOneClass(final @NotNull EvaClass aEvaClass) {
+		for (EvaContainer.VarTableEntry entry : aEvaClass.varTable) {
+			final OS_Type vt      = entry.varType;
+			GenType       genType = GenType.makeFromOSType(vt, aEvaClass.ci.genericPart(), this, phase, LOG, errSink);
+			if (genType != null) {
+				if (genType.getNode() != null) {
+					entry.resolve(genType.getNode());
+				} else {
+					int y = 2; // 05/22
+				}
+			}
+
+			NotImplementedException.raise();
+
+		}
+	}
 	interface IElementProcessor {
 		void elementIsNull();
 
@@ -2663,7 +2696,7 @@ public class DeduceTypes2 {
 		                                              final ErrSink aErrSink) {
 			@NotNull final GenericPart genericPart = new GenericPart(best, aTyn1);
 
-			@Nullable final ClassInvocation clsinv = new ClassInvocation(best, constructorName);
+			@Nullable final ClassInvocation clsinv = new ClassInvocation(best, constructorName, ()->dt2);
 
 			if (genericPart.hasGenericPart()) {
 				final @NotNull List<TypeName> gp  = best.getGenericPart();
@@ -2997,7 +3030,7 @@ public class DeduceTypes2 {
 				if (ci == null) {
 					if (/*fi.getClassInvocation() == null &&*/ fi.getNamespaceInvocation() == null) {
 						// Assume default constructor
-						ci = new ClassInvocation((ClassStatement) pte.getResolvedElement(), null);
+						ci = new ClassInvocation((ClassStatement) pte.getResolvedElement(), null, ()->this);
 						ci = phase.registerClassInvocation(ci);
 						fi.setClassInvocation(ci);
 					} else

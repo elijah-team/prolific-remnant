@@ -1,6 +1,6 @@
 package tripleo.elijah.nextgen.rosetta.DeducePhase
 
-import tripleo.elijah.lang.i.OS_Module
+import tripleo.elijah.lang.OS_Module
 import tripleo.elijah.nextgen.rosetta.DeduceTypes2.DeduceTypes2Request
 import tripleo.elijah.nextgen.rosetta.Rosetta
 import tripleo.elijah.stages.deduce.DeducePhase

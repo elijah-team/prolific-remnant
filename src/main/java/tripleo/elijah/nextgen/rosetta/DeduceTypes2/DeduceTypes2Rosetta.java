@@ -1,8 +1,8 @@
 package tripleo.elijah.nextgen.rosetta.DeduceTypes2;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.comp.i.ErrSink;
-import tripleo.elijah.lang.i.OS_Module;
+import tripleo.elijah.comp.*;
+import tripleo.elijah.lang.OS_Module;
 import tripleo.elijah.stages.deduce.DeducePhase;
 import tripleo.elijah.stages.deduce.DeduceTypes2;
 import tripleo.elijah.stages.logging.ElLog;
