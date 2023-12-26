@@ -2,6 +2,7 @@ package tripleo.vendor.thinlet;
 
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("rawtypes")
 /**
  * WORK IN PROGRESS - DON'T USE.
  * Eventually this class will encapsulate most of the widget-related API

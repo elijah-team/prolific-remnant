@@ -10,6 +10,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.MemoryImageSource;
 
+@SuppressWarnings("rawtypes")
 /**
  * <code>FrameLauncher</code> is a double buffered frame
  * to launch any <i>thinlet</i> component as an application

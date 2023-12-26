@@ -33,6 +33,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
+@SuppressWarnings("rawtypes")
 /**
  * @version $Id: Thinlet.java,v 1.20 2004/10/11 19:43:48 abial Exp $
  */
