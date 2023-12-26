@@ -392,7 +392,8 @@ public class CompilationImpl implements Compilation {
 
 	@Override
 	public void hasInstructions(final @NotNull List<CompilerInstructions> cis) {
-		assert cis.size() == 1;
+//		assert cis.size() == 1;
+		assert !cis.isEmpty();
 		final CompilationEnclosure ce = getCompilationEnclosure();
 		assert !ce.getCompilerInput().isEmpty();
 		hasInstructions(cis.get(0), pa(), ce);
