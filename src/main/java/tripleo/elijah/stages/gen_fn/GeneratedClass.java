@@ -109,8 +109,8 @@ public class EvaClass extends EvaContainerNC implements GNCoded {
 						//
 						if (potentialType.getAttached().getType() != OS_Type.Type.USER_CLASS) {
 							final TypeName t = potentialType.getAttached().getTypeName();
-							if (ci.genericPart != null) {
-								for (final Map.Entry<TypeName, OS_Type> typeEntry : ci.genericPart.entrySet()) {
+							if (ci.genericPart() != null) {
+								for (final Map.Entry<TypeName, OS_Type> typeEntry : ci.genericPart().entrySet()) {
 									if (typeEntry.getKey().equals(t)) {
 										final OS_Type v = typeEntry.getValue();
 										potentialType.setAttached(v);
@@ -122,11 +122,11 @@ public class EvaClass extends EvaContainerNC implements GNCoded {
 						}
 						//
 						if (potentialType.getAttached().getType() == OS_Type.Type.USER_CLASS) {
-							ClassInvocation xci = new ClassInvocation(potentialType.getAttached().getClassOf(), null);
+							ClassInvocation xci = new ClassInvocation(potentialType.getAttached().getClassOf(), null, ()->this.);
 							{
-								for (final Map.Entry<TypeName, OS_Type> entry : xci.genericPart.entrySet()) {
+								for (final Map.Entry<TypeName, OS_Type> entry : xci.genericPart().entrySet()) {
 									if (entry.getKey().equals(varTableEntry.typeName)) {
-										xci.genericPart.put(entry.getKey(), varTableEntry.varType);
+										xci.genericPart().put(entry.getKey(), varTableEntry.varType);
 									}
 								}
 							}
@@ -219,7 +219,7 @@ public class EvaClass extends EvaContainerNC implements GNCoded {
 					}
 
 					if (potentialTypes.size() == 1) {
-						if (ci.genericPart != null) {
+						if (ci.genericPart() != null) {
 							final OS_Type t = varTableEntry.varType;
 							if (t.getType() == OS_Type.Type.USER) {
 								try {
@@ -227,7 +227,7 @@ public class EvaClass extends EvaContainerNC implements GNCoded {
 									if (genType.resolved instanceof OS_GenericTypeNameType) {
 										final ClassInvocation xxci = ((EvaClass) aEvaContainer).ci;
 //											xxxci = ci;
-										for (final Map.@NotNull Entry<TypeName, OS_Type> entry : xxci.genericPart.entrySet()) {
+										for (final Map.@NotNull Entry<TypeName, OS_Type> entry : xxci.genericPart().entrySet()) {
 											if (entry.getKey().equals(t.getTypeName())) {
 												varTableEntry.varType = entry.getValue();
 											}
@@ -298,9 +298,9 @@ public class EvaClass extends EvaContainerNC implements GNCoded {
 	public String getName() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(klass.getName());
-		if (ci.genericPart != null) {
+		if (ci.genericPart() != null) {
 			sb.append("[");
-			final String joined = getNameHelper(ci.genericPart);
+			final String joined = getNameHelper(ci.genericPart().asMap());
 			sb.append(joined);
 			sb.append("]");
 		}

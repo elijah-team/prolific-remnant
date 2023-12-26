@@ -50,6 +50,11 @@ public class CompilationImpl extends Compilation {
 		return _fluffyComp;
 	}
 
+	@Override
+	public CP_Paths paths() {
+		return this.paths;
+	}
+
 	public ICompilationAccess _access() {
 		return new DefaultCompilationAccess(this);
 	}

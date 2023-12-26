@@ -1,8 +1,10 @@
 package tripleo.elijah.comp.functionality.f203;
 
-import org.apache.commons.codec.digest.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
+import tripleo.elijah.comp.Compilation;
 
 import java.io.File;
 import java.time.LocalDateTime;

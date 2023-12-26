@@ -467,7 +467,7 @@ public class DeduceTypes2 {
 		for (final EvaClass generatedClass : matching_class_list) {
 			for (final EvaContainer.VarTableEntry entry : generatedClass.varTable) {
 				final OS_Type vt      = entry.varType;
-				final GenType genType = makeGenTypeFromOSType(vt, generatedClass.ci.genericPart);
+				final GenType genType = makeGenTypeFromOSType(vt, generatedClass.ci.genericPart().asMap());
 				if (genType != null) {
 					if (genType.node != null) {
 						entry.resolve(genType.node);
