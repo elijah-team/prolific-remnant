@@ -25,7 +25,7 @@ public class WlGenerateFunction implements WorkJob {
 	private final FunctionInvocation functionInvocation;
 	private final ICodeRegistrar     codeRegistrar;
 	private       boolean            _isDone = false;
-	private       GeneratedFunction  result;
+	private       EvaFunction  result;
 
 	public WlGenerateFunction(final GenerateFunctions aGenerateFunctions, @NotNull final FunctionInvocation aFunctionInvocation, final ICodeRegistrar aCodeRegistrar) {
 		functionDef        = (FunctionDef) aFunctionInvocation.getFunction();
@@ -38,9 +38,9 @@ public class WlGenerateFunction implements WorkJob {
 	public void run(final WorkManager aWorkManager) {
 //		if (_isDone) return;
 
-		if (functionInvocation.getGenerated() == null) {
+		if (functionInvocation.getEva() == null) {
 			final OS_Element                 parent = functionDef.getParent();
-			@NotNull final GeneratedFunction gf     = generateFunctions.generateFunction(functionDef, parent, functionInvocation);
+			@NotNull final EvaFunction gf     = generateFunctions.generateFunction(functionDef, parent, functionInvocation);
 
 			{
 				int i = 0;
@@ -58,9 +58,9 @@ public class WlGenerateFunction implements WorkJob {
 			if (parent instanceof NamespaceStatement) {
 				final NamespaceInvocation nsi = functionInvocation.getNamespaceInvocation();
 				assert nsi != null;
-				nsi.resolveDeferred().done(new DoneCallback<GeneratedNamespace>() {
+				nsi.resolveDeferred().done(new DoneCallback<EvaNamespace>() {
 					@Override
-					public void onDone(final GeneratedNamespace result) {
+					public void onDone(final EvaNamespace result) {
 						if (result.getFunction(functionDef) == null) {
 							codeRegistrar.registerFunction(gf);
 							result.addFunction(functionDef, gf);
@@ -70,9 +70,9 @@ public class WlGenerateFunction implements WorkJob {
 				});
 			} else {
 				final ClassInvocation ci = functionInvocation.getClassInvocation();
-				ci.resolvePromise().done(new DoneCallback<GeneratedClass>() {
+				ci.resolvePromise().done(new DoneCallback<EvaClass>() {
 					@Override
-					public void onDone(final GeneratedClass result) {
+					public void onDone(final EvaClass result) {
 						if (result.getFunction(functionDef) == null) {
 							codeRegistrar.registerFunction(gf);
 							result.addFunction(functionDef, gf);
@@ -82,10 +82,10 @@ public class WlGenerateFunction implements WorkJob {
 				});
 			}
 			result = gf;
-			functionInvocation.setGenerated(result);
+			functionInvocation.setEva(result);
 			functionInvocation.generateDeferred().resolve(result);
 		} else {
-			result = (GeneratedFunction) functionInvocation.getGenerated();
+			result = (EvaFunction) functionInvocation.getEva();
 		}
 		_isDone = true;
 	}
@@ -95,7 +95,7 @@ public class WlGenerateFunction implements WorkJob {
 		return _isDone;
 	}
 
-	public GeneratedFunction getResult() {
+	public EvaFunction getResult() {
 		return result;
 	}
 }

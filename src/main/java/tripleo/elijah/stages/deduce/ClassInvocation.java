@@ -53,7 +53,7 @@ public class ClassInvocation implements IInvocation {
 		return cls;
 	}
 
-	public @NotNull Promise<GeneratedClass, Void, Void> resolvePromise() {
+	public @NotNull Promise<EvaClass, Void, Void> resolvePromise() {
 		return resolvePromise.promise();
 	}
 

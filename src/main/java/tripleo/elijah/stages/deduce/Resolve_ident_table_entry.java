@@ -13,7 +13,7 @@ class Resolve_ident_table_entry {
 		deduceTypes2 = aDeduceTypes2;
 	}
 
-	public void act(@NotNull final IdentTableEntry ite, final BaseGeneratedFunction generatedFunction, final Context ctx) {
+	public void act(@NotNull final IdentTableEntry ite, final BaseEvaFunction generatedFunction, final Context ctx) {
 
 		@Nullable InstructionArgument itex = new IdentIA(ite.getIndex(), generatedFunction);
 		{

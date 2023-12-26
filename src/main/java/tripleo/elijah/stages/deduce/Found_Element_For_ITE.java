@@ -24,14 +24,14 @@ import tripleo.elijah.stages.logging.*;
  */
 class Found_Element_For_ITE {
 
-	private final BaseGeneratedFunction      generatedFunction;
+	private final BaseEvaFunction      generatedFunction;
 	private final Context                    ctx;
 	private final ElLog                      LOG;
 	private final ErrSink                    errSink;
 	private final DeduceTypes2.DeduceClient1 dc;
 
-	public Found_Element_For_ITE(final BaseGeneratedFunction aGeneratedFunction, final Context aCtx, final ElLog aLOG, final ErrSink aErrSink, final DeduceTypes2.DeduceClient1 aDeduceClient1) {
-		generatedFunction = aGeneratedFunction;
+	public Found_Element_For_ITE(final BaseEvaFunction aEvaFunction, final Context aCtx, final ElLog aLOG, final ErrSink aErrSink, final DeduceTypes2.DeduceClient1 aDeduceClient1) {
+		generatedFunction = aEvaFunction;
 		ctx               = aCtx;
 		LOG               = aLOG;
 		errSink           = aErrSink;
@@ -73,10 +73,10 @@ class Found_Element_For_ITE {
 				final OS_Element parent = vs.getParent().getParent();
 				if (parent instanceof NamespaceStatement || parent instanceof ClassStatement) {
 					final boolean state;
-					if (generatedFunction instanceof final @NotNull GeneratedFunction generatedFunction1) {
+					if (generatedFunction instanceof final @NotNull EvaFunction generatedFunction1) {
 						state = (parent != generatedFunction1.getFD().getParent());
 					} else {
-						state = (parent != ((GeneratedConstructor) generatedFunction).getFD().getParent());
+						state = (parent != ((EvaConstructor) generatedFunction).getFD().getParent());
 					}
 					if (state) {
 						final IInvocation             invocation = dc.getInvocationFromBacklink(ite.getBacklink());
@@ -212,16 +212,16 @@ class Found_Element_For_ITE {
 		dc.genCI(aGenType, aGenType.nonGenericTypeName);
 		final IInvocation invocation = aGenType.ci;
 		if (invocation instanceof final NamespaceInvocation namespaceInvocation) {
-			namespaceInvocation.resolveDeferred().then(new DoneCallback<GeneratedNamespace>() {
+			namespaceInvocation.resolveDeferred().then(new DoneCallback<EvaNamespace>() {
 				@Override
-				public void onDone(final GeneratedNamespace result) {
+				public void onDone(final EvaNamespace result) {
 					aGenType.node = result;
 				}
 			});
 		} else if (invocation instanceof final ClassInvocation classInvocation) {
-			classInvocation.resolvePromise().then(new DoneCallback<GeneratedClass>() {
+			classInvocation.resolvePromise().then(new DoneCallback<EvaClass>() {
 				@Override
-				public void onDone(final GeneratedClass result) {
+				public void onDone(final EvaClass result) {
 					aGenType.node = result;
 				}
 			});

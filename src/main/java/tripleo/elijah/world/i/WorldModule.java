@@ -12,5 +12,5 @@ public interface WorldModule {
 
 //	GN_PL_Run2.GenerateFunctionsRequest rq();
 
-	Eventual<DeducePhase.GeneratedClasses> getEventual();
+	Eventual<DeducePhase.EvaClasses> getEventual();
 }

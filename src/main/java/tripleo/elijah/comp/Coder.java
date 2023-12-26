@@ -15,7 +15,7 @@ public class Coder {
 		codeRegistrar = aCodeRegistrar;
 	}
 
-	private static void extractNodes_toResolvedNodes(@NotNull final Map<FunctionDef, GeneratedFunction> aFunctionMap, @NotNull final List<GeneratedNode> resolved_nodes) {
+	private static void extractNodes_toResolvedNodes(@NotNull final Map<FunctionDef, EvaFunction> aFunctionMap, @NotNull final List<EvaNode> resolved_nodes) {
 		aFunctionMap.values().stream().map(generatedFunction -> (generatedFunction.idte_list)
 		              .stream()
 		              .filter(IdentTableEntry::isResolved)
@@ -24,10 +24,10 @@ public class Coder {
 		            .forEach(resolved_nodes::addAll);
 	}
 
-	public void codeNodes(final OS_Module mod, final List<GeneratedNode> resolved_nodes, final GeneratedNode generatedNode) {
-		if (generatedNode instanceof final GeneratedFunction generatedFunction) {
+	public void codeNodes(final OS_Module mod, final List<EvaNode> resolved_nodes, final EvaNode generatedNode) {
+		if (generatedNode instanceof final EvaFunction generatedFunction) {
 			codeNodeFunction(generatedFunction, mod);
-		} else if (generatedNode instanceof final GeneratedClass generatedClass) {
+		} else if (generatedNode instanceof final EvaClass generatedClass) {
 			//			assert generatedClass.getCode() == 0;
 			if (generatedClass.getCode() == 0)
 				codeNodeClass(generatedClass, mod);
@@ -35,7 +35,7 @@ public class Coder {
 			setClassmapNodeCodes(generatedClass.classMap, mod);
 
 			extractNodes_toResolvedNodes(generatedClass.functionMap, resolved_nodes);
-		} else if (generatedNode instanceof final GeneratedNamespace generatedNamespace) {
+		} else if (generatedNode instanceof final EvaNamespace generatedNamespace) {
 
 			if (generatedNamespace.getCode() != 0)
 				codeNodeNamespace(generatedNamespace, mod);
@@ -46,36 +46,36 @@ public class Coder {
 		}
 	}
 
-	public void codeNodeFunction(@NotNull final BaseGeneratedFunction generatedFunction, final OS_Module mod) {
+	public void codeNodeFunction(@NotNull final BaseEvaFunction generatedFunction, final OS_Module mod) {
 //		if (generatedFunction.getCode() == 0)
 //			generatedFunction.setCode(mod.parent.nextFunctionCode());
 		codeRegistrar.registerFunction(generatedFunction);
 	}
 
-	private void setClassmapNodeCodes(@NotNull final Map<ClassStatement, GeneratedClass> aClassMap, final OS_Module mod) {
+	private void setClassmapNodeCodes(@NotNull final Map<ClassStatement, EvaClass> aClassMap, final OS_Module mod) {
 		aClassMap.values().forEach(generatedClass -> codeNodeClass(generatedClass, mod));
 	}
 
-	public void codeNodeClass(@NotNull final GeneratedClass generatedClass, final OS_Module mod) {
+	public void codeNodeClass(@NotNull final EvaClass generatedClass, final OS_Module mod) {
 //		if (generatedClass.getCode() == 0)
 //			generatedClass.setCode(mod.parent.nextClassCode());
 		codeRegistrar.registerClass(generatedClass);
 	}
 
-	public void codeNodeNamespace(@NotNull final GeneratedNamespace generatedNamespace, final OS_Module mod) {
+	public void codeNodeNamespace(@NotNull final EvaNamespace generatedNamespace, final OS_Module mod) {
 //		if (generatedNamespace.getCode() == 0)
 //			generatedNamespace.setCode(mod.parent.nextClassCode());
 		codeRegistrar.registerNamespace(generatedNamespace);
 	}
 
-	public void codeNode(final GeneratedNode generatedNode, final OS_Module mod) {
+	public void codeNode(final EvaNode generatedNode, final OS_Module mod) {
 		final Coder coder = this;
 
-		if (generatedNode instanceof final GeneratedFunction generatedFunction) {
+		if (generatedNode instanceof final EvaFunction generatedFunction) {
 			coder.codeNodeFunction(generatedFunction, mod);
-		} else if (generatedNode instanceof final GeneratedClass generatedClass) {
+		} else if (generatedNode instanceof final EvaClass generatedClass) {
 			coder.codeNodeClass(generatedClass, mod);
-		} else if (generatedNode instanceof final GeneratedNamespace generatedNamespace) {
+		} else if (generatedNode instanceof final EvaNamespace generatedNamespace) {
 			coder.codeNodeNamespace(generatedNamespace, mod);
 		}
 	}

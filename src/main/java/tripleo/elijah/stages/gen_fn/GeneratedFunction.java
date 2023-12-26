@@ -16,10 +16,10 @@ import tripleo.elijah.stages.deduce.*;
 /**
  * Created 6/27/21 9:40 AM
  */
-public class GeneratedFunction extends BaseGeneratedFunction implements GNCoded {
+public class EvaFunction extends BaseEvaFunction implements GNCoded {
 	public final @Nullable FunctionDef fd;
 
-	public GeneratedFunction(final @Nullable FunctionDef functionDef) {
+	public EvaFunction(final @Nullable FunctionDef functionDef) {
 		fd = functionDef;
 	}
 
@@ -40,8 +40,8 @@ public class GeneratedFunction extends BaseGeneratedFunction implements GNCoded 
 		ClassInvocation     classInvocation     = null; //// = fi.getClassInvocation();
 		NamespaceInvocation namespaceInvocation = null; //// = fi.getNamespaceInvocation();
 
-		Promise<GeneratedClass, Void, Void>     crp;
-		Promise<GeneratedNamespace, Void, Void> nsrp;
+		Promise<EvaClass, Void, Void>     crp;
+		Promise<EvaNamespace, Void, Void> nsrp;
 
 
 		// README if classInvocation or namespaceInvocation is resolved then use that to return string...
@@ -70,9 +70,9 @@ public class GeneratedFunction extends BaseGeneratedFunction implements GNCoded 
 			case 2:
 				crp = classInvocation.resolvePromise();
 				if (crp.isResolved()) {
-					final GeneratedClass[] parent = new GeneratedClass[1];
+					final EvaClass[] parent = new EvaClass[1];
 					crp.then(gc -> parent[0] = gc);
-					R     = String.format("<GeneratedFunction %d %s %s %s>", getCode(), parent[0], fd.name(), pte_string);
+					R     = String.format("<EvaFunction %d %s %s %s>", getCode(), parent[0], fd.name(), pte_string);
 					state = 5;
 				} else {
 					state = 4;
@@ -81,16 +81,16 @@ public class GeneratedFunction extends BaseGeneratedFunction implements GNCoded 
 			case 3:
 				nsrp = namespaceInvocation.resolveDeferred();
 				if (nsrp.isResolved()) {
-					final GeneratedNamespace[] parent = new GeneratedNamespace[1];
+					final EvaNamespace[] parent = new EvaNamespace[1];
 					nsrp.then(gc -> parent[0] = gc);
-					R     = String.format("<GeneratedFunction %d %s %s %s>", getCode(), parent[0], fd.name(), pte_string);
+					R     = String.format("<EvaFunction %d %s %s %s>", getCode(), parent[0], fd.name(), pte_string);
 					state = 5;
 				} else {
 					state = 4;
 				}
 				break;
 			case 4:
-				R = String.format("<GeneratedFunction %s %s %s>", fd.getParent(), fd.name(), pte_string);
+				R = String.format("<EvaFunction %s %s %s>", fd.getParent(), fd.name(), pte_string);
 				state = 5;
 				break;
 			case 5:

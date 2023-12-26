@@ -18,11 +18,11 @@ import tripleo.elijah.stages.gen_fn.*;
  * Created 11/28/21 4:45 PM
  */
 public interface ICodeRegistrar {
-	void registerNamespace(GeneratedNamespace aNamespace);
+	void registerNamespace(EvaNamespace aNamespace);
 
-	void registerClass(GeneratedClass aClass);
+	void registerClass(EvaClass aClass);
 
-	void registerFunction(BaseGeneratedFunction aFunction);
+	void registerFunction(BaseEvaFunction aFunction);
 }
 
 //

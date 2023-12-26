@@ -24,7 +24,7 @@ public class WlGenerateDefaultCtor implements WorkJob {
 	private final FunctionInvocation    functionInvocation;
 	private final ICodeRegistrar        codeRegistrar;
 	private       boolean               _isDone = false;
-	private       BaseGeneratedFunction Result;
+	private       BaseEvaFunction Result;
 
 	@Contract(pure = true)
 	public WlGenerateDefaultCtor(@NotNull final GenerateFunctions aGenerateFunctions, final FunctionInvocation aFunctionInvocation, final ICodeRegistrar aCodeRegistrar) {
@@ -37,14 +37,14 @@ public class WlGenerateDefaultCtor implements WorkJob {
 	public void run(final WorkManager aWorkManager) {
 		if (functionInvocation.generateDeferred().isPending()) {
 			final ClassStatement         klass     = functionInvocation.getClassInvocation().getKlass();
-			final Holder<GeneratedClass> hGenClass = new Holder<>();
-			functionInvocation.getClassInvocation().resolvePromise().then(new DoneCallback<GeneratedClass>() {
+			final Holder<EvaClass> hGenClass = new Holder<>();
+			functionInvocation.getClassInvocation().resolvePromise().then(new DoneCallback<EvaClass>() {
 				@Override
-				public void onDone(final GeneratedClass result) {
+				public void onDone(final EvaClass result) {
 					hGenClass.set(result);
 				}
 			});
-			final GeneratedClass genClass = hGenClass.get();
+			final EvaClass genClass = hGenClass.get();
 			assert genClass != null;
 
 			final ConstructorDef cd = new ConstructorDef(null, klass, klass.getContext());
@@ -52,7 +52,7 @@ public class WlGenerateDefaultCtor implements WorkJob {
 			cd.setName(ConstructorDef.emptyConstructorName);
 			final Scope3 scope3 = new Scope3(cd);
 			cd.scope(scope3);
-			for (final GeneratedContainer.VarTableEntry varTableEntry : genClass.varTable) {
+			for (final EvaContainer.VarTableEntry varTableEntry : genClass.varTable) {
 				if (varTableEntry.initialValue != IExpression.UNASSIGNED) {
 					final IExpression left  = varTableEntry.nameToken;
 					final IExpression right = varTableEntry.initialValue;
@@ -68,13 +68,13 @@ public class WlGenerateDefaultCtor implements WorkJob {
 
 			final OS_Element classStatement = cd.getParent();
 			assert classStatement instanceof ClassStatement;
-			@NotNull final GeneratedConstructor gf = generateFunctions.generateConstructor(cd, (ClassStatement) classStatement, functionInvocation);
+			@NotNull final EvaConstructor gf = generateFunctions.generateConstructor(cd, (ClassStatement) classStatement, functionInvocation);
 //		lgf.add(gf);
 
 			final ClassInvocation ci = functionInvocation.getClassInvocation();
-			ci.resolvePromise().done(new DoneCallback<GeneratedClass>() {
+			ci.resolvePromise().done(new DoneCallback<EvaClass>() {
 				@Override
-				public void onDone(final @NotNull GeneratedClass result) {
+				public void onDone(final @NotNull EvaClass result) {
 					codeRegistrar.registerFunction(gf);
 					gf.setClass(result);
 					result.constructors.put(cd, gf);
@@ -82,12 +82,12 @@ public class WlGenerateDefaultCtor implements WorkJob {
 			});
 
 			functionInvocation.generateDeferred().resolve(gf);
-			functionInvocation.setGenerated(gf);
+			functionInvocation.setEva(gf);
 			Result = gf;
 		} else {
-			functionInvocation.generatePromise().then(new DoneCallback<BaseGeneratedFunction>() {
+			functionInvocation.generatePromise().then(new DoneCallback<BaseEvaFunction>() {
 				@Override
-				public void onDone(final BaseGeneratedFunction result) {
+				public void onDone(final BaseEvaFunction result) {
 					Result = result;
 				}
 			});
@@ -105,7 +105,7 @@ public class WlGenerateDefaultCtor implements WorkJob {
 		return false;
 	}
 
-	public BaseGeneratedFunction getResult() {
+	public BaseEvaFunction getResult() {
 		return Result;
 	}
 }

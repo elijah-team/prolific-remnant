@@ -16,10 +16,10 @@ import tripleo.elijah.util.*;
 /**
  * Created 12/22/20 5:39 PM
  */
-public class GeneratedNamespace extends GeneratedContainerNC implements GNCoded {
+public class EvaNamespace extends EvaContainerNC implements GNCoded {
 	private final OS_Module          module;
 	private final NamespaceStatement namespaceStatement;
-	public GeneratedNamespace(final NamespaceStatement namespace1, final OS_Module module) {
+	public EvaNamespace(final NamespaceStatement namespace1, final OS_Module module) {
 		this.namespaceStatement = namespace1;
 		this.module             = module;
 	}

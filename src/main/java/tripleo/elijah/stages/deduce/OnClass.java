@@ -14,7 +14,7 @@ import tripleo.elijah.stages.gen_fn.*;
  * Created 3/17/21 9:26 PM
  */
 public interface OnClass {
-	void classFound(GeneratedClass aGeneratedNode);
+	void classFound(EvaClass aEvaNode);
 }
 
 //

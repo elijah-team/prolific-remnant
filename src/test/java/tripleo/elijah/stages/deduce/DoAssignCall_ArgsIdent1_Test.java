@@ -43,8 +43,8 @@ public class DoAssignCall_ArgsIdent1_Test {
 		final DeduceTypes2 d = new DeduceTypes2(mod, phase);
 
 		final FunctionDef fd = mock(FunctionDef.class);
-//		final GeneratedFunction generatedFunction = mock(GeneratedFunction.class);
-		final GeneratedFunction generatedFunction = new GeneratedFunction(fd);
+//		final EvaFunction generatedFunction = mock(EvaFunction.class);
+		final EvaFunction generatedFunction = new EvaFunction(fd);
 		final TypeTableEntry    self_type         = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.SPECIFIED, new OS_UserClassType(mock(ClassStatement.class)));
 		final int               index_self        = generatedFunction.addVariableTableEntry("self", VariableTableType.SELF, self_type, null);
 		final TypeTableEntry    result_type       = null;

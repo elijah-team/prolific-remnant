@@ -27,7 +27,7 @@ public class EIT_ModuleInput implements EIT_Input {
 		return EIT_InputType.ELIJAH_SOURCE;
 	}
 
-	public void doGenerate(final List<GeneratedNode> nodes,
+	public void doGenerate(final List<EvaNode> nodes,
 	                       final ErrSink aErrSink,
 	                       final ElLog.Verbosity verbosity,
 	                       final PipelineLogic pipelineLogic,

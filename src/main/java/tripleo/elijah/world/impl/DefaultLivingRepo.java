@@ -53,7 +53,7 @@ public class DefaultLivingRepo implements LivingRepo {
 	}
 
 	@Override
-	public DefaultLivingFunction addFunction(final BaseGeneratedFunction aFunction, final Add addFlag) {
+	public DefaultLivingFunction addFunction(final BaseEvaFunction aFunction, final Add addFlag) {
 		switch (addFlag) {
 		case NONE -> {
 			aFunction.setCode(nextFunctionCode());
@@ -83,7 +83,7 @@ public class DefaultLivingRepo implements LivingRepo {
 	}
 
 	@Override
-	public DefaultLivingClass addClass(final GeneratedClass aClass, final Add addFlag) {
+	public DefaultLivingClass addClass(final EvaClass aClass, final Add addFlag) {
 		switch (addFlag) {
 		case NONE -> {
 			aClass.setCode(nextClassCode());
@@ -111,7 +111,7 @@ public class DefaultLivingRepo implements LivingRepo {
 	}
 
 	@Override
-	public void addNamespace(final GeneratedNamespace aNamespace, final Add aNone) {
+	public void addNamespace(final EvaNamespace aNamespace, final Add aNone) {
 		throw new NotImplementedException();
 	}
 }

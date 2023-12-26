@@ -14,7 +14,7 @@ public class C_HeaderString {
 		result = aResult;
 	}
 
-	public static @NotNull C_HeaderString forClass(final GeneratedClass aGeneratedClass,
+	public static @NotNull C_HeaderString forClass(final EvaClass aEvaClass,
 	                                               final @NotNull Supplier<String> classNameSupplier,
 	                                               final String return_type,
 	                                               final String name,
@@ -39,7 +39,7 @@ public class C_HeaderString {
 	}
 
 	@Contract("_, _, _, _, _, _ -> new")
-	public static @NotNull C_HeaderString forNamespace(final @NotNull GeneratedNamespace st,
+	public static @NotNull C_HeaderString forNamespace(final @NotNull EvaNamespace st,
 	                                                   final java.util.function.@NotNull Supplier<String> classNameSupplier,
 	                                                   final String return_type,
 	                                                   final String name,
@@ -61,7 +61,7 @@ public class C_HeaderString {
 	}
 
 	@Contract("_, _, _, _ -> new")
-	public static @NotNull C_HeaderString forOther(final GeneratedContainerNC aParent,
+	public static @NotNull C_HeaderString forOther(final EvaContainerNC aParent,
 	                                               final String return_type,
 	                                               final String name,
 	                                               final String args_string) {

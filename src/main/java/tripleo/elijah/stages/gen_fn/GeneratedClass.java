@@ -21,15 +21,15 @@ import java.util.*;
 /**
  * Created 10/29/20 4:26 AM
  */
-public class GeneratedClass extends GeneratedContainerNC implements GNCoded {
-	public final  Map<ConstructorDef, GeneratedConstructor> constructors                      = new HashMap<ConstructorDef, GeneratedConstructor>();
+public class EvaClass extends EvaContainerNC implements GNCoded {
+	public final  Map<ConstructorDef, EvaConstructor> constructors                      = new HashMap<ConstructorDef, EvaConstructor>();
 	private final OS_Module                                 module;
 	private final ClassStatement                            klass;
 	public        ClassInvocation                           ci;
 	public        LivingClass                               _living;
 	private       boolean                                   resolve_var_table_entries_already = false;
 
-	public GeneratedClass(final ClassStatement klass, final OS_Module module) {
+	public EvaClass(final ClassStatement klass, final OS_Module module) {
 		this.klass  = klass;
 		this.module = module;
 	}
@@ -67,8 +67,8 @@ public class GeneratedClass extends GeneratedContainerNC implements GNCoded {
 		return false;
 	}
 
-	public void addConstructor(final ConstructorDef aConstructorDef, @NotNull final GeneratedConstructor aGeneratedFunction) {
-		constructors.put(aConstructorDef, aGeneratedFunction);
+	public void addConstructor(final ConstructorDef aConstructorDef, @NotNull final EvaConstructor aEvaFunction) {
+		constructors.put(aConstructorDef, aEvaFunction);
 	}
 
 	public boolean resolve_var_table_entries(final @NotNull DeducePhase aDeducePhase) {
@@ -193,7 +193,7 @@ public class GeneratedClass extends GeneratedContainerNC implements GNCoded {
 		for (final VarTableEntry varTableEntry : varTable) {
 			varTableEntry.updatePotentialTypesCB = new VarTableEntry.UpdatePotentialTypesCB() {
 				@Override
-				public void call(final @NotNull GeneratedContainer aGeneratedContainer) {
+				public void call(final @NotNull EvaContainer aEvaContainer) {
 					final List<GenType> potentialTypes = getPotentialTypes();
 					//
 
@@ -225,7 +225,7 @@ public class GeneratedClass extends GeneratedContainerNC implements GNCoded {
 								try {
 									final @NotNull GenType genType = aDeduceTypes2.resolve_type(t, t.getTypeName().getContext());
 									if (genType.resolved instanceof OS_GenericTypeNameType) {
-										final ClassInvocation xxci = ((GeneratedClass) aGeneratedContainer).ci;
+										final ClassInvocation xxci = ((EvaClass) aEvaContainer).ci;
 //											xxxci = ci;
 										for (final Map.@NotNull Entry<TypeName, OS_Type> entry : xxci.genericPart.entrySet()) {
 											if (entry.getKey().equals(t.getTypeName())) {
@@ -291,7 +291,7 @@ public class GeneratedClass extends GeneratedContainerNC implements GNCoded {
 	}
 
 	public String toString() {
-		return String.format("<GeneratedClass %d %s>", getCode(), getName()); // TODO package, full-name
+		return String.format("<EvaClass %d %s>", getCode(), getName()); // TODO package, full-name
 	}
 
 	@NotNull

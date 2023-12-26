@@ -30,15 +30,15 @@ class DeduceType3 implements DED {
 	}
 
 //	public static IDeduceElement3 dispatch(final @NotNull IdentTableEntry aIdentTableEntry) {
-//		return aIdentTableEntry.getDeduceElement3(null/*aDeduceTypes2*/, null/*aGeneratedFunction*/);
+//		return aIdentTableEntry.getDeduceElement3(null/*aDeduceTypes2*/, null/*aEvaFunction*/);
 //	}
 
 //	public static IDeduceElement3 dispatch(final @NotNull ConstantTableEntry aConstantTableEntry) {
 //		return aConstantTableEntry.getDeduceElement3();
 //	}
 
-	public static IDeduceElement3 dispatch(final IdentTableEntry aIdentTableEntry, final DeduceTypes2 aDeduceTypes2, final BaseGeneratedFunction aGeneratedFunction) {
-		return aIdentTableEntry.getDeduceElement3(aDeduceTypes2, aGeneratedFunction);
+	public static IDeduceElement3 dispatch(final IdentTableEntry aIdentTableEntry, final DeduceTypes2 aDeduceTypes2, final BaseEvaFunction aEvaFunction) {
+		return aIdentTableEntry.getDeduceElement3(aDeduceTypes2, aEvaFunction);
 	}
 
 	@Override

@@ -13,11 +13,11 @@ public interface LivingRepo {
 
 	OS_Package getPackage(String aPackageName);
 
-	DefaultLivingFunction addFunction(BaseGeneratedFunction aFunction, Add aMainFunction);
+	DefaultLivingFunction addFunction(BaseEvaFunction aFunction, Add aMainFunction);
 
-	DefaultLivingClass addClass(GeneratedClass aClass, Add aMainClass);
+	DefaultLivingClass addClass(EvaClass aClass, Add aMainClass);
 
-	void addNamespace(GeneratedNamespace aNamespace, Add aNone);
+	void addNamespace(EvaNamespace aNamespace, Add aNone);
 
 	enum Add {NONE, MAIN_FUNCTION, MAIN_CLASS}
 }

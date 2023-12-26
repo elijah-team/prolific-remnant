@@ -210,7 +210,7 @@ public interface PostBC_Processor {
 						return null;
 					}
        
-					public GeneratedFunction generatedFunction() {
+					public EvaFunction generatedFunction() {
 						return null;
 					}
        

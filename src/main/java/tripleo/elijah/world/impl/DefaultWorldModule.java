@@ -8,7 +8,7 @@ import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.world.i.*;
 
 public class DefaultWorldModule implements WorldModule {
-	final Eventual<DeducePhase.GeneratedClasses> _p_GeneratedClasses = new Eventual<>();
+	final Eventual<DeducePhase.EvaClasses> _p_EvaClasses = new Eventual<>();
 //	private       ModuleThing thing;
 
 //	@Getter
@@ -46,8 +46,8 @@ public class DefaultWorldModule implements WorldModule {
 //	}
 
 	@Override
-	public Eventual<DeducePhase.GeneratedClasses> getEventual() {
-		return _p_GeneratedClasses;
+	public Eventual<DeducePhase.EvaClasses> getEventual() {
+		return _p_EvaClasses;
 	}
 
 //	public void setRq(final GN_PL_Run2.GenerateFunctionsRequest aRq) {

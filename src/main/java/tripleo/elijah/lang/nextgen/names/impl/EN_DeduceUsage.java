@@ -1,7 +1,7 @@
 package tripleo.elijah.lang.nextgen.names.impl;
 
 import tripleo.elijah.lang.nextgen.names.i.EN_Usage;
-import tripleo.elijah.stages.gen_fn.BaseGeneratedFunction;
+import tripleo.elijah.stages.gen_fn.BaseEvaFunction;
 import tripleo.elijah.stages.gen_fn.BaseTableEntry;
 import tripleo.elijah.stages.instructions.InstructionArgument;
 

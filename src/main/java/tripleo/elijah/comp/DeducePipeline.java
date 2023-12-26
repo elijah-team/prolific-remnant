@@ -46,7 +46,7 @@ public class DeducePipeline implements PipelineMember, AccessBus.AB_ModuleListLi
 		tripleo.elijah.util.Stupidity.println_err2("ms1.size() == " + ms1.size());
 */
 
-		final List<GeneratedNode> lgc = pipelineLogic.generatedClassesCopy();
+		final List<EvaNode> lgc = pipelineLogic.generatedClassesCopy();
 
 		resolveMods();
 
@@ -57,15 +57,15 @@ public class DeducePipeline implements PipelineMember, AccessBus.AB_ModuleListLi
 		                                                    pipelineLogic))
 		                                                  .collect(Collectors.toList());
 
-		final List<DeducePhase.GeneratedClasses> lgc2 = run2_work.stream()
+		final List<DeducePhase.EvaClasses> lgc2 = run2_work.stream()
 		                                                         .map(PL_Run2::run2)
 		                                                         .collect(Collectors.toList());
 
-		final ArrayList<GeneratedNode> lgc3 = new ArrayList<>();
+		final ArrayList<EvaNode> lgc3 = new ArrayList<>();
 
 		// TODO how to do this with streams
-		for (final DeducePhase.GeneratedClasses generatedClasses : lgc2) {
-			for (final GeneratedNode generatedClass : generatedClasses) {
+		for (final DeducePhase.EvaClasses generatedClasses : lgc2) {
+			for (final EvaNode generatedClass : generatedClasses) {
 				lgc3.add(generatedClass);
 			}
 		}
@@ -100,14 +100,14 @@ public class DeducePipeline implements PipelineMember, AccessBus.AB_ModuleListLi
 			this.pipelineLogic = pipelineLogic;
 		}
 
-		protected DeducePhase.@NotNull GeneratedClasses run2() {
+		protected DeducePhase.@NotNull EvaClasses run2() {
 			final GenerateFunctions gfm         = mapper.apply(mod);
 			final DeducePhase       deducePhase = pipelineLogic.dp;
 
 			gfm.generateFromEntryPoints(entryPoints, deducePhase);
 
-			final List<GeneratedNode>          lgc            = pipelineLogic.generatedClassesCopy();
-			@NotNull final List<GeneratedNode> resolved_nodes = new ArrayList<GeneratedNode>();
+			final List<EvaNode>          lgc            = pipelineLogic.generatedClassesCopy();
+			@NotNull final List<EvaNode> resolved_nodes = new ArrayList<EvaNode>();
 
 			final Coder coder = new Coder(deducePhase.codeRegistrar);
 
@@ -119,13 +119,13 @@ public class DeducePipeline implements PipelineMember, AccessBus.AB_ModuleListLi
 
 //			PipelineLogic.resolveCheck(lgc);
 
-//		for (final GeneratedNode gn : lgf) {
-//			if (gn instanceof GeneratedFunction) {
-//				GeneratedFunction gf = (GeneratedFunction) gn;
+//		for (final EvaNode gn : lgf) {
+//			if (gn instanceof EvaFunction) {
+//				EvaFunction gf = (EvaFunction) gn;
 //				tripleo.elijah.util.Stupidity.println2("----------------------------------------------------------");
 //				tripleo.elijah.util.Stupidity.println2(gf.name());
 //				tripleo.elijah.util.Stupidity.println2("----------------------------------------------------------");
-//				GeneratedFunction.printTables(gf);
+//				EvaFunction.printTables(gf);
 //				tripleo.elijah.util.Stupidity.println2("----------------------------------------------------------");
 //			}
 //		}

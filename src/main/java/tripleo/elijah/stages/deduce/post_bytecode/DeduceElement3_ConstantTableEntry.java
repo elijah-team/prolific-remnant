@@ -12,7 +12,7 @@ import tripleo.elijah.util.*;
 public class DeduceElement3_ConstantTableEntry implements IDeduceElement3 {
 
 	private final ConstantTableEntry    principal;
-	public        BaseGeneratedFunction generatedFunction;
+	public        BaseEvaFunction generatedFunction;
 	public        DeduceTypes2          deduceTypes2;
 	public        IDeduceElement3       deduceElement3;
 	public        OS_Type               osType;
@@ -54,7 +54,7 @@ public class DeduceElement3_ConstantTableEntry implements IDeduceElement3 {
 	}
 
 	@Override
-	public BaseGeneratedFunction generatedFunction() {
+	public BaseEvaFunction generatedFunction() {
 		return generatedFunction;
 	}
 

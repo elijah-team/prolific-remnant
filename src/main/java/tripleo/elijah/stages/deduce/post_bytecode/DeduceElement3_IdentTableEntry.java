@@ -13,7 +13,7 @@ import tripleo.elijah.util.*;
 public class DeduceElement3_IdentTableEntry extends DefaultStateful implements IDeduceElement3 {
 
 	public final IdentTableEntry       principal;
-	public       BaseGeneratedFunction generatedFunction;
+	public       BaseEvaFunction generatedFunction;
 	public       DeduceTypes2          deduceTypes2;
 	private      GenType               genType;
 	private      Context               fdCtx;
@@ -55,7 +55,7 @@ public class DeduceElement3_IdentTableEntry extends DefaultStateful implements I
 	}
 
 	@Override
-	public BaseGeneratedFunction generatedFunction() {
+	public BaseEvaFunction generatedFunction() {
 		return generatedFunction;
 	}
 
@@ -101,7 +101,7 @@ public class DeduceElement3_IdentTableEntry extends DefaultStateful implements I
 			public void apply(final DefaultStateful element) {
 				final DeduceElement3_IdentTableEntry ite_de             = ((DeduceElement3_IdentTableEntry) element);
 				final IdentTableEntry                ite                = ite_de.principal;
-				final BaseGeneratedFunction          generatedFunction1 = ite_de.generatedFunction();
+				final BaseEvaFunction          generatedFunction1 = ite_de.generatedFunction();
 				final DeduceTypes2                   dt2                = ite_de.deduceTypes2;
 				final DeducePhase                    phase1             = ite_de.deduceTypes2._phase();
 
@@ -112,7 +112,7 @@ public class DeduceElement3_IdentTableEntry extends DefaultStateful implements I
 			}
 
 			public void assign_type_to_idte(@NotNull final IdentTableEntry ite,
-			                                @NotNull final BaseGeneratedFunction generatedFunction,
+			                                @NotNull final BaseEvaFunction generatedFunction,
 			                                @NotNull final Context aFunctionContext,
 			                                @NotNull final Context aContext,
 			                                @NotNull final DeduceTypes2 dt2,

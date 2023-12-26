@@ -28,7 +28,7 @@ public class GenType {
 	public TypeName           nonGenericTypeName;
 	public OS_Type            resolved;
 	public IInvocation        ci;
-	public GeneratedNode      node;
+	public EvaNode      node;
 	public FunctionInvocation functionInvocation;
 
 	@Contract(pure = true)
@@ -142,16 +142,16 @@ public class GenType {
 		genCI(nonGenericTypeName, aDeduceTypes2, aDeduceTypes2._errSink(), aDeduceTypes2._phase());
 		final IInvocation invocation = ci;
 		if (invocation instanceof final NamespaceInvocation namespaceInvocation) {
-			namespaceInvocation.resolveDeferred().then(new DoneCallback<GeneratedNamespace>() {
+			namespaceInvocation.resolveDeferred().then(new DoneCallback<EvaNamespace>() {
 				@Override
-				public void onDone(final GeneratedNamespace result) {
+				public void onDone(final EvaNamespace result) {
 					node = result;
 				}
 			});
 		} else if (invocation instanceof final ClassInvocation classInvocation) {
-			classInvocation.resolvePromise().then(new DoneCallback<GeneratedClass>() {
+			classInvocation.resolvePromise().then(new DoneCallback<EvaClass>() {
 				@Override
-				public void onDone(final GeneratedClass result) {
+				public void onDone(final EvaClass result) {
 					node = result;
 				}
 			});
@@ -177,16 +177,16 @@ public class GenType {
 		final IInvocation invocation = ci;
 
 		if (invocation instanceof final NamespaceInvocation namespaceInvocation) {
-			namespaceInvocation.resolveDeferred().then(new DoneCallback<GeneratedNamespace>() {
+			namespaceInvocation.resolveDeferred().then(new DoneCallback<EvaNamespace>() {
 				@Override
-				public void onDone(final GeneratedNamespace result) {
+				public void onDone(final EvaNamespace result) {
 					node = result;
 				}
 			});
 		} else if (invocation instanceof final ClassInvocation classInvocation) {
-			classInvocation.resolvePromise().then(new DoneCallback<GeneratedClass>() {
+			classInvocation.resolvePromise().then(new DoneCallback<EvaClass>() {
 				@Override
-				public void onDone(final GeneratedClass result) {
+				public void onDone(final EvaClass result) {
 					node = result;
 				}
 			});

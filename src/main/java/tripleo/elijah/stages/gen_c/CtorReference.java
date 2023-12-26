@@ -26,9 +26,9 @@ public class CtorReference {
 	final   List<CReference.Reference> refs     = new ArrayList<CReference.Reference>();
 	private String                     ctorName = "";
 	private List<String>               args;
-	private GeneratedNode              _resolved;
+	private EvaNode              _resolved;
 
-	public void getConstructorPath(final InstructionArgument ia2, final BaseGeneratedFunction gf) {
+	public void getConstructorPath(final InstructionArgument ia2, final BaseEvaFunction gf) {
 		final List<InstructionArgument> s = CReference._getIdentIAPathList(ia2);
 
 		for (int i = 0, sSize = s.size(); i < sSize; i++) {
@@ -38,7 +38,7 @@ public class CtorReference {
 				assert i == 0;
 				final VariableTableEntry vte = gf.getVarTableEntry(to_int(ia));
 				if (sSize == 1) {
-					final GeneratedNode resolved = vte.type.resolved();
+					final EvaNode resolved = vte.type.resolved();
 					if (resolved != null) {
 						_resolved = resolved;
 					} else {
@@ -149,7 +149,7 @@ public class CtorReference {
 			// Assuming constructor call
 			final int code;
 			if (_resolved != null) {
-				code = ((GeneratedContainerNC) _resolved).getCode();
+				code = ((EvaContainerNC) _resolved).getCode();
 			} else {
 				code = aClsinv.getKlass()._a.getCode(); // TODO this will either always be 0 or irrelevant
 			}

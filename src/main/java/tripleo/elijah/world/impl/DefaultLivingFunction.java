@@ -6,14 +6,14 @@ import tripleo.elijah.world.i.*;
 
 public class DefaultLivingFunction implements LivingFunction {
 	private final BaseFunctionDef       _element;
-	private final BaseGeneratedFunction _gf;
+	private final BaseEvaFunction _gf;
 
 	public DefaultLivingFunction(final BaseFunctionDef aElement) {
 		_element = aElement;
 		_gf      = null;
 	}
 
-	public DefaultLivingFunction(final BaseGeneratedFunction aFunction) {
+	public DefaultLivingFunction(final BaseEvaFunction aFunction) {
 		_element = aFunction.getFD();
 		_gf      = aFunction;
 	}

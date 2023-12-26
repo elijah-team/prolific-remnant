@@ -37,13 +37,13 @@ public class IdentTableEntry extends BaseTableEntry1 implements Constructable, T
 	private final DeferredObject<GenType, Void, Void> fefiDone = new DeferredObject<GenType, Void, Void>();
 	public                boolean                                         preUpdateStatusListenerAdded;
 	public                TypeTableEntry                                  type;
-	public                GeneratedNode                                   externalRef;
+	public                EvaNode                                   externalRef;
 	public                boolean                                         fefi                  = false;
 	public                ProcTableEntry                                  constructable_pte;
 	public                DeduceTypes2.PromiseExpectation<String>         resolveExpectation;
 	InstructionArgument backlink;
 	boolean             insideGetResolvedElement = false;
-	private GeneratedNode                  resolvedType;
+	private EvaNode                  resolvedType;
 	private DeduceElement3_IdentTableEntry _de3;
 	private ITE_Zero                       _zero;
 
@@ -97,7 +97,7 @@ public class IdentTableEntry extends BaseTableEntry1 implements Constructable, T
 		return resolvedType != null;
 	}
 
-	public GeneratedNode resolvedType() {
+	public EvaNode resolvedType() {
 		return resolvedType;
 	}
 
@@ -143,7 +143,7 @@ public class IdentTableEntry extends BaseTableEntry1 implements Constructable, T
 	// region constructable
 
 	@Override
-	public void resolveTypeToClass(final GeneratedNode gn) {
+	public void resolveTypeToClass(final EvaNode gn) {
 		resolvedType = gn;
 		if (type != null) // TODO maybe find a more robust solution to this, like another Promise? or just setType? or onPossiblesResolve?
 			type.resolve(gn); // TODO maybe this obviates the above?
@@ -164,7 +164,7 @@ public class IdentTableEntry extends BaseTableEntry1 implements Constructable, T
 		return constructableDeferred.promise();
 	}
 
-	public void setGenType(final GenType genType, final BaseGeneratedFunction gf) {
+	public void setGenType(final GenType genType, final BaseEvaFunction gf) {
 		if (type == null) {
 			makeType(gf, TypeTableEntry.Type.SPECIFIED, genType.resolved);
 		}
@@ -174,20 +174,20 @@ public class IdentTableEntry extends BaseTableEntry1 implements Constructable, T
 
 	// endregion constructable
 
-	public void makeType(final BaseGeneratedFunction aGeneratedFunction, final TypeTableEntry.Type aType, final OS_Type aOS_Type) {
-		type = aGeneratedFunction.newTypeTableEntry(aType, aOS_Type, getIdent(), this);
+	public void makeType(final BaseEvaFunction aEvaFunction, final TypeTableEntry.Type aType, final OS_Type aOS_Type) {
+		type = aEvaFunction.newTypeTableEntry(aType, aOS_Type, getIdent(), this);
 	}
 
 	public IdentExpression getIdent() {
 		return ident;
 	}
 
-	public void setDeduceTypes2(final @NotNull DeduceTypes2 aDeduceTypes2, final Context aContext, final @NotNull BaseGeneratedFunction aGeneratedFunction) {
-		dei.setDeduceTypes2(aDeduceTypes2, aContext, aGeneratedFunction);
+	public void setDeduceTypes2(final @NotNull DeduceTypes2 aDeduceTypes2, final Context aContext, final @NotNull BaseEvaFunction aEvaFunction) {
+		dei.setDeduceTypes2(aDeduceTypes2, aContext, aEvaFunction);
 	}
 
-	public DeducePath buildDeducePath(final BaseGeneratedFunction generatedFunction) {
-		@NotNull final List<InstructionArgument> x = BaseGeneratedFunction._getIdentIAPathList(new IdentIA(index, generatedFunction));
+	public DeducePath buildDeducePath(final BaseEvaFunction generatedFunction) {
+		@NotNull final List<InstructionArgument> x = BaseEvaFunction._getIdentIAPathList(new IdentIA(index, generatedFunction));
 		return new DeducePath(this, x);
 	}
 
@@ -226,15 +226,15 @@ public class IdentTableEntry extends BaseTableEntry1 implements Constructable, T
 		backlinkSet.resolve(backlink);
 	}
 
-	public void makeType(final BaseGeneratedFunction aGeneratedFunction, final TypeTableEntry.Type aType, final IExpression aExpression) {
-		type = aGeneratedFunction.newTypeTableEntry(aType, null, aExpression, this);
+	public void makeType(final BaseEvaFunction aEvaFunction, final TypeTableEntry.Type aType, final IExpression aExpression) {
+		type = aEvaFunction.newTypeTableEntry(aType, null, aExpression, this);
 	}
 
-	public IDeduceElement3 getDeduceElement3(final DeduceTypes2 aDeduceTypes2, final BaseGeneratedFunction aGeneratedFunction) {
+	public IDeduceElement3 getDeduceElement3(final DeduceTypes2 aDeduceTypes2, final BaseEvaFunction aEvaFunction) {
 		if (_de3 == null) {
 			_de3                   = new DeduceElement3_IdentTableEntry(this);
 			_de3.deduceTypes2      = aDeduceTypes2;
-			_de3.generatedFunction = aGeneratedFunction;
+			_de3.generatedFunction = aEvaFunction;
 		}
 		return _de3;
 	}

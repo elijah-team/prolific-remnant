@@ -13,15 +13,15 @@ import java.util.*;
 class Implement_construct {
 
 	private final DeduceTypes2          deduceTypes2;
-	private final BaseGeneratedFunction generatedFunction;
+	private final BaseEvaFunction generatedFunction;
 	private final Instruction           instruction;
 	private final InstructionArgument   expression;
 
 	private final @NotNull ProcTableEntry pte;
 
-	public Implement_construct(final DeduceTypes2 aDeduceTypes2, final BaseGeneratedFunction aGeneratedFunction, final Instruction aInstruction) {
+	public Implement_construct(final DeduceTypes2 aDeduceTypes2, final BaseEvaFunction aEvaFunction, final Instruction aInstruction) {
 		deduceTypes2      = aDeduceTypes2;
-		generatedFunction = aGeneratedFunction;
+		generatedFunction = aEvaFunction;
 		instruction       = aInstruction;
 
 		// README all these asserts are redundant, I know
@@ -134,9 +134,9 @@ class Implement_construct {
 			co.setConstructable(pte);
 			final ClassInvocation best = pte.getClassInvocation();
 			assert best != null;
-			best.resolvePromise().done(new DoneCallback<GeneratedClass>() {
+			best.resolvePromise().done(new DoneCallback<EvaClass>() {
 				@Override
-				public void onDone(final GeneratedClass result) {
+				public void onDone(final EvaClass result) {
 					co.resolveTypeToClass(result);
 				}
 			});
@@ -168,17 +168,17 @@ class Implement_construct {
 		if (co != null) {
 			if (co instanceof final @Nullable IdentTableEntry idte3) {
 				idte3.type.genTypeCI(clsinv);
-				clsinv.resolvePromise().then(new DoneCallback<GeneratedClass>() {
+				clsinv.resolvePromise().then(new DoneCallback<EvaClass>() {
 					@Override
-					public void onDone(final GeneratedClass result) {
+					public void onDone(final EvaClass result) {
 						idte3.resolveTypeToClass(result);
 					}
 				});
 			} else if (co instanceof final @NotNull VariableTableEntry vte) {
 				vte.type.genTypeCI(clsinv);
-				clsinv.resolvePromise().then(new DoneCallback<GeneratedClass>() {
+				clsinv.resolvePromise().then(new DoneCallback<EvaClass>() {
 					@Override
-					public void onDone(final GeneratedClass result) {
+					public void onDone(final EvaClass result) {
 						vte.resolveTypeToClass(result);
 					}
 				});

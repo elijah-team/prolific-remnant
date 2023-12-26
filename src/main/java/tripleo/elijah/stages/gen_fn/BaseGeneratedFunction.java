@@ -27,7 +27,7 @@ import static tripleo.elijah.stages.deduce.DeduceTypes2.*;
 /**
  * Created 9/10/20 2:57 PM
  */
-public abstract class BaseGeneratedFunction extends AbstractDependencyTracker implements GeneratedNode, DeduceTypes2.ExpectationBase, IDependencyReferent {
+public abstract class BaseEvaFunction extends AbstractDependencyTracker implements EvaNode, DeduceTypes2.ExpectationBase, IDependencyReferent {
 	public final @NotNull List<Instruction>              instructionsList  = new ArrayList<Instruction>();
 	public final @NotNull List<Integer>                  deferred_calls    = new ArrayList<Integer>();
 	public final @NotNull List<ConstantTableEntry>       cte_list          = new ArrayList<ConstantTableEntry>();
@@ -38,7 +38,7 @@ public abstract class BaseGeneratedFunction extends AbstractDependencyTracker im
 	final                 Map<OS_Element, DeduceElement> elements          = new HashMap<OS_Element, DeduceElement>();
 	private final         List<Label>                    labelList         = new ArrayList<Label>();
 	private final         Dependency                     dependency        = new Dependency(this);
-	private final DeferredObject<GeneratedClass, Void, Void> _gcP = new DeferredObject<>();
+	private final DeferredObject<EvaClass, Void, Void> _gcP = new DeferredObject<>();
 	private final DeferredObject<GenType, Void, Void> typeDeferred = new DeferredObject<GenType, Void, Void>();
 	public                boolean                        deducedAlready;
 	public                FunctionInvocation             fi;
@@ -51,7 +51,7 @@ public abstract class BaseGeneratedFunction extends AbstractDependencyTracker im
 	// region Ident-IA
 	//
 	private               int                            _nextTemp         = 0;
-	private               GeneratedContainerNC           parent;
+	private               EvaContainerNC           parent;
 
 
 	// endregion
@@ -59,9 +59,9 @@ public abstract class BaseGeneratedFunction extends AbstractDependencyTracker im
 	//
 	// region INSTRUCTIONS
 	//
-	private       GeneratedNode                              genClass;
+	private       EvaNode                              genClass;
 
-	public static void printTables(final GeneratedFunction gf) {
+	public static void printTables(final EvaFunction gf) {
 		SimplePrintLoggerToRemoveSoon.println_out("VariableTable ");
 		for (final VariableTableEntry variableTableEntry : gf.vte_list) {
 			SimplePrintLoggerToRemoveSoon.println_out("\t" + variableTableEntry);
@@ -112,9 +112,9 @@ public abstract class BaseGeneratedFunction extends AbstractDependencyTracker im
 	/**
 	 * Returns a string that represents the path encoded by ia2.
 	 * Does not transform the string into target language (ie C).
-	 * Called from {@link DeduceTypes2#do_assign_call(BaseGeneratedFunction, Context, IdentTableEntry, FnCallArgs, int)}
-	 * or {@link DeduceTypes2#deduce_generated_function(GeneratedFunction)}
-	 * or {@link DeduceTypes2#resolveIdentIA_(Context, IdentIA, BaseGeneratedFunction, FoundElement)}
+	 * Called from {@link DeduceTypes2#do_assign_call(BaseEvaFunction, Context, IdentTableEntry, FnCallArgs, int)}
+	 * or {@link DeduceTypes2#deduce_generated_function(EvaFunction)}
+	 * or {@link DeduceTypes2#resolveIdentIA_(Context, IdentIA, BaseEvaFunction, FoundElement)}
 	 *
 	 * @param ia2 the path
 	 * @return a string that represents the path encoded by ia2
@@ -418,22 +418,22 @@ public abstract class BaseGeneratedFunction extends AbstractDependencyTracker im
 		code = aCode;
 	}
 
-	public GeneratedContainerNC getParent() {
+	public EvaContainerNC getParent() {
 		return parent;
 	}
 
-	public void setParent(final GeneratedContainerNC aGeneratedContainerNC) {
-		parent = aGeneratedContainerNC;
+	public void setParent(final EvaContainerNC aEvaContainerNC) {
+		parent = aEvaContainerNC;
 	}
 
-	public GeneratedNode getGenClass() {
+	public EvaNode getGenClass() {
 		return genClass;
 	}
 
 	// endregion
 
 	/*
-	 * Hook in for GeneratedClass
+	 * Hook in for EvaClass
 	 */
 	public void onGenClass(final OnGenClass aOnGenClass) {
 		_gcP.then(aOnGenClass::accept);
@@ -445,13 +445,13 @@ public abstract class BaseGeneratedFunction extends AbstractDependencyTracker im
 //		return typeDeferred.promise();
 //	}
 
-	public void setClass(@NotNull final GeneratedNode aNode) {
-		assert aNode instanceof GeneratedClass || aNode instanceof GeneratedNamespace;
+	public void setClass(@NotNull final EvaNode aNode) {
+		assert aNode instanceof EvaClass || aNode instanceof EvaNamespace;
 		genClass = aNode;
 
-		if (aNode instanceof GeneratedClass) {
-			_gcP.resolve((GeneratedClass) aNode);
-		} else if (aNode instanceof GeneratedNamespace) {
+		if (aNode instanceof EvaClass) {
+			_gcP.resolve((EvaClass) aNode);
+		} else if (aNode instanceof EvaNamespace) {
 			final int y = 2; // TODO
 		} else
 			throw new RuntimeException("not implemented");
@@ -490,7 +490,7 @@ public abstract class BaseGeneratedFunction extends AbstractDependencyTracker im
 
 	public String getFunctionName() {
 		// TODO change to abstract with override??
-		if (this instanceof GeneratedConstructor) {
+		if (this instanceof EvaConstructor) {
 			final int             y               = 2;
 			final IdentExpression constructorName = this.getFD().getNameNode();
 			final String          constructorNameText;

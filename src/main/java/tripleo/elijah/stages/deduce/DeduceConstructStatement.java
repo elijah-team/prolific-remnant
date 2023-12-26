@@ -20,15 +20,15 @@ import java.util.*;
  * Created 12/11/21 9:27 PM
  */
 public class DeduceConstructStatement implements DeduceElement {
-	private final BaseGeneratedFunction     generatedFunction;
+	private final BaseEvaFunction     generatedFunction;
 	private final ConstructStatement        constructStatement;
 	public        boolean                   toEvaluateTarget;
 	public        InstructionArgument       target;
 	public        List<InstructionArgument> args;
 	public        ProcIA                    call;
 
-	public DeduceConstructStatement(final @NotNull BaseGeneratedFunction aGeneratedFunction, final ConstructStatement aConstructStatement) {
-		generatedFunction  = aGeneratedFunction;
+	public DeduceConstructStatement(final @NotNull BaseEvaFunction aEvaFunction, final ConstructStatement aConstructStatement) {
+		generatedFunction  = aEvaFunction;
 		constructStatement = aConstructStatement;
 	}
 

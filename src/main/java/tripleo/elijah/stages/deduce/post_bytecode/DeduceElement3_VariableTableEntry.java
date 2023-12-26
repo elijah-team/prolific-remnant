@@ -30,7 +30,7 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
 
 	private final State                 st;
 	private       DeduceTypes2          deduceTypes2;
-	private       BaseGeneratedFunction generatedFunction;
+	private       BaseEvaFunction generatedFunction;
 	private       GenType               genType;
 
 	@Contract(pure = true)
@@ -40,11 +40,11 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
 	}
 
 	DeduceElement3_VariableTableEntry(final OS_Type vte_type_attached) {
-		throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+		throw new UnsupportedOperationException("Not supported yet."); // Eva from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/EvaMethodBody
 	}
 
 	@NotNull
-	private static ArrayList<TypeTableEntry> getPotentialTypesVte(@NotNull final GeneratedFunction generatedFunction, @NotNull final InstructionArgument vte_index) {
+	private static ArrayList<TypeTableEntry> getPotentialTypesVte(@NotNull final EvaFunction generatedFunction, @NotNull final InstructionArgument vte_index) {
 		return getPotentialTypesVte(generatedFunction.getVarTableEntry(to_int(vte_index)));
 	}
 
@@ -79,7 +79,7 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
 	}
 
 	@Override
-	public BaseGeneratedFunction generatedFunction() {
+	public BaseEvaFunction generatedFunction() {
 		return generatedFunction;
 	}
 
@@ -93,7 +93,7 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
 		return DeduceElement3_Kind.GEN_FN__VTE;
 	}
 
-	public Operation2<OS_Type> decl_test_001(final BaseGeneratedFunction gf) {
+	public Operation2<OS_Type> decl_test_001(final BaseEvaFunction gf) {
 		final VariableTableEntry vte = principal;
 
 		final OS_Type x = vte.type.getAttached();
@@ -144,13 +144,13 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
 		return Operation2.success(x);
 	}
 
-	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2, final BaseGeneratedFunction aGeneratedFunction) {
+	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2, final BaseEvaFunction aEvaFunction) {
 		deduceTypes2      = aDeduceTypes2;
-		generatedFunction = aGeneratedFunction;
+		generatedFunction = aEvaFunction;
 	}
 
 	public void potentialTypesRunnableDo(final @Nullable InstructionArgument vte_ia, final @NotNull ElLog aLOG, final @NotNull VariableTableEntry aVte1, final ErrSink errSink, final Context ctx, final String aE_text, final @NotNull VariableTableEntry aVte) {
-		final @NotNull List<TypeTableEntry> ll = getPotentialTypesVte((GeneratedFunction) generatedFunction, vte_ia);
+		final @NotNull List<TypeTableEntry> ll = getPotentialTypesVte((EvaFunction) generatedFunction, vte_ia);
 		doLogic(ll, aVte1.typePromise(), aLOG, aVte1, errSink, ctx, aE_text, aVte);
 	}
 
@@ -335,7 +335,7 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
 			fi = new FunctionInvocation(null, pte, ci, phase.generatePhase);
 			p  = new ImmutablePair<ClassInvocation, FunctionInvocation>(ci, fi);
 		} else if (resolvedElement instanceof final FunctionDef functionDef) {
-			final IInvocation invocation = dc.getInvocation((GeneratedFunction) generatedFunction);
+			final IInvocation invocation = dc.getInvocation((EvaFunction) generatedFunction);
 			fi = new FunctionInvocation(functionDef, pte, invocation, phase.generatePhase);
 			if (functionDef.getParent() instanceof ClassStatement) {
 				final ClassStatement classStatement = (ClassStatement) fi.getFunction().getParent();
@@ -477,10 +477,10 @@ public class DeduceElement3_VariableTableEntry extends DefaultStateful implement
 
 	private static class Diagnostic_8884 implements GCFM_Diagnostic {
 		private final VariableTableEntry    vte;
-		private final BaseGeneratedFunction gf;
+		private final BaseEvaFunction gf;
 		private final int                   _code = 8884;
 
-		public Diagnostic_8884(final VariableTableEntry aVte, final BaseGeneratedFunction aGf) {
+		public Diagnostic_8884(final VariableTableEntry aVte, final BaseEvaFunction aGf) {
 			vte = aVte;
 			gf  = aGf;
 		}

@@ -39,7 +39,7 @@ public class EIT_ModuleList {
 			final GenerateFunctions gfm = ggf.apply(mod);
 
 			final DeducePhase deducePhase = pipelineLogic.dp;
-			//final DeducePhase.@NotNull GeneratedClasses lgc            = deducePhase.generatedClasses;
+			//final DeducePhase.@NotNull EvaClasses lgc            = deducePhase.generatedClasses;
 
 			final _ProcessParams plp = new _ProcessParams(mod, pipelineLogic, gfm, epl, deducePhase);
 
@@ -48,10 +48,10 @@ public class EIT_ModuleList {
 	}
 
 	private void __process__PL__each(final @NotNull _ProcessParams plp) {
-		final List<GeneratedNode> resolved_nodes = new ArrayList<GeneratedNode>();
+		final List<EvaNode> resolved_nodes = new ArrayList<EvaNode>();
 
 		final OS_Module                    mod = plp.getMod();
-		final DeducePhase.GeneratedClasses lgc = plp.getLgc();
+		final DeducePhase.EvaClasses lgc = plp.getLgc();
 
 		// assert lgc.size() == 0;
 
@@ -68,7 +68,7 @@ public class EIT_ModuleList {
 
 		final Coder coder = new Coder(plp.deducePhase.codeRegistrar);
 
-		for (final GeneratedNode generatedNode : lgc) {
+		for (final EvaNode generatedNode : lgc) {
 			coder.codeNodes(mod, resolved_nodes, generatedNode);
 		}
 
@@ -78,13 +78,13 @@ public class EIT_ModuleList {
 
 		PipelineLogic.resolveCheck(lgc);
 
-//			for (final GeneratedNode gn : lgf) {
-//				if (gn instanceof GeneratedFunction) {
-//					GeneratedFunction gf = (GeneratedFunction) gn;
+//			for (final EvaNode gn : lgf) {
+//				if (gn instanceof EvaFunction) {
+//					EvaFunction gf = (EvaFunction) gn;
 //					tripleo.elijah.util.Stupidity.println2("----------------------------------------------------------");
 //					tripleo.elijah.util.Stupidity.println2(gf.name());
 //					tripleo.elijah.util.Stupidity.println2("----------------------------------------------------------");
-//					GeneratedFunction.printTables(gf);
+//					EvaFunction.printTables(gf);
 //					tripleo.elijah.util.Stupidity.println2("----------------------------------------------------------");
 //				}
 //			}
@@ -148,7 +148,7 @@ public class EIT_ModuleList {
 		//
 
 		@Contract(pure = true)
-		public DeducePhase.GeneratedClasses getLgc() {
+		public DeducePhase.EvaClasses getLgc() {
 			return deducePhase.generatedClasses;
 		}
 

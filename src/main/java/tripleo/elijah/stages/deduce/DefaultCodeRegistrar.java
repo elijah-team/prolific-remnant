@@ -24,19 +24,19 @@ public class DefaultCodeRegistrar implements ICodeRegistrar {
 	}
 
 	@Override
-	public void registerNamespace(final GeneratedNamespace aNamespace) {
+	public void registerNamespace(final EvaNamespace aNamespace) {
 		final int code = compilation.nextClassCode();
 		aNamespace.setCode(code);
 	}
 
 	@Override
-	public void registerClass(final GeneratedClass aClass) {
+	public void registerClass(final EvaClass aClass) {
 		final int code = compilation.nextClassCode();
 		aClass.setCode(code);
 	}
 
 	@Override
-	public void registerFunction(final BaseGeneratedFunction aFunction) {
+	public void registerFunction(final BaseEvaFunction aFunction) {
 		final int code = compilation.nextFunctionCode();
 		aFunction.setCode(code);
 	}

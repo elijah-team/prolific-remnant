@@ -8,11 +8,11 @@ import java.util.*;
 
 class WlDeduceFunction implements WorkJob {
 	private final WorkJob                     workJob;
-	private final List<BaseGeneratedFunction> coll;
+	private final List<BaseEvaFunction> coll;
 	private final DeduceTypes2                dt2;
 	private       boolean                     _isDone;
 
-	public WlDeduceFunction(final WorkJob aWorkJob, final List<BaseGeneratedFunction> aColl, final DeduceTypes2 aDeduceTypes2) {
+	public WlDeduceFunction(final WorkJob aWorkJob, final List<BaseEvaFunction> aColl, final DeduceTypes2 aDeduceTypes2) {
 		workJob = aWorkJob;
 		coll    = aColl;
 		dt2     = aDeduceTypes2;
@@ -23,7 +23,7 @@ class WlDeduceFunction implements WorkJob {
 		// TODO assumes result is in the same file as this (DeduceTypes2)
 
 		if (workJob instanceof WlGenerateFunction) {
-			final GeneratedFunction generatedFunction1 = ((WlGenerateFunction) workJob).getResult();
+			final EvaFunction generatedFunction1 = ((WlGenerateFunction) workJob).getResult();
 			if (!coll.contains(generatedFunction1)) {
 				coll.add(generatedFunction1);
 				if (!generatedFunction1.deducedAlready) {
@@ -32,7 +32,7 @@ class WlDeduceFunction implements WorkJob {
 				generatedFunction1.deducedAlready = true;
 			}
 		} else if (workJob instanceof WlGenerateDefaultCtor) {
-			final GeneratedConstructor generatedConstructor = (GeneratedConstructor) ((WlGenerateDefaultCtor) workJob).getResult();
+			final EvaConstructor generatedConstructor = (EvaConstructor) ((WlGenerateDefaultCtor) workJob).getResult();
 			if (!coll.contains(generatedConstructor)) {
 				coll.add(generatedConstructor);
 				if (!generatedConstructor.deducedAlready) {
@@ -41,7 +41,7 @@ class WlDeduceFunction implements WorkJob {
 				generatedConstructor.deducedAlready = true;
 			}
 		} else if (workJob instanceof WlGenerateCtor) {
-			final GeneratedConstructor generatedConstructor = ((WlGenerateCtor) workJob).getResult();
+			final EvaConstructor generatedConstructor = ((WlGenerateCtor) workJob).getResult();
 			if (!coll.contains(generatedConstructor)) {
 				coll.add(generatedConstructor);
 				if (!generatedConstructor.deducedAlready) {

@@ -12,15 +12,15 @@ import java.util.function.*;
 
 class CRI_Ident {
 	private final IdentTableEntry       ite;
-	private final BaseGeneratedFunction generatedFunction;
+	private final BaseEvaFunction generatedFunction;
 
-	public CRI_Ident(final IdentTableEntry aIdte, final BaseGeneratedFunction aGf) {
+	public CRI_Ident(final IdentTableEntry aIdte, final BaseEvaFunction aGf) {
 		ite               = aIdte;
 		generatedFunction = aGf;
 	}
 
 	@Contract(value = "_, _ -> new", pure = true)
-	public static @NotNull CRI_Ident of(final IdentTableEntry aIdte, final BaseGeneratedFunction aGf) {
+	public static @NotNull CRI_Ident of(final IdentTableEntry aIdte, final BaseEvaFunction aGf) {
 		return new CRI_Ident(aIdte, aGf);
 	}
 
@@ -37,10 +37,10 @@ class CRI_Ident {
 		final OS_Element resolved_element = ite.getResolvedElement();
 		final String[]   text             = {null};
 
-		final GeneratedClass _cheat = aCReference._cheat;
+		final EvaClass _cheat = aCReference._cheat;
 
 		if (resolved_element != null) {
-			GeneratedNode resolved = null;
+			EvaNode resolved = null;
 			if (resolved_element instanceof ClassStatement) {
 				resolved = _re_is_ClassStatement();
 			} else if (resolved_element instanceof FunctionDef) {
@@ -71,13 +71,13 @@ class CRI_Ident {
 					if ((resolved_element instanceof VariableStatement)) {
 						final String text2 = ((VariableStatement) resolved_element).getName();
 
-						final GeneratedNode externalRef = ite.externalRef;
-						if (externalRef instanceof GeneratedNamespace) {
-							final String text3 = String.format("zN%d_instance", ((GeneratedNamespace) externalRef).getCode());
+						final EvaNode externalRef = ite.externalRef;
+						if (externalRef instanceof EvaNamespace) {
+							final String text3 = String.format("zN%d_instance", ((EvaNamespace) externalRef).getCode());
 							addRef.accept(new CReference.Reference(text3, CReference.Ref.LITERAL, null));
-						} else if (externalRef instanceof GeneratedClass) {
+						} else if (externalRef instanceof EvaClass) {
 							assert false;
-							final String text3 = String.format("zN%d_instance", ((GeneratedClass) externalRef).getCode());
+							final String text3 = String.format("zN%d_instance", ((EvaClass) externalRef).getCode());
 							addRef.accept(new CReference.Reference(text3, CReference.Ref.LITERAL, null));
 						} else
 							throw new IllegalStateException();
@@ -120,8 +120,8 @@ class CRI_Ident {
 		return text[0];
 	}
 
-	private GeneratedNode _re_is_ClassStatement() {
-		GeneratedNode resolved = null;
+	private EvaNode _re_is_ClassStatement() {
+		EvaNode resolved = null;
 		if (ite.type != null)
 			resolved = ite.type.resolved();
 		if (resolved == null)
@@ -129,21 +129,21 @@ class CRI_Ident {
 		return resolved;
 	}
 
-	private GeneratedNode _re_is_FunctionDef(final @Nullable ProcTableEntry pte, final GeneratedClass a_cheat) {
-		GeneratedNode resolved = null;
+	private EvaNode _re_is_FunctionDef(final @Nullable ProcTableEntry pte, final EvaClass a_cheat) {
+		EvaNode resolved = null;
 		if (pte != null) {
 			final FunctionInvocation fi = pte.getFunctionInvocation();
 			if (fi != null) {
-				final BaseGeneratedFunction gen = fi.getGenerated();
+				final BaseEvaFunction gen = fi.getEva();
 				if (gen != null)
 					resolved = gen;
 			}
 		}
 		if (resolved == null) {
-			final GeneratedNode resolved1 = ite.resolvedType();
-			if (resolved1 instanceof GeneratedFunction)
+			final EvaNode resolved1 = ite.resolvedType();
+			if (resolved1 instanceof EvaFunction)
 				resolved = resolved1;
-			else if (resolved1 instanceof GeneratedClass) {
+			else if (resolved1 instanceof EvaClass) {
 				resolved = resolved1;
 
 				// FIXME Bar#quux is not being resolves as a BGF in Hier
@@ -160,7 +160,7 @@ class CRI_Ident {
 		return resolved;
 	}
 
-	private GeneratedNode _re_is_PropertyStatement(final Consumer<CReference.Reference> addRef,
+	private EvaNode _re_is_PropertyStatement(final Consumer<CReference.Reference> addRef,
 	                                               final Generate_Code_For_Method.AOG aog,
 	                                               final int sSize,
 	                                               final int i,
@@ -168,10 +168,10 @@ class CRI_Ident {
 	                                               final Consumer<Void> skip,
 	                                               final Consumer<String> text) {
 		NotImplementedException.raise();
-		final GeneratedNode resolved1 = ite.type.resolved();
+		final EvaNode resolved1 = ite.type.resolved();
 		final int           code;
 		if (resolved1 != null)
-			code = ((GeneratedContainerNC) resolved1).getCode();
+			code = ((EvaContainerNC) resolved1).getCode();
 		else
 			code = -1;
 		short state = 0;
@@ -209,8 +209,8 @@ class CRI_Ident {
 	                                      final int i,
 	                                      final int sSize,
 	                                      final OS_Element resolved_element,
-	                                      final BaseGeneratedFunction generatedFunction,
-	                                      final GeneratedNode aResolved,
+	                                      final BaseEvaFunction generatedFunction,
+	                                      final EvaNode aResolved,
 	                                      final String aValue, final CReference aCReference) {
 		return new CReference_getIdentIAPath_IdentIAHelper(ia_next, sl, i, sSize, resolved_element, generatedFunction, aResolved, aValue).action(this, aCReference);
 	}

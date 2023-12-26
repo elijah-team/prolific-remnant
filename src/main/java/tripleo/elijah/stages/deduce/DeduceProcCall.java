@@ -26,7 +26,7 @@ public class DeduceProcCall {
 	DeduceElement target;
 	private DeduceTypes2          deduceTypes2;
 	private Context               context;
-	private BaseGeneratedFunction generatedFunction;
+	private BaseEvaFunction generatedFunction;
 	private ErrSink               errSink;
 
 	@Contract(pure = true)
@@ -36,11 +36,11 @@ public class DeduceProcCall {
 
 	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2,
 	                            final Context aContext,
-	                            final BaseGeneratedFunction aGeneratedFunction,
+	                            final BaseEvaFunction aEvaFunction,
 	                            final ErrSink aErrSink) {
 		deduceTypes2      = aDeduceTypes2;
 		context           = aContext;
-		generatedFunction = aGeneratedFunction;
+		generatedFunction = aEvaFunction;
 		errSink           = aErrSink;
 	}
 
@@ -105,7 +105,7 @@ public class DeduceProcCall {
 		return deduceTypes2;
 	}
 
-	public BaseGeneratedFunction _generatedFunction() {
+	public BaseEvaFunction _generatedFunction() {
 		return generatedFunction;
 	}
 

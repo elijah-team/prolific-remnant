@@ -17,15 +17,15 @@ public class FoundParent implements BaseTableEntry.StatusListener {
 	private final BaseTableEntry        bte;
 	private final IdentTableEntry       ite;
 	private final Context               ctx;
-	private final BaseGeneratedFunction generatedFunction;
+	private final BaseEvaFunction generatedFunction;
 
 	@Contract(pure = true)
-	public FoundParent(final DeduceTypes2 aDeduceTypes2, final BaseTableEntry aBte, final IdentTableEntry aIte, final Context aCtx, final BaseGeneratedFunction aGeneratedFunction) {
+	public FoundParent(final DeduceTypes2 aDeduceTypes2, final BaseTableEntry aBte, final IdentTableEntry aIte, final Context aCtx, final BaseEvaFunction aEvaFunction) {
 		deduceTypes2      = aDeduceTypes2;
 		bte               = aBte;
 		ite               = aIte;
 		ctx               = aCtx;
-		generatedFunction = aGeneratedFunction;
+		generatedFunction = aEvaFunction;
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class FoundParent implements BaseTableEntry.StatusListener {
 			final BaseFunctionDef fd = fi.getFunction();
 			if (fd instanceof ConstructorDef) {
 				fi.generatePromise()
-				  .then((final BaseGeneratedFunction result) -> {
+				  .then((final BaseEvaFunction result) -> {
 					  /*
 					   * 1. Create Zero if not created
 					   * 2. Get Promise, which is created automatically, because on some level, the purpose of zero
@@ -85,7 +85,7 @@ public class FoundParent implements BaseTableEntry.StatusListener {
 					  final PTE_Zero                                  zero  = aPte.zero();
 					  final Promise<IElementHolder, Diagnostic, Void> bestP = zero.foundCounstructorPromise();
 
-					  zero.calculateConstructor((GeneratedConstructor) result, ite, deduceTypes2);
+					  zero.calculateConstructor((EvaConstructor) result, ite, deduceTypes2);
 
 					  bestP.done(best -> ite.setStatus(BaseTableEntry.Status.KNOWN, best));
 					  bestP.fail(err -> deduceTypes2._errSink().reportDiagnostic(err));

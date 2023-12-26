@@ -19,9 +19,9 @@ import java.util.*;
 /**
  * Created 3/16/21 10:45 AM
  */
-public abstract class GeneratedContainerNC extends AbstractDependencyTracker implements GeneratedContainer, IDependencyReferent {
-	public final  Map<FunctionDef, GeneratedFunction>        functionMap          = new HashMap<FunctionDef, GeneratedFunction>();
-	public final  Map<ClassStatement, GeneratedClass>        classMap             = new HashMap<ClassStatement, GeneratedClass>();
+public abstract class EvaContainerNC extends AbstractDependencyTracker implements EvaContainer, IDependencyReferent {
+	public final  Map<FunctionDef, EvaFunction>        functionMap          = new HashMap<FunctionDef, EvaFunction>();
+	public final  Map<ClassStatement, EvaClass>        classMap             = new HashMap<ClassStatement, EvaClass>();
 	public final  List<VarTableEntry>                        varTable             = new ArrayList<VarTableEntry>();
 	private final Dependency                                 dependency           = new Dependency(this);
 	private final Multimap<FunctionDef, FunctionMapDeferred> functionMapDeferreds = ArrayListMultimap.create();
@@ -48,11 +48,11 @@ public abstract class GeneratedContainerNC extends AbstractDependencyTracker imp
 		return null;
 	}
 
-	public void addClass(final ClassStatement aClassStatement, final GeneratedClass aGeneratedClass) {
-		classMap.put(aClassStatement, aGeneratedClass);
+	public void addClass(final ClassStatement aClassStatement, final EvaClass aEvaClass) {
+		classMap.put(aClassStatement, aEvaClass);
 	}
 
-	public void addFunction(final FunctionDef functionDef, final GeneratedFunction generatedFunction) {
+	public void addFunction(final FunctionDef functionDef, final EvaFunction generatedFunction) {
 		if (functionMap.containsKey(functionDef))
 			throw new IllegalStateException("Function already generated"); // TODO there can be overloads, although we don't handle that yet
 		functionMap.put(functionDef, generatedFunction);
@@ -65,12 +65,12 @@ public abstract class GeneratedContainerNC extends AbstractDependencyTracker imp
 	}
 
 	/**
-	 * Get a {@link GeneratedFunction}
+	 * Get a {@link EvaFunction}
 	 *
 	 * @param fd the function searching for
 	 * @return null if no such key exists
 	 */
-	public GeneratedFunction getFunction(final FunctionDef fd) {
+	public EvaFunction getFunction(final FunctionDef fd) {
 		return functionMap.get(fd);
 	}
 

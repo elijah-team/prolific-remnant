@@ -46,18 +46,18 @@ public class PipelineLogic implements AccessBus.AB_ModuleListListener {
 		subscribeMods(this);
 	}
 
-	public static void resolveCheck(final DeducePhase.@NotNull GeneratedClasses lgc) {
-		for (final GeneratedNode generatedNode : lgc) {
-			if (generatedNode instanceof GeneratedFunction) {
+	public static void resolveCheck(final DeducePhase.@NotNull EvaClasses lgc) {
+		for (final EvaNode generatedNode : lgc) {
+			if (generatedNode instanceof EvaFunction) {
 
-			} else if (generatedNode instanceof GeneratedClass) {
-//				final GeneratedClass generatedClass = (GeneratedClass) generatedNode;
-//				for (GeneratedFunction generatedFunction : generatedClass.functionMap.values()) {
+			} else if (generatedNode instanceof EvaClass) {
+//				final EvaClass generatedClass = (EvaClass) generatedNode;
+//				for (EvaFunction generatedFunction : generatedClass.functionMap.values()) {
 //					for (IdentTableEntry identTableEntry : generatedFunction.idte_list) {
 //						final IdentIA ia2 = new IdentIA(identTableEntry.getIndex(), generatedFunction);
 //						final String s = generatedFunction.getIdentIAPathNormal(ia2);
 //						if (identTableEntry/*.isResolved()*/.getStatus() == BaseTableEntry.Status.KNOWN) {
-////							GeneratedNode node = identTableEntry.resolved();
+////							EvaNode node = identTableEntry.resolved();
 ////							resolved_nodes.add(node);
 //							tripleo.elijah.util.Stupidity.println2("91 Resolved IDENT "+ s);
 //						} else {
@@ -67,13 +67,13 @@ public class PipelineLogic implements AccessBus.AB_ModuleListListener {
 //						}
 //					}
 //				}
-			} else if (generatedNode instanceof GeneratedNamespace) {
-//				final GeneratedNamespace generatedNamespace = (GeneratedNamespace) generatedNode;
+			} else if (generatedNode instanceof EvaNamespace) {
+//				final EvaNamespace generatedNamespace = (EvaNamespace) generatedNode;
 //				NamespaceStatement namespaceStatement = generatedNamespace.getNamespaceStatement();
-//				for (GeneratedFunction generatedFunction : generatedNamespace.functionMap.values()) {
+//				for (EvaFunction generatedFunction : generatedNamespace.functionMap.values()) {
 //					for (IdentTableEntry identTableEntry : generatedFunction.idte_list) {
 //						if (identTableEntry.isResolved()) {
-//							GeneratedNode node = identTableEntry.resolved();
+//							EvaNode node = identTableEntry.resolved();
 //							resolved_nodes.add(node);
 //						}
 //					}
@@ -83,7 +83,7 @@ public class PipelineLogic implements AccessBus.AB_ModuleListListener {
 	}
 
 	/*
-	public void generate__new(List<GeneratedNode> lgc) {
+	public void generate__new(List<EvaNode> lgc) {
 		final WorkManager wm = new WorkManager();
 		// README use any errSink, they should all be the same
 		for (OS_Module mod : mods.getMods()) {
@@ -142,7 +142,7 @@ public class PipelineLogic implements AccessBus.AB_ModuleListListener {
 		return __ab.gr;
 	}
 
-	public List<GeneratedNode> generatedClassesCopy() {
+	public List<EvaNode> generatedClassesCopy() {
 		return dp.generatedClasses.copy();
 	}
 }

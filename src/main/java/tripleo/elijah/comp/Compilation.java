@@ -270,7 +270,7 @@ public abstract class Compilation {
 
 	public abstract @NotNull FluffyComp getFluffy();
 
-	public @NotNull List<GeneratedNode> getLGC() {
+	public @NotNull List<EvaNode> getLGC() {
 		return getDeducePhase().generatedClasses.copy();
 	}
 

@@ -28,7 +28,7 @@ public class GeneratePipeline implements PipelineMember/*, AccessBus.AB_LgcListe
 	private final AccessBus           __ab;
 	//	private final DeducePipeline dpl;
 	private       PipelineLogic       pipelineLogic;
-	private       List<GeneratedNode> lgc;
+	private       List<EvaNode> lgc;
 
 	public GeneratePipeline(@NotNull final AccessBus ab) {
 		errSink = ab.getCompilation().getErrSink();
@@ -50,7 +50,7 @@ public class GeneratePipeline implements PipelineMember/*, AccessBus.AB_LgcListe
 		generate(lgc, errSink, pipelineLogic.mods, pipelineLogic.getVerbosity());
 	}
 
-	protected void generate(final @NotNull List<GeneratedNode> lgc,
+	protected void generate(final @NotNull List<EvaNode> lgc,
 	                        final @NotNull ErrSink aErrSink,
 	                        final @NotNull EIT_ModuleList mods,
 	                        final @NotNull ElLog.Verbosity verbosity) {
@@ -59,8 +59,8 @@ public class GeneratePipeline implements PipelineMember/*, AccessBus.AB_LgcListe
 		final Compilation    comp = __ab.getCompilation();
 
 		for (final @NotNull OS_Module mod : mods.getMods()) {
-			final List<GeneratedNode> nodes = lgc.stream()
-			                                     .filter(aGeneratedNode -> aGeneratedNode.module() == mod)
+			final List<EvaNode> nodes = lgc.stream()
+			                                     .filter(aEvaNode -> aEvaNode.module() == mod)
 			                                     .collect(Collectors.toList());
 
 			new EIT_ModuleInput(mod, comp).doGenerate(nodes, aErrSink, verbosity, pipelineLogic, wm, (gr2) -> gr.additional(gr2));

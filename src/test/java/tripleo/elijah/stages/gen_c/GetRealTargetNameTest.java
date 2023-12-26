@@ -24,14 +24,14 @@ import static org.easymock.EasyMock.*;
 
 public class GetRealTargetNameTest {
 
-	GeneratedFunction gf;
+	EvaFunction gf;
 	OS_Module         mod;
 
 	@Before
 	public void setUp() throws Exception {
 		mod = mock(OS_Module.class);
 		final FunctionDef fd = mock(FunctionDef.class);
-		gf = new GeneratedFunction(fd);
+		gf = new EvaFunction(fd);
 	}
 
 	@Ignore  @Test

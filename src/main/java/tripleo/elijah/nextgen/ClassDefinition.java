@@ -24,7 +24,7 @@ public class ClassDefinition {
 	final ClassStatement      primary;
 	final Set<ClassStatement> extended = new HashSet<ClassStatement>();
 	ClassInvocation invocation;
-	GeneratedClass  node;
+	EvaClass  node;
 	IComposable     composable;
 
 	public ClassDefinition(final ClassStatement aPrimary) {
@@ -52,11 +52,11 @@ public class ClassDefinition {
 		invocation = aInvocation;
 	}
 
-	public GeneratedClass getNode() {
+	public EvaClass getNode() {
 		return node;
 	}
 
-	public void setNode(final GeneratedClass aNode) {
+	public void setNode(final EvaClass aNode) {
 		node = aNode;
 	}
 
