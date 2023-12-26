@@ -224,10 +224,12 @@ public class CompilationImpl implements Compilation {
 		return getFn2ci();
 	}
 
+/*
 	@Override
 	public USE use() {
 		return use;
 	}
+*/
 
 	@Override
 	public CIS _cis() {
@@ -494,6 +496,11 @@ public class CompilationImpl implements Compilation {
 
 	public CompilerInstructions getRootCI() {
 		return rootCI;
+	}
+
+	@Override
+	public void use(CompilerInstructions success, boolean b) {
+		use(success); // NOTE 12/24 Talk to me nice.
 	}
 
 	//public void setRootCI(CompilerInstructions aRootCI) {

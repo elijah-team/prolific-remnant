@@ -159,7 +159,11 @@ public interface Compilation {
 
 	Map<String, CompilerInstructions> fn2ci();
 
+/*
 	USE use();
+*/
 
 	CIS _cis();
+
+	void use(CompilerInstructions success, boolean b);
 }
