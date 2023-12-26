@@ -8,109 +8,135 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jdeferred2.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.work.*;
+import org.jdeferred2.DoneCallback;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.*;
+import tripleo.elijah.stages.deduce.ClassInvocation;
+import tripleo.elijah.stages.deduce.Deduce_CreationClosure;
+import tripleo.elijah.stages.deduce.FunctionInvocation;
+import tripleo.elijah.stages.gen_generic.ICodeRegistrar;
+import tripleo.elijah.util.Holder;
+import tripleo.elijah.work.WorkJob;
+import tripleo.elijah.work.WorkManager;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created 7/3/21 6:24 AM
  */
 public class WlGenerateCtor implements WorkJob {
-	private final GenerateFunctions    generateFunctions;
-	private final FunctionInvocation   functionInvocation;
-	private final IdentExpression      constructorName;
-	private final ICodeRegistrar       codeRegistrar;
-	private       boolean              _isDone = false;
-	private       GeneratedConstructor result;
+	private final @Nullable IdentExpression    constructorName;
+	private final           ICodeRegistrar     codeRegistrar;
+	private final @NotNull  GenerateFunctions  generateFunctions;
+	private final @NotNull  FunctionInvocation functionInvocation;
+	private                 boolean            _isDone = false;
+	private                 EvaConstructor     result;
 
 	@Contract(pure = true)
-	public WlGenerateCtor(@NotNull final GenerateFunctions aGenerateFunctions,
-	                      @NotNull final FunctionInvocation aFunctionInvocation,
-	                      @Nullable final IdentExpression aConstructorName, final ICodeRegistrar aCodeRegistrar) {
+	public WlGenerateCtor(@NotNull GenerateFunctions aGenerateFunctions,
+						  @NotNull FunctionInvocation aFunctionInvocation,
+						  @Nullable IdentExpression aConstructorName,
+						  final ICodeRegistrar aCodeRegistrar) {
 		generateFunctions  = aGenerateFunctions;
 		functionInvocation = aFunctionInvocation;
 		constructorName    = aConstructorName;
 		codeRegistrar      = aCodeRegistrar;
 	}
 
+	public WlGenerateCtor(final OS_Module aModule, final IdentExpression aNameNode, final FunctionInvocation aFunctionInvocation, final @NotNull Deduce_CreationClosure aCl) {
+		this(aCl.generatePhase().getGenerateFunctions(aModule), aFunctionInvocation, aNameNode, aCl.generatePhase().getCodeRegistrar());
+	}
+
+	private boolean getPragma(String aAuto_construct) {
+		return false;
+	}
+
+	public EvaConstructor getResult() {
+		return result;
+	}
+
 	@Override
-	public void run(final WorkManager aWorkManager) {
+	public boolean isDone() {
+		return _isDone;
+	}
+
+	@Override
+	public void run(WorkManager aWorkManager) {
 		if (functionInvocation.generateDeferred().isPending()) {
-			final ClassStatement                  klass     = functionInvocation.getClassInvocation().getKlass();
-			final @NotNull Holder<GeneratedClass> hGenClass = new Holder<>();
-			functionInvocation.getClassInvocation().resolvePromise().then(new DoneCallback<GeneratedClass>() {
+			final ClassStatement klass     = functionInvocation.getClassInvocation().getKlass();
+			Holder<EvaClass>     hGenClass = new Holder<>();
+			functionInvocation.getClassInvocation().resolvePromise().then(new DoneCallback<EvaClass>() {
 				@Override
-				public void onDone(final GeneratedClass result) {
+				public void onDone(EvaClass result) {
 					hGenClass.set(result);
 				}
 			});
-			final GeneratedClass genClass = hGenClass.get();
+			EvaClass genClass = hGenClass.get();
 			assert genClass != null;
 
 			ConstructorDef ccc = null;
 			if (constructorName != null) {
-				final Collection<ConstructorDef> cs = klass.getConstructors();
-				for (@NotNull final ConstructorDef c : cs) {
-					if (c.name().equals(constructorName.getText())) {
+				Collection<ConstructorDef> cs = klass.getConstructors();
+				for (@NotNull ConstructorDef c : cs) {
+					if (c.name().sameName(constructorName.getText())) {
 						ccc = c;
 						break;
 					}
 				}
 			}
 
-			final ConstructorDef cd;
+			ConstructorDef cd;
 			if (ccc == null) {
-				cd = new ConstructorDef(constructorName, klass, klass.getContext());
-				final @NotNull Scope3 scope3 = new Scope3(cd);
+				cd = new ConstructorDefImpl(constructorName, (_CommonNC) klass, klass.getContext());
+				Scope3Impl scope3 = new Scope3Impl(cd);
 				cd.scope(scope3);
-				for (final GeneratedContainer.VarTableEntry varTableEntry : genClass.varTable) {
+				for (EvaContainer.VarTableEntry varTableEntry : genClass.varTable) {
 					if (varTableEntry.initialValue != IExpression.UNASSIGNED) {
-						final IExpression left  = varTableEntry.nameToken;
-						final IExpression right = varTableEntry.initialValue;
+						IExpression left  = varTableEntry.nameToken;
+						IExpression right = varTableEntry.initialValue;
 
-						final IExpression e = ExpressionBuilder.build(left, ExpressionKind.ASSIGNMENT, right);
-						scope3.add(new StatementWrapper(e, cd.getContext(), cd));
+						IExpression e = ExpressionBuilder.build(left, ExpressionKind.ASSIGNMENT, right);
+						scope3.add(new StatementWrapperImpl(e, cd.getContext(), cd));
 					} else {
-						if (true /*|| getPragma("auto_construct")*/) {
-							scope3.add(new ConstructStatement(cd, cd.getContext(), varTableEntry.nameToken, null, null));
+						if (true) {
+							scope3.add(new ConstructStatementImpl(cd, cd.getContext(), varTableEntry.nameToken, null, null));
 						}
 					}
 				}
 			} else
 				cd = ccc;
 
-			final OS_Element classStatement_ = cd.getParent();
+			OS_Element classStatement_ = cd.getParent();
 			assert classStatement_ instanceof ClassStatement;
 
-			final ClassStatement             classStatement = (ClassStatement) classStatement_;
-			final Collection<ConstructorDef> cs             = classStatement.getConstructors();
-			ConstructorDef                   c              = null;
+			ClassStatement             classStatement = (ClassStatement) classStatement_;
+			Collection<ConstructorDef> cs             = classStatement.getConstructors();
+			ConstructorDef             c              = null;
 			if (constructorName != null) {
-				for (final ConstructorDef cc : cs) {
-					if (cc.name().equals(constructorName.getText())) {
+				for (ConstructorDef cc : cs) {
+					if (cc.name().sameName(constructorName.getText())) {
 						c = cc;
 						break;
 					}
 				}
 			} else {
 				// TODO match based on arguments
-				final ProcTableEntry       pte  = functionInvocation.pte;
-				final List<TypeTableEntry> args = pte.getArgs();
+				ProcTableEntry       pte  = functionInvocation.pte;
+				List<TypeTableEntry> args = pte.getArgs();
 				// isResolved -> GeneratedNode, etc or getAttached -> OS_Element
-				for (final ConstructorDef cc : cs) {
-					final Collection<FormalArgListItem> cc_args = cc.getArgs();
+				for (ConstructorDef cc : cs) {
+					Collection<FormalArgListItem> cc_args = cc.getArgs();
 					if (cc_args.size() == args.size()) {
 						if (args.size() == 0) {
 							c = cc;
 							break;
 						}
-						final int y = 2;
+						int y = 2;
 					}
 				}
 			}
@@ -122,7 +148,7 @@ public class WlGenerateCtor implements WorkJob {
 
 				// add code from c
 				if (c != null && c != cd) {
-					final ArrayList<FunctionItem> is = new ArrayList<>(c.getItems());
+					ArrayList<FunctionItem> is = new ArrayList<>(c.getItems());
 
 					// skip initializers (already present in cd)
 //				FunctionItem firstElement = is.get(0);
@@ -131,20 +157,23 @@ public class WlGenerateCtor implements WorkJob {
 //					is.remove(0);
 //				}
 
-					for (final FunctionItem item : is) {
+					for (FunctionItem item : is) {
 						cd.add(item);
 					}
 				}
 			}
 
-			@NotNull final GeneratedConstructor gf = generateFunctions.generateConstructor(cd, (ClassStatement) classStatement_, functionInvocation);
+			@NotNull EvaConstructor gf = generateFunctions.generateConstructor(cd, (ClassStatement) classStatement_, functionInvocation);
 //		lgf.add(gf);
 
 			final ClassInvocation ci = functionInvocation.getClassInvocation();
-			ci.resolvePromise().done(new DoneCallback<GeneratedClass>() {
+			ci.resolvePromise().done(new DoneCallback<EvaClass>() {
 				@Override
-				public void onDone(final GeneratedClass result) {
-					codeRegistrar.registerFunction(gf);
+				public void onDone(@NotNull EvaClass result) {
+
+					codeRegistrar.registerFunction1(gf);
+					//gf.setCode(generateFunctions.module.getCompilation().nextFunctionCode());
+
 					gf.setClass(result);
 					result.constructors.put(cd, gf);
 				}
@@ -158,21 +187,8 @@ public class WlGenerateCtor implements WorkJob {
 
 		_isDone = true;
 	}
-
-	@Override
-	public boolean isDone() {
-		return _isDone;
-	}
-
-	private boolean getPragma(final String aAuto_construct) {
-		return false;
-	}
-
-	public GeneratedConstructor getResult() {
-		return result;
-	}
 }
 
 //
-//
+// vim:set shiftwidth=4 softtabstop=0 noexpandtab:
 //

@@ -1,0 +1,65 @@
+package tripleo.elijah.nextgen.rosetta;
+
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.nextgen.rosetta.DeduceTypes2.DeduceTypes2Request_TWO;
+import tripleo.elijah.stages.deduce.DeduceTypes2;
+import tripleo.elijah.stages.deduce.DeduceTypes2_TWO;
+import tripleo.elijah.stages.deduce_r.RegisterClassInvocation_resp;
+import tripleo.elijah.stages.gen_fn_r.GenerateEvaClassResponse;
+
+public class Rosetta {
+   private Rosetta() {
+   }
+
+   @Contract("_ -> new")
+   public static @NotNull DeduceTypes2 create(DeduceTypes2Request var0) {
+      throw new Error("Unresolved compilation problem: \n\tDeduceTypes2Request cannot be resolved to a type\n");
+   }
+
+   public static DeduceTypes2_TWO create(DeduceTypes2Request var0, DeduceTypes2Request_TWO var1) {
+      throw new Error("Unresolved compilation problem: \n\tDeduceTypes2Request cannot be resolved to a type\n");
+   }
+
+   public static void create_call(@NotNull DeduceTypes2_deduceFunctions_Request var0) {
+      throw new Error("Unresolved compilation problem: \n\tDeduceTypes2_deduceFunctions_Request cannot be resolved to a type\n");
+   }
+
+   public static RCIE create(RegisterClassInvocation_env var0, RegisterClassInvocation_resp var1) {
+      throw new Error("Unresolved compilation problem: \n\tRegisterClassInvocation_env cannot be resolved to a type\n");
+   }
+
+   @Contract(
+      pure = true
+   )
+   @NotNull
+   public static @NotNull GECR create(GenerateEvaClassRequest var0, GenerateEvaClassResponse var1) {
+      throw new Error("Unresolved compilation problem: \n\tGenerateEvaClassRequest cannot be resolved to a type\n");
+   }
+
+   public static final class GECR implements RosettaApplyable {
+      private final GenerateEvaClassRequest rq;
+      private final GenerateEvaClassResponse rsp;
+
+      public GECR(GenerateEvaClassRequest var1, GenerateEvaClassResponse var2) {
+         throw new Error("Unresolved compilation problems: \n\tThe import tripleo.elijah.nextgen.rosetta.DeduceTypes2.DeduceTypes2Request cannot be resolved\n\tThe import tripleo.elijah.nextgen.rosetta.DeduceTypes2.DeduceTypes2_deduceFunctions_Request cannot be resolved\n\tThe import tripleo.elijah.stages.gen_fn_r.GenerateEvaClassRequest cannot be resolved\n\tThe import tripleo.elijah.stages.gen_fn_r.RegisterClassInvocation_env cannot be resolved\n\tDeduceTypes2Request cannot be resolved to a type\n\tDeduceTypes2Request cannot be resolved to a type\n\tDeduceTypes2_deduceFunctions_Request cannot be resolved to a type\n\tRegisterClassInvocation_env cannot be resolved to a type\n\tRegisterClassInvocation_env cannot be resolved to a type\n\tRegisterClassInvocation_env cannot be resolved to a type\n\tRegisterClassInvocation_env cannot be resolved to a type\n\tRegisterClassInvocation_env cannot be resolved to a type\n\tRegisterClassInvocation_env cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n");
+      }
+
+      public void apply() {
+         throw new Error("Unresolved compilation problems: \n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n");
+      }
+   }
+
+   public static final class RCIE implements RosettaApplyable {
+      private final RegisterClassInvocation_env env;
+      private final RegisterClassInvocation_resp resp;
+
+      public RCIE(RegisterClassInvocation_env var1, RegisterClassInvocation_resp var2) {
+         throw new Error("Unresolved compilation problems: \n\tThe import tripleo.elijah.nextgen.rosetta.DeduceTypes2.DeduceTypes2Request cannot be resolved\n\tThe import tripleo.elijah.nextgen.rosetta.DeduceTypes2.DeduceTypes2_deduceFunctions_Request cannot be resolved\n\tThe import tripleo.elijah.stages.gen_fn_r.GenerateEvaClassRequest cannot be resolved\n\tThe import tripleo.elijah.stages.gen_fn_r.RegisterClassInvocation_env cannot be resolved\n\tDeduceTypes2Request cannot be resolved to a type\n\tDeduceTypes2Request cannot be resolved to a type\n\tDeduceTypes2_deduceFunctions_Request cannot be resolved to a type\n\tRegisterClassInvocation_env cannot be resolved to a type\n\tRegisterClassInvocation_env cannot be resolved to a type\n\tRegisterClassInvocation_env cannot be resolved to a type\n\tRegisterClassInvocation_env cannot be resolved to a type\n\tRegisterClassInvocation_env cannot be resolved to a type\n\tRegisterClassInvocation_env cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n\tGenerateEvaClassRequest cannot be resolved to a type\n");
+      }
+
+      public void apply() {
+         throw new Error("Unresolved compilation problems: \n\tRegisterClassInvocation_env cannot be resolved to a type\n\tRegisterClassInvocation_env cannot be resolved to a type\n");
+      }
+   }
+}

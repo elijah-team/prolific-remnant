@@ -8,14 +8,28 @@
  */
 package tripleo.elijah.util;
 
+import org.jetbrains.annotations.Contract;
+
 @SuppressWarnings("unused")
 public class NotImplementedException extends RuntimeException {
+	public NotImplementedException(final String aAsdasldbhajk) {
+		super(aAsdasldbhajk);
+		SimplePrintLoggerToRemoveSoon.println_err_2("Should not be here 3");
+	}
+
 	public NotImplementedException() {
 		final int y = 2;
+		SimplePrintLoggerToRemoveSoon.println_err_2("Should not be here 2");
 	}
 
+	@Contract(pure = true)
 	public static void raise() {
 		final int y = 2;
+		SimplePrintLoggerToRemoveSoon.println_err_2("Should not be here");
+	}
+
+	public static void raise_stop() {
+		final int y = 2;
+		SimplePrintLoggerToRemoveSoon.println_err_2("Should not be here");
 	}
 }
-

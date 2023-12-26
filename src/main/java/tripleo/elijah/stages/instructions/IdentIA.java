@@ -8,16 +8,16 @@
  */
 package tripleo.elijah.stages.instructions;
 
-import org.jdeferred2.*;
-import org.jetbrains.annotations.*;
+import org.jdeferred2.Promise;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah.stages.gen_fn.*;
 
 /**
  * Created 10/2/20 2:36 PM
  */
 public class IdentIA implements InstructionArgument, Constructable {
-	public final  BaseGeneratedFunction gf;
-	private final int                   id;
+	public final  BaseEvaFunction gf;
+	private final int             id;
 //	private InstructionArgument prev;
 
 /*
@@ -27,22 +27,14 @@ public class IdentIA implements InstructionArgument, Constructable {
 	}
 */
 
-	public IdentIA(final int ite, final BaseGeneratedFunction generatedFunction) {
+	public IdentIA(final int ite, final BaseEvaFunction generatedFunction) {
 		this.gf = generatedFunction;
 		this.id = ite;
 	}
 
-	public void setPrev(final InstructionArgument ia) {
-		gf.getIdentTableEntry(id).setBacklink(ia);
-	}
-
 	@Override
-	public String toString() {
-		return String.valueOf(getEntry());
-//		return "IdentIA{" +
-//				"id=" + id +
-////				", prev=" + prev +
-//				'}';
+	public Promise<ProcTableEntry, Void, Void> constructablePromise() {
+		return getEntry().constructablePromise();
 	}
 
 	public @NotNull IdentTableEntry getEntry() {
@@ -54,23 +46,30 @@ public class IdentIA implements InstructionArgument, Constructable {
 	}
 
 	@Override
-	public void setConstructable(final ProcTableEntry aPte) {
-		getEntry().setConstructable(aPte);
-	}
-
-	@Override
-	public void resolveTypeToClass(final GeneratedNode aNode) {
+	public void resolveTypeToClass(EvaNode aNode) {
 		getEntry().resolveTypeToClass(aNode);
 	}
 
 	@Override
-	public void setGenType(final GenType aGenType) {
-		getEntry().setGenType(aGenType, gf);
+	public void setConstructable(ProcTableEntry aPte) {
+		getEntry().setConstructable(aPte);
 	}
 
 	@Override
-	public Promise<ProcTableEntry, Void, Void> constructablePromise() {
-		return getEntry().constructablePromise();
+	public void setGenType(GenType aGenType) {
+		getEntry().setGenType(aGenType);
+	}
+
+	public void setPrev(final InstructionArgument ia) {
+		gf.getIdentTableEntry(id).setBacklink(ia);
+	}
+
+	@Override
+	public @NotNull String toString() {
+		return "IdentIA{" +
+				"id=" + id +
+//				", prev=" + prev +
+				'}';
 	}
 }
 

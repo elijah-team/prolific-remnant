@@ -11,206 +11,157 @@ package tripleo.elijah.stages.gen_fn;
 
 //import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
+import org.jdeferred2.DoneCallback;
+import org.jdeferred2.Promise;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.Eventual;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.nextgen.reactive.DefaultReactive;
+import tripleo.elijah.nextgen.reactive.Reactivable;
+import tripleo.elijah.nextgen.reactive.ReactiveDimension;
 import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.deduce.zero.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah.stages.deduce.Resolve_Ident_IA.DeduceElementIdent;
+import tripleo.elijah.stages.deduce.nextgen.DR_Ident;
+import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_IdentTableEntry;
+import tripleo.elijah.stages.gdm.GDM_IdentExpression;
+import tripleo.elijah.stages.instructions.IdentIA;
+import tripleo.elijah.stages.instructions.InstructionArgument;
+import tripleo.elijah.stages.instructions.IntegerIA;
+import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Created 9/12/20 10:27 PM
  */
-public class IdentTableEntry extends BaseTableEntry1 implements Constructable, TableEntryIV, DeduceTypes2.ExpectationBase {
-	public final @NotNull Map<Integer, TypeTableEntry>                    potentialTypes        = new HashMap<Integer, TypeTableEntry>();
-	protected final       DeferredObject<InstructionArgument, Void, Void> backlinkSet           = new DeferredObject<InstructionArgument, Void, Void>();
-	final                 DeferredObject<ProcTableEntry, Void, Void>      constructableDeferred = new DeferredObject<>();
-	private final         int                                             index;
-	private final         IdentExpression                                 ident;
-	private final         Context                                         pc;
-	private final         DeduceElementIdent                              dei                   = new DeduceElementIdent(this);
-	private final DeferredObject<GenType, Void, Void> fefiDone = new DeferredObject<GenType, Void, Void>();
-	public                boolean                                         preUpdateStatusListenerAdded;
-	public                TypeTableEntry                                  type;
-	public                GeneratedNode                                   externalRef;
-	public                boolean                                         fefi                  = false;
-	public                ProcTableEntry                                  constructable_pte;
-	public                DeduceTypes2.PromiseExpectation<String>         resolveExpectation;
+@SuppressWarnings("TypeMayBeWeakened")
+public class IdentTableEntry extends BaseTableEntry1 implements Constructable, TableEntryIV, DeduceTypes2.ExpectationBase, IDeduceResolvable {
+	public final           DeferredObject<OS_Element, ResolveError, Void>  _p_resolvedElementPromise  = new DeferredObject<>();
+	protected final        DeferredObject<InstructionArgument, Void, Void> _p_backlinkSet             = new DeferredObject<InstructionArgument, Void, Void>();
+	protected final        DeferredObject<ProcTableEntry, Void, Void>      _p_constructableDeferred   = new DeferredObject<>();
+	private final          DeferredObject<GenType, Void, Void>             _p_fefiDone                = new DeferredObject<GenType, Void, Void>();
+	private final          DeferredObject<IdentTableEntry, Void, Void>     _p_resolveListenersPromise = new DeferredObject<>();
+	private final          DeduceElementIdent                              dei                        = new DeduceElementIdent(this);
+	private final @NotNull EvaExpression<IdentExpression>                  ident;
+	private final          int                                             index;
+	private final          Context                                         pc;
+	private final          BaseEvaFunction                                 _definedFunction;
+	public                 EvaNode                                         externalRef;
+	private                EvaNode                                         resolvedType;
+	public                 ProcTableEntry                                  constructable_pte;
+	public                 boolean                                         fefi                       = false;
+	public @NotNull        Map<Integer, TypeTableEntry>                    potentialTypes             = new HashMap<Integer, TypeTableEntry>();
+	public                 boolean                                         preUpdateStatusListenerAdded;
+	public                 DeduceTypes2.PromiseExpectation<String>         resolveExpectation;
+	public                 TypeTableEntry                                  type;
+	private                DR_Ident                                        _ident;
 	InstructionArgument backlink;
 	boolean             insideGetResolvedElement = false;
-	private GeneratedNode                  resolvedType;
 	private DeduceElement3_IdentTableEntry _de3;
-	private ITE_Zero                       _zero;
+	private _Reactive_IDTE                 _reactive;
+	private ITE_Resolver_Result       _resolver_result;
 
-	public IdentTableEntry(final int index, final IdentExpression ident, final Context pc) {
-		this.index = index;
-		this.ident = ident;
-		this.pc    = pc;
-		addStatusListener(new StatusListener() {
-			@Override
-			public void onChange(final IElementHolder eh, final Status newStatus) {
-				if (newStatus == Status.KNOWN) {
-					setResolvedElement(eh.getElement());
-				}
-			}
-		});
-		setupResolve();
+	public Eventual<_Reactive_IDTE> getReactiveEventual() {
+		return _reactiveEventual;
 	}
 
-	@Override
-	public OS_Element getResolvedElement() {
-		// short circuit
-		if (resolved_element != null)
-			return resolved_element;
-
-		if (insideGetResolvedElement)
-			return null;
-		insideGetResolvedElement = true;
-		resolved_element         = dei.getResolvedElement();
-		insideGetResolvedElement = false;
-		return resolved_element;
-	}
+	private final Eventual<_Reactive_IDTE> _reactiveEventual = new Eventual<>();
 
 	public void addPotentialType(final int instructionIndex, final TypeTableEntry tte) {
 		potentialTypes.put(instructionIndex, tte);
 	}
 
-	@Override
-	public @NotNull String toString() {
-		return "IdentTableEntry{" +
-		  "index=" + index +
-		  ", ident=" + ident +
-		  ", backlink=" + backlink +
-		  ", potentialTypes=" + potentialTypes +
-		  ", status=" + status +
-		  ", type=" + type +
-		  ", resolved=" + resolvedType +
-		  '}';
-	}
+	public IdentTableEntry(final int index, final IdentExpression ident, Context pc, final BaseEvaFunction aBaseEvaFunction) {
+		this.index = index;
+		this.ident = new EvaExpression<>(ident, this);
+		this.pc    = pc;
 
-	public boolean isResolved() {
-		return resolvedType != null;
-	}
+		this._definedFunction = aBaseEvaFunction;
 
-	public GeneratedNode resolvedType() {
-		return resolvedType;
-	}
-
-	public boolean hasResolvedElement() {
-		return resolved_element != null;
-	}
-
-	public int getIndex() {
-		return index;
-	}
-
-	public Context getPC() {
-		return pc;
-	}
-
-	public void onType(@NotNull final DeducePhase phase, final OnType callback) {
-		phase.onType(this, callback);
-	}
-
-	//	@SuppressFBWarnings("NP_NONNULL_RETURN_VIOLATION")
-	public @NotNull Collection<TypeTableEntry> potentialTypes() {
-		return potentialTypes.values();
-	}
-
-	@Override
-	public void setConstructable(final ProcTableEntry aPte) {
-		constructable_pte = aPte;
-		if (constructableDeferred.isPending())
-			constructableDeferred.resolve(constructable_pte);
-		else {
-			final Holder<ProcTableEntry> holder = new Holder<ProcTableEntry>();
-			constructableDeferred.then(new DoneCallback<ProcTableEntry>() {
-				@Override
-				public void onDone(final ProcTableEntry result) {
-					holder.set(result);
+		addStatusListener((eh, newStatus) -> {
+			if (newStatus == Status.KNOWN) {
+				if (eh != null) {
+					setResolvedElement(eh.getElement());
 				}
+			}
+		});
+		setupResolve();
+
+		_p_resolvedElementPromise.then(this::resolveLanguageLevelConstruct);
+		typeResolve.typeResolution().then(gt -> {
+			if (type != null && type.genType != null) // !! 07/30
+				type.genType.copy(gt);
+		});
+
+		aBaseEvaFunction.onInformGF(gf -> {
+			_reactiveEventual.then((_Reactive_IDTE rct) -> {
+				rct.join(gf);
 			});
-			System.err.printf("Setting constructable_pte twice 1) %s and 2) %s%n", holder.get(), aPte);
-		}
+			reactive().addResolveListener((IdentTableEntry x) -> {
+				int y=2;
+										  });
+			var im = gf.monitor(ident);
+			im.resolveIdentTableEntry(this);
 
+			//__gf = gf; //!!
+		});
+
+		reactive().add(new Reactivable() {
+			@Override
+			public void respondTo(final ReactiveDimension aDimension) {
+				if (aDimension instanceof GenerateFunctions gf) {
+					final GDM_IdentExpression mie = gf.monitor(ident);
+					mie.resolveIdentTableEntry(IdentTableEntry.this);
+				}
+			}
+		});
 	}
 
-	// region constructable
-
-	@Override
-	public void resolveTypeToClass(final GeneratedNode gn) {
-		resolvedType = gn;
-		if (type != null) // TODO maybe find a more robust solution to this, like another Promise? or just setType? or onPossiblesResolve?
-			type.resolve(gn); // TODO maybe this obviates the above?
-	}
-
-	@Override
-	public void setGenType(final GenType aGenType) {
-		if (type != null) {
-			type.genType.copy(aGenType);
+	public void calculateResolvedElement() {
+		var resolved_element = dei.getResolvedElement();
+		if (resolved_element != null) {
+			if (!_p_resolvedElementPromise.isResolved()) {
+				_p_resolvedElementPromise.resolve(resolved_element);
+			}
 		} else {
-			throw new IllegalStateException("idte-102 Attempting to set a null type");
-//			tripleo.elijah.util.Stupidity.println_err2("idte-102 Attempting to set a null type");
+			//08/13 System.err.println("283283 resolution failure for " + dei.getIdentTableEntry().getIdent().getText());
 		}
+	}
+
+	public Promise<InstructionArgument, Void, Void> backlinkSet() {
+		return _p_backlinkSet.promise();
+	}
+
+	public @NotNull DeducePath buildDeducePath(BaseEvaFunction generatedFunction) {
+		@NotNull List<InstructionArgument> x = BaseEvaFunction._getIdentIAPathList(new IdentIA(index, generatedFunction));
+		return new DeducePath(this, x);
+	}
+
+	public IdentExpression getIdent() {
+		return ident.get();
 	}
 
 	@Override
 	public Promise<ProcTableEntry, Void, Void> constructablePromise() {
-		return constructableDeferred.promise();
-	}
-
-	public void setGenType(final GenType genType, final BaseGeneratedFunction gf) {
-		if (type == null) {
-			makeType(gf, TypeTableEntry.Type.SPECIFIED, genType.resolved);
-		}
-
-		type.genType.copy(genType);
-	}
-
-	// endregion constructable
-
-	public void makeType(final BaseGeneratedFunction aGeneratedFunction, final TypeTableEntry.Type aType, final OS_Type aOS_Type) {
-		type = aGeneratedFunction.newTypeTableEntry(aType, aOS_Type, getIdent(), this);
-	}
-
-	public IdentExpression getIdent() {
-		return ident;
-	}
-
-	public void setDeduceTypes2(final @NotNull DeduceTypes2 aDeduceTypes2, final Context aContext, final @NotNull BaseGeneratedFunction aGeneratedFunction) {
-		dei.setDeduceTypes2(aDeduceTypes2, aContext, aGeneratedFunction);
-	}
-
-	public DeducePath buildDeducePath(final BaseGeneratedFunction generatedFunction) {
-		@NotNull final List<InstructionArgument> x = BaseGeneratedFunction._getIdentIAPathList(new IdentIA(index, generatedFunction));
-		return new DeducePath(this, x);
-	}
-
-	public void fefiDone(final GenType aGenType) {
-		if (fefiDone.isPending())
-			fefiDone.resolve(aGenType);
+		return _p_constructableDeferred.promise();
 	}
 
 	@Override
-	public String expectationString() {
+	public @NotNull String expectationString() {
 		return "IdentTableEntry{" +
-		  "index=" + index +
-		  ", ident=" + ident +
-		  ", backlink=" + backlink +
-		  "}";
+				"index=" + index +
+				", ident=" + ident.get() +
+				", backlink=" + backlink +
+				"}";
 	}
 
-	public Promise<InstructionArgument, Void, Void> backlinkSet() {
-		return backlinkSet.promise();
-	}
-
-	public void onFefiDone(final DoneCallback<GenType> aCallback) {
-		fefiDone.then(aCallback);
+	public void fefiDone(final GenType aGenType) {
+		if (_p_fefiDone.isPending())
+			_p_fefiDone.resolve(aGenType);
 	}
 
 	/**
@@ -221,16 +172,11 @@ public class IdentTableEntry extends BaseTableEntry1 implements Constructable, T
 		return backlink;
 	}
 
-	public void setBacklink(final InstructionArgument aBacklink) {
-		backlink = aBacklink;
-		backlinkSet.resolve(backlink);
+	public DeduceElement3_IdentTableEntry getDeduceElement3() {
+		return getDeduceElement3(this._deduceTypes2(), __gf);
 	}
 
-	public void makeType(final BaseGeneratedFunction aGeneratedFunction, final TypeTableEntry.Type aType, final IExpression aExpression) {
-		type = aGeneratedFunction.newTypeTableEntry(aType, null, aExpression, this);
-	}
-
-	public IDeduceElement3 getDeduceElement3(final DeduceTypes2 aDeduceTypes2, final BaseGeneratedFunction aGeneratedFunction) {
+	public @NotNull DeduceElement3_IdentTableEntry getDeduceElement3(DeduceTypes2 aDeduceTypes2, BaseEvaFunction aGeneratedFunction) {
 		if (_de3 == null) {
 			_de3                   = new DeduceElement3_IdentTableEntry(this);
 			_de3.deduceTypes2      = aDeduceTypes2;
@@ -239,20 +185,229 @@ public class IdentTableEntry extends BaseTableEntry1 implements Constructable, T
 		return _de3;
 	}
 
-	public ITE_Zero zero() {
-		if (_zero == null) {
-			_zero = new ITE_Zero(this);
-		}
-		return _zero;
+	public @NotNull DeduceElementIdent getDeduceElement() {
+		return dei;
 	}
 
-//	private final DeferredObject<GenType, Void, Void> typeDeferred = new DeferredObject<GenType, Void, Void>();
-//
-//	public Promise<GenType, Void, Void> typeResolvePromise() {
-//		return typeDeferred.promise();
-//	}
-}
+	public void onResolvedElement(final DoneCallback<OS_Element> cb) {
+		_p_resolvedElementPromise.then((cb));
+	}
 
+	public int getIndex() {
+		return index;
+	}
+
+	public Context getPC() {
+		return pc;
+	}
+
+	@Override
+	public @Nullable OS_Element getResolvedElement() {
+		OS_Element resolved_element;
+
+		if (_p_elementPromise.isResolved()) {
+			final OS_Element[] r = new OS_Element[1];
+			_p_elementPromise.then(x -> r[0] = x);
+			return r[0];
+		}
+
+		if (insideGetResolvedElement)
+			return null;
+		insideGetResolvedElement = true;
+		resolved_element         = dei.getResolvedElement();
+		if (resolved_element != null) {
+			if (_p_elementPromise.isResolved()) {
+				NotImplementedException.raise();
+			} else {
+				_p_elementPromise.resolve(resolved_element);
+			}
+		}
+		insideGetResolvedElement = false;
+		return resolved_element;
+	}
+
+	public boolean hasResolvedElement() {
+		return !_p_elementPromise.isPending();
+	}
+
+	public boolean isResolved() {
+		return resolvedType != null;
+	}
+
+	public void makeType(final @NotNull BaseEvaFunction aGeneratedFunction, final TypeTableEntry.@NotNull Type aType, final IExpression aExpression) {
+		type = aGeneratedFunction.newTypeTableEntry(aType, null, aExpression, this);
+	}
+
+	public void makeType(final @NotNull BaseEvaFunction aGeneratedFunction, final TypeTableEntry.@NotNull Type aType, final OS_Type aOS_Type) {
+		type = aGeneratedFunction.newTypeTableEntry(aType, aOS_Type, getIdent(), this);
+	}
+
+	public void onFefiDone(DoneCallback<GenType> aCallback) {
+		_p_fefiDone.then(aCallback);
+	}
+
+	public void onType(@NotNull DeducePhase phase, OnType callback) {
+		phase.onType(this, callback);
+	}
+
+	public EvaNode resolvedType() {
+		return resolvedType;
+	}
+
+	//@SuppressFBWarnings("NP_NONNULL_RETURN_VIOLATION")
+	public @NotNull Collection<TypeTableEntry> potentialTypes() {
+		return potentialTypes.values();
+	}
+
+	public _Reactive_IDTE reactive() {
+		if (_reactive == null) {
+			_reactive = new _Reactive_IDTE();
+		}
+		if (_de3 != null) {
+			var ce = _de3.deduceTypes2()._ce();
+			ce.reactiveJoin(_reactive);
+		}
+
+		if (!_reactiveEventual.isResolved()) {
+			// TODO !!
+			_reactiveEventual.resolve(_reactive);
+		}
+
+		return _reactive;
+	}
+
+	@Override
+	public void resolveTypeToClass(EvaNode gn) {
+		resolvedType = gn;
+		assert (type != null);
+		if (type != null) // TODO maybe find a more robust solution to this, like another Promise? or just setType? or onPossiblesResolve?
+			type.resolve(gn); // TODO maybe this obviates the above?
+		if (!_p_resolveListenersPromise.isResolved()) // FIXME 06/16
+			_p_resolveListenersPromise.resolve(this);
+	}
+
+	@Override
+	public void setConstructable(ProcTableEntry aPte) {
+		constructable_pte = aPte;
+		if (_p_constructableDeferred.isPending())
+			_p_constructableDeferred.resolve(constructable_pte);
+		else {
+			//final Holder<ProcTableEntry> holder = new Holder<ProcTableEntry>();
+			_p_constructableDeferred.then(el -> {
+				SimplePrintLoggerToRemoveSoon.println_err_2(String.format("Setting constructable_pte twice 1) %s and 2) %s", el, aPte));
+				//holder.set(el);
+			});
+		}
+	}
+
+	@Override
+	public void setGenType(GenType aGenType) {
+		if (type != null) {
+			type.genType.copy(aGenType);
+		} else {
+			throw new IllegalStateException("idte-102 Attempting to set a null type");
+//			tripleo.elijah.util.Stupidity.println_err_2("idte-102 Attempting to set a null type");
+		}
+	}
+
+	public void setBacklink(InstructionArgument aBacklink) {
+		backlink = aBacklink;
+		_p_backlinkSet.resolve(backlink);
+	}
+
+	public void setDeduceTypes2(final @NotNull DeduceTypes2 aDeduceTypes2, final Context aContext, final @NotNull BaseEvaFunction aGeneratedFunction) {
+		dei.setDeduceTypes2(aDeduceTypes2, aContext, aGeneratedFunction);
+	}
+
+	public DR_Ident get_ident() {
+		return _ident;
+	}
+
+	public DR_Ident getDefinedIdent() {
+		return _definedFunction.getIdent(this);
+	}
+
+	public void set_ident(DR_Ident a_ident) {
+		_ident = a_ident;
+	}
+
+	public void resolvers_round() {
+		if (_resolver_result != null) return;
+
+		for (ITE_Resolver resolver : resolvers) {
+			if (!resolver.isDone()) {
+				resolver.check();
+			}
+
+			if (resolver.isDone()) {
+				_resolver_result = resolver.getResult(); // TODO resolve here?? 07/20
+				break;
+			}
+
+			// ... ??
+		}
+	}
+
+	public @NotNull BaseEvaFunction _generatedFunction() {
+		return __gf;
+	}
+
+	public void onBacklinkSet(final DoneCallback<? super InstructionArgument> cb) {
+		backlinkSet().then(cb);
+	}
+
+	public class _Reactive_IDTE extends DefaultReactive {
+		@Override
+		public <IdentTableEntry> void addListener(final Consumer<IdentTableEntry> t) {
+			throw new IllegalStateException("Error");
+		}
+
+		public <IdentTableEntry> void addResolveListener(final @NotNull Consumer<IdentTableEntry> t) {
+			_p_resolveListenersPromise.then((DoneCallback<? super tripleo.elijah.stages.gen_fn.IdentTableEntry>) result -> t.accept((IdentTableEntry) result));
+		}
+	}
+
+	@Override
+	public @NotNull String toString() {
+		return "IdentTableEntry{" +
+				"index=" + index +
+				", ident=" + ident.get() +
+				", backlink=" + backlink +
+				", status=" + status +
+				", resolved=" + resolvedType +
+				", potentialTypes=" + potentialTypes +
+				", type=" + type +
+				'}';
+	}
+
+	public void addResolver(ITE_Resolver aResolver) {
+		resolvers.add(aResolver);
+	}
+
+	private final List<ITE_Resolver> resolvers = new ArrayList<>();
+	public        VariableStatement  _cheat_variableStatement; // DTR_VariableStatement 07/30
+
+	public record ITE_Resolver_Result(OS_Element element) {
+	}
+
+	private void resolveLanguageLevelConstruct(OS_Element element) {
+		//assert __gf != null;
+		//assert this._deduceTypes2() != null;
+		//
+		//if (element instanceof FunctionDef fd) {
+		//	NotImplementedException.raise_stop();
+		//}
+		//
+		//_p_elementPromise.then(x -> {
+		//	NotImplementedException.raise_stop();
+		//	assert x == element;
+		//});
+	}
+
+	public EvaExpression<IdentExpression> evaExpression() {
+		return ident;
+	}
+}
 //
 // vim:set shiftwidth=4 softtabstop=0 noexpandtab:
 //

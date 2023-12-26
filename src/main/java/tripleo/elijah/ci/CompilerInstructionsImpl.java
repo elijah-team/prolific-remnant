@@ -8,32 +8,29 @@
  */
 package tripleo.elijah.ci;
 
-import antlr.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
+import antlr.Token;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.ci.i.CompilerInstructions;
+import tripleo.elijah.compiler_model.CM_Filename;
+import tripleo.elijah.lang.i.IExpression;
+import tripleo.elijah.lang.i.StringExpression;
+import tripleo.elijah.util.Helpers;
+import tripleo.elijah.xlang.LocatableString;
 
 import java.util.*;
-import java.util.stream.*;
 
 /**
  * Created 9/6/20 11:20 AM
  */
 public class CompilerInstructionsImpl implements CompilerInstructions {
-
-	public  List<LibraryStatementPart> lsps = new ArrayList<LibraryStatementPart>();
-	private IndexingStatement          _idx;
-	private GenerateStatement          gen;
-	private String                     filename;
-	private String                     name;
-
-	@Override
-	public IndexingStatement indexingStatement() {
-		if (_idx == null)
-			_idx = new IndexingStatement(this);
-
-		return _idx;
-	}
+	public @NotNull List<LibraryStatementPart> lsps = new ArrayList<>();
+	private         CiIndexingStatement        _idx;
+	private CM_Filename filename;
+	private         GenerateStatement          gen;
+	private         String                     name;
 
 	@Override
 	public void add(final GenerateStatement generateStatement) {
@@ -42,35 +39,32 @@ public class CompilerInstructionsImpl implements CompilerInstructions {
 	}
 
 	@Override
-	public void add(final LibraryStatementPartImpl libraryStatementPart) {
+	public void add(final @NotNull LibraryStatementPart libraryStatementPart) {
 		libraryStatementPart.setInstructions(this);
 		lsps.add(libraryStatementPart);
 	}
 
 	@Override
-	public String getFilename() {
-		return filename;
+	public List<LibraryStatementPart> getLibraryStatementParts() {
+		return lsps;
 	}
 
 	@Override
-	public void setFilename(final String filename) {
-		this.filename = filename;
-	}
-
-	@Override
-	@Nullable
-	public String genLang() {
-		final List<GenerateStatement.Directive> gens = gen.dirs.stream()
-		                                                       .filter((final GenerateStatement.Directive input) -> input.getName().equals("gen"))
-		                                                       .collect(Collectors.toList());
-		if (gens.size() == 0) return null;
-		final IExpression lang_raw = gens.get(0).getExpression();
+	public Optional<String> genLang() {
+		Collection<GenerateStatementImpl.Directive> gens = Collections2.filter(((GenerateStatementImpl) gen).dirs, (GenerateStatementImpl.Directive directive) -> {
+            return directive.sameName("gen");
+        });
+		Iterator<GenerateStatementImpl.Directive> gi = gens.iterator();
+		if (!gi.hasNext()) return null;
+		IExpression lang_raw = gi.next().getExpression();
 		assert lang_raw instanceof StringExpression;
-		final String text = ((StringExpression) lang_raw).getText();
-		if (text.charAt(0) == '\"') // TODO ugly
-			return Helpers.remove_single_quotes_from_string(text);
-		else
-			return text;
+		String s = Helpers.remove_single_quotes_from_string(((StringExpression) lang_raw).getText());
+		return Optional.of(s);
+	}
+
+	@Override
+	public CM_Filename getFilename() {
+		return filename;
 	}
 
 	@Override
@@ -79,18 +73,44 @@ public class CompilerInstructionsImpl implements CompilerInstructions {
 	}
 
 	@Override
-	public void setName(final String name) {
-		this.name = name;
+	public LocatableString getLocatableName() {
+		return null;
 	}
 
 	@Override
-	public void setName(final Token name) {
-		this.name = name.getText();
+	public void setFilename(final CM_Filename filename) {
+		this.filename = filename;
 	}
 
 	@Override
-	public List<LibraryStatementPart> getLibraryStatementParts() {
-		return lsps;
+	public @NotNull CiIndexingStatement indexingStatement() {
+		if (_idx == null)
+			_idx = new CiIndexingStatementImpl(this);
+
+		return _idx;
+	}
+
+	@Override
+	public void setName(LocatableString name) {
+
+	}
+
+//	@Override
+//	public void setName(String name) {
+//		this.name = name;
+//	}
+//
+//	@Override
+//	public void setName(@NotNull Token name) {
+//		this.name = name.getText();
+//	}
+
+	@Override
+	public String toString() {
+		return "CompilerInstructionsImpl{" +
+				"name='" + name + '\'' +
+				", filename='" + filename + '\'' +
+				'}';
 	}
 }
 

@@ -9,55 +9,40 @@
  */
 package tripleo.elijah.nextgen.diagnostic;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.nextgen.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.diagnostic.Diagnostic;
+import tripleo.elijah.diagnostic.Locatable;
+import tripleo.elijah.nextgen.ClassDefinition;
+import tripleo.elijah.stages.deduce.ClassInvocation;
+import tripleo.elijah.stages.gen_fn.GenerateFunctions;
+import tripleo.elijah.util.NotImplementedException;
 
-import java.io.*;
-import java.util.*;
+import java.io.PrintStream;
+import java.util.List;
 
 /**
  * Created 3/5/22 4:55 PM
  */
 public class CouldntGenerateClass implements Diagnostic {
 	private final ClassDefinition   classDefinition;
-	private final GenerateFunctions generateFunctions;
 	private final ClassInvocation   classInvocation;
+	private final GenerateFunctions generateFunctions;
 
 	public CouldntGenerateClass(final ClassDefinition aClassDefinition,
-	                            final GenerateFunctions aGenerateFunctions,
-	                            final ClassInvocation aClassInvocation) {
+								final GenerateFunctions aGenerateFunctions,
+								final ClassInvocation aClassInvocation) {
 		classDefinition   = aClassDefinition;
 		generateFunctions = aGenerateFunctions;
 		classInvocation   = aClassInvocation;
 	}
 
 	@Override
-	public String code() {
+	public @NotNull String code() {
 		return "E2000";
 	}
 
-	@Override
-	public Severity severity() {
-		return Severity.ERROR;
-	}
-
-	@Override
-	public @NotNull Locatable primary() {
-		return null;
-	}
-
-	@Override
-	public @NotNull List<Locatable> secondary() {
-		return null;
-	}
-
-	@Override
-	public void report(final PrintStream stream) {
-		NotImplementedException.raise();
+	public ClassDefinition getClassDefinition() {
+		return classDefinition;
 	}
 
 	public ClassInvocation getClassInvocation() {
@@ -68,8 +53,24 @@ public class CouldntGenerateClass implements Diagnostic {
 		return generateFunctions;
 	}
 
-	public ClassDefinition getClassDefinition() {
-		return classDefinition;
+	@Override
+	public @NotNull Locatable primary() {
+		return null;
+	}
+
+	@Override
+	public void report(final PrintStream stream) {
+		NotImplementedException.raise();
+	}
+
+	@Override
+	public @NotNull List<Locatable> secondary() {
+		return null;
+	}
+
+	@Override
+	public @NotNull Severity severity() {
+		return Severity.ERROR;
 	}
 }
 

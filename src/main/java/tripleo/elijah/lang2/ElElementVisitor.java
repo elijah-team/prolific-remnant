@@ -1,14 +1,13 @@
 package tripleo.elijah.lang2;
 
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah.contexts.ClassContext;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.*;
 
 public interface ElElementVisitor {
-
-
 	void addClass(ClassStatement klass);
 
-	void addModule(OS_Module module);
+	void addFunctionItem(FunctionItem element);
 
 //	private void addModuleItem(ModuleItem element) ;
 
@@ -16,19 +15,29 @@ public interface ElElementVisitor {
 
 //	private void addClassItem(ClassItem element) ;
 
-	void addFunctionItem(FunctionItem element);
-
-	void visitAliasStatement(AliasStatement aAliasStatement);
+	void addModule(OS_Module module);
 
 	void visitAccessNotation(AccessNotation aAccessNotation);
 
+	void visitAccessNotation(AccessNotationImpl aAccessNotation);
+
+	void visitAliasStatement(AliasStatement aAliasStatement);
+
+	void visitAliasStatement(AliasStatementImpl aAliasStatement);
+
 	void visitCaseConditional(CaseConditional aCaseConditional);
 
-	void visitCaseScope(CaseConditional.CaseScope aCaseScope);
+	void visitCaseConditional(CaseConditionalImpl caseConditionalImpl);
 
-	void visitTypeNameElement(ClassContext.OS_TypeNameElement aOS_typeNameElement);
+	void visitCaseScope(CaseConditionalImpl.CaseScopeImpl aCaseScope);
+
+	void visitConstructorDef(ConstructorDef aConstructorDef);
 
 	void visitConstructStatement(ConstructStatement aConstructExpression);
+
+	void visitDefFunction(DefFunctionDef aDefFunctionDef);
+
+	void visitDestructor(DestructorDef aDestructorDef);
 
 	void visitFormalArgListItem(FormalArgListItem aFormalArgListItem);
 
@@ -40,13 +49,13 @@ public interface ElElementVisitor {
 
 	void visitIfConditional(IfConditional aIfConditional);
 
-	void visitLoop(Loop aLoop);
-
 	void visitImportStatment(ImportStatement aImportStatement);
+
+	void visitLoop(Loop aLoop);
 
 	void visitMatchConditional(MatchConditional aMatchConditional);
 
-	void visitMC1(MatchConditional.MC1 aMC1);
+	void visitMC1(MatchConditional.MC1 mc1);
 
 	void visitNamespaceStatement(NamespaceStatement aNamespaceStatement);
 
@@ -58,19 +67,23 @@ public interface ElElementVisitor {
 
 	void visitTypeAlias(TypeAliasStatement aTypeAliasStatement);
 
+	void visitTypeNameElement(ClassContext.OS_TypeNameElement aOS_typeNameElement);
+
 	void visitVariableSequence(VariableSequence aVariableSequence);
 
-	void visitWithStatement(WithStatement aWithStatement);
+	void visitVariableSequence(VariableSequenceImpl aVariableSequence);
 
 	void visitVariableStatement(VariableStatement aVariableStatement);
 
+	void visitVariableStatement(VariableStatementImpl aVariableStatement);
+
+	void visitWithStatement(WithStatement aWithStatement);
+
+	void visitWithStatement(WithStatementImpl aWithStatement);
+
 	void visitYield(YieldExpression aYieldExpression);
 
-	void visitConstructorDef(ConstructorDef aConstructorDef);
-
-	void visitDefFunction(DefFunctionDef aDefFunctionDef);
-
-	void visitDestructor(DestructorDef aDestructorDef);
+	void visitYield(YieldExpressionImpl aYieldExpression);
 
 	// return, continue, next
 }

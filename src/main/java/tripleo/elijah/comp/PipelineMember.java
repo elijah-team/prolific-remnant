@@ -9,11 +9,14 @@
 
 package tripleo.elijah.comp;
 
+import tripleo.elijah.comp.internal.CB_Output;
+import tripleo.elijah.comp.internal.CR_State;
+
 /**
  * Created 8/21/21 10:10 PM
  */
 public interface PipelineMember {
-	void run() throws Exception;
+	void run(final CR_State aSt, final CB_Output aOutput) throws Exception;
 }
 
 //

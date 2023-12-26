@@ -8,18 +8,21 @@
  */
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
-
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.AliasStatementImpl;
+import tripleo.elijah.lang.impl.ContextImpl;
+import tripleo.elijah.lang.impl.VariableSequenceImpl;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
 /**
  * Created 8/21/20 3:16 AM
  */
-public class IfConditionalContext extends Context {
-	private final Context       _parent;
-	private final IfConditional carrier;
-	private final Context       _prev_ctx;
+public class IfConditionalContext extends ContextImpl implements Context {
+	private final           Context       _parent;
+	private final @Nullable Context       _prev_ctx;
+	private final           IfConditional carrier;
 
 	public IfConditionalContext(final Context cur, final IfConditional ifConditional) {
 		_parent   = cur;
@@ -27,30 +30,35 @@ public class IfConditionalContext extends Context {
 		_prev_ctx = null; // TOP if statement
 	}
 
-	public IfConditionalContext(final Context ctx, final IfConditional ifConditional, final boolean _ignored) {
+	public IfConditionalContext(final @NotNull Context ctx, final IfConditional ifConditional, final boolean _ignored) {
 		_prev_ctx = ctx;
 		_parent   = ((IfConditionalContext) ctx)._parent;
 		carrier   = ifConditional;
 	}
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final List<Context> alreadySearched, final boolean one) {
+	public Context getParent() {
+		return _parent;
+	}
+
+	@Override
+	public LookupResultList lookup(final String name, final int level, final @NotNull LookupResultList Result, final @NotNull SearchList alreadySearched, final boolean one) {
 		alreadySearched.add(carrier.getContext());
 		for (final OS_Element/*StatementItem*/ item : carrier.getItems()) {
 			if (!(item instanceof ClassStatement) &&
-			  !(item instanceof NamespaceStatement) &&
-			  !(item instanceof FunctionDef) &&
-			  !(item instanceof VariableSequence) &&
-			  !(item instanceof AliasStatement)
+					!(item instanceof NamespaceStatement) &&
+					!(item instanceof FunctionDef) &&
+					!(item instanceof VariableSequenceImpl) &&
+					!(item instanceof AliasStatementImpl)
 			) continue;
-			if (item instanceof OS_Element2) {
-				if (((OS_Element2) item).name().equals(name)) {
+			if (item instanceof OS_NamedElement) {
+				if (((OS_NamedElement) item).name().sameName(name)) {
 					Result.add(name, level, item, this);
 				}
 			}
-			if (item instanceof VariableSequence) {
-				SimplePrintLoggerToRemoveSoon.println2("1102 " + item);
-				for (final VariableStatement vs : ((VariableSequence) item).items()) {
+			if (item instanceof VariableSequenceImpl) {
+				SimplePrintLoggerToRemoveSoon.println_out_2("1102 " + item);
+				for (final VariableStatement vs : ((VariableSequenceImpl) item).items()) {
 					if (vs.getName().equals(name))
 						Result.add(name, level, vs, this);
 				}
@@ -62,11 +70,6 @@ public class IfConditionalContext extends Context {
 				return context.lookup(name, level + 1, Result, alreadySearched, false);
 		}
 		return Result;
-	}
-
-	@Override
-	public Context getParent() {
-		return _parent;
 	}
 }
 

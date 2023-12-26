@@ -9,15 +9,22 @@
  */
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.lang.*;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.ClassStatement;
+import tripleo.elijah.lang.i.NormalTypeName;
 
 /**
  * Created 11/29/21 12:24 AM
  */
 public class ClassInfo implements ContextInfo {
-	private final ClassStatement classStatement;
-	private final ClassInfoType  classInfoType;
-	private final NormalTypeName typeName;
+	private final @Nullable ClassStatement classStatement;
+
+	private final           ClassInfoType  classInfoType;
+	private final @Nullable NormalTypeName typeName;
+
+	public @Nullable ClassStatement getClassStatement() {
+		return classStatement;
+	}
 
 	public ClassInfo(final ClassStatement aClassStatement, final ClassInfoType aClassInfoType) {
 		classStatement = aClassStatement;
@@ -31,20 +38,16 @@ public class ClassInfo implements ContextInfo {
 		typeName       = aTypeName;
 	}
 
-	public ClassStatement getClassStatement() {
-		return classStatement;
-	}
-
 	public ClassInfoType getClassInfoType() {
 		return classInfoType;
 	}
 
-	public NormalTypeName getTypeName() {
-		return typeName;
+	public enum ClassInfoType {
+		DIRECT, GENERIC, INHERITED
 	}
 
-	public enum ClassInfoType {
-		DIRECT, INHERITED, GENERIC
+	public @Nullable NormalTypeName getTypeName() {
+		return typeName;
 	}
 }
 

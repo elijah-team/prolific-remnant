@@ -8,17 +8,20 @@
  */
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.lang.*;
-
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.Context;
+import tripleo.elijah.lang.i.LookupResultList;
+import tripleo.elijah.lang.i.OS_Element;
+import tripleo.elijah.lang.i.PropertyStatement;
+import tripleo.elijah.lang.impl.ContextImpl;
 
 /**
  * Created 12/26/20 2:24 AM
  */
-public class PropertyStatementContext extends Context {
+public class PropertyStatementContext extends ContextImpl {
 
-	public final  PropertyStatement carrier;
 	private final Context           _parent;
+	public        PropertyStatement carrier;
 
 	public PropertyStatementContext(final Context aParent, final OS_Element element) {
 		this._parent = aParent;
@@ -26,13 +29,18 @@ public class PropertyStatementContext extends Context {
 	}
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final List<Context> alreadySearched, final boolean one) {
+	public Context getParent() {
+		return _parent;
+	}
+
+	@Override
+	public LookupResultList lookup(final @NotNull String name, final int level, final @NotNull LookupResultList Result, final @NotNull SearchList alreadySearched, final boolean one) {
 		alreadySearched.add(carrier.getContext());
 
 		if (name.equals("get")) {
-			Result.add(name, level, carrier.get_fn, this);
+			Result.add(name, level, carrier.get_fn(), this);
 		} else if (name.equals("set")) {
-			Result.add(name, level, carrier.set_fn, this);
+			Result.add(name, level, carrier.set_fn(), this);
 		}
 
 		if (getParent() != null) {
@@ -42,11 +50,6 @@ public class PropertyStatementContext extends Context {
 			}
 		}
 		return Result;
-	}
-
-	@Override
-	public Context getParent() {
-		return _parent;
 	}
 
 }

@@ -11,20 +11,21 @@
  */
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
-
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.AliasStatementImpl;
+import tripleo.elijah.lang.impl.ContextImpl;
+import tripleo.elijah.lang.impl.VariableSequenceImpl;
 
 /**
  * @author Tripleo
- *
+ * <p>
  * Created 	Mar 29, 2020 at 8:59:42 PM
  */
-public class NamespaceContext extends Context {
+public class NamespaceContext extends ContextImpl implements Context {
 
-	public final  NamespaceStatement carrier;
 	private final Context            _parent;
+	public        NamespaceStatement carrier;
 
 //	public NamespaceContext(NamespaceStatement namespaceStatement) {
 //		carrier = namespaceStatement;
@@ -36,24 +37,29 @@ public class NamespaceContext extends Context {
 	}
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final List<Context> alreadySearched, final boolean one) {
+	public Context getParent() {
+		return _parent;
+	}
+
+	@Override
+	public LookupResultList lookup(final String name, final int level, final @NotNull LookupResultList Result, final @NotNull SearchList alreadySearched, final boolean one) {
 		alreadySearched.add(carrier.getContext());
 		for (final ClassItem item : carrier.getItems()) {
 			if (!(item instanceof ClassStatement) &&
-			  !(item instanceof NamespaceStatement) &&
-			  !(item instanceof VariableSequence) &&
-			  !(item instanceof AliasStatement) &&
-			  !(item instanceof FunctionDef) &&
-			  !(item instanceof PropertyStatement)
+					!(item instanceof NamespaceStatement) &&
+					!(item instanceof VariableSequenceImpl) &&
+					!(item instanceof AliasStatementImpl) &&
+					!(item instanceof FunctionDef) &&
+					!(item instanceof PropertyStatement)
 			) continue;
-			if (item instanceof OS_Element2) {
-				if (((OS_Element2) item).name().equals(name)) {
+			if (item instanceof OS_NamedElement) {
+				if (((OS_NamedElement) item).name().sameName(name)) {
 					Result.add(name, level, item, this);
 				}
 			}
-			if (item instanceof VariableSequence) {
-				SimplePrintLoggerToRemoveSoon.println2("[NamespaceContext#lookup] VariableSequence " + item);
-				for (final VariableStatement vs : ((VariableSequence) item).items()) {
+			if (item instanceof VariableSequenceImpl) {
+//				tripleo.elijah.util.Stupidity.println_out_2("[NamespaceContext#lookup] VariableSequenceImpl "+item);
+				for (final VariableStatement vs : ((VariableSequenceImpl) item).items()) {
 					if (vs.getName().equals(name))
 						Result.add(name, level, vs, this);
 				}
@@ -66,10 +72,5 @@ public class NamespaceContext extends Context {
 		}
 		return Result;
 
-	}
-
-	@Override
-	public Context getParent() {
-		return _parent;
 	}
 }

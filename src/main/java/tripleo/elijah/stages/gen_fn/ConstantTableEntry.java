@@ -8,19 +8,19 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.IExpression;
+import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_ConstantTableEntry;
 
 /**
  * Created 9/10/20 4:47 PM
  */
 public class ConstantTableEntry {
-	public final  IExpression                       initialValue;
-	public final  TypeTableEntry                    type;
 	final         int                               index;
 	private final String                            name;
+	public final  IExpression                       initialValue;
 	private       DeduceElement3_ConstantTableEntry _de3;
+	public final  TypeTableEntry                    type;
 
 	public ConstantTableEntry(final int index, final String name, final IExpression initialValue, final TypeTableEntry type) {
 		this.index        = index;
@@ -29,14 +29,12 @@ public class ConstantTableEntry {
 		this.type         = type;
 	}
 
-	@Override
-	public @NotNull String toString() {
-		return "ConstantTableEntry{" +
-		  "index=" + index +
-		  ", name='" + name + '\'' +
-		  ", initialValue=" + initialValue +
-		  ", type=" + type +
-		  '}';
+	public @NotNull DeduceElement3_ConstantTableEntry getDeduceElement3() {
+		if (_de3 == null) {
+			_de3 = new DeduceElement3_ConstantTableEntry(this);
+//			_de3.
+		}
+		return _de3;
 	}
 
 	public String getName() {
@@ -51,14 +49,15 @@ public class ConstantTableEntry {
 //        this.name = name;
 //    }
 
-	public DeduceElement3_ConstantTableEntry getDeduceElement3() {
-		if (_de3 == null) {
-			_de3 = new DeduceElement3_ConstantTableEntry(this);
-//			_de3.
-		}
-		return _de3;
+	@Override
+	public @NotNull String toString() {
+		return "ConstantTableEntry{" +
+				"index=" + index +
+				", name='" + name + '\'' +
+				", initialValue=" + initialValue +
+				", type=" + type +
+				'}';
 	}
-
 }
 
 //

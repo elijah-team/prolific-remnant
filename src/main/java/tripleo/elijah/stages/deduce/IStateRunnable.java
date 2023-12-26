@@ -1,23 +1,29 @@
 package tripleo.elijah.stages.deduce;
 
-import tripleo.elijah.stages.deduce.post_bytecode.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.stateful.DefaultStateful;
+import tripleo.elijah.stateful.State;
+import tripleo.elijah.stateful.StateRegistrationToken;
+import tripleo.elijah.stateful.Stateful;
 
 public interface IStateRunnable extends Stateful {
 	void run();
 
-	class ST {
+	enum ST {
+		;
 		public static State EXIT_RUN;
 
-		public static void register(final DeducePhase aDeducePhase) {
-			EXIT_RUN = aDeducePhase.register(new ExitRunState());
+		public static void register(final @NotNull DeducePhase phase) {
+			EXIT_RUN = phase.registerState(new ExitRunState());
 		}
 
 		private static class ExitRunState implements State {
 			private boolean runAlready;
+			private StateRegistrationToken identity;
 
 			@Override
-			public void apply(final DefaultStateful element) {
-//				boolean b = ((StatefulBool) element).getValue();
+			public void apply(final @NotNull DefaultStateful element) {
+//                              boolean b = ((StatefulBool) element).getValue();
 				if (!runAlready) {
 					runAlready = true;
 					((StatefulRunnable) element).run();
@@ -25,13 +31,13 @@ public interface IStateRunnable extends Stateful {
 			}
 
 			@Override
-			public void setIdentity(final int aId) {
-
+			public boolean checkState(final DefaultStateful aElement3) {
+				return true;
 			}
 
 			@Override
-			public boolean checkState(final DefaultStateful aElement3) {
-				return true;
+			public void setIdentity(final StateRegistrationToken aId) {
+				this.identity = aId;
 			}
 
 		}
