@@ -33,13 +33,13 @@ import static tripleo.elijah.stages.deduce.DeduceTypes2.*;
 public class DoAssignCall {
 	private final ElLog                      LOG;
 	private final DeduceTypes2.DeduceClient4 dc;
-	private final BaseGeneratedFunction      generatedFunction;
+	private final BaseEvaFunction      generatedFunction;
 	private final OS_Module                  module;
 	private final ErrSink                    errSink;
 
-	public DoAssignCall(final DeduceTypes2.DeduceClient4 aDeduceClient4, final @NotNull BaseGeneratedFunction aGeneratedFunction) {
+	public DoAssignCall(final DeduceTypes2.DeduceClient4 aDeduceClient4, final @NotNull BaseEvaFunction aEvaFunction) {
 		dc                = aDeduceClient4;
-		generatedFunction = aGeneratedFunction;
+		generatedFunction = aEvaFunction;
 		//
 		module  = dc.getModule();
 		LOG     = dc.getLOG();
@@ -134,9 +134,9 @@ public class DoAssignCall {
 					pte.onFunctionInvocation(new DoneCallback<FunctionInvocation>() {
 						@Override
 						public void onDone(@NotNull final FunctionInvocation result) {
-							result.generateDeferred().done(new DoneCallback<BaseGeneratedFunction>() {
+							result.generateDeferred().done(new DoneCallback<BaseEvaFunction>() {
 								@Override
-								public void onDone(@NotNull final BaseGeneratedFunction bgf) {
+								public void onDone(@NotNull final BaseEvaFunction bgf) {
 									@NotNull final DeduceTypes2.PromiseExpectation<GenType> pe = dc.promiseExpectation(bgf, "Function Result type");
 									bgf.onType(new DoneCallback<GenType>() {
 										@Override
@@ -302,7 +302,7 @@ public class DoAssignCall {
 						if (el instanceof @NotNull final FunctionDef fd) {
 							final @Nullable IInvocation invocation;
 							if (fd.getParent() == generatedFunction.getFD().getParent()) {
-								invocation = dc.getInvocation((GeneratedFunction) generatedFunction);
+								invocation = dc.getInvocation((EvaFunction) generatedFunction);
 							} else {
 								if (fd.getParent() instanceof NamespaceStatement) {
 									final NamespaceInvocation ni = dc.registerNamespaceInvocation((NamespaceStatement) fd.getParent());
@@ -326,9 +326,9 @@ public class DoAssignCall {
 										if (vte.resolvedType() == null) {
 											final @Nullable ClassInvocation ci = dc.genCI(aType, null);
 											vte.type.genTypeCI(ci);
-											ci.resolvePromise().then(new DoneCallback<GeneratedClass>() {
+											ci.resolvePromise().then(new DoneCallback<EvaClass>() {
 												@Override
-												public void onDone(final GeneratedClass result) {
+												public void onDone(final EvaClass result) {
 													vte.resolveTypeToClass(result);
 												}
 											});
@@ -362,7 +362,7 @@ public class DoAssignCall {
 		}
 	}
 
-	private void do_assign_call_args_ident(@NotNull final BaseGeneratedFunction generatedFunction,
+	private void do_assign_call_args_ident(@NotNull final BaseEvaFunction generatedFunction,
 	                                       @NotNull final Context ctx,
 	                                       @NotNull final VariableTableEntry vte,
 	                                       final int aInstructionIndex,
@@ -382,7 +382,7 @@ public class DoAssignCall {
 				@Override
 				public void run() {
 					if (isDone) return;
-					final @NotNull List<TypeTableEntry> ll = dc.getPotentialTypesVte((GeneratedFunction) generatedFunction, vte_ia);
+					final @NotNull List<TypeTableEntry> ll = dc.getPotentialTypesVte((EvaFunction) generatedFunction, vte_ia);
 					doLogic(ll);
 					isDone = true;
 				}
@@ -513,7 +513,7 @@ public class DoAssignCall {
 		}
 	}
 
-	private void do_assign_call_GET_ITEM(@NotNull final GetItemExpression gie, final TypeTableEntry tte, @NotNull final BaseGeneratedFunction generatedFunction, final Context ctx) {
+	private void do_assign_call_GET_ITEM(@NotNull final GetItemExpression gie, final TypeTableEntry tte, @NotNull final BaseEvaFunction generatedFunction, final Context ctx) {
 		try {
 			final LookupResultList     lrl  = dc.lookupExpression(gie.getLeft(), ctx);
 			final @Nullable OS_Element best = lrl.chooseBest(null);
@@ -552,7 +552,7 @@ public class DoAssignCall {
 									if (best2 != null) {
 										if (best2 instanceof @NotNull final FunctionDef fd) {
 											@Nullable final ProcTableEntry pte        = null;
-											final IInvocation              invocation = dc.getInvocation((GeneratedFunction) generatedFunction);
+											final IInvocation              invocation = dc.getInvocation((EvaFunction) generatedFunction);
 											dc.forFunction(dc.newFunctionInvocation(fd, pte, invocation), new ForFunction() {
 												@Override
 												public void typeDecided(final @NotNull GenType aType) {

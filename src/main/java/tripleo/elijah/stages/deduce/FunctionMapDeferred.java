@@ -15,7 +15,7 @@ import tripleo.elijah.stages.gen_fn.*;
  * Created 11/27/21 3:31 PM
  */
 public interface FunctionMapDeferred {
-	void onNotify(GeneratedFunction aGeneratedFunction);
+	void onNotify(EvaFunction aEvaFunction);
 }
 
 //

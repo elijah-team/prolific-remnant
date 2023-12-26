@@ -15,10 +15,10 @@ import tripleo.elijah.stages.deduce.*;
 /**
  * Created 6/27/21 9:45 AM
  */
-public class GeneratedConstructor extends BaseGeneratedFunction {
+public class EvaConstructor extends BaseEvaFunction {
 	public final @Nullable ConstructorDef cd;
 
-	public GeneratedConstructor(final @Nullable ConstructorDef aConstructorDef) {
+	public EvaConstructor(final @Nullable ConstructorDef aConstructorDef) {
 		cd = aConstructorDef;
 	}
 
@@ -48,7 +48,7 @@ public class GeneratedConstructor extends BaseGeneratedFunction {
 
 	@Override
 	public String toString() {
-		return String.format("<GeneratedConstructor %s>", cd);
+		return String.format("<EvaConstructor %s>", cd);
 	}
 
 	public String name() {

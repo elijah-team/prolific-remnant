@@ -8,5 +8,5 @@ import java.util.*;
 public interface IFunctionMapHook {
 	boolean matches(FunctionDef aFunctionDef);
 
-	void apply(Collection<GeneratedFunction> aGeneratedFunctions);
+	void apply(Collection<EvaFunction> aEvaFunctions);
 }

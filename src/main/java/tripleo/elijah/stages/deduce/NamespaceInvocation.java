@@ -19,18 +19,18 @@ import tripleo.elijah.stages.gen_fn.*;
  */
 public class NamespaceInvocation implements IInvocation {
 
-	private final DeferredObject<GeneratedNamespace, Void, Void> resolveDeferred = new DeferredObject<GeneratedNamespace, Void, Void>();
+	private final DeferredObject<EvaNamespace, Void, Void> resolveDeferred = new DeferredObject<EvaNamespace, Void, Void>();
 	private final NamespaceStatement                             namespaceStatement;
 
 	public NamespaceInvocation(final NamespaceStatement aNamespaceStatement) {
 		namespaceStatement = aNamespaceStatement;
 	}
 
-	public @NotNull DeferredObject<GeneratedNamespace, Void, Void> resolveDeferred() {
+	public @NotNull DeferredObject<EvaNamespace, Void, Void> resolveDeferred() {
 		return resolveDeferred;
 	}
 
-	public @NotNull Promise<GeneratedNamespace, Void, Void> resolvePromise() {
+	public @NotNull Promise<EvaNamespace, Void, Void> resolvePromise() {
 		return resolveDeferred.promise();
 	}
 

@@ -10,12 +10,12 @@ import java.util.*;
 public class CantResolveElement implements Diagnostic {
 	private final String                message;
 	private final IdentTableEntry       identTableEntry;
-	private final BaseGeneratedFunction generatedFunction;
+	private final BaseEvaFunction generatedFunction;
 
-	public CantResolveElement(final String aMessage, final IdentTableEntry aIdentTableEntry, final BaseGeneratedFunction aBaseGeneratedFunction) {
+	public CantResolveElement(final String aMessage, final IdentTableEntry aIdentTableEntry, final BaseEvaFunction aBaseEvaFunction) {
 		message           = aMessage;
 		identTableEntry   = aIdentTableEntry;
-		generatedFunction = aBaseGeneratedFunction;
+		generatedFunction = aBaseEvaFunction;
 	}
 
 	@Override

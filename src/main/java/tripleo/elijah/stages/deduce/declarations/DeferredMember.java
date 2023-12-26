@@ -24,7 +24,7 @@ public class DeferredMember {
 	private final IInvocation                               invocation;
 	private final VariableStatement                         variableStatement;
 	private final DeferredObject<GenType, Diagnostic, Void> typePromise = new DeferredObject<GenType, Diagnostic, Void>();
-	private final DeferredObject<GeneratedNode, Void, Void> externalRef = new DeferredObject<GeneratedNode, Void, Void>();
+	private final DeferredObject<EvaNode, Void, Void> externalRef = new DeferredObject<EvaNode, Void, Void>();
 
 	public DeferredMember(final OS_Element aParent, final IInvocation aInvocation, final VariableStatement aVariableStatement) {
 		parent            = aParent;
@@ -53,11 +53,11 @@ public class DeferredMember {
 		return typePromise;
 	}
 
-	public Promise<GeneratedNode, Void, Void> externalRef() {
+	public Promise<EvaNode, Void, Void> externalRef() {
 		return externalRef.promise();
 	}
 
-	public @NotNull DeferredObject<GeneratedNode, Void, Void> externalRefDeferred() {
+	public @NotNull DeferredObject<EvaNode, Void, Void> externalRefDeferred() {
 		return externalRef;
 	}
 

@@ -29,7 +29,7 @@ public class CReference {
 	private final GI_Repo _repo = new GI_Repo();
 	//
 	//
-	GeneratedClass _cheat = null;
+	EvaClass _cheat = null;
 	private String          rtext = null;
 	private List<String>    args;
 	private List<Reference> refs;
@@ -58,7 +58,7 @@ public class CReference {
 	}
 
 	public String getIdentIAPath(final @NotNull IdentIA ia2, final Generate_Code_For_Method.AOG aog, final String aValue) {
-		final BaseGeneratedFunction     generatedFunction = ia2.gf;
+		final BaseEvaFunction     generatedFunction = ia2.gf;
 		final List<InstructionArgument> s                 = _getIdentIAPathList(ia2);
 		refs = new ArrayList<Reference>(s.size());
 
@@ -77,7 +77,7 @@ public class CReference {
 				if (vte.getName().equals("a1")) {
 					final GenType        gt1 = vte.genType;
 					final GenType        gt2 = vte.type.genType;
-					final GeneratedClass gc1 = (GeneratedClass) vte.genType.node;
+					final EvaClass gc1 = (EvaClass) vte.genType.node;
 
 					_cheat = gc1;
 
@@ -91,7 +91,7 @@ public class CReference {
 					assert gt2.resolvedn == null;
 					assert gt2.typeName instanceof OS_UserType;
 					assert gt2.nonGenericTypeName instanceof RegularTypeName;
-					assert gt2.resolved instanceof OS_FuncType; // wrong: should be usertype: GeneratedClass
+					assert gt2.resolved instanceof OS_FuncType; // wrong: should be usertype: EvaClass
 					assert ((ClassInvocation) gt2.ci).resolvePromise().isResolved();
 
 					((ClassInvocation) gt2.ci).resolvePromise().then(gc -> { // wrong: should be ConstString
@@ -128,13 +128,13 @@ public class CReference {
 
 	public String getIdentIAPath_Proc(final @NotNull ProcTableEntry aPrte) {
 		final String[]              text      = new String[1];
-		final BaseGeneratedFunction generated = aPrte.getFunctionInvocation().getGenerated();
+		final BaseEvaFunction generated = aPrte.getFunctionInvocation().getEva();
 		final IDeduceElement3       de_pte    = aPrte.getDeduceElement3();
 
 		if (generated == null)
 			throw new IllegalStateException();
 
-		if (generated instanceof GeneratedConstructor) {
+		if (generated instanceof EvaConstructor) {
 			NotImplementedException.raise();
 			generated.onGenClass(genClass -> {
 				final IdentExpression constructorName = generated.getFD().getNameNode();
@@ -147,7 +147,7 @@ public class CReference {
 				text[0] = String.format("ZC%d%s", genClass.getCode(), constructorNameText);
 				addRef(text[0], Ref.CONSTRUCTOR);
 			});
-			final GeneratedContainerNC genClass = (GeneratedContainerNC) generated.getGenClass();
+			final EvaContainerNC genClass = (EvaContainerNC) generated.getGenClass();
 			if (genClass == null) {
 				final int y = 2;
 				//generated.setClass(genClass);

@@ -23,7 +23,7 @@ public class AccessBus {
 	final         DeferredObject<GenerateResult, Void, Void>      generateResultPromise = new DeferredObject<>();
 	private final Compilation                                     _c;
 	private final DeferredObject<PipelineLogic, Void, Void>       pipeLineLogicPromise  = new DeferredObject<>();
-	private final DeferredObject<List<GeneratedNode>, Void, Void> lgcPromise            = new DeferredObject<>();
+	private final DeferredObject<List<EvaNode>, Void, Void> lgcPromise            = new DeferredObject<>();
 	private final DeferredObject<EIT_ModuleList, Void, Void>      moduleListPromise     = new DeferredObject<>();
 	private final Map<String, ProcessRecord.PipelinePlugin>       pipelinePlugins       = new HashMap<>();
 	private       PipelineLogic                                   ____pl;
@@ -50,7 +50,7 @@ public class AccessBus {
 		generateResultPromise.resolve(aGenerateResult);
 	}
 
-	public void resolveLgc(final List<GeneratedNode> lgc) {
+	public void resolveLgc(final List<EvaNode> lgc) {
 		lgcPromise.resolve(lgc);
 	}
 
@@ -83,7 +83,7 @@ public class AccessBus {
 		generateResultPromise.then(aGenerateResultListener::gr_slot);
 	}
 
-	void doModule(final @NotNull List<GeneratedNode> lgc,
+	void doModule(final @NotNull List<EvaNode> lgc,
 	              final @NotNull WorkManager wm,
 	              final @NotNull OS_Module mod,
 	              final @NotNull PipelineLogic aPipelineLogic,
@@ -97,21 +97,21 @@ public class AccessBus {
 		final Compilation             ccc = mod.parent;
 		@NotNull final EOT_OutputTree cot = ccc.getOutputTree();
 
-		for (final GeneratedNode generatedNode : lgc) {
+		for (final EvaNode generatedNode : lgc) {
 			if (generatedNode.module() != mod) continue; // README curious
 
-			if (generatedNode instanceof final GeneratedContainerNC nc) {
+			if (generatedNode instanceof final EvaContainerNC nc) {
 
 				// 1.
 				nc.generateCode(generateC, gr);
 
 				// 2.
-				final @NotNull Collection<GeneratedNode> gn1 = (nc.functionMap.values()).stream().map(x -> (GeneratedNode) x).collect(Collectors.toList());
+				final @NotNull Collection<EvaNode> gn1 = (nc.functionMap.values()).stream().map(x -> (EvaNode) x).collect(Collectors.toList());
 				final GenerateResult                     gr2 = generateC.generateCode(gn1, wm);
 				gr.additional(gr2);
 
 				// 3.
-				final @NotNull Collection<GeneratedNode> gn2 = (nc.classMap.values()).stream().map(x -> (GeneratedNode) x).collect(Collectors.toList());
+				final @NotNull Collection<EvaNode> gn2 = (nc.classMap.values()).stream().map(x -> (EvaNode) x).collect(Collectors.toList());
 				final GenerateResult                     gr3 = generateC.generateCode(gn2, wm);
 				gr.additional(gr3);
 			} else {
@@ -153,7 +153,7 @@ public class AccessBus {
 	}
 
 	public interface AB_LgcListener {
-		void lgc_slot(List<GeneratedNode> lgc);
+		void lgc_slot(List<EvaNode> lgc);
 	}
 
 	public interface AB_GenerateResultListener {

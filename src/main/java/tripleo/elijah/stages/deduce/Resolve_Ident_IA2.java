@@ -29,7 +29,7 @@ class Resolve_Ident_IA2 {
 	private final          DeduceTypes2          deduceTypes2;
 	private final          ErrSink               errSink;
 	private final          DeducePhase           phase;
-	private final @NotNull BaseGeneratedFunction generatedFunction;
+	private final @NotNull BaseEvaFunction generatedFunction;
 	private final @NotNull FoundElement          foundElement;
 
 	private final @NotNull ElLog LOG;
@@ -38,12 +38,12 @@ class Resolve_Ident_IA2 {
 	public Resolve_Ident_IA2(final DeduceTypes2 aDeduceTypes2,
 	                         final ErrSink aErrSink,
 	                         final DeducePhase aPhase,
-	                         @NotNull final BaseGeneratedFunction aGeneratedFunction,
+	                         @NotNull final BaseEvaFunction aEvaFunction,
 	                         @NotNull final FoundElement aFoundElement) {
 		deduceTypes2      = aDeduceTypes2;
 		errSink           = aErrSink;
 		phase             = aPhase;
-		generatedFunction = aGeneratedFunction;
+		generatedFunction = aEvaFunction;
 		foundElement      = aFoundElement;
 		//
 		LOG = deduceTypes2.LOG;
@@ -58,7 +58,7 @@ class Resolve_Ident_IA2 {
 		assert identIA != null || s != null;
 
 		if (s == null)
-			s = BaseGeneratedFunction._getIdentIAPathList(identIA);
+			s = BaseEvaFunction._getIdentIAPathList(identIA);
 
 		if (identIA != null) {
 			final DeducePath          dp    = identIA.getEntry().buildDeducePath(generatedFunction);
@@ -360,8 +360,8 @@ class Resolve_Ident_IA2 {
 			}
 
 			pte.getFunctionInvocation().generatePromise()
-			   .then(aBaseGeneratedFunction ->
-			     aBaseGeneratedFunction.onType(aGenType -> {
+			   .then(aBaseEvaFunction ->
+			     aBaseEvaFunction.onType(aGenType -> {
 				     // NOTE there is no Promise-type notification for when type changes
 				     idte2.type.setAttached(aGenType);
 			     }));
@@ -433,7 +433,7 @@ class Resolve_Ident_IA2 {
 				}
 			}
 			if (fd != null) {
-				final IInvocation           invocation = deduceTypes2.getInvocation((GeneratedFunction) generatedFunction);
+				final IInvocation           invocation = deduceTypes2.getInvocation((EvaFunction) generatedFunction);
 				final @Nullable FunctionDef fd2        = fd;
 				deduceTypes2.forFunction(deduceTypes2.newFunctionInvocation(fd2, pte, invocation, phase), new ForFunction() {
 					@Override
@@ -460,9 +460,9 @@ class Resolve_Ident_IA2 {
 		final @Nullable TableEntryIV             te        = pot.get(0).tableEntry;
 		if (te instanceof final @NotNull ProcTableEntry procTableEntry) {
 			// This is how it should be done, with an Incremental
-			procTableEntry.getFunctionInvocation().generateDeferred().done(new DoneCallback<BaseGeneratedFunction>() {
+			procTableEntry.getFunctionInvocation().generateDeferred().done(new DoneCallback<BaseEvaFunction>() {
 				@Override
-				public void onDone(@NotNull final BaseGeneratedFunction result) {
+				public void onDone(@NotNull final BaseEvaFunction result) {
 					result.onType(new DoneCallback<GenType>() {
 						@Override
 						public void onDone(final GenType result) {

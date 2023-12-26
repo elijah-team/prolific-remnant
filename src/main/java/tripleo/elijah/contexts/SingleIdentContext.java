@@ -1,28 +1,29 @@
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.lang.*;
-
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.ContextImpl;
 
 /**
  * Created 8/30/20 6:51 PM
  */
-public class SingleIdentContext extends Context {
+public class SingleIdentContext extends ContextImpl {
 	private final Context         _parent;
-	private final OS_Element      element;
 	public        IdentExpression carrier;
+	private final OS_Element      element;
 
 	public SingleIdentContext(final Context _parent, final OS_Element element) {
 		this._parent = _parent;
 		this.element = element;
 	}
 
-	public void setString(final IdentExpression carrier) {
-		this.carrier = carrier;
+	@Override
+	public Context getParent() {
+		return _parent;
 	}
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final List<Context> alreadySearched, final boolean one) {
+	public LookupResultList lookup(final String name, final int level, final @NotNull LookupResultList Result, final @NotNull ISearchList alreadySearched, final boolean one) {
 		alreadySearched.add(element.getContext());
 
 		if (carrier != null && carrier.getText().equals(name))
@@ -36,8 +37,7 @@ public class SingleIdentContext extends Context {
 		return Result;
 	}
 
-	@Override
-	public Context getParent() {
-		return _parent;
+	public void setString(final IdentExpression carrier) {
+		this.carrier = carrier;
 	}
 }

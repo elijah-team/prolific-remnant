@@ -7,14 +7,14 @@ import tripleo.elijah.world.i.*;
 
 public class DefaultLivingClass implements LivingClass {
 	private final ClassStatement _element;
-	private final GeneratedClass _gc;
+	private final EvaClass _gc;
 
 	public DefaultLivingClass(final ClassStatement aElement) {
 		_element = aElement;
 		_gc      = null;
 	}
 
-	public DefaultLivingClass(final @NotNull GeneratedClass aClass) {
+	public DefaultLivingClass(final @NotNull EvaClass aClass) {
 		_element = aClass.getKlass();
 		_gc      = aClass;
 	}

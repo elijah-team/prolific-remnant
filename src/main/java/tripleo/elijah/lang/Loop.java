@@ -6,77 +6,56 @@
  * http://www.gnu.org/licenses/lgpl.html from `Version 3, 29 June 2007'
  *
  */
-package tripleo.elijah.lang;
+package tripleo.elijah.lang.impl;
 
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import tripleo.elijah.contexts.ILoopContext;
+import tripleo.elijah.contexts.LoopContext;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang2.ElElementVisitor;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
-public class Loop implements StatementItem, FunctionItem, OS_Element {
+import java.util.ArrayList;
+import java.util.List;
 
+public class LoopImpl implements tripleo.elijah.lang.i.Loop {
+
+	private final Attached   _a = new AttachedImpl();
 	private final OS_Element parent;
-	private final Attached    _a = new Attached();
 	IdentExpression iterName;
-	private       Scope3     scope3;
+	private IExpression expr;
+	private Scope3      scope3;
+	private IExpression topart, frompart;
 	/**
 	 * @category type
 	 */
 	private LoopTypes type;
-	private IExpression topart, frompart;
-	private       IExpression expr;
 
 	@Deprecated
-	public Loop(final OS_Element aParent) {
+	public LoopImpl(final OS_Element aParent) {
 		// document assumption
 		if (!(aParent instanceof FunctionDef) && !(aParent instanceof Loop))
-			SimplePrintLoggerToRemoveSoon.println2("parent is not FunctionDef or Loop");
+			SimplePrintLoggerToRemoveSoon.println_out_2("parent is not FunctionDef or Loop");
 		parent = aParent;
 	}
 
-	public Loop(final OS_Element aParent, final Context ctx) {
+	public LoopImpl(final OS_Element aParent, final Context ctx) {
 		// document assumption
 		if (!(aParent instanceof FunctionDef) && !(aParent instanceof Loop))
-			SimplePrintLoggerToRemoveSoon.println2("parent is not FunctionDef or Loop");
+			SimplePrintLoggerToRemoveSoon.println_out_2("parent is not FunctionDef or Loop");
 		parent = aParent;
 		_a.setContext(new LoopContext(ctx, this));
 	}
 
-	public void type(final LoopTypes aType) {
-		type = aType;
-	}
-
+	@Override
 	public void expr(final IExpression aExpr) {
 		expr = aExpr;
 	}
 
-	public void topart(final IExpression aExpr) {
-		topart = aExpr;
-	}
-
+	@Override
 	public void frompart(final IExpression aExpr) {
 		frompart = aExpr;
-	}
-
-	public void iterName(final IdentExpression s) {
-//		assert type == ITER_TYPE;
-		iterName = s;
-	}
-
-	public List<StatementItem> getItems() {
-		final List<StatementItem> collection = new ArrayList<StatementItem>();
-		for (final OS_Element element : scope3.items()) {
-			if (element instanceof FunctionItem)
-				collection.add((StatementItem) element);
-		}
-		return collection;
-//		return items;
-	}
-
-	@Override // OS_Element
-	public void visitGen(final ElElementVisitor visit) {
-		visit.visitLoop(this);
 	}
 
 	@Override
@@ -84,8 +63,35 @@ public class Loop implements StatementItem, FunctionItem, OS_Element {
 		return _a.getContext();
 	}
 
-	public void setContext(final LoopContext ctx) {
-		_a.setContext(ctx);
+	@Override
+	public @NotNull IExpression getFromPart() {
+		return frompart;
+	}
+
+	@Override
+	public @NotNull List<StatementItem> getItems() {
+		List<StatementItem> collection = new ArrayList<StatementItem>();
+		for (OS_Element element : scope3.items()) {
+			if (element instanceof FunctionItem)
+				collection.add((StatementItem) element);
+		}
+		return collection;
+//		return items;
+	}
+
+	@Override
+	public @NotNull String getIterName() {
+		return iterName.getText();
+	}
+
+	@Override
+	public IdentExpression getIterNameToken() {
+		return iterName;
+	}
+
+	@Override
+	public LoopTypes getType() {
+		return type;
 	}
 
 	@Override
@@ -93,32 +99,58 @@ public class Loop implements StatementItem, FunctionItem, OS_Element {
 		return parent;
 	}
 
-	public String getIterName() {
-		return iterName.getText();
-	}
-
-	public LoopTypes getType() {
-		return type;
-	}
-
-	public IExpression getToPart() {
+	@Override
+	public @NotNull IExpression getToPart() {
 		return topart;
+	}
+
+	@Override
+	public void iterName(final IdentExpression s) {
+//		assert type == ITER_TYPE;
+		iterName = s;
+	}
+
+//	public void setContext(final LoopContext ctx) {
+//		_a.setContext(ctx);
+//	}
+
+	@Override
+	public void scope(Scope3 sco) {
+		scope3 = sco;
+	}
+
+	@Override
+	public void topart(final IExpression aExpr) {
+		topart = aExpr;
+	}
+
+	@Override
+	public void type(final LoopTypes aType) {
+		type = aType;
+	}
+
+	@Override // OS_Element
+	public void visitGen(final @NotNull ElElementVisitor visit) {
+		visit.visitLoop(this);
+	}
+
+	@Override
+	public void serializeTo(final SmallWriter sw) {
+
 	}
 
 	public IExpression getExpr() {
 		return expr;
 	}
 
-	public IExpression getFromPart() {
-		return frompart;
+	//	@Override
+	public void visitGen1(@NotNull ElElementVisitor visit) {
+		visit.visitLoop(this);
 	}
 
-	public IdentExpression getIterNameToken() {
-		return iterName;
-	}
-
-	public void scope(final Scope3 sco) {
-		scope3 = sco;
+	@Override
+	public void setContext(ILoopContext ctx) {
+		this.setContext(ctx);
 	}
 
 }

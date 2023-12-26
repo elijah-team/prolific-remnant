@@ -14,15 +14,15 @@ class CReference_getIdentIAPath_IdentIAHelper {
 	private final int                   i;
 	private final int                   sSize;
 	private final OS_Element            resolved_element;
-	private final BaseGeneratedFunction generatedFunction;
-	private final GeneratedNode         resolved;
+	private final BaseEvaFunction generatedFunction;
+	private final EvaNode         resolved;
 	private final String                value;
 
 
 	public int code = -1;
 
 
-	CReference_getIdentIAPath_IdentIAHelper(final InstructionArgument ia_next, final List<String> sl, final int i, final int sSize, final OS_Element resolved_element, final BaseGeneratedFunction generatedFunction, final GeneratedNode aResolved, final String aValue) {
+	CReference_getIdentIAPath_IdentIAHelper(final InstructionArgument ia_next, final List<String> sl, final int i, final int sSize, final OS_Element resolved_element, final BaseEvaFunction generatedFunction, final EvaNode aResolved, final String aValue) {
 		this.ia_next           = ia_next;
 		this.sl                = sl;
 		this.i                 = i;
@@ -70,7 +70,7 @@ class CReference_getIdentIAPath_IdentIAHelper {
 		// Assuming constructor call
 		final int code;
 		if (getResolved() != null) {
-			code = ((GeneratedContainerNC) getResolved()).getCode();
+			code = ((EvaContainerNC) getResolved()).getCode();
 		} else {
 			code = -1;
 			SimplePrintLoggerToRemoveSoon.println_err("** 31116 not resolved " + getResolved_element());
@@ -110,7 +110,7 @@ class CReference_getIdentIAPath_IdentIAHelper {
 		assert getI() == getsSize() - 1; // Make sure we are ending with a constructor call
 		final int code;
 		if (getResolved() != null) {
-			code = ((BaseGeneratedFunction) getResolved()).getCode();
+			code = ((BaseEvaFunction) getResolved()).getCode();
 		} else {
 			code = -1;
 			SimplePrintLoggerToRemoveSoon.println_err("** 31161 not resolved " + getResolved_element());
@@ -133,11 +133,11 @@ class CReference_getIdentIAPath_IdentIAHelper {
 		final OS_Element parent = getResolved_element().getParent();
 		final int        code;
 		if (getResolved() != null) {
-			assert getResolved() instanceof BaseGeneratedFunction;
-			final BaseGeneratedFunction rf = (BaseGeneratedFunction) getResolved();
-			final GeneratedNode         gc = rf.getGenClass();
-			if (gc instanceof GeneratedContainerNC) // and not another function
-				code = ((GeneratedContainerNC) gc).getCode();
+			assert getResolved() instanceof BaseEvaFunction;
+			final BaseEvaFunction rf = (BaseEvaFunction) getResolved();
+			final EvaNode         gc = rf.getGenClass();
+			if (gc instanceof EvaContainerNC) // and not another function
+				code = ((EvaContainerNC) gc).getCode();
 			else
 				code = -2;
 		} else {
@@ -169,12 +169,12 @@ class CReference_getIdentIAPath_IdentIAHelper {
 		final VariableSequence variableSequence = (VariableSequence) getResolved_element().getParent();
 		final OS_Element       parent           = variableSequence.getParent();
 
-		if (parent == getGeneratedFunction().getFD().getParent()) {
+		if (parent == getEvaFunction().getFD().getParent()) {
 			// A direct member value. Doesn't handle when indirect
 //				text = Emit.emit("/*124*/")+"vsc->vm" + text2;
 			aCReference.addRef(text2, CReference.Ref.DIRECT_MEMBER, getValue());
 		} else {
-			if (parent == getGeneratedFunction().getFD()) {
+			if (parent == getEvaFunction().getFD()) {
 				aCReference.addRef(text2, CReference.Ref.LOCAL);
 			} else {
 //					if (parent instanceof NamespaceStatement) {
@@ -206,20 +206,20 @@ class CReference_getIdentIAPath_IdentIAHelper {
 	private void _act_FunctionDef(final CReference aCReference) {
 		final OS_Element    parent        = getResolved_element().getParent();
 		int                 our_code      = -1;
-		final GeneratedNode resolved_node = getResolved();
+		final EvaNode resolved_node = getResolved();
 
 		if (resolved_node != null) {
-			if (resolved_node instanceof final BaseGeneratedFunction resolvedFunction) {
+			if (resolved_node instanceof final BaseEvaFunction resolvedFunction) {
 
 				resolvedFunction.onGenClass(gc -> {
-//						GeneratedNode gc = rf.getGenClass();
-					if (gc instanceof GeneratedContainerNC) // and not another function
+//						EvaNode gc = rf.getGenClass();
+					if (gc instanceof EvaContainerNC) // and not another function
 						this.code = gc.getCode();
 					else
 						this.code = -2;
 				});
 
-				if (resolvedFunction.getGenClass() instanceof final GeneratedNamespace generatedNamespace) {
+				if (resolvedFunction.getGenClass() instanceof final EvaNamespace generatedNamespace) {
 					// FIXME sometimes genClass is not called so above wont work,
 					//  so check if a code was set and use it here
 					final int                cc                 = generatedNamespace.getCode();
@@ -228,7 +228,7 @@ class CReference_getIdentIAPath_IdentIAHelper {
 					}
 				}
 
-			} else if (resolved_node instanceof final GeneratedClass generatedClass) {
+			} else if (resolved_node instanceof final EvaClass generatedClass) {
 				this.code = generatedClass.getCode();
 			}
 		}
@@ -252,7 +252,7 @@ class CReference_getIdentIAPath_IdentIAHelper {
 	}
 
 	@Contract(pure = true)
-	public GeneratedNode getResolved() {
+	public EvaNode getResolved() {
 		return resolved;
 	}
 
@@ -277,7 +277,7 @@ class CReference_getIdentIAPath_IdentIAHelper {
 	}
 
 	@Contract(pure = true)
-	public BaseGeneratedFunction getGeneratedFunction() {
+	public BaseEvaFunction getEvaFunction() {
 		return generatedFunction;
 	}
 

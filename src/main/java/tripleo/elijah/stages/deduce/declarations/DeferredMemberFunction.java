@@ -25,7 +25,7 @@ public class DeferredMemberFunction {
 	private final OS_Element                                        parent;
 	private final BaseFunctionDef                                   functionDef;
 	private final DeferredObject<GenType, Diagnostic, Void>         typePromise = new DeferredObject<GenType, Diagnostic, Void>();
-	private final DeferredObject<BaseGeneratedFunction, Void, Void> externalRef = new DeferredObject<BaseGeneratedFunction, Void, Void>();
+	private final DeferredObject<BaseEvaFunction, Void, Void> externalRef = new DeferredObject<BaseEvaFunction, Void, Void>();
 	private final DeduceTypes2                                      deduceTypes2;
 	private final FunctionInvocation                                functionInvocation;
 	/**
@@ -53,10 +53,10 @@ public class DeferredMemberFunction {
 			return;
 		}
 
-		functionInvocation.generatePromise().then(new DoneCallback<BaseGeneratedFunction>() {
+		functionInvocation.generatePromise().then(new DoneCallback<BaseEvaFunction>() {
 			@Override
-			public void onDone(final BaseGeneratedFunction result) {
-				deduceTypes2.deduceOneFunction((GeneratedFunction) result, deduceTypes2._phase()); // !!
+			public void onDone(final BaseEvaFunction result) {
+				deduceTypes2.deduceOneFunction((EvaFunction) result, deduceTypes2._phase()); // !!
 				result.onType(new DoneCallback<GenType>() {
 					@Override
 					public void onDone(final GenType result) {
@@ -93,11 +93,11 @@ public class DeferredMemberFunction {
 		return typePromise;
 	}
 
-	public Promise<BaseGeneratedFunction, Void, Void> externalRef() {
+	public Promise<BaseEvaFunction, Void, Void> externalRef() {
 		return externalRef.promise();
 	}
 
-	public @NotNull DeferredObject<BaseGeneratedFunction, Void, Void> externalRefDeferred() {
+	public @NotNull DeferredObject<BaseEvaFunction, Void, Void> externalRefDeferred() {
 		return externalRef;
 	}
 

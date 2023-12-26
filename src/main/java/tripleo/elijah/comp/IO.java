@@ -52,7 +52,7 @@ public class IO {
 		}
 	}
 
-	public CharSink openWrite(final Path p) throws IOException {
+	public DisposableCharSink openWrite(final Path p) throws IOException {
 		record(FileOption.WRITE, p);
 		return new FileCharSink(Files.newOutputStream(p));
 	}

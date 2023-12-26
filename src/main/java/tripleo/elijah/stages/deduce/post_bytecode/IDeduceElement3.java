@@ -40,7 +40,7 @@ public interface IDeduceElement3 {
 
 	DeduceTypes2 deduceTypes2();
 
-	BaseGeneratedFunction generatedFunction();
+	BaseEvaFunction generatedFunction();
 
 	GenType genType();
 

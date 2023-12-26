@@ -12,12 +12,12 @@ import java.util.*;
 class Assign_type_to_idte {
 	private final DeduceTypes2          aDeduceTypes2;
 	private final IdentTableEntry       ite;
-	private final BaseGeneratedFunction generatedFunction;
+	private final BaseEvaFunction generatedFunction;
 	private final Context               aFunctionContext;
 	private final Context               aContext;
 
 	@Contract(pure = true)
-	public Assign_type_to_idte(final DeduceTypes2 aDeduceTypes2, final IdentTableEntry ite, final BaseGeneratedFunction generatedFunction, final Context aFunctionContext, final Context aContext) {
+	public Assign_type_to_idte(final DeduceTypes2 aDeduceTypes2, final IdentTableEntry ite, final BaseEvaFunction generatedFunction, final Context aFunctionContext, final Context aContext) {
 		this.aDeduceTypes2     = aDeduceTypes2;
 		this.ite               = ite;
 		this.generatedFunction = generatedFunction;

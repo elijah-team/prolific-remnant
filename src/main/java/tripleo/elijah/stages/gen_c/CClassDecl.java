@@ -18,11 +18,11 @@ import java.util.*;
  * Created 12/24/20 7:42 AM
  */
 public class CClassDecl {
-	private final GeneratedClass generatedClass;
+	private final EvaClass generatedClass;
 	public        String         prim_decl;
 	public        boolean        prim = false;
 
-	public CClassDecl(final GeneratedClass generatedClass) {
+	public CClassDecl(final EvaClass generatedClass) {
 		this.generatedClass = generatedClass;
 	}
 

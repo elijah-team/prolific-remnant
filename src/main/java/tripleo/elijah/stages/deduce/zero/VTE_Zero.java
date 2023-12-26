@@ -71,9 +71,9 @@ public class VTE_Zero {
 			final TypeName                  typeName = vte.type.genType.nonGenericTypeName;
 			final @Nullable ClassInvocation ci       = genType.genCI(typeName, deduceTypes2, errSink, phase);
 //							resolve_vte_for_class(vte, klass);
-			ci.resolvePromise().done(new DoneCallback<GeneratedClass>() {
+			ci.resolvePromise().done(new DoneCallback<EvaClass>() {
 				@Override
-				public void onDone(final GeneratedClass result) {
+				public void onDone(final EvaClass result) {
 					vte.resolveTypeToClass(result);
 				}
 			});

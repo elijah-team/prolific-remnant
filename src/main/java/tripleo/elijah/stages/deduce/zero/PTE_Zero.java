@@ -17,7 +17,7 @@ public class PTE_Zero {
 		procTableEntry = aProcTableEntry;
 	}
 
-	public void foundCounstructorDef(final @NotNull GeneratedConstructor constructorDef,
+	public void foundCounstructorDef(final @NotNull EvaConstructor constructorDef,
 	                                 final @NotNull IdentTableEntry ite,
 	                                 final @NotNull DeduceTypes2 deduceTypes2,
 	                                 final @NotNull ErrSink errSink) {
@@ -37,7 +37,7 @@ public class PTE_Zero {
 		return _foundCounstructorDef2Promise.promise();
 	}
 
-	public void calculateConstructor(@NotNull final GeneratedConstructor constructorDef, @NotNull final IdentTableEntry ite, @NotNull final DeduceTypes2 deduceTypes2) {
+	public void calculateConstructor(@NotNull final EvaConstructor constructorDef, @NotNull final IdentTableEntry ite, @NotNull final DeduceTypes2 deduceTypes2) {
 		if (_foundCounstructorDef2Promise.isResolved()) return;
 
 		@NotNull final BaseFunctionDef ele = constructorDef.getFD();

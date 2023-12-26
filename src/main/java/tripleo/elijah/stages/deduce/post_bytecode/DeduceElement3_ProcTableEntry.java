@@ -12,13 +12,13 @@ import tripleo.elijah.util.*;
 public class DeduceElement3_ProcTableEntry implements IDeduceElement3 {
 	private final ProcTableEntry        principal;
 	private final DeduceTypes2          deduceTypes2;
-	private final BaseGeneratedFunction generatedFunction;
+	private final BaseEvaFunction generatedFunction;
 	private       Instruction           instruction;
 
-	public DeduceElement3_ProcTableEntry(final ProcTableEntry aProcTableEntry, final DeduceTypes2 aDeduceTypes2, final BaseGeneratedFunction aGeneratedFunction) {
+	public DeduceElement3_ProcTableEntry(final ProcTableEntry aProcTableEntry, final DeduceTypes2 aDeduceTypes2, final BaseEvaFunction aEvaFunction) {
 		principal         = aProcTableEntry;
 		deduceTypes2      = aDeduceTypes2;
-		generatedFunction = aGeneratedFunction;
+		generatedFunction = aEvaFunction;
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class DeduceElement3_ProcTableEntry implements IDeduceElement3 {
 	}
 
 	@Override
-	public BaseGeneratedFunction generatedFunction() {
+	public BaseEvaFunction generatedFunction() {
 		return generatedFunction;
 	}
 
@@ -67,7 +67,7 @@ public class DeduceElement3_ProcTableEntry implements IDeduceElement3 {
 		return principal;
 	}
 
-	public BaseGeneratedFunction getGeneratedFunction() {
+	public BaseEvaFunction getEvaFunction() {
 		return generatedFunction;
 	}
 
@@ -91,7 +91,7 @@ public class DeduceElement3_ProcTableEntry implements IDeduceElement3 {
 					if (dotleft.getLeft() instanceof final IdentExpression rl && dotleft.getRight() instanceof final IdentExpression rr) {
 
 						if (rl.getText().equals("a1")) {
-							final GeneratedClass[] gc = new GeneratedClass[1];
+							final EvaClass[] gc = new EvaClass[1];
 
 							final InstructionArgument vrl = generatedFunction.vte_lookup(rl.getText());
 
@@ -100,7 +100,7 @@ public class DeduceElement3_ProcTableEntry implements IDeduceElement3 {
 							final VariableTableEntry vte = ((IntegerIA) vrl).getEntry();
 
 							vte.typePromise().then(left_type -> {
-								final ClassStatement cs = left_type.resolved.getClassOf(); // TODO we want a DeduceClass here. GeneratedClass may suffice
+								final ClassStatement cs = left_type.resolved.getClassOf(); // TODO we want a DeduceClass here. EvaClass may suffice
 
 								final ClassInvocation ci = deduceTypes2._phase().registerClassInvocation(cs);
 								ci.resolvePromise().then(gc2 -> {
@@ -129,7 +129,7 @@ public class DeduceElement3_ProcTableEntry implements IDeduceElement3 {
 
 									if (attached instanceof final OS_FuncType funcType) {
 
-										final GeneratedClass x = gc[0];
+										final EvaClass x = gc[0];
 
 										fi2.generatePromise().then(gf -> {
 											final int y4 = 4;
@@ -190,7 +190,7 @@ public class DeduceElement3_ProcTableEntry implements IDeduceElement3 {
 				ci = phase.registerClassInvocation(ci);
 				fi = new FunctionInvocation(null, pte, ci, phase.generatePhase);
 			} else if (resolvedElement instanceof final FunctionDef functionDef) {
-				final IInvocation invocation = dc.getInvocation((GeneratedFunction) generatedFunction);
+				final IInvocation invocation = dc.getInvocation((EvaFunction) generatedFunction);
 				fi = new FunctionInvocation(functionDef, pte, invocation, phase.generatePhase);
 				if (functionDef.getParent() instanceof ClassStatement) {
 					final ClassStatement classStatement = (ClassStatement) fi.getFunction().getParent();

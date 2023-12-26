@@ -33,7 +33,7 @@ public class _GF {
 
 		final ProcTableEntry pte = de_pte.getTablePrincipal();
 
-		final BaseGeneratedFunction gf          = de_pte.getGeneratedFunction();
+		final BaseEvaFunction gf          = de_pte.getEvaFunction();
 		final Instruction           instruction = de_pte.getInstruction();
 
 		final StringBuilder sb = XXX_YYY.dispatch(pte, new XXX_YYY() {

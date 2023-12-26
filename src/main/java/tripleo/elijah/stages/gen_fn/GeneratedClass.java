@@ -21,15 +21,15 @@ import java.util.*;
 /**
  * Created 10/29/20 4:26 AM
  */
-public class GeneratedClass extends GeneratedContainerNC implements GNCoded {
-	public final  Map<ConstructorDef, GeneratedConstructor> constructors                      = new HashMap<ConstructorDef, GeneratedConstructor>();
+public class EvaClass extends EvaContainerNC implements GNCoded {
+	public final  Map<ConstructorDef, EvaConstructor> constructors                      = new HashMap<ConstructorDef, EvaConstructor>();
 	private final OS_Module                                 module;
 	private final ClassStatement                            klass;
 	public        ClassInvocation                           ci;
 	public        LivingClass                               _living;
 	private       boolean                                   resolve_var_table_entries_already = false;
 
-	public GeneratedClass(final ClassStatement klass, final OS_Module module) {
+	public EvaClass(final ClassStatement klass, final OS_Module module) {
 		this.klass  = klass;
 		this.module = module;
 	}
@@ -67,8 +67,8 @@ public class GeneratedClass extends GeneratedContainerNC implements GNCoded {
 		return false;
 	}
 
-	public void addConstructor(final ConstructorDef aConstructorDef, @NotNull final GeneratedConstructor aGeneratedFunction) {
-		constructors.put(aConstructorDef, aGeneratedFunction);
+	public void addConstructor(final ConstructorDef aConstructorDef, @NotNull final EvaConstructor aEvaFunction) {
+		constructors.put(aConstructorDef, aEvaFunction);
 	}
 
 	public boolean resolve_var_table_entries(final @NotNull DeducePhase aDeducePhase) {
@@ -109,8 +109,8 @@ public class GeneratedClass extends GeneratedContainerNC implements GNCoded {
 						//
 						if (potentialType.getAttached().getType() != OS_Type.Type.USER_CLASS) {
 							final TypeName t = potentialType.getAttached().getTypeName();
-							if (ci.genericPart != null) {
-								for (final Map.Entry<TypeName, OS_Type> typeEntry : ci.genericPart.entrySet()) {
+							if (ci.genericPart() != null) {
+								for (final Map.Entry<TypeName, OS_Type> typeEntry : ci.genericPart().entrySet()) {
 									if (typeEntry.getKey().equals(t)) {
 										final OS_Type v = typeEntry.getValue();
 										potentialType.setAttached(v);
@@ -122,11 +122,11 @@ public class GeneratedClass extends GeneratedContainerNC implements GNCoded {
 						}
 						//
 						if (potentialType.getAttached().getType() == OS_Type.Type.USER_CLASS) {
-							ClassInvocation xci = new ClassInvocation(potentialType.getAttached().getClassOf(), null);
+							ClassInvocation xci = new ClassInvocation(potentialType.getAttached().getClassOf(), null, ()->this.);
 							{
-								for (final Map.Entry<TypeName, OS_Type> entry : xci.genericPart.entrySet()) {
+								for (final Map.Entry<TypeName, OS_Type> entry : xci.genericPart().entrySet()) {
 									if (entry.getKey().equals(varTableEntry.typeName)) {
-										xci.genericPart.put(entry.getKey(), varTableEntry.varType);
+										xci.genericPart().put(entry.getKey(), varTableEntry.varType);
 									}
 								}
 							}
@@ -193,7 +193,7 @@ public class GeneratedClass extends GeneratedContainerNC implements GNCoded {
 		for (final VarTableEntry varTableEntry : varTable) {
 			varTableEntry.updatePotentialTypesCB = new VarTableEntry.UpdatePotentialTypesCB() {
 				@Override
-				public void call(final @NotNull GeneratedContainer aGeneratedContainer) {
+				public void call(final @NotNull EvaContainer aEvaContainer) {
 					final List<GenType> potentialTypes = getPotentialTypes();
 					//
 
@@ -219,15 +219,15 @@ public class GeneratedClass extends GeneratedContainerNC implements GNCoded {
 					}
 
 					if (potentialTypes.size() == 1) {
-						if (ci.genericPart != null) {
+						if (ci.genericPart() != null) {
 							final OS_Type t = varTableEntry.varType;
 							if (t.getType() == OS_Type.Type.USER) {
 								try {
 									final @NotNull GenType genType = aDeduceTypes2.resolve_type(t, t.getTypeName().getContext());
 									if (genType.resolved instanceof OS_GenericTypeNameType) {
-										final ClassInvocation xxci = ((GeneratedClass) aGeneratedContainer).ci;
+										final ClassInvocation xxci = ((EvaClass) aEvaContainer).ci;
 //											xxxci = ci;
-										for (final Map.@NotNull Entry<TypeName, OS_Type> entry : xxci.genericPart.entrySet()) {
+										for (final Map.@NotNull Entry<TypeName, OS_Type> entry : xxci.genericPart().entrySet()) {
 											if (entry.getKey().equals(t.getTypeName())) {
 												varTableEntry.varType = entry.getValue();
 											}
@@ -291,16 +291,16 @@ public class GeneratedClass extends GeneratedContainerNC implements GNCoded {
 	}
 
 	public String toString() {
-		return String.format("<GeneratedClass %d %s>", getCode(), getName()); // TODO package, full-name
+		return String.format("<EvaClass %d %s>", getCode(), getName()); // TODO package, full-name
 	}
 
 	@NotNull
 	public String getName() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(klass.getName());
-		if (ci.genericPart != null) {
+		if (ci.genericPart() != null) {
 			sb.append("[");
-			final String joined = getNameHelper(ci.genericPart);
+			final String joined = getNameHelper(ci.genericPart().asMap());
 			sb.append(joined);
 			sb.append("]");
 		}

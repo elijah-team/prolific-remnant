@@ -212,8 +212,8 @@ public class ProcTableEntry extends BaseTableEntry implements TableEntryIV {
 		return args;
 	}
 
-	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2, final Context aContext, final BaseGeneratedFunction aGeneratedFunction, final ErrSink aErrSink) {
-		dpc.setDeduceTypes2(aDeduceTypes2, aContext, aGeneratedFunction, aErrSink);
+	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2, final Context aContext, final BaseEvaFunction aEvaFunction, final ErrSink aErrSink) {
+		dpc.setDeduceTypes2(aDeduceTypes2, aContext, aEvaFunction, aErrSink);
 	}
 
 	public IDeduceElement3 getDeduceElement3() {
@@ -222,9 +222,9 @@ public class ProcTableEntry extends BaseTableEntry implements TableEntryIV {
 		return getDeduceElement3(dpc._deduceTypes2(), dpc._generatedFunction());
 	}
 
-	public IDeduceElement3 getDeduceElement3(final DeduceTypes2 aDeduceTypes2, final BaseGeneratedFunction aGeneratedFunction) {
+	public IDeduceElement3 getDeduceElement3(final DeduceTypes2 aDeduceTypes2, final BaseEvaFunction aEvaFunction) {
 		if (_de3 == null) {
-			_de3 = new DeduceElement3_ProcTableEntry(this, aDeduceTypes2, aGeneratedFunction);
+			_de3 = new DeduceElement3_ProcTableEntry(this, aDeduceTypes2, aEvaFunction);
 //			_de3.
 		}
 		return _de3;

@@ -20,7 +20,7 @@ import java.util.*;
 /**
  * Created 2/28/21 3:23 AM
  */
-public interface GeneratedContainer extends GeneratedNode {
+public interface EvaContainer extends EvaNode {
 	OS_Element getElement();
 
 	@Nullable VarTableEntry getVariable(String aVarName);
@@ -36,7 +36,7 @@ public interface GeneratedContainer extends GeneratedNode {
 		private final OS_Element                                         parent;
 		public        OS_Type                                            varType;
 		UpdatePotentialTypesCB updatePotentialTypesCB;
-		private GeneratedNode _resolvedType;
+		private EvaNode _resolvedType;
 
 		public VarTableEntry(final VariableStatement aVs,
 		                     final @NotNull IdentExpression aNameToken,
@@ -55,12 +55,12 @@ public interface GeneratedContainer extends GeneratedNode {
 			potentialTypes.addAll(aPotentialTypes);
 		}
 
-		public void resolve(@NotNull final GeneratedNode aResolvedType) {
-			System.out.printf("** [GeneratedContainer 56] resolving VarTableEntry %s to %s%n", nameToken, aResolvedType.identityString());
+		public void resolve(@NotNull final EvaNode aResolvedType) {
+			System.out.printf("** [EvaContainer 56] resolving VarTableEntry %s to %s%n", nameToken, aResolvedType.identityString());
 			_resolvedType = aResolvedType;
 		}
 
-		public @Nullable GeneratedNode resolvedType() {
+		public @Nullable EvaNode resolvedType() {
 			return _resolvedType;
 		}
 
@@ -68,29 +68,29 @@ public interface GeneratedContainer extends GeneratedNode {
 			return parent;
 		}
 
-		public void connect(final VariableTableEntry aVte, final GeneratedConstructor aConstructor) {
+		public void connect(final VariableTableEntry aVte, final EvaConstructor aConstructor) {
 			connectionPairs.add(new ConnectionPair(aVte, aConstructor));
 		}
 
-		public void updatePotentialTypes(final @NotNull GeneratedContainer aGeneratedContainer) {
-//			assert aGeneratedContainer == GeneratedContainer.this;
+		public void updatePotentialTypes(final @NotNull EvaContainer aEvaContainer) {
+//			assert aEvaContainer == EvaContainer.this;
 			updatePotentialTypesCBPromise.then(new DoneCallback<UpdatePotentialTypesCB>() {
 				@Override
 				public void onDone(final UpdatePotentialTypesCB result) {
-					result.call(aGeneratedContainer);
+					result.call(aEvaContainer);
 				}
 			});
 		}
 
 		public interface UpdatePotentialTypesCB {
-			void call(final @NotNull GeneratedContainer aGeneratedContainer);
+			void call(final @NotNull EvaContainer aEvaContainer);
 		}
 
 		public static class ConnectionPair {
 			public final VariableTableEntry   vte;
-			final        GeneratedConstructor constructor;
+			final        EvaConstructor constructor;
 
-			public ConnectionPair(final VariableTableEntry aVte, final GeneratedConstructor aConstructor) {
+			public ConnectionPair(final VariableTableEntry aVte, final EvaConstructor aConstructor) {
 				vte         = aVte;
 				constructor = aConstructor;
 			}

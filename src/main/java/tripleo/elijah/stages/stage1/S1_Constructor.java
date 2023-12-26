@@ -20,7 +20,7 @@ import static tripleo.elijah.util.Helpers.*;
  */
 public class S1_Constructor {
 
-	private GeneratedConstructor gf;
+	private EvaConstructor gf;
 	private ConstructorDef       source;
 	private FunctionInvocation   invocation;
 
@@ -34,7 +34,7 @@ public class S1_Constructor {
 
 	public void setSource(final ConstructorDef aConstructorDef) {
 		source = aConstructorDef;
-		gf     = new GeneratedConstructor(source);
+		gf     = new EvaConstructor(source);
 	}
 
 	public void setInvocation(final FunctionInvocation aFunctionInvocation) {
@@ -89,7 +89,7 @@ public class S1_Constructor {
 		}
 	}
 
-	public GeneratedConstructor getGenerated() {
+	public EvaConstructor getEva() {
 		return gf;
 	}
 
@@ -114,6 +114,6 @@ public class S1_Constructor {
 //		for (Instruction instruction : gf.instructionsList) {
 //			LOG.info(instruction);
 //		}
-//		GeneratedFunction.printTables(gf);
+//		EvaFunction.printTables(gf);
 	}
 }

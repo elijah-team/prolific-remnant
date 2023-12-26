@@ -18,7 +18,7 @@ class Do_assign_call {
 		deduceTypes2 = aDeduceTypes2;
 	}
 
-	public void do_assign_call(final @NotNull BaseGeneratedFunction generatedFunction,
+	public void do_assign_call(final @NotNull BaseEvaFunction generatedFunction,
 	                           final @NotNull Context ctx,
 	                           final @NotNull VariableTableEntry vte,
 	                           final @NotNull FnCallArgs fca,
@@ -67,9 +67,9 @@ class Do_assign_call {
 					pte.onFunctionInvocation(new DoneCallback<FunctionInvocation>() {
 						@Override
 						public void onDone(@NotNull final FunctionInvocation result) {
-							result.generateDeferred().done(new DoneCallback<BaseGeneratedFunction>() {
+							result.generateDeferred().done(new DoneCallback<BaseEvaFunction>() {
 								@Override
-								public void onDone(@NotNull final BaseGeneratedFunction bgf) {
+								public void onDone(@NotNull final BaseEvaFunction bgf) {
 									@NotNull final DeduceTypes2.PromiseExpectation<GenType> pe = deduceTypes2.promiseExpectation(bgf, "Function Result type");
 									bgf.onType(new DoneCallback<GenType>() {
 										@Override
@@ -228,7 +228,7 @@ class Do_assign_call {
 						if (el instanceof @NotNull final FunctionDef fd) {
 							final @Nullable IInvocation invocation;
 							if (fd.getParent() == generatedFunction.getFD().getParent()) {
-								invocation = deduceTypes2.getInvocation((GeneratedFunction) generatedFunction);
+								invocation = deduceTypes2.getInvocation((EvaFunction) generatedFunction);
 							} else {
 								if (fd.getParent() instanceof NamespaceStatement) {
 									final NamespaceInvocation ni = deduceTypes2.phase.registerNamespaceInvocation((NamespaceStatement) fd.getParent());
@@ -252,9 +252,9 @@ class Do_assign_call {
 										if (vte.resolvedType() == null) {
 											final @Nullable ClassInvocation ci = deduceTypes2.genCI(aType, null);
 											vte.type.genTypeCI(ci);
-											ci.resolvePromise().then(new DoneCallback<GeneratedClass>() {
+											ci.resolvePromise().then(new DoneCallback<EvaClass>() {
 												@Override
-												public void onDone(final GeneratedClass result) {
+												public void onDone(final EvaClass result) {
 													vte.resolveTypeToClass(result);
 												}
 											});

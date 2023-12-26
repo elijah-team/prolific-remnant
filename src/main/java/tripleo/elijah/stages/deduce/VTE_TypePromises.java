@@ -50,10 +50,10 @@ public class VTE_TypePromises {
 	                                                   final @NotNull ProcTableEntry aProcTableEntry,
 	                                                   final ClassInvocation aCi,
 	                                                   final ProcTableListener aProcTableListener) {
-		aCi.resolvePromise().done(new DoneCallback<GeneratedClass>() {
+		aCi.resolvePromise().done(new DoneCallback<EvaClass>() {
 			@Override
-			public void onDone(final GeneratedClass result) {
-				for (final GeneratedContainer.VarTableEntry varTableEntry : result.varTable) {
+			public void onDone(final EvaClass result) {
+				for (final EvaContainer.VarTableEntry varTableEntry : result.varTable) {
 					if (varTableEntry.nameToken.getText().equals(variableStatement.getName())) {
 						assert varTableEntry.varType.getClassOf() == fd.getParent();
 
@@ -94,7 +94,7 @@ public class VTE_TypePromises {
 
 	// region DeduceTypes2
 
-	static void getItemFali(final @NotNull BaseGeneratedFunction generatedFunction,
+	static void getItemFali(final @NotNull BaseEvaFunction generatedFunction,
 	                        final @NotNull Context ctx,
 	                        final @NotNull VariableTableEntry aVte2,
 	                        final @NotNull DeduceTypes2 aDeduceTypes2) {
@@ -116,7 +116,7 @@ public class VTE_TypePromises {
 					if (best2 != null) {
 						if (best2 instanceof @Nullable final FunctionDef fd) {
 							@Nullable final ProcTableEntry pte        = null;
-							final IInvocation              invocation = aDeduceTypes2.getInvocation((GeneratedFunction) generatedFunction);
+							final IInvocation              invocation = aDeduceTypes2.getInvocation((EvaFunction) generatedFunction);
 							aDeduceTypes2.forFunction(aDeduceTypes2.newFunctionInvocation(fd, pte, invocation, aDeduceTypes2.phase), new ForFunction() {
 								@Override
 								public void typeDecided(final @NotNull GenType aType) {
@@ -179,7 +179,7 @@ public class VTE_TypePromises {
 	}
 
 	static void found_parent(final @NotNull DeduceTypes2.PromiseExpectation<GenType> aPromiseExpectation,
-	                         final BaseGeneratedFunction generatedFunction,
+	                         final BaseEvaFunction generatedFunction,
 	                         final VariableTableEntry aBte,
 	                         final IdentTableEntry ite,
 	                         final DeduceTypes2 aDeduceTypes2) {

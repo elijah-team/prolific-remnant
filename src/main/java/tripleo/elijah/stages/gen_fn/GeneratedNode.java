@@ -14,7 +14,7 @@ import tripleo.elijah.lang.*;
 /**
  * Created 10/29/20 4:51 AM
  */
-public interface GeneratedNode {
+public interface EvaNode {
 	String identityString();
 
 	OS_Module module();

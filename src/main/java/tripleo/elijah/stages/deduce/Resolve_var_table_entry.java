@@ -13,7 +13,7 @@ class Resolve_var_table_entry {
 		deduceTypes2 = aDeduceTypes2;
 	}
 
-	public void act(@NotNull final VariableTableEntry vte, final BaseGeneratedFunction generatedFunction, final Context ctx) {
+	public void act(@NotNull final VariableTableEntry vte, final BaseEvaFunction generatedFunction, final Context ctx) {
 		if (vte.getResolvedElement() == null)
 			return;
 		{
@@ -35,9 +35,9 @@ class Resolve_var_table_entry {
 					//
 					// registerClassInvocation does the job of makeNode, so results should be immediately available
 					//
-					((ClassInvocation) genType.ci).resolvePromise().then(new DoneCallback<GeneratedClass>() {
+					((ClassInvocation) genType.ci).resolvePromise().then(new DoneCallback<EvaClass>() {
 						@Override
-						public void onDone(final GeneratedClass result) {
+						public void onDone(final EvaClass result) {
 							genType.node = result;
 							if (!vte.typePromise().isResolved()) // HACK
 								vte.resolveType(genType);

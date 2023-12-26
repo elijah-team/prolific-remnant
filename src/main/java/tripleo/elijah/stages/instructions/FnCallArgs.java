@@ -22,10 +22,10 @@ import java.util.*;
  */
 public class FnCallArgs implements InstructionArgument {
 	public final           Instruction           expression_to_call;
-	private final @NotNull BaseGeneratedFunction gf;
+	private final @NotNull BaseEvaFunction gf;
 	private                TypeTableEntry        _type; // the return type of the function call
 
-	public FnCallArgs(final Instruction expression_to_call, final @NotNull BaseGeneratedFunction generatedFunction) {
+	public FnCallArgs(final Instruction expression_to_call, final @NotNull BaseEvaFunction generatedFunction) {
 		this.expression_to_call = expression_to_call;
 		this.gf                 = generatedFunction;
 	}

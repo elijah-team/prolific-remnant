@@ -47,17 +47,17 @@ public interface EntryPointProcessor {
 				final Compilation compilation = deducePhase._compilation();
 
 				@Override
-				public void registerNamespace(final GeneratedNamespace aNamespace) {
+				public void registerNamespace(final EvaNamespace aNamespace) {
 					compilation._repo.addNamespace(aNamespace, LivingRepo.Add.NONE);
 				}
 
 				@Override
-				public void registerClass(final GeneratedClass aClass) {
+				public void registerClass(final EvaClass aClass) {
 					compilation._repo.addClass(aClass, LivingRepo.Add.MAIN_CLASS);
 				}
 
 				@Override
-				public void registerFunction(final BaseGeneratedFunction aFunction) {
+				public void registerFunction(final BaseEvaFunction aFunction) {
 					compilation._repo.addFunction(aFunction, LivingRepo.Add.MAIN_FUNCTION);
 				}
 			};

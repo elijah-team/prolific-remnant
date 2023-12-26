@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.*;
 import tripleo.elijah.ci.*;
 import tripleo.elijah.comp.functionality.f202.*;
+import tripleo.elijah.comp.nextgen.*;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.nextgen.inputtree.*;
 import tripleo.elijah.nextgen.outputtree.*;
@@ -270,7 +271,7 @@ public abstract class Compilation {
 
 	public abstract @NotNull FluffyComp getFluffy();
 
-	public @NotNull List<GeneratedNode> getLGC() {
+	public @NotNull List<EvaNode> getLGC() {
 		return getDeducePhase().generatedClasses.copy();
 	}
 
@@ -289,6 +290,8 @@ public abstract class Compilation {
 	public Finally reports() {
 		return _f;
 	}
+
+	public abstract CP_Paths paths();
 
 	static class MOD {
 		final         List<OS_Module>        modules = new ArrayList<OS_Module>();

@@ -62,9 +62,9 @@ class Dependencies {
 
 			wl.addJob(gen);
 
-			ni.resolvePromise().then(new DoneCallback<GeneratedNamespace>() {
+			ni.resolvePromise().then(new DoneCallback<EvaNamespace>() {
 				@Override
-				public void onDone(final @NotNull GeneratedNamespace result) {
+				public void onDone(final @NotNull EvaNamespace result) {
 					genType.node = result;
 					result.dependentTypes().add(genType);
 				}
@@ -94,7 +94,7 @@ class Dependencies {
 			pcd.then(new DoneCallback<ClassDefinition>() {
 				@Override
 				public void onDone(final ClassDefinition result) {
-					final GeneratedClass genclass = result.getNode();
+					final EvaClass genclass = result.getNode();
 
 					genType.node = genclass;
 					genclass.dependentTypes().add(genType);
@@ -116,17 +116,17 @@ class Dependencies {
 				assert ni != null;
 				mod = ni.getNamespace().getContext().module();
 
-				ni.resolvePromise().then(new DoneCallback<GeneratedNamespace>() {
+				ni.resolvePromise().then(new DoneCallback<EvaNamespace>() {
 					@Override
-					public void onDone(final GeneratedNamespace result) {
+					public void onDone(final EvaNamespace result) {
 						result.dependentFunctions().add(aDependentFunction);
 					}
 				});
 			} else {
 				mod = ci.getKlass().getContext().module();
-				ci.resolvePromise().then(new DoneCallback<GeneratedClass>() {
+				ci.resolvePromise().then(new DoneCallback<EvaClass>() {
 					@Override
-					public void onDone(final GeneratedClass result) {
+					public void onDone(final EvaClass result) {
 						result.dependentFunctions().add(aDependentFunction);
 					}
 				});
@@ -139,7 +139,7 @@ class Dependencies {
 			gen = new WlGenerateFunction(gf, aDependentFunction, deduceTypes2._phase().codeRegistrar);
 		}
 		wl.addJob(gen);
-		final List<BaseGeneratedFunction> coll = new ArrayList<>();
+		final List<BaseEvaFunction> coll = new ArrayList<>();
 		wl.addJob(new WlDeduceFunction(gen, coll, deduceTypes2));
 		wm.addJobs(wl);
 	}

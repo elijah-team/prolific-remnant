@@ -30,7 +30,7 @@ import java.util.*;
 class Resolve_Ident_IA {
 	private final @NotNull Context               context;
 	private final @NotNull IdentIA               identIA;
-	private final          BaseGeneratedFunction generatedFunction;
+	private final          BaseEvaFunction generatedFunction;
 	private final @NotNull FoundElement          foundElement;
 	private final @NotNull ErrSink               errSink;
 
@@ -44,14 +44,14 @@ class Resolve_Ident_IA {
 	public Resolve_Ident_IA(final @NotNull DeduceTypes2.DeduceClient3 aDeduceClient3,
 	                        final @NotNull Context aContext,
 	                        final @NotNull IdentIA aIdentIA,
-	                        final BaseGeneratedFunction aGeneratedFunction,
+	                        final BaseEvaFunction aEvaFunction,
 	                        final @NotNull FoundElement aFoundElement,
 	                        final @NotNull ErrSink aErrSink) {
 		dc                = aDeduceClient3;
 		phase             = dc.getPhase();
 		context           = aContext;
 		identIA           = aIdentIA;
-		generatedFunction = aGeneratedFunction;
+		generatedFunction = aEvaFunction;
 		foundElement      = aFoundElement;
 		errSink           = aErrSink;
 		//
@@ -59,7 +59,7 @@ class Resolve_Ident_IA {
 	}
 
 	public void action() throws ResolveError {
-		final @NotNull List<InstructionArgument> s = BaseGeneratedFunction._getIdentIAPathList(identIA);
+		final @NotNull List<InstructionArgument> s = BaseEvaFunction._getIdentIAPathList(identIA);
 
 		ectx = context;
 		el   = null;
@@ -398,7 +398,7 @@ class Resolve_Ident_IA {
 				ci = phase.registerClassInvocation(ci);
 				fi = new FunctionInvocation(null, pte, ci, phase.generatePhase);
 			} else if (resolvedElement instanceof final FunctionDef functionDef) {
-				final IInvocation invocation = dc.getInvocation((GeneratedFunction) generatedFunction);
+				final IInvocation invocation = dc.getInvocation((EvaFunction) generatedFunction);
 				fi = new FunctionInvocation(functionDef, pte, invocation, phase.generatePhase);
 				if (functionDef.getParent() instanceof ClassStatement) {
 					final ClassStatement classStatement = (ClassStatement) fi.getFunction().getParent();
@@ -448,9 +448,9 @@ class Resolve_Ident_IA {
 		if (fi.getFunction() instanceof ConstructorDef) {
 			@NotNull final GenType genType = new GenType(ci.getKlass());
 			genType.ci = ci;
-			ci.resolvePromise().then(new DoneCallback<GeneratedClass>() {
+			ci.resolvePromise().then(new DoneCallback<EvaClass>() {
 				@Override
-				public void onDone(final GeneratedClass result) {
+				public void onDone(final EvaClass result) {
 					genType.node = result;
 				}
 			});
@@ -491,19 +491,19 @@ class Resolve_Ident_IA {
 		private final @NotNull IdentTableEntry            idte;
 		private final          FoundElement               foundElement;
 		private final          DeducePhase                phase;
-		private final          BaseGeneratedFunction      generatedFunction;
+		private final          BaseEvaFunction      generatedFunction;
 		private final          DeduceTypes2.DeduceClient3 dc;
 		private final @NotNull ElLog                      LOG;
 		private final          IdentIA                    identIA;
 		public                 Context                    ectx;
 		public                 OS_Element                 el;
 
-		public __Action_IdentIA(final Resolve_Ident_IA aResolve_ident_ia, final IdentIA aIa, final FoundElement aFoundElement, final DeducePhase aPhase, final BaseGeneratedFunction aGeneratedFunction, final DeduceTypes2.DeduceClient3 aDc, @NotNull final ElLog aLOG, final IdentIA aIdentIA) {
+		public __Action_IdentIA(final Resolve_Ident_IA aResolve_ident_ia, final IdentIA aIa, final FoundElement aFoundElement, final DeducePhase aPhase, final BaseEvaFunction aEvaFunction, final DeduceTypes2.DeduceClient3 aDc, @NotNull final ElLog aLOG, final IdentIA aIdentIA) {
 			resolve_ident_ia  = aResolve_ident_ia;
 			ia                = aIa;
 			foundElement      = aFoundElement;
 			phase             = aPhase;
-			generatedFunction = aGeneratedFunction;
+			generatedFunction = aEvaFunction;
 			dc                = aDc;
 			LOG               = aLOG;
 			identIA           = aIdentIA;

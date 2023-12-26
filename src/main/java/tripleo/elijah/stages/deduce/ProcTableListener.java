@@ -21,12 +21,12 @@ import tripleo.elijah.util.*;
  */
 public class ProcTableListener implements BaseTableEntry.StatusListener {
 	private final ProcTableEntry        pte;
-	private final BaseGeneratedFunction generatedFunction;
+	private final BaseEvaFunction generatedFunction;
 
 	private final          DeduceTypes2.@NotNull DeduceClient2 dc;
 	private final @NotNull ElLog                               LOG;
 
-	public ProcTableListener(final ProcTableEntry pte, final BaseGeneratedFunction generatedFunction, final DeduceTypes2.@NotNull DeduceClient2 dc) {
+	public ProcTableListener(final ProcTableEntry pte, final BaseEvaFunction generatedFunction, final DeduceTypes2.@NotNull DeduceClient2 dc) {
 		this.pte               = pte;
 		this.generatedFunction = generatedFunction;
 		this.dc                = dc;
@@ -70,9 +70,9 @@ public class ProcTableListener implements BaseTableEntry.StatusListener {
 
 			if (co != null) {
 				co.setConstructable(pte);
-				ci.resolvePromise().done(new DoneCallback<GeneratedClass>() {
+				ci.resolvePromise().done(new DoneCallback<EvaClass>() {
 					@Override
-					public void onDone(final GeneratedClass result) {
+					public void onDone(final EvaClass result) {
 						co.resolveTypeToClass(result);
 					}
 				});

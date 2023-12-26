@@ -3,16 +3,20 @@
  */
 package tripleo.util.io;
 
-import java.io.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.util.NotImplementedException;
+
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * @author Tripleo(sb)
- *
+ * <p>
  * Created 	Dec 9, 2019 at 3:23:57 PM
  */
-public class FileCharSink implements CharSink {
+public class FileCharSink implements DisposableCharSink {
 
-	OutputStream fos;
+	private final OutputStream fos;
 
 	public FileCharSink(final OutputStream fos) {
 		super();
@@ -36,24 +40,29 @@ public class FileCharSink implements CharSink {
 	 * @see tripleo.util.io.CharSink#accept(java.lang.String)
 	 */
 	@Override
-	public void accept(final String string1) {
+	public void accept(final @NotNull String string1) {
 		try {
 			fos.write(string1.getBytes());
 		} catch (final IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			NotImplementedException.raise();
+			//e.printStackTrace();
 		}
 	}
 
+	@Override
 	public void close() {
 		try {
 			fos.close();
 		} catch (final IOException aE) {
-			// TODO Auto-generated catch block
-			aE.printStackTrace();
+			NotImplementedException.raise();
+			//aE.printStackTrace();
 		}
 	}
 
+	@Override
+	public void dispose() {
+		close();
+	}
 }
 
 //

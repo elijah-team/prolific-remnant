@@ -64,15 +64,15 @@ public class TestGenFunction {
 		final @NotNull DeducePhase   dp             = c.pipelineLogic.dp;//new DeducePhase(generatePhase1);
 		gfm.generateFromEntryPoints(m.entryPoints, dp);
 
-		final DeducePhase.@NotNull GeneratedClasses lgc = dp.generatedClasses; //new ArrayList<>();
+		final DeducePhase.@NotNull EvaClasses lgc = dp.generatedClasses; //new ArrayList<>();
 
 /*
-		List<GeneratedNode> lgf = new ArrayList<>();
-		for (GeneratedNode generatedNode : lgc) {
-			if (generatedNode instanceof GeneratedClass)
-				lgf.addAll(((GeneratedClass) generatedNode).functionMap.values());
-			if (generatedNode instanceof GeneratedNamespace)
-				lgf.addAll(((GeneratedNamespace) generatedNode).functionMap.values());
+		List<EvaNode> lgf = new ArrayList<>();
+		for (EvaNode generatedNode : lgc) {
+			if (generatedNode instanceof EvaClass)
+				lgf.addAll(((EvaClass) generatedNode).functionMap.values());
+			if (generatedNode instanceof EvaNamespace)
+				lgf.addAll(((EvaNamespace) generatedNode).functionMap.values());
 			// TODO enum
 		}
 */
@@ -89,10 +89,10 @@ public class TestGenFunction {
 			}
 
 			@Override
-			public void apply(final Collection<GeneratedFunction> aGeneratedFunctions) {
-				assert aGeneratedFunctions.size() == 1;
+			public void apply(final Collection<EvaFunction> aEvaFunctions) {
+				assert aEvaFunctions.size() == 1;
 
-				final GeneratedFunction gf = aGeneratedFunctions.iterator().next();
+				final EvaFunction gf = aEvaFunctions.iterator().next();
 
 				int pc = 0;
 				Assert.assertEquals(InstructionName.E, gf.getInstruction(pc++).getName());
@@ -115,10 +115,10 @@ public class TestGenFunction {
 			}
 
 			@Override
-			public void apply(final Collection<GeneratedFunction> aGeneratedFunctions) {
-				assert aGeneratedFunctions.size() == 1;
+			public void apply(final Collection<EvaFunction> aEvaFunctions) {
+				assert aEvaFunctions.size() == 1;
 
-				final GeneratedFunction gf = aGeneratedFunctions.iterator().next();
+				final EvaFunction gf = aEvaFunctions.iterator().next();
 
 				int pc = 0;
 				Assert.assertEquals(InstructionName.E, gf.getInstruction(pc++).getName());
@@ -147,10 +147,10 @@ public class TestGenFunction {
 			}
 
 			@Override
-			public void apply(final Collection<GeneratedFunction> aGeneratedFunctions) {
-				assert aGeneratedFunctions.size() == 1;
+			public void apply(final Collection<EvaFunction> aEvaFunctions) {
+				assert aEvaFunctions.size() == 1;
 
-				final GeneratedFunction gf = aGeneratedFunctions.iterator().next();
+				final EvaFunction gf = aEvaFunctions.iterator().next();
 
 				System.out.println("main\n====");
 				for (int i = 0; i < gf.vte_list.size(); i++) {
@@ -175,10 +175,10 @@ public class TestGenFunction {
 			}
 
 			@Override
-			public void apply(final Collection<GeneratedFunction> aGeneratedFunctions) {
-				assert aGeneratedFunctions.size() == 1;
+			public void apply(final Collection<EvaFunction> aEvaFunctions) {
+				assert aEvaFunctions.size() == 1;
 
-				final GeneratedFunction gf = aGeneratedFunctions.iterator().next();
+				final EvaFunction gf = aEvaFunctions.iterator().next();
 
 				System.out.println("factorial\n=========");
 				for (int i = 0; i < gf.vte_list.size(); i++) {
@@ -237,25 +237,25 @@ public class TestGenFunction {
 //
 //		final GeneratePhase       generatePhase = pl.generatePhase;
 //		final GenerateFunctions   gfm           = generatePhase.getGenerateFunctions(m);
-//		final List<GeneratedNode> lgc           = new ArrayList<>();
+//		final List<EvaNode> lgc           = new ArrayList<>();
 //		gfm.generateAllTopLevelClasses(lgc);
 //
 //		final DeducePhase dp = new DeducePhase(generatePhase, pl, verbosity1);
 //
 //		final WorkManager wm = new WorkManager();
 //
-//		final List<GeneratedNode> lgf = new ArrayList<>();
-//		for (final GeneratedNode generatedNode : lgc) {
-//			if (generatedNode instanceof GeneratedClass)
-//				lgf.addAll(((GeneratedClass) generatedNode).functionMap.values());
-//			if (generatedNode instanceof GeneratedNamespace)
-//				lgf.addAll(((GeneratedNamespace) generatedNode).functionMap.values());
+//		final List<EvaNode> lgf = new ArrayList<>();
+//		for (final EvaNode generatedNode : lgc) {
+//			if (generatedNode instanceof EvaClass)
+//				lgf.addAll(((EvaClass) generatedNode).functionMap.values());
+//			if (generatedNode instanceof EvaNamespace)
+//				lgf.addAll(((EvaNamespace) generatedNode).functionMap.values());
 //			// TODO enum
 //		}
 //
-//		for (final GeneratedNode gn : lgf) {
-//			if (gn instanceof GeneratedFunction) {
-//				final GeneratedFunction gf = (GeneratedFunction) gn;
+//		for (final EvaNode gn : lgf) {
+//			if (gn instanceof EvaFunction) {
+//				final EvaFunction gf = (EvaFunction) gn;
 //				for (final Instruction instruction : gf.instructions()) {
 //					System.out.println("8100 " + instruction);
 //				}
@@ -266,13 +266,13 @@ public class TestGenFunction {
 //		dp.finish(dp.generatedClasses);
 ////		new DeduceTypes2(m).deduceFunctions(lgf);
 //
-//		for (final GeneratedNode gn : lgf) {
-//			if (gn instanceof GeneratedFunction) {
-//				final GeneratedFunction gf = (GeneratedFunction) gn;
+//		for (final EvaNode gn : lgf) {
+//			if (gn instanceof EvaFunction) {
+//				final EvaFunction gf = (EvaFunction) gn;
 //				System.out.println("----------------------------------------------------------");
 //				System.out.println(gf.name());
 //				System.out.println("----------------------------------------------------------");
-//				GeneratedFunction.printTables(gf);
+//				EvaFunction.printTables(gf);
 ////				System.out.println("----------------------------------------------------------");
 //			}
 //		}
@@ -283,9 +283,9 @@ public class TestGenFunction {
 //
 //		final GenerateResult gr = new GenerateResult();
 //
-//		for (final GeneratedNode generatedNode : lgc) {
-//			if (generatedNode instanceof GeneratedClass) {
-//				ggc.generate_class((GeneratedClass) generatedNode, gr);
+//		for (final EvaNode generatedNode : lgc) {
+//			if (generatedNode instanceof EvaClass) {
+//				ggc.generate_class((EvaClass) generatedNode, gr);
 //			} else {
 //				System.out.println(lgc.getClass().getName());
 //			}

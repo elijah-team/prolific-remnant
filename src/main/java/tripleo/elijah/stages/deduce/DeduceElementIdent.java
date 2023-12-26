@@ -24,16 +24,16 @@ public class DeduceElementIdent {
 	private final DeferredObject<OS_Element, Diagnostic, Void> _resolvedElementPromise = new DeferredObject<>();
 	private       DeduceTypes2                                 deduceTypes2;
 	private       Context                                      context;
-	private       BaseGeneratedFunction                        generatedFunction;
+	private       BaseEvaFunction                        generatedFunction;
 
 	public DeduceElementIdent(final IdentTableEntry aIdentTableEntry) {
 		identTableEntry = aIdentTableEntry;
 	}
 
-	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2, final Context aContext, final @NotNull BaseGeneratedFunction aGeneratedFunction) {
+	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2, final Context aContext, final @NotNull BaseEvaFunction aEvaFunction) {
 		deduceTypes2      = aDeduceTypes2;
 		context           = aContext;
-		generatedFunction = aGeneratedFunction;
+		generatedFunction = aEvaFunction;
 
 		calculateResolvedObject();
 	}
@@ -73,7 +73,7 @@ public class DeduceElementIdent {
 		}
 	}
 
-	private void resolveIdentIA_(@NotNull final Context context, @NotNull final IdentIA identIA, final BaseGeneratedFunction generatedFunction, @NotNull final FoundElement foundElement) throws ResolveError {
+	private void resolveIdentIA_(@NotNull final Context context, @NotNull final IdentIA identIA, final BaseEvaFunction generatedFunction, @NotNull final FoundElement foundElement) throws ResolveError {
 		final DeduceTypes2.DeduceClient3 aDeduceClient3 = new DeduceTypes2.DeduceClient3(deduceTypes2);
 		final Resolve_Ident_IA           ria            = new Resolve_Ident_IA(aDeduceClient3, context, identIA, generatedFunction, foundElement, deduceTypes2._errSink());
 		ria.action();

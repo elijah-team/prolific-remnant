@@ -12,13 +12,13 @@ import java.util.regex.*;
 
 class Implement_Calls_ {
 	private final DeduceTypes2          deduceTypes2;
-	private final BaseGeneratedFunction gf;
+	private final BaseEvaFunction gf;
 	private final Context               context;
 	private final InstructionArgument   i2;
 	private final ProcTableEntry        pte;
 	private final int                   pc;
 
-	public Implement_Calls_(final DeduceTypes2 aDeduceTypes2, final @NotNull BaseGeneratedFunction aGf,
+	public Implement_Calls_(final DeduceTypes2 aDeduceTypes2, final @NotNull BaseEvaFunction aGf,
 	                        final @NotNull Context aContext,
 	                        final @NotNull InstructionArgument aI2,
 	                        final @NotNull ProcTableEntry aPte,

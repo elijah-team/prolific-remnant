@@ -9,104 +9,100 @@
 /**
  * Created Apr 1, 2019 at 3:21:26 PM
  */
-package tripleo.elijah.lang;
+package tripleo.elijah.lang.impl;
 
-import antlr.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.util.*;
+import antlr.Token;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.nextgen.names.i.EN_Name;
+import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
-import java.io.*;
+import java.io.File;
+import java.util.List;
 
 /**
  * @author Tripleo(sb)
- *
  */
-public class IdentExpression implements IExpression, OS_Element, Resolvable, Locatable {
+public class IdentExpressionImpl implements tripleo.elijah.lang.i.IdentExpression {
 
-	public final  Attached   _a;
-	private final Token      text;
+	private final @NotNull EN_Name    name;
+	public                 Attached   _a;
+	private                OS_Element _resolvedElement;
 	OS_Type _type;
-	private       OS_Element _resolvedElement;
+	private Token  text;
+	private String _fileName;
 
-	public IdentExpression(final Token r1) {
+	public IdentExpressionImpl(final Token r1, String aFilename) {
 		this.text = r1;
-		this._a   = new Attached();
+		this._a   = new AttachedImpl();
+
+		this.name = EN_Name_.create(text.getText());
+
+		this._fileName = aFilename;
 	}
 
-	public IdentExpression(final Token r1, final Context cur) {
+	public IdentExpressionImpl(final @NotNull Token r1, final @NotNull Context cur) {
 		this.text = r1;
-		this._a   = new Attached();
+		this._a   = new AttachedImpl(cur);
+		//setContext(cur);
+
+		this.name = EN_Name_.create(text.getText());
+		cur.addName(name);
+
+		this._fileName = null;
+	}
+
+	public IdentExpressionImpl(final Token r1, String aFilename, final @NotNull Context cur) {
+		this.text = r1;
+		this._a   = new AttachedImpl();
 		setContext(cur);
+
+		this.name = EN_Name_.create(text.getText());
+		cur.addName(name);
+
+		this._fileName = aFilename;
 	}
 
-	@Contract("_ -> new")
-	public static @NotNull IdentExpression forString(final String string) {
-		return new IdentExpression(Helpers.makeToken(string));
+
+	public @NotNull List<FormalArgListItem> getArgs() {
+		return null;
+	}
+
+
+	@Override
+	public int getColumn() {
+		return token().getColumn();
 	}
 
 	@Override
-	public ExpressionKind getKind() {
+	public int getColumnEnd() {
+		return token().getColumn();
+	}
+
+	@Override
+	public @NotNull File getFile() {
+		return new File(_fileName);
+	}
+
+	@Override
+	public int getLine() {
+		return token().getLine();
+	}
+
+	@Override
+	public @NotNull ExpressionKind getKind() {
 		return ExpressionKind.IDENT;
 	}
 
 	@Override
-	public void setKind(final ExpressionKind aIncrement) {
-		// log and ignore
-		SimplePrintLoggerToRemoveSoon.println_err2("Trying to set ExpressionType of IdentExpression to " + aIncrement.toString());
-	}
-
-	@Override
-	public IExpression getLeft() {
+	public @NotNull IExpression getLeft() {
 		return this;
 	}
 
 	@Override
-	public void setLeft(final @NotNull IExpression iexpression) {
-//		if (iexpression instanceof IdentExpression) {
-//			text = ((IdentExpression) iexpression).text;
-//		} else {
-//			// NOTE was tripleo.elijah.util.Stupidity.println_err2
-		throw new IllegalArgumentException("Trying to set left-side of IdentExpression to " + iexpression);
-//		}
-	}
-
-	@Override
-	public String repr_() {
-		return String.format("IdentExpression(%s %d)", text.getText(), _a.getCode());
-	}
-
-	@Override
-	public boolean is_simple() {
-		return true;
-	}
-
-	@Override
-	public OS_Type getType() {
-		return _type;
-	}
-
-	@Override
-	public void setType(final OS_Type deducedExpression) {
-		_type = deducedExpression;
-	}
-
-	/**
-	 * same as getText()
-	 */
-	@Override
-	public String toString() {
-		return getText();
-	}
-
-	public String getText() {
-		return text.getText();
-	}
-
-	@Override
-	public void visitGen(final ElElementVisitor visit) {
-		visit.visitIdentExpression(this);
+	public int getLineEnd() {
+		return token().getLine();
 	}
 
 	@Override
@@ -121,13 +117,9 @@ public class IdentExpression implements IExpression, OS_Element, Resolvable, Loc
 //		return null;
 	}
 
-	public void setContext(final Context cur) {
-		_a.setContext(cur);
-	}
-
 	@Override
-	public boolean hasResolvedElement() {
-		return _resolvedElement != null;
+	public @NotNull String getText() {
+		return text.getText();
 	}
 
 	@Override
@@ -136,45 +128,95 @@ public class IdentExpression implements IExpression, OS_Element, Resolvable, Loc
 	}
 
 	@Override
+	public OS_Type getType() {
+		return _type;
+	}
+
+	@Override
+	public boolean hasResolvedElement() {
+		return _resolvedElement != null;
+	}
+
+	public void setArgs(final ExpressionList ael) {
+
+	}
+
+	@Override
+	public void setLeft(final @NotNull IExpression iexpression) {
+//		if (iexpression instanceof IdentExpression) {
+//			text = ((IdentExpression) iexpression).text;
+//		} else {
+//			// NOTE was tripleo.elijah.util.Stupidity.println_err_2
+		throw new IllegalArgumentException("Trying to set left-side of IdentExpression to " + iexpression.toString());
+//		}
+	}
+
+	@Override
+	public void serializeTo(@NotNull SmallWriter sw) {
+		sw.fieldString("fileName", _fileName);
+		sw.fieldToken("text", text);
+		sw.fieldInteger("line", getLine());
+		sw.fieldInteger("column", getColumn());
+	}
+
+	@Override
+	public void setContext(final Context cur) {
+		_a.setContext(cur);
+	}
+
+	@Override
+	public boolean is_simple() {
+		return true;
+	}
+
+	@Override
+	public String repr_() {
+		return String.format("IdentExpression(%s)", text.getText());
+	}
+
+	// region Locatable
+
+	@Override
 	public void setResolvedElement(final OS_Element element) {
 		_resolvedElement = element;
 	}
 
 	@Override
-	public int getLine() {
-		return token().getLine();
+	public void setKind(final @NotNull ExpressionKind aIncrement) {
+		// log and ignore
+		SimplePrintLoggerToRemoveSoon
+				.println_err_2("Trying to set ExpressionType of IdentExpression to " + aIncrement.toString());
 	}
-
-	// region Locatable
 
 	public Token token() {
 		return text;
 	}
 
 	@Override
-	public int getColumn() {
-		return token().getColumn();
+	public void visitGen(final tripleo.elijah.lang2.@NotNull ElElementVisitor visit) {
+		visit.visitIdentExpression(this);
 	}
 
 	@Override
-	public int getLineEnd() {
-		return token().getLine();
+	public void setType(final OS_Type deducedExpression) {
+		_type = deducedExpression;
 	}
 
 	@Override
-	public int getColumnEnd() {
-		return token().getColumn();
-	}
-
-	@Override
-	public File getFile() {
-		final String filename = token().getFilename();
-		if (filename == null)
-			return null;
-		return new File(filename);
+	public EN_Name getName() {
+		return name;
 	}
 
 	// endregion
+
+	/**
+	 * same as getText()
+	 */
+	@Override
+	public @NotNull String toString() {
+		return getText();
+	}
+
 }
 
 //

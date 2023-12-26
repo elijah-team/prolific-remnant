@@ -42,14 +42,14 @@ public class Dependency {
 	                             final List<FunctionInvocation> aDependentFunctions,
 	                             final List<GenType> aDependentTypes) {
 		for (final FunctionInvocation dependentFunction : aDependentFunctions) {
-			final BaseGeneratedFunction generatedFunction = dependentFunction.getGenerated();
+			final BaseEvaFunction generatedFunction = dependentFunction.getEva();
 			if (generatedFunction != null)
 				deps.add(generatedFunction.getDependency());
 			else
 				SimplePrintLoggerToRemoveSoon.println_err2("52 false FunctionInvocation " + dependentFunction);
 		}
 		for (final GenType dependentType : aDependentTypes) {
-			final GeneratedContainerNC node = (GeneratedContainerNC) dependentType.node;
+			final EvaContainerNC node = (EvaContainerNC) dependentType.node;
 			if (node != null)
 				deps.add(node.getDependency());
 			else {

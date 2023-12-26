@@ -14,9 +14,9 @@ import tripleo.elijah.stages.gen_fn.*;
  * Created 4/26/21 11:22 PM
  */
 public interface CodeGenerator {
-	void generate_namespace(GeneratedNamespace aGeneratedNamespace, GenerateResult aGenerateResult);
+	void generate_namespace(EvaNamespace aEvaNamespace, GenerateResult aGenerateResult);
 
-	void generate_class(GeneratedClass aGeneratedClass, GenerateResult aGenerateResult);
+	void generate_class(EvaClass aEvaClass, GenerateResult aGenerateResult);
 }
 
 //

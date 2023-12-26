@@ -29,16 +29,16 @@ public class DeduceLocalVariable {
 	public @NotNull DeferredObject2<GenType, Void, Void> type = new DeferredObject2();
 	private         DeduceTypes2                         deduceTypes2;
 	private         Context                              context;
-	private         BaseGeneratedFunction                generatedFunction;
+	private         BaseEvaFunction                generatedFunction;
 
 	public DeduceLocalVariable(final VariableTableEntry aVariableTableEntry) {
 		variableTableEntry = aVariableTableEntry;
 	}
 
-	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2, final Context aContext, final BaseGeneratedFunction aGeneratedFunction) {
+	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2, final Context aContext, final BaseEvaFunction aEvaFunction) {
 		deduceTypes2      = aDeduceTypes2;
 		context           = aContext;
-		generatedFunction = aGeneratedFunction;
+		generatedFunction = aEvaFunction;
 	}
 
 	static ClassStatement class_inherits(final ClassStatement aFirstClass, final OS_Element aInherited) {
@@ -96,9 +96,9 @@ public class DeduceLocalVariable {
 					vte.type.genType.genCI(null, deduceTypes2, deduceTypes2.errSink, deduceTypes2.phase);
 					final ClassInvocation classInvocation = (ClassInvocation) vte.type.genType.ci;
 					if (classInvocation != null) {
-						classInvocation.resolvePromise().then(new DoneCallback<GeneratedClass>() {
+						classInvocation.resolvePromise().then(new DoneCallback<EvaClass>() {
 							@Override
-							public void onDone(final GeneratedClass result) {
+							public void onDone(final EvaClass result) {
 								vte.type.genType.node = result;
 								vte.resolveTypeToClass(result);
 								vte.genType = vte.type.genType; // TODO who knows if this is necessary?
@@ -169,19 +169,19 @@ public class DeduceLocalVariable {
 					}
 
 					if (genType.ci != null) { // TODO we may need this call...
-						((ClassInvocation) genType.ci).resolvePromise().then(new DoneCallback<GeneratedClass>() {
+						((ClassInvocation) genType.ci).resolvePromise().then(new DoneCallback<EvaClass>() {
 							@Override
-							public void onDone(final @NotNull GeneratedClass result) {
+							public void onDone(final @NotNull EvaClass result) {
 								genType.node = result;
 								if (!vte.typePromise().isResolved()) { // HACK
 									if (genType.resolved instanceof final OS_FuncType resolved) {
 										result.functionMapDeferred(((FunctionDef) resolved.getElement()), new FunctionMapDeferred() {
 											@Override
-											public void onNotify(final GeneratedFunction aGeneratedFunction) {
+											public void onNotify(final EvaFunction aEvaFunction) {
 												// TODO check args (hint functionInvocation.pte)
 												//  but against what? (vte *should* have callable_pte)
 												//  if not, then try potential types for a PCE
-												aGeneratedFunction.onType(new DoneCallback<GenType>() {
+												aEvaFunction.onType(new DoneCallback<GenType>() {
 													@Override
 													public void onDone(final GenType result) {
 														vte.resolveType(result);
@@ -200,7 +200,7 @@ public class DeduceLocalVariable {
 		}
 	}
 
-	public void resolve_var_table_entry_potential_types_1(final @NotNull VariableTableEntry vte, final BaseGeneratedFunction generatedFunction) {
+	public void resolve_var_table_entry_potential_types_1(final @NotNull VariableTableEntry vte, final BaseEvaFunction generatedFunction) {
 		if (vte.potentialTypes().size() == 1) {
 			final TypeTableEntry tte1 = vte.potentialTypes().iterator().next();
 			if (tte1.tableEntry instanceof final ProcTableEntry procTableEntry) {
@@ -278,9 +278,9 @@ public class DeduceLocalVariable {
 
 				if (resolvedElement != null) { // TODO feb 20
 					final @Nullable DeferredMemberFunction dm = deduceTypes2.deferred_member_function(Self, null, (BaseFunctionDef) resolvedElement, procTableEntry.getFunctionInvocation());
-					dm.externalRef().then(new DoneCallback<BaseGeneratedFunction>() {
+					dm.externalRef().then(new DoneCallback<BaseEvaFunction>() {
 						@Override
-						public void onDone(final BaseGeneratedFunction result) {
+						public void onDone(final BaseEvaFunction result) {
 							NotImplementedException.raise();
 						}
 					});

@@ -175,11 +175,11 @@ public class DeduceTypeResolve {
 		}
 		// maybe set something in ci to INHERITED, but thats what DeduceProcCall is for
 		if (eh.getElement() instanceof FunctionDef) {
-			if (result.node instanceof final GeneratedClass generatedClass) {
+			if (result.node instanceof final EvaClass generatedClass) {
 				generatedClass.functionMapDeferred((FunctionDef) eh.getElement(), new FunctionMapDeferred() {
 					@Override
-					public void onNotify(final GeneratedFunction aGeneratedFunction) {
-						result.node = aGeneratedFunction;
+					public void onNotify(final EvaFunction aEvaFunction) {
+						result.node = aEvaFunction;
 					}
 				});
 			}

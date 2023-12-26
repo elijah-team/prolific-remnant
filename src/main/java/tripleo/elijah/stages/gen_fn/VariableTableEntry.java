@@ -38,7 +38,7 @@ public class VariableTableEntry extends BaseTableEntry1 implements Constructable
 	// endregion constructable
 	@Nullable             GenType                                    _resolveTypeCalled    = null;
 
-	private GeneratedNode _resolvedType;
+	private EvaNode _resolvedType;
 	private DeduceElement3_VariableTableEntry _de3;
 	private VTE_Zero _zero;
 
@@ -126,7 +126,7 @@ public class VariableTableEntry extends BaseTableEntry1 implements Constructable
 		}
 	}
 
-	public GeneratedNode resolvedType() {
+	public EvaNode resolvedType() {
 		return _resolvedType;
 	}
 
@@ -146,7 +146,7 @@ public class VariableTableEntry extends BaseTableEntry1 implements Constructable
 //	}
 
 //	@Override
-	public void resolveTypeToClass(final GeneratedNode aNode) {
+	public void resolveTypeToClass(final EvaNode aNode) {
 		_resolvedType = aNode;
 		genType.node  = aNode;
 		type.resolve(aNode); // TODO maybe this obviates above
@@ -192,8 +192,8 @@ public class VariableTableEntry extends BaseTableEntry1 implements Constructable
 		  "}";
 	}
 
-	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2, final Context aContext, final BaseGeneratedFunction aGeneratedFunction) {
-		dlv.setDeduceTypes2(aDeduceTypes2, aContext, aGeneratedFunction);
+	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2, final Context aContext, final BaseEvaFunction aEvaFunction) {
+		dlv.setDeduceTypes2(aDeduceTypes2, aContext, aEvaFunction);
 	}
 
 	public void resolve_var_table_entry_for_exit_function() {
@@ -230,9 +230,9 @@ public class VariableTableEntry extends BaseTableEntry1 implements Constructable
 		bGenType.copy(aGenType);
 
 		// 2. set node when available
-		((ClassInvocation) bGenType.ci).resolvePromise().done(aGeneratedClass -> {
-			bGenType.node = aGeneratedClass;
-			resolveTypeToClass(aGeneratedClass);
+		((ClassInvocation) bGenType.ci).resolvePromise().done(aEvaClass -> {
+			bGenType.node = aEvaClass;
+			resolveTypeToClass(aEvaClass);
 			genType = bGenType; // TODO who knows if this is necessary?
 		});
 
