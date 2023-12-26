@@ -40,7 +40,7 @@ public class GenerateStatementImpl implements GenerateStatement {
 		}
 
 		public boolean sameName(String aName) {
-			return Objects.equals(aName, this.name);
+			return name.sameString(aName);
         }
     }
 }
