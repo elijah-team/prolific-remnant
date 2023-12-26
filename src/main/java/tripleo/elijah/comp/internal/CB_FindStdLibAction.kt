@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_VARIABLE", "USELESS_ELVIS")
+
 package tripleo.elijah.comp.internal
 
 import org.jetbrains.annotations.Contract
@@ -10,8 +12,7 @@ import tripleo.elijah.util.Mode
 import tripleo.elijah.util.Ok
 import tripleo.elijah.util.Operation
 
-//import javax.swing.text.html.HTML.Tag.P
-
+@Suppress("ClassName")
 internal class CB_FindStdLibAction(private val ce: CompilationEnclosure, private val crState: CR_State) : CB_Action {
 	private var findStdLib: CD_FindStdLib? = null
 
@@ -69,6 +70,7 @@ internal class CB_FindStdLibAction(private val ce: CompilationEnclosure, private
 		}
 	}
 
+	@Suppress("UNCHECKED_CAST")
 	private fun logProgress(code: Prov, o: Any?) {
 		val name = name()
 		when (code) {
@@ -104,6 +106,7 @@ internal class CB_FindStdLibAction(private val ce: CompilationEnclosure, private
 		}
 	}
 
+	@Suppress("EnumEntryName")
 	enum class Prov {
 		obtain,
 		find_stdlib,
