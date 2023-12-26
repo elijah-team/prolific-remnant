@@ -6,32 +6,36 @@ import tripleo.elijah.util.Operation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public interface CM_Filename {
-	static CM_Filename fromFileToString(File file) {
+	static CM_Filename fromFileToString(File specifiedAsFile) {
 		return new CM_Filename() {
 			@Override
 			public String getString() {
-				return file.toString();
+				return specifiedAsFile.toString();
 			}
+			@Override public boolean sameString(String string) { return Objects.equals(string, getString()); }
 		};
 	}
 
-	static CM_Filename fromParams(String aF) {
+	static CM_Filename fromParams(String specifiedAsString) {
 		return new CM_Filename() {
 			@Override
 			public String getString() {
-				return aF;
+				return specifiedAsString;
 			}
+			@Override public boolean sameString(String string) { return Objects.equals(string, getString()); }
 		};
 	}
 
-	static CM_Filename of(String aFn) {
+	static CM_Filename of(String specifiedAsString) {
 		return new CM_Filename() {
 			@Override
 			public String getString() {
-				return aFn;
+				return specifiedAsString;
 			}
+			@Override public boolean sameString(String string) { return Objects.equals(string, getString()); }
 		};
 	}
 
@@ -55,14 +59,19 @@ public interface CM_Filename {
 			return Operation.failure(aE);
 		}
 
-		var r = new CM_Filename() {
+		var r = CM_Filename.ofAbsolutePath(absolutePath1);
+		return Operation.success(r);
+	}
+
+	static CM_Filename ofAbsolutePath(String specifiedAsAbsolutePath) {
+		return new CM_Filename() {
 			@Override
 			public String getString() {
-				return absolutePath1;
+				return specifiedAsAbsolutePath;
 			}
-		};
 
-		return Operation.success(r);
+			@Override public boolean sameString(String string) { return Objects.equals(string, getString()); }
+		};
 	}
 
 	String getString();
@@ -74,4 +83,6 @@ public interface CM_Filename {
 	default String printableString() {
 		return getString();
 	}
+
+	boolean sameString(String string);
 }
