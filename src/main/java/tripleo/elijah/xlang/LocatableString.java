@@ -6,7 +6,7 @@ import antlr.Token;
 import tripleo.elijah.diagnostic.Locatable;
 
 public interface LocatableString {
-	public static LocatableString of(Token aToken) {
+	static LocatableString of(Token aToken) {
 		return new LocatableString() {
 			@Override
 			public Locatable getLocatable() {

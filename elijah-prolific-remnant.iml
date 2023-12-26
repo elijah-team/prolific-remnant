@@ -5,4 +5,14 @@
       <excludeFolder url="file://$MODULE_DIR$/COMP" />
     </content>
   </component>
+  <component name="AutoImportedSourceRoots">
+    <option name="directories">
+      <list>
+        <option value="src-cef/java" />
+        <option value="src-undertow/java" />
+        <option value="src/main/java" />
+        <option value="target/generated-sources/annotations" />
+      </list>
+    </option>
+  </component>
 </module>
