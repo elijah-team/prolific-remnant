@@ -8,31 +8,36 @@
  */
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
-
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.ContextImpl;
+import tripleo.elijah.lang.impl.VariableSequenceImpl;
 
 /**
  * Created 8/30/20 1:39 PM
  */
-public class VarContext extends Context {
+public class VarContext extends ContextImpl {
 
-	private final VariableSequence carrier;
-	private final Context          _parent;
+	private final Context              _parent;
+	private final VariableSequenceImpl carrier;
 
-	public VarContext(final VariableSequence carrier, final Context _parent) {
+	public VarContext(final VariableSequenceImpl carrier, final Context _parent) {
 		this.carrier = carrier;
 		this._parent = _parent;
 	}
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final List<Context> alreadySearched, final boolean one) {
+	public Context getParent() {
+		return _parent;
+	}
+
+	@Override
+	public LookupResultList lookup(final String name, final int level, final @NotNull LookupResultList Result, final @NotNull ISearchList alreadySearched, final boolean one) {
 		alreadySearched.add(carrier.getContext());
 
 		for (final VariableStatement vs : carrier.items()) {
 			if (vs.getName().equals(name)) {
-				final IdentExpression ie = new IdentExpression(Helpers.makeToken(vs.getName()));
+				final IdentExpression ie = vs.getNameToken();
 				Result.add(name, level, ie, this); // TODO getNameToken
 			}
 		}
@@ -44,11 +49,6 @@ public class VarContext extends Context {
 		}
 		return Result;
 
-	}
-
-	@Override
-	public Context getParent() {
-		return _parent;
 	}
 
 }

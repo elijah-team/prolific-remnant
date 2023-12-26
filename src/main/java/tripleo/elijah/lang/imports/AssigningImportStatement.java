@@ -1,10 +1,13 @@
 package tripleo.elijah.lang.imports;
 
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.contexts.ImportContext;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.QualidentImpl;
+import tripleo.elijah.util.NotImplementedException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created 8/7/20 2:09 AM
@@ -14,10 +17,25 @@ public class AssigningImportStatement extends _BaseImportStatement {
 	private final List<Part> _parts = new ArrayList<Part>();
 	private       Context    _ctx;
 
+	@Override
+	public OS_ElementName name() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public @NotNull List<Qualident> parts() {
+		final List<Qualident> r = new ArrayList<Qualident>();
+		for (final Part part : _parts) {
+			r.add(identToQualident(part.name));
+		}
+		return r;
+	}
+
 	public AssigningImportStatement(final OS_Element aParent) {
 		parent = aParent;
 		if (parent instanceof OS_Container) {
-			((OS_Container) parent).add(this);
+			((OS_Container) parent).addToContainer(this);
 		} else
 			throw new NotImplementedException();
 	}
@@ -44,30 +62,26 @@ public class AssigningImportStatement extends _BaseImportStatement {
 	}
 
 	@Override
+	public void serializeTo(final SmallWriter sw) {
+
+	}
+
+	@Override
 	public void setContext(final ImportContext ctx) {
 		_ctx = ctx;
 	}
 
-	@Override
-	public List<Qualident> parts() {
-		final List<Qualident> r = new ArrayList<Qualident>();
-		for (final Part part : _parts) {
-			r.add(identToQualident(part.name));
-		}
-		return r;
-	}
-
-	private static Qualident identToQualident(final IdentExpression identExpression) {
-		final Qualident r = new Qualident();
+	private static @NotNull Qualident identToQualident(final IdentExpression identExpression) {
+		final Qualident r = new QualidentImpl();
 		r.append(identExpression);
 		return r;
 	}
 
 	public static class Part { // public for ImportStatementBuilder
-		final IdentExpression name;
-		final Qualident       value;
+		IdentExpression name;
+		Qualident       value;
 
-		public Part(final IdentExpression i1, final Qualident q1) {
+		public Part(IdentExpression i1, Qualident q1) {
 			name  = i1;
 			value = q1;
 		}

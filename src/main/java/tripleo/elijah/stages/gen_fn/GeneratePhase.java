@@ -8,39 +8,58 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.work.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.comp.PipelineLogic;
+import tripleo.elijah.comp.i.CompilationEnclosure;
+import tripleo.elijah.comp.i.IPipelineAccess;
+import tripleo.elijah.lang.i.OS_Module;
+import tripleo.elijah.nextgen.reactive.ReactiveDimension;
+import tripleo.elijah.stages.gen_fn_c.GenFnC;
+import tripleo.elijah.stages.gen_generic.ICodeRegistrar;
+import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah.work.WorkManager;
+import tripleo.elijah.world.i.WorldModule;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created 5/16/21 12:35 AM
  */
-public class GeneratePhase {
-	public final WorkManager wm = new WorkManager();
+public class GeneratePhase implements ReactiveDimension, CompilationEnclosure.ModuleListener {
+	private @NotNull
+	final PipelineLogic   pipelineLogic;
+	private @NotNull
+	final ElLog.Verbosity verbosity;
+	private @NotNull
+	final IPipelineAccess pa;
 
-	final         Map<OS_Module, GenerateFunctions> generateFunctions = new HashMap<OS_Module, GenerateFunctions>();
-	private final ElLog.Verbosity                   verbosity;
-	private final PipelineLogic                     pipelineLogic;
-	private final Compilation                       compilation;
+	private final @NotNull Map<OS_Module, GenerateFunctions> generateFunctions = new HashMap<OS_Module, GenerateFunctions>();
+	private final @NotNull WorkManager                       wm                = new WorkManager();
 
-	public GeneratePhase(final ElLog.Verbosity aVerbosity, final PipelineLogic aPipelineLogic, final Compilation aCompilation) {
+	private @Nullable ICodeRegistrar codeRegistrar;
+
+	public GeneratePhase(ElLog.Verbosity aVerbosity, final @NotNull IPipelineAccess aPa, PipelineLogic aPipelineLogic) {
 		verbosity     = aVerbosity;
 		pipelineLogic = aPipelineLogic;
+		pa = aPa;
 
-		compilation = aCompilation;
+		pa.getCompilationEnclosure().addReactiveDimension(this);
+
+		pa.getCompilationEnclosure().addModuleListener(this);
 	}
 
 	@NotNull
-	public GenerateFunctions getGenerateFunctions(@NotNull final OS_Module mod) {
+	public GenerateFunctions getGenerateFunctions(@NotNull OS_Module mod) {
 		final GenerateFunctions Result;
-		if (generateFunctions.containsKey(mod))
+		if (generateFunctions.containsKey(mod)) {
 			Result = generateFunctions.get(mod);
-		else {
-			Result = new GenerateFunctions(this, mod, pipelineLogic);
+		} else {
+			final GenFnC bc = new GenFnC();
+			bc.set(pa);
+			bc.set(pipelineLogic);
+			Result = new GenerateFunctions(mod, bc);
 			generateFunctions.put(mod, Result);
 		}
 		return Result;
@@ -49,8 +68,31 @@ public class GeneratePhase {
 	public ElLog.Verbosity getVerbosity() {
 		return verbosity;
 	}
+
+	public ICodeRegistrar getCodeRegistrar() {
+		return codeRegistrar;
+	}
+
+	public void setCodeRegistrar(ICodeRegistrar aCodeRegistrar) {
+		codeRegistrar = aCodeRegistrar;
+	}
+
+	@SuppressWarnings("LombokGetterMayBeUsed")
+	public WorkManager getWm() {
+		return wm;
+	}
+
+	@Override
+	public void listen(final @NotNull WorldModule module) {
+		//final GenerateFunctions x = getGenerateFunctions(module.module());
+	}
+
+	@Override
+	public void close() {
+
+	}
 }
 
 //
-//
+// vim:set shiftwidth=4 softtabstop=0 noexpandtab:
 //

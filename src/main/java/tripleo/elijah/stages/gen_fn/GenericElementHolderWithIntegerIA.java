@@ -9,16 +9,17 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.instructions.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.lang.i.OS_Element;
+import tripleo.elijah.stages.instructions.IntegerIA;
 
 /**
  * Created 11/27/21 9:01 AM
  */
 public class GenericElementHolderWithIntegerIA implements IElementHolder {
-	private final OS_Element element;
-	private final IntegerIA  integerIA;
+	private final @Nullable OS_Element element;
+	private final @NotNull  IntegerIA  integerIA;
 
 	public GenericElementHolderWithIntegerIA(final @Nullable OS_Element aElement, final @NotNull IntegerIA aIntegerIA) {
 		element   = aElement;
@@ -26,11 +27,11 @@ public class GenericElementHolderWithIntegerIA implements IElementHolder {
 	}
 
 	@Override
-	public OS_Element getElement() {
+	public @Nullable OS_Element getElement() {
 		return element;
 	}
 
-	public IntegerIA getIntegerIA() {
+	public @NotNull IntegerIA getIntegerIA() {
 		return integerIA;
 	}
 }

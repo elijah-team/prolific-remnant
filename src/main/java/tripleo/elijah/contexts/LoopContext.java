@@ -11,20 +11,22 @@
  */
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
-
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.AliasStatementImpl;
+import tripleo.elijah.lang.impl.ContextImpl;
+import tripleo.elijah.lang.impl.VariableSequenceImpl;
+import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 
 /**
  * @author Tripleo
- *
+ * <p>
  * Created 	Mar 26, 2020 at 9:40:43 PM
  */
-public class LoopContext extends Context {
+public class LoopContext extends ContextImpl implements Context, ILoopContext {
 
-	private final Loop    carrier;
 	private final Context _parent;
+	private final Loop    carrier;
 
 	public LoopContext(final Context cur, final Loop loop) {
 		carrier = loop;
@@ -32,7 +34,12 @@ public class LoopContext extends Context {
 	}
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final List<Context> alreadySearched, final boolean one) {
+	public Context getParent() {
+		return _parent;
+	}
+
+	@Override
+	public LookupResultList lookup(final String name, final int level, @NotNull final LookupResultList Result, @NotNull final ISearchList alreadySearched, final boolean one) {
 		alreadySearched.add(carrier.getContext());
 
 		if (carrier.getIterNameToken() != null) {
@@ -46,19 +53,19 @@ public class LoopContext extends Context {
 
 		for (final StatementItem item : carrier.getItems()) {
 			if (!(item instanceof ClassStatement) &&
-			  !(item instanceof NamespaceStatement) &&
-			  !(item instanceof FunctionDef) &&
-			  !(item instanceof VariableSequence) &&
-			  !(item instanceof AliasStatement)
+					!(item instanceof NamespaceStatement) &&
+					!(item instanceof FunctionDef) &&
+					!(item instanceof VariableSequenceImpl) &&
+					!(item instanceof AliasStatementImpl)
 			) continue;
-			if (item instanceof OS_Element2) {
-				if (((OS_Element2) item).name().equals(name)) {
+			if (item instanceof OS_NamedElement) {
+				if (((OS_NamedElement) item).name().sameName(name)) {
 					Result.add(name, level, (OS_Element) item, this);
 				}
 			}
-			if (item instanceof VariableSequence) {
-				SimplePrintLoggerToRemoveSoon.println2("1102 " + item);
-				for (final VariableStatement vs : ((VariableSequence) item).items()) {
+			if (item instanceof VariableSequenceImpl) {
+				SimplePrintLoggerToRemoveSoon.println_out_2("1102 " + item);
+				for (final VariableStatement vs : ((VariableSequenceImpl) item).items()) {
 					if (vs.getName().equals(name))
 						Result.add(name, level, vs, this);
 				}
@@ -72,11 +79,6 @@ public class LoopContext extends Context {
 		}
 		return Result;
 
-	}
-
-	@Override
-	public Context getParent() {
-		return _parent;
 	}
 
 }

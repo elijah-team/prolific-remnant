@@ -1,9 +1,11 @@
 package tripleo.elijah.lang.imports;
 
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.contexts.ImportContext;
+import tripleo.elijah.lang.i.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created 8/7/20 2:09 AM
@@ -13,12 +15,22 @@ public class QualifiedImportStatement extends _BaseImportStatement {
 	private final List<Part> _parts = new ArrayList<Part>();
 	private       Context    _ctx;
 
+	public void addPart(final Part p) {
+		_parts.add(p);
+	}
+
 	public QualifiedImportStatement(final OS_Element aParent) {
 		parent = aParent;
 		if (parent instanceof OS_Container) {
-			((OS_Container) parent).add(this);
+			((OS_Container) parent).addToContainer(this);
 		} else
 			throw new IllegalStateException();
+	}
+
+	@Override
+	public OS_ElementName name() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public void addSelectivePart(final Qualident aQualident, final IdentList il) {
@@ -26,10 +38,6 @@ public class QualifiedImportStatement extends _BaseImportStatement {
 //		p.base = aQualident;
 //		p.idents = il;
 		addPart(p);
-	}
-
-	public void addPart(final Part p) {
-		_parts.add(p);
 	}
 
 	@Override
@@ -43,12 +51,17 @@ public class QualifiedImportStatement extends _BaseImportStatement {
 	}
 
 	@Override
+	public void serializeTo(final SmallWriter sw) {
+
+	}
+
+	@Override
 	public void setContext(final ImportContext ctx) {
 		_ctx = ctx;
 	}
 
 	@Override
-	public List<Qualident> parts() {
+	public @NotNull List<Qualident> parts() {
 		final List<Qualident> r = new ArrayList<Qualident>();
 		for (final Part part : _parts) {
 			r.add(part.base);
@@ -57,10 +70,10 @@ public class QualifiedImportStatement extends _BaseImportStatement {
 	}
 
 	public static class Part {
-		public final Qualident base;
-		public final IdentList idents;
+		public Qualident base;
+		public IdentList idents;
 
-		public Part(final Qualident q3, final IdentList il) {
+		public Part(Qualident q3, IdentList il) {
 			base   = q3;
 			idents = il;
 		}

@@ -8,9 +8,12 @@
  */
 package tripleo.elijah.lang.types;
 
-import tripleo.elijah.lang.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.FuncExpr;
+import tripleo.elijah.lang.i.OS_Element;
+import tripleo.elijah.lang.i.OS_Type;
 
-import java.text.*;
+import java.text.MessageFormat;
 
 
 /**
@@ -24,18 +27,23 @@ public class OS_FuncExprType extends __Abstract_OS_Type {
 	}
 
 	@Override
+	public @NotNull String asString() {
+		return MessageFormat.format("<OS_FuncExprType {0}>", func_expr);
+	}
+
+	@Override
+	protected boolean _isEqual(final @NotNull OS_Type aType) {
+		return aType.getType() == Type.FUNC_EXPR && func_expr.equals(aType.getElement());
+	}
+
+	@Override
 	public OS_Element getElement() {
 		return func_expr;
 	}
 
 	@Override
-	public Type getType() {
+	public @NotNull Type getType() {
 		return Type.FUNC_EXPR;
-	}
-
-	@Override
-	public String asString() {
-		return MessageFormat.format("<OS_FuncExprType {0}>", func_expr);
 	}
 
 	/* (non-Javadoc)
@@ -44,10 +52,6 @@ public class OS_FuncExprType extends __Abstract_OS_Type {
 	@Override
 	public String toString() {
 		return String.format("<OS_FuncExprType %s>", func_expr);
-	}
-
-	protected boolean _isEqual(final OS_Type aType) {
-		return aType.getType() == Type.FUNC_EXPR && func_expr.equals(aType.getElement());
 	}
 }
 

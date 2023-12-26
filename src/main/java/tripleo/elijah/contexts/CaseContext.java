@@ -8,17 +8,17 @@
  */
 package tripleo.elijah.contexts;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
-
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.ContextImpl;
+import tripleo.elijah.util.NotImplementedException;
 
 /**
  * Created 9/24/20 6:11 PM
  */
-public class CaseContext extends Context {
-	private final CaseConditional carrier;
+public class CaseContext extends ContextImpl implements  ICaseContext {
 	private final Context         _parent;
+	private final CaseConditional carrier;
 
 	public CaseContext(final Context aParent, final CaseConditional mc) {
 		this._parent = aParent;
@@ -26,7 +26,12 @@ public class CaseContext extends Context {
 	}
 
 	@Override
-	public LookupResultList lookup(final String name, final int level, final LookupResultList Result, final List<Context> alreadySearched, final boolean one) {
+	public Context getParent() {
+		return _parent;
+	}
+
+	@Override
+	public LookupResultList lookup(final String name, final int level, @NotNull final LookupResultList Result, @NotNull final ISearchList alreadySearched, final boolean one) {
 		alreadySearched.add(carrier.getContext());
 
 /*
@@ -42,18 +47,13 @@ public class CaseContext extends Context {
 
 /*
 		if (carrier.getParent() != null) {
-			final Context context = getParent();
+			final ContextImpl context = getParent();
 			if (!alreadySearched.contains(context) || !one)
 				context.lookup(name, level + 1, Result, alreadySearched, false); // TODO test this
 		}
 		return Result;
 */
 
-	}
-
-	@Override
-	public Context getParent() {
-		return _parent;
 	}
 }
 

@@ -8,24 +8,46 @@
  */
 package tripleo.elijah.entrypoints;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.*;
 
-import java.util.*;
+import java.util.Collection;
 
 /**
  * Created 6/14/21 7:28 AM
  */
 public class MainClassEntryPoint implements EntryPoint {
-	private final ClassStatement klass;
-	private       FunctionDef    main_function;
+	private FunctionDef main_function;
 
-	public MainClassEntryPoint(final ClassStatement aKlass) {
+	public static boolean is_main_function_with_no_args(@NotNull FunctionDef aFunctionDef) {
+		switch (aFunctionDef.getSpecies()) {
+		case REG_FUN:
+		case DEF_FUN:
+			if (aFunctionDef.name().sameName("main")) {
+				return !aFunctionDef.getArgs().iterator().hasNext();
+			}
+			break;
+		default:
+			throw new IllegalStateException("Error");
+		}
+		return false;
+	}
+
+	private final @NotNull ClassStatement klass;
+
+	public static boolean isMainClass(@NotNull ClassStatement classStatement) {
+		// TODO what about Library (for windows dlls) etc?
+		boolean b = classStatement.getPackageName() == OS_Package.default_package;
+		boolean main = classStatement.name().sameName("Main");
+		return b && main;
+	}
+
+	public MainClassEntryPoint(@NotNull ClassStatement aKlass) {
 		final Collection<ClassItem> main = aKlass.findFunction("main");
-		for (final ClassItem classItem : main) {
-			final FunctionDef fd       = (FunctionDef) classItem;
-			final boolean     return_type_is_null;
-			final TypeName    typeName = fd.returnType();
+		for (ClassItem classItem : main) {
+			FunctionDef    fd       = (FunctionDef) classItem;
+			boolean        return_type_is_null;
+			final TypeName typeName = fd.returnType();
 			if (typeName == null)
 				return_type_is_null = true;
 			else
@@ -39,29 +61,12 @@ public class MainClassEntryPoint implements EntryPoint {
 		klass = aKlass;
 	}
 
-	public static boolean isMainClass(@NotNull final ClassStatement classStatement) {
-		// TODO what about Library (for windows dlls) etc?
-		return classStatement.getPackageName() == OS_Package.default_package && classStatement.name().equals("Main");
-	}
-
-	public static boolean is_main_function_with_no_args(@NotNull final FunctionDef aFunctionDef) {
-		switch (aFunctionDef.getSpecies()) {
-		case REG_FUN:
-		case DEF_FUN:
-			if (aFunctionDef.name().equals("main")) {
-				return !aFunctionDef.getArgs().iterator().hasNext();
-			}
-			break;
-		}
-		return false;
+	public ClassStatement getKlass() {
+		return klass;
 	}
 
 	public FunctionDef getMainFunction() {
 		return main_function;
-	}
-
-	public ClassStatement getKlass() {
-		return klass;
 	}
 }
 

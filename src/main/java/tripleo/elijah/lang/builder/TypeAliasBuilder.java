@@ -8,47 +8,49 @@
  */
 package tripleo.elijah.lang.builder;
 
-import tripleo.elijah.lang.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.TypeAliasStatementImpl;
 
 /**
  * Created 12/22/20 10:22 PM
  */
 public class TypeAliasBuilder extends ElBuilder {
-	private OS_Element      _parent;
 	private Context         _context;
-	private Qualident       oldElement;
+	private OS_Element      _parent;
 	private IdentExpression newAlias;
+	private Qualident       oldElement;
 
-	public IdentExpression getIdent() {
-		return newAlias;
-	}
-
-	public void setIdent(final IdentExpression newAlias) {
-		this.newAlias = newAlias;
+	@Override
+	public @NotNull TypeAliasStatement build() {
+		TypeAliasStatement typeAliasStatement = new TypeAliasStatementImpl(_parent);
+		typeAliasStatement.make(newAlias, oldElement);
+		return typeAliasStatement;
 	}
 
 	public Qualident getBecomes() {
 		return oldElement;
 	}
 
-	public void setBecomes(final Qualident oldElement) {
+	public void setBecomes(Qualident oldElement) {
 		this.oldElement = oldElement;
 	}
 
-	@Override
-	public TypeAliasStatement build() {
-		final TypeAliasStatement typeAliasStatement = new TypeAliasStatement(_parent);
-		typeAliasStatement.make(newAlias, oldElement);
-		return typeAliasStatement;
+	public IdentExpression getIdent() {
+		return newAlias;
 	}
 
 	@Override
-	public void setContext(final Context context) {
+	public void setContext(Context context) {
 		_context = context;
 		// TODO this is a very important potential bug
 		//  where ident's may not be getting the right context
 		//  because of non-use of Parser.cur in the Builders
 		newAlias.setContext(context);
+	}
+
+	public void setIdent(IdentExpression newAlias) {
+		this.newAlias = newAlias;
 	}
 }
 

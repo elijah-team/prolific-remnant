@@ -1,52 +1,35 @@
 package tripleo.elijah.lang.imports;
 
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.contexts.ImportContext;
+import tripleo.elijah.lang.i.*;
+import tripleo.elijah.lang.impl.QualidentImpl;
+import tripleo.elijah.lang.impl.QualidentListImpl;
+import tripleo.elijah.util.NotImplementedException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created 8/7/20 2:09 AM
  */
 public class RootedImportStatement extends _BaseImportStatement {
+	private Context       _ctx;
+	private QualidentList importList = new QualidentListImpl(); // remove final for ImportStatementBuilder
 	final   OS_Element    parent;
-	private QualidentList importList = new QualidentList(); // remove final for ImportStatementBuilder
 	/**
 	 * Used in from syntax
 	 *
 	 * @category from
 	 */
 	private Qualident     root;
-	private Context       _ctx;
 
 	public RootedImportStatement(final OS_Element aParent) {
 		parent = aParent;
 		if (parent instanceof OS_Container) {
-			((OS_Container) parent).add(this);
+			((OS_Container) parent).addToContainer(this);
 		} else
 			throw new NotImplementedException();
-	}
-
-	public Qualident getRoot() {
-		return root;
-	}
-
-	public void setRoot(final Qualident root) {
-		this.root = root;
-	}
-
-	/**
-	 * Used in from syntax
-	 *
-	 * @category from
-	 */
-	public void importRoot(final Qualident xyz) {
-		setRoot(xyz);
-	}
-
-	public QualidentList importList() {
-		return importList;
 	}
 
 	@Override
@@ -60,15 +43,36 @@ public class RootedImportStatement extends _BaseImportStatement {
 	}
 
 	@Override
-	public void setContext(final ImportContext ctx) {
-		_ctx = ctx;
+	public void serializeTo(final SmallWriter sw) {
+
+	}
+
+	public Qualident getRoot() {
+		return root;
+	}
+
+	public void setRoot(final Qualident root) {
+		this.root = root;
+	}
+
+	public QualidentList importList() {
+		return importList;
+	}
+
+	/**
+	 * Used in from syntax
+	 *
+	 * @category from
+	 */
+	public void importRoot(final Qualident xyz) {
+		setRoot(xyz);
 	}
 
 	@Override
-	public List<Qualident> parts() {
+	public @NotNull List<Qualident> parts() {
 		final List<Qualident> r = new ArrayList<Qualident>();
-		for (final Qualident qualident : importList.parts) {
-			final Qualident q = new Qualident();
+		for (final Qualident qualident : importList.parts()) {
+			final Qualident q = new QualidentImpl();
 			// TODO what the hell does this do? Should it be `root'
 			for (final IdentExpression part : q.parts()) {
 				q.append(part);
@@ -81,8 +85,19 @@ public class RootedImportStatement extends _BaseImportStatement {
 		return r;
 	}
 
-	public void setImportList(final QualidentList qil) {
+	@Override
+	public OS_ElementName name() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setImportList(QualidentList qil) {
 		importList = qil;
+	}
+
+	@Override
+	public void setContext(final ImportContext ctx) {
+		_ctx = ctx;
 	}
 }
 

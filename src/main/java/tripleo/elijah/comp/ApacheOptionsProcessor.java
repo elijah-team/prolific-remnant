@@ -1,13 +1,25 @@
 package tripleo.elijah.comp;
 
-import org.apache.commons.cli.*;
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import tripleo.elijah.comp.i.Compilation;
+import tripleo.elijah.comp.i.ICompilationBus;
+import tripleo.elijah.comp.i.OptionsProcessor;
+import tripleo.elijah.comp.impl.CC_SetDoOut;
+import tripleo.elijah.comp.impl.CC_SetShowTree;
+import tripleo.elijah.comp.impl.CC_SetSilent;
+import tripleo.elijah.comp.impl.CC_SetStage;
+import tripleo.elijah.comp.internal.*;
+import tripleo.vendor.org.apache.commons.cli.CommandLine;
+import tripleo.vendor.org.apache.commons.cli.CommandLineParser;
+import tripleo.vendor.org.apache.commons.cli.DefaultParser;
+import tripleo.vendor.org.apache.commons.cli.Options;
 
-import java.util.*;
+import java.util.List;
 
 public class ApacheOptionsProcessor implements OptionsProcessor {
-	final Options           options = new Options();
-	final CommandLineParser clp     = new DefaultParser();
+	private final CommandLineParser clp     = new DefaultParser();
+	private final Options           options = new Options();
 
 	@Contract(pure = true)
 	public ApacheOptionsProcessor() {
@@ -18,25 +30,23 @@ public class ApacheOptionsProcessor implements OptionsProcessor {
 	}
 
 	@Override
-	public String[] process(final @NotNull Compilation c,
-	                        final @NotNull List<String> args,
-	                        final @NotNull ICompilationBus cb) throws Exception {
+	public String[] process(Compilation c, List<CompilerInput> aInputs, ICompilationBus aCb) throws Exception {
 		final CommandLine cmd;
 
-		cmd = clp.parse(options, args.toArray(new String[args.size()]));
+		cmd = clp.parse(options, aInputs);
 
 		if (cmd.hasOption("s")) {
-			cb.option(new CC_SetStage(cmd.getOptionValue('s')));
+			new CC_SetStage(cmd.getOptionValue('s')).apply(c);
 		}
 		if (cmd.hasOption("showtree")) {
-			cb.option(new CC_SetShowTree(true));
+			new CC_SetShowTree(true).apply(c);
 		}
 		if (cmd.hasOption("out")) {
-			cb.option(new CC_SetDoOut(true));
+			new CC_SetDoOut(true).apply(c);
 		}
 
 		if (Compilation.isGitlab_ci() || cmd.hasOption("silent")) {
-			cb.option(new CC_SetSilent(true));
+			new CC_SetSilent(true).apply(c);
 		}
 
 		return cmd.getArgs();
