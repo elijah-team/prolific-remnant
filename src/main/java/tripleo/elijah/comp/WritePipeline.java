@@ -68,7 +68,7 @@ public class WritePipeline implements PipelineMember, AccessBus.AB_GenerateResul
 			mb.put(ab.output, ab.buffer);
 		}
 
-		final Map<String, OS_Module> modmap = new HashMap<String, OS_Module>();
+		final Map<String, OS_Module> modmap = new HashMap<>();
 		for (final GenerateResultItem ab : gr.results()) {
 			modmap.put(ab.output, ab.node.module());
 		}
