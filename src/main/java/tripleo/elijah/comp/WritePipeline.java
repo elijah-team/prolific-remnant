@@ -17,6 +17,7 @@ import tripleo.elijah.nextgen.outputtree.*;
 import tripleo.elijah.stages.gen_generic.*;
 import tripleo.elijah.stages.generate.*;
 import tripleo.elijah.util.*;
+import tripleo.elijah_prolific.v.V;
 import tripleo.util.buffer.*;
 import tripleo.util.io.*;
 
@@ -94,6 +95,7 @@ public class WritePipeline implements PipelineMember, AccessBus.AB_GenerateResul
 
 		final PrintStream db_stream = new PrintStream(new File(file_prefix, "buffers.txt"));
 		PipelineLogic.debug_buffers(gr, db_stream);
+		V.gri(gr);
 	}
 
 	private @NotNull File choose_dir_name() {
