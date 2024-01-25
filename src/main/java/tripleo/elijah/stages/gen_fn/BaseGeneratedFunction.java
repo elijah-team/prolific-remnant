@@ -19,6 +19,7 @@ import tripleo.elijah.util.*;
 import tripleo.elijah.world.i.*;
 import tripleo.util.range.*;
 import tripleo.elijah.stages.deduce.*;
+import tripleo.util.range.Range;
 
 import java.util.*;
 

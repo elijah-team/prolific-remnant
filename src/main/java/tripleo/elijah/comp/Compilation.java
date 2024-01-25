@@ -29,6 +29,7 @@ import tripleo.elijah.ut.*;
 import tripleo.elijah.util.*;
 import tripleo.elijah.world.i.*;
 import tripleo.elijah.world.impl.*;
+import tripleo.elijah_prolific.v.V;
 
 import java.io.*;
 import java.util.*;
@@ -129,6 +130,8 @@ public abstract class Compilation {
 
 		ctl.processOptions();
 		ctl.runner();
+
+		V.exit();
 	}
 
 	public String getProjectName() {
