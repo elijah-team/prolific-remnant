@@ -373,7 +373,8 @@ public class Resolve_Ident_IA {
 			vte_de3._action_002_no_resolved_element(errSink, pte, ite, dc, phase);
 		} else {
 			System.err.println("==> 397-375 ===================================");
-			System.err.println("=== " + _backlink.getClass().getName());
+			final String s = _backlink != null ? _backlink.getClass().getName() : "null";
+			System.err.println("=== " + s);
 			System.err.println("==< 397-375 ===================================");
 		}
 	}
