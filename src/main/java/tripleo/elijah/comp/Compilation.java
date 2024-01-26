@@ -117,17 +117,12 @@ public abstract class Compilation {
 	}
 
 	public void feedCmdLine(final List<String> args, final CompilerController ctl) {
-		if (args.size() == 0) {
+		if (args.isEmpty()) {
 			ctl.printUsage();
 			return; // ab
 		}
 
-		if (ctl instanceof DefaultCompilerController) {
-			((DefaultCompilerController) ctl)._set(this, args);
-		} else if (ctl instanceof final UT_Controller uctl) {
-			uctl._set(this, args);
-		}
-
+		ctl._set(this, args);
 		ctl.processOptions();
 		ctl.runner();
 

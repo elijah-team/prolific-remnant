@@ -10,6 +10,7 @@ package tripleo.elijah.comp;
 
 import com.google.common.collect.*;
 import org.jetbrains.annotations.*;
+import tripleo.elijah.DebugFlags;
 import tripleo.elijah.comp.functionality.f203.*;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.nextgen.outputstatement.*;
@@ -120,7 +121,9 @@ public class WritePipeline implements PipelineMember, AccessBus.AB_GenerateResul
 			path.getParent().toFile().mkdirs();
 
 			// TODO functionality
-			System.out.println("201 Writing path: " + path);
+			if (DebugFlags.lgJan25) {
+				System.out.println("201 Writing path: " + path);
+			}
 			final CharSink x = c.getIO().openWrite(path);
 
 			final EG_SingleStatement beginning = new EG_SingleStatement("", EX_Explanation.withMessage("WritePipeline.beginning"));

@@ -34,7 +34,7 @@ public class F202 {
 	}
 
 	public void processLogs(final Collection<ElLog> aElLogs) {
-		if (aElLogs.size() == 0) return; // TODO progress message? should be impossible anyway
+		if (aElLogs.isEmpty()) return; // TODO progress message? should be impossible anyway
 
 		final ElLog firstLog = aElLogs.iterator().next();
 
