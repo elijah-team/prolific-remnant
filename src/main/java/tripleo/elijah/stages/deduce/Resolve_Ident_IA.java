@@ -4,6 +4,7 @@ import org.jdeferred2.DoneCallback;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tripleo.elijah.DebugFlags;
 import tripleo.elijah.comp.ErrSink;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.OS_UserType;
@@ -372,9 +373,12 @@ public class Resolve_Ident_IA {
 			final DeduceElement3_VariableTableEntry vte_de3 = (DeduceElement3_VariableTableEntry) backlink.getDeduceElement3();
 			vte_de3._action_002_no_resolved_element(errSink, pte, ite, dc, phase);
 		} else {
-			System.err.println("==> 397-375 ===================================");
-			System.err.println("=== " + _backlink.getClass().getName());
-			System.err.println("==< 397-375 ===================================");
+			if (DebugFlags.lgJan25) {
+				System.err.println("==> 397-375 ===================================");
+				final String s = _backlink != null ? _backlink.getClass().getName() : "null";
+				System.err.println("=== " + s);
+				System.err.println("==< 397-375 ===================================");
+			}
 		}
 	}
 
