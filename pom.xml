@@ -15,7 +15,7 @@
         <downloadSources>true</downloadSources>
         <guava.version>32.1.3-jre</guava.version>
         <buffers.version>0.0.3</buffers.version>
-        <range.version>0.0.3b</range.version>
+        <range.version>0.0.3</range.version>
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
         <maven-javadoc-plugin.version>3.0.0-M1</maven-javadoc-plugin.version>
         <jdeferred.version>2.0.0</jdeferred.version>
