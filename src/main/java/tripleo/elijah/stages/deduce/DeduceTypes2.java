@@ -1870,7 +1870,8 @@ public class DeduceTypes2 {
 			if (best != null) {
 				pte.setResolvedElement(best); // TODO do we need to add a dependency for class?
 			} else {
-				throw new NotImplementedException();
+//				throw new NotImplementedException();
+				System.err.println("9997-1873 lookup failed in do_assign_call "+s);
 			}
 		}
 	}
