@@ -38,7 +38,7 @@ public class UT_Controller implements CompilerController {
 	@Override
 	public void runner() {
 		try {
-			c.__cr = new CompilationRunner(c, c._cis, cb, new IProgressSink() {
+			c.__cr = new CompilationRunner(new CT_CompilationRunner(c, c._cis, cb, new IProgressSink() {
 				@Override
 				public void note(final int code, final ProgressSinkComponent component, final int type, final Object[] params) {
 					if (component.isPrintErr(code, type)) {
@@ -46,7 +46,7 @@ public class UT_Controller implements CompilerController {
 						System.err.println(s);
 					}
 				}
-			});
+			}));
 			c.__cr.doFindCIs(args2, cb);
 		} catch (final Exception e) {
 			c.getErrSink().exception(e);

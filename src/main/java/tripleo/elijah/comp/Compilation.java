@@ -25,7 +25,6 @@ import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.stages.deduce.fluffy.i.*;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.ut.*;
 import tripleo.elijah.util.*;
 import tripleo.elijah.world.i.*;
 import tripleo.elijah.world.impl.*;
@@ -357,8 +356,6 @@ public abstract class Compilation {
 	}
 
 	public static class CompilationAlways {
-		public static boolean VOODOO = false;
-
 		@NotNull
 		public static String defaultPrelude() {
 			return "c";

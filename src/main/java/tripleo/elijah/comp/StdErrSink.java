@@ -11,6 +11,7 @@
  */
 package tripleo.elijah.comp;
 
+import tripleo.elijah.DebugFlags;
 import tripleo.elijah.diagnostic.*;
 import tripleo.elijah.util.*;
 
@@ -32,12 +33,12 @@ public class StdErrSink implements ErrSink {
 	@Override
 	public void reportError(final String s) {
 		_errorCount++;
-		if (Compilation.CompilationAlways.VOODOO) System.err.printf("ERROR: %s%n", s);
+		if (DebugFlags.VOODOO) System.err.printf("ERROR: %s%n", s);
 	}
 
 	@Override
 	public void reportWarning(final String s) {
-		if (Compilation.CompilationAlways.VOODOO) System.err.printf("WARNING: %s%n", s);
+		if (DebugFlags.VOODOO) System.err.printf("WARNING: %s%n", s);
 	}
 
 	@Override
@@ -47,14 +48,14 @@ public class StdErrSink implements ErrSink {
 
 	@Override
 	public void info(final String message) {
-		if (Compilation.CompilationAlways.VOODOO) System.err.printf("INFO: %s%n", message);
+		if (DebugFlags.VOODOO) System.err.printf("INFO: %s%n", message);
 	}
 
 	@Override
 	public void reportDiagnostic(final Diagnostic diagnostic) {
 		if (diagnostic.severity() == Diagnostic.Severity.ERROR)
 			_errorCount++;
-		if (Compilation.CompilationAlways.VOODOO)
+		if (DebugFlags.VOODOO)
 			diagnostic.report(System.err);
 	}
 }
