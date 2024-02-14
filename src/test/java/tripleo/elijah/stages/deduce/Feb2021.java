@@ -8,13 +8,12 @@
  */
 package tripleo.elijah.stages.deduce;
 
-import org.junit.*;
+import org.junit.Test;
 import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.*;
-import tripleo.elijah_prolific.v.V;
+import tripleo.elijah.comp.internal.CompilationImpl;
 
 import static com.google.common.truth.Truth.assertThat;
-import static tripleo.elijah.util.Helpers.*;
+import static tripleo.elijah.util.Helpers.List_of;
 
 /**
  * Created 9/9/21 4:16 AM
@@ -28,18 +27,18 @@ public class Feb2021 {
 		c.feedCmdLine(List_of("test/feb2021/property/"));
 
 		assertThat(c.getOutputTree().namelist()).containsExactly(
-				 "/prelude/Prelude/ConstString.h"
-		, "/property/Pr.c"
-		, "/prelude/Prelude/IPrintable.c"
-		, "/property/Pr.h"
-		, "/prelude/Prelude/Prelude.c"
-		, "/property/Main.c"
-		, "/property/Foo.h"
-		, "/prelude/Prelude/Prelude.h"
-		, "/property/Main.h"
-		, "/prelude/Prelude/ConstString.c"
-		, "/property/Foo.c"
-		, "/prelude/Prelude/IPrintable.h"
+				"/prelude/Prelude/ConstString.h"
+				, "/property/Pr.c"
+				, "/prelude/Prelude/IPrintable.c"
+				, "/property/Pr.h"
+				, "/prelude/Prelude/Prelude.c"
+				, "/property/Main.c"
+				, "/property/Foo.h"
+				, "/prelude/Prelude/Prelude.h"
+				, "/property/Main.h"
+				, "/prelude/Prelude/ConstString.c"
+				, "/property/Foo.c"
+				, "/prelude/Prelude/IPrintable.h"
 		);
 	}
 
@@ -50,8 +49,8 @@ public class Feb2021 {
 		c.feedCmdLine(List_of("test/feb2021/function/"));
 
 		assertThat(c.getOutputTree().namelist()).containsExactly(
-				 "/function/Main.c"
-				, "/fun/Main.h"
+				"/function/Main.c"
+				, "/function/Main.h"
 		);
 	}
 
@@ -60,8 +59,16 @@ public class Feb2021 {
 		final Compilation c = new CompilationImpl(new StdErrSink(), new IO());
 
 		c.feedCmdLine(List_of("test/feb2021/hier/"));
-	}
 
+		assertThat(c.getOutputTree().namelist()).containsExactly(
+				"/hier/Bar.c"
+				, "/hier/Main.h"
+				, "/hier/Foo.c"
+				, "/hier/Main.c"
+				, "/hier/Foo.h"
+				, "/hier/Bar.h"
+		);
+	}
 }
 
 //
