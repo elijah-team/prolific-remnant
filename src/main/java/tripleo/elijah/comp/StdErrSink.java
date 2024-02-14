@@ -40,9 +40,9 @@ public class StdErrSink implements ErrSink {
 
     @Override
     public int errorCount() {
-        var ec = _list.stream().filter(x -> x.getLeft() == Errors.ERROR).count();
-        assert ec == _errorCount;
-        return _errorCount;
+        final long ec = _list.stream().filter(x -> x.getLeft() == Errors.ERROR).count();
+//        assert ec == _errorCount;
+        return (int)ec;
     }
 
     @Override

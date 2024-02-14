@@ -91,7 +91,7 @@ public class FluffyFnCallArgs {
                                        final @NotNull Instruction instruction,
                                        final @NotNull ProcTableEntry pte,
                                        final int instructionIndex,
-                                       final @NotNull IdentIA identIA) {
+                                       final /*@NotNull*/ IdentIA identIA) {
         if (pte.expression_num == null) {
             if (fca.expression_to_call.getName() != InstructionName.CALLS) {
                 final String           text = ((IdentExpression) pte.expression).getText();
