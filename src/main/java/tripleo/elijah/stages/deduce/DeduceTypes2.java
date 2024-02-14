@@ -1260,9 +1260,15 @@ public class DeduceTypes2 {
 	}
 
 	private void implement_is_a(final @NotNull BaseGeneratedFunction gf, final @NotNull Instruction instruction) {
-		final IntegerIA testing_var_  = (IntegerIA) instruction.getArg(0);
-		final IntegerIA testing_type_ = (IntegerIA) instruction.getArg(1);
-		final Label     target_label  = ((LabelIA) instruction.getArg(2)).label;
+		final InstructionArgument arg           = instruction.getArg(0);
+		if (arg instanceof IdentIA ia) {
+			System.err.println("9997-1265 ident instead of integer in implement_is_a "+ia.getEntry().getIdent());
+			return;
+		}
+
+		final IntegerIA           testing_var_  = (IntegerIA) arg;
+		final IntegerIA           testing_type_ = (IntegerIA) instruction.getArg(1);
+		final Label               target_label  = ((LabelIA) instruction.getArg(2)).label;
 
 		final VariableTableEntry testing_var    = gf.getVarTableEntry(testing_var_.getIndex());
 		final TypeTableEntry     testing_type__ = gf.getTypeTableEntry(testing_type_.getIndex());
