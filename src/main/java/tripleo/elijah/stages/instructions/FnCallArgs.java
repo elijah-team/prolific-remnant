@@ -16,6 +16,7 @@ import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.util.*;
 
 import java.util.*;
+import java.util.Optional;
 
 /**
  * Created 9/10/20 3:36 PM
@@ -74,6 +75,14 @@ public class FnCallArgs implements InstructionArgument {
 
 	public void setType(final TypeTableEntry tte2) {
 		_type = tte2;
+	}
+
+    public Optional<InstructionArgument> getArg2(final int i) {
+		try {
+			return Optional.of(getArg(i));
+		} catch (IndexOutOfBoundsException ex) {
+			return Optional.empty(); // do we want operation here? (bs)
+		}
 	}
 }
 
