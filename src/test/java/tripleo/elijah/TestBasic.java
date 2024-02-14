@@ -18,12 +18,14 @@ import tripleo.elijah.comp.*;
 import tripleo.elijah.comp.internal.*;
 import tripleo.elijah.nextgen.outputstatement.*;
 import tripleo.elijah.nextgen.outputtree.*;
+import tripleo.elijah_prolific.v.V;
 
 import java.io.*;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.*;
 
+import static com.google.common.truth.Truth.assertThat;
 import static tripleo.elijah.util.Helpers.*;
 
 /**
@@ -129,17 +131,56 @@ public class TestBasic {
 
 		Assert.assertEquals(18, cot.list.size()); // TODO why not 6?
 
+		assertThat(cot.namelist())
+				.containsExactly(
+						"/main2/Main.h"
+						, "/main2/Main.c"
+
+						, "/prelude/Prelude/Prelude.h"
+						, "/prelude/Prelude/Prelude.c"
+
+						, "/prelude/Prelude/Boolean.h"
+						, "/prelude/Prelude/Boolean.c"
+
+						, "/main2/wprust.demo.fact/fact1.h"
+						, "/main2/wprust.demo.fact/fact1.c"
+
+						, "/prelude/Prelude/Arguments.h"
+						, "/prelude/Prelude/Arguments.c"
+
+						, "/prelude/Prelude/Integer64.h"
+						, "/prelude/Prelude/Integer64.c"
+
+						, "/prelude/Prelude/Unsigned64.h"
+						, "/prelude/Prelude/Unsigned64.c"
+
+						, "/prelude/Prelude/ConstString.h"
+						, "/prelude/Prelude/ConstString.c"
+
+						, "/prelude/Prelude/IPrintable.h"
+						, "/prelude/Prelude/IPrintable.c"
+				);
+
 		select(cot.list, f -> f.getFilename().equals("/main2/Main.h"))
 		  .then(f -> {
-			  System.out.println(((EG_SequenceStatement) f.getStatementSequence())._list().stream().map(EG_Statement::getText).collect(Collectors.toList()));
+			  final List<String> collect = ((EG_SequenceStatement) f.getStatementSequence())._list().stream().map(EG_Statement::getText).collect(Collectors.toList());
+//			  System.out.println(collect);
+			  V.asv(V.e.TEST_TB_FACT1_168, ""+collect);
 		  });
 		select(cot.list, f -> f.getFilename().equals("/main2/Main.c"))
 		  .then(f -> {
-			  System.out.println(((EG_SequenceStatement) f.getStatementSequence())._list().stream().map(EG_Statement::getText).collect(Collectors.toList()));
+			  final List<String> collect = ((EG_SequenceStatement) f.getStatementSequence())._list().stream().map(EG_Statement::getText).collect(Collectors.toList());
+//			  System.out.println(collect);
+			  V.asv(V.e.TEST_TB_FACT1_173, ""+collect);
 		  });
 
 		// TODO Error count obviously should be 0
-		Assert.assertEquals(123, c.errorCount()); // FIXME why 123?? 04/15
+		Assert.assertEquals(52, c.errorCount());
+
+//		assertThat(c.errorList())
+//				.containsExactly();
+
+		// FIXME enumerate all these errors and the (123-52) diags, infos and warnings
 	}
 }
 
