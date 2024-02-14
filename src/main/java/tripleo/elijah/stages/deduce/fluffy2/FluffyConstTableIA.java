@@ -14,33 +14,37 @@ public class FluffyConstTableIA {
     private final DeduceTypes2          deduceTypes2;
     private final BaseGeneratedFunction generatedFunction;
 
-    public FluffyConstTableIA(ConstTableIA cta, DeduceTypes2 deduceTypes2, BaseGeneratedFunction aGf) {
-        this.cta               = cta;
-        this.deduceTypes2      = deduceTypes2;
-        this.generatedFunction = aGf;
+    public FluffyConstTableIA(ConstTableIA aConstTableIA, DeduceTypes2 aDeduceTypes2, BaseGeneratedFunction aBaseGeneratedFunction) {
+        this.cta               = aConstTableIA;
+        this.deduceTypes2      = aDeduceTypes2;
+        this.generatedFunction = aBaseGeneratedFunction;
     }
 
-    public void do_assign_constant(final @NotNull Instruction instruction, final @NotNull VariableTableEntry vte) {
-        if (vte.type.getAttached() != null) {
+    public void do_assign_constant(final @NotNull Instruction aInstruction, final @NotNull VariableTableEntry aVariableTableEntry) {
+        if (aVariableTableEntry.type.getAttached() != null) {
             // TODO check types
         }
         final @NotNull ConstantTableEntry cte = generatedFunction.getConstTableEntry(cta.getIndex());
         if (cte.type.getAttached() == null) {
             deduceTypes2._LOG().info("Null type in CTE " + cte);
         }
-//		vte.type = cte.type;
-        vte.addPotentialType(instruction.getIndex(), cte.type);
+//		aVariableTableEntry.type = cte.type;
+        aVariableTableEntry.addPotentialType(aInstruction.getIndex(), cte.type);
+
+        aInstruction.putExt(FluffyRider.class, new _FluffyConstTableIA_DAC_Rider(aInstruction, aVariableTableEntry, null, this));
     }
 
-    public void do_assign_constant(final @NotNull Instruction instruction, final @NotNull IdentTableEntry idte) {
-        if (idte.type != null && idte.type.getAttached() != null) {
+    public void do_assign_constant(final @NotNull Instruction aInstruction, final @NotNull IdentTableEntry aIdentTableEntry) {
+        if (aIdentTableEntry.type != null && aIdentTableEntry.type.getAttached() != null) {
             // TODO check types
         }
         final @NotNull ConstantTableEntry cte = generatedFunction.getConstTableEntry(cta.getIndex());
         if (cte.type.getAttached() == null) {
             deduceTypes2._LOG().err("*** ERROR: Null type in CTE " + cte);
         }
-        // idte.type may be null, but we still addPotentialType here
-        idte.addPotentialType(instruction.getIndex(), cte.type);
+        // aIdentTableEntry.type may be null, but we still addPotentialType here
+        aIdentTableEntry.addPotentialType(aInstruction.getIndex(), cte.type);
+
+        aInstruction.putExt(FluffyRider.class, new _FluffyConstTableIA_DAC_Rider(aInstruction, null, aIdentTableEntry, this));
     }
 }
