@@ -42,7 +42,8 @@ public class DeduceTypes2 {
 	private final          Map<Object, IZero> _zeros = new HashMap<>();
 	@NotNull WorkManager              wm                  = new WorkManager();
 	@NotNull List<IStateRunnable> onRunnables = new ArrayList<>();
-	@NotNull PromiseExpectations expectations = new PromiseExpectations();
+	@NotNull PromiseExpectations          expectations = new PromiseExpectations();
+	private Map<Object,Object> fmap = new HashMap<>();
 
 	/*public void deduceClasses(final @NotNull List<GeneratedNode> lgc) {
 		for (GeneratedNode generatedNode : lgc) {
@@ -1154,6 +1155,24 @@ public class DeduceTypes2 {
 			} else
 				throw new NotImplementedException();
 		}
+	}
+
+	private Object getFluffy(Object key, @NotNull BaseGeneratedFunction aGf) {
+		if (fmap.containsKey(key)) {
+			return fmap.get(key);
+		}
+
+		if (key instanceof FnCallArgs fca) {
+			FluffyFnCallArgs ffca = new FluffyFnCallArgs(fca, this, aGf);
+			fmap.put(key, ffca);
+			return ffca;
+		} else if (key instanceof ConstTableIA cta) {
+			FluffyConstTableIA fcta = new FluffyConstTableIA(cta, this, aGf);
+			fmap.put(key, fcta);
+			return fcta;
+		}
+
+		throw new NotImplementedException("bad class passed in");
 	}
 
 	public void do_assign_normal_ident_deferred(final @NotNull BaseGeneratedFunction generatedFunction,
