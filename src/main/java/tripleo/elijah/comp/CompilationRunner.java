@@ -34,25 +34,22 @@ public class CompilationRunner {
     private final ICompilationBus cb;
     private final EzCache         ezCache = new DefaultEzCache();
 
-
-    @Contract(pure = true)
-    public CompilationRunner(final Compilation aCompilation, final Compilation.CIS a_cis, final ICompilationBus aCb, final IProgressSink ps1) {
-        compilation = aCompilation;
-        cis         = a_cis;
-        cci         = new CCI(new CT_CompilationRunner(compilation, a_cis, aCb, ps1));
-        cb          = aCb;
-    }
-
     public CompilationRunner(CT_CompilationRunner ct) {
-        final IProgressSink ps1;
-        if (ct.ps() == null)
-            ps1 = new DefaultProgressSink();
-        else ps1 = ct.ps();
         final Compilation.CIS a_cis = ct.cis();
+
         compilation = ct.compilation();
         cis         = a_cis;
         cb          = ct.cb();
-        cci         = new CCI(new CT_CompilationRunner(compilation, a_cis, cb, ps1));
+
+        final CT_CompilationRunner ct1;
+        if (ct.ps() == null) {
+            final IProgressSink progressSink = new DefaultProgressSink();
+            ct1 = new CT_CompilationRunner(compilation, a_cis, cb, progressSink);
+        } else {
+            ct1 = ct;
+        }
+
+        cci         = new CCI(ct1);
     }
 
     void start(final CompilerInstructions ci, final boolean do_out) throws Exception {
