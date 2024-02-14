@@ -1161,7 +1161,7 @@ public class DeduceTypes2 {
 		}
 	}
 
-	private Object getFluffy(Object key, @NotNull BaseGeneratedFunction aGf) {
+	public Object getFluffy(Object key, @NotNull BaseGeneratedFunction aGf) {
 		if (fmap.containsKey(key)) {
 			return fmap.get(key);
 		}
@@ -1174,6 +1174,14 @@ public class DeduceTypes2 {
 			FluffyConstTableIA fcta = new FluffyConstTableIA(cta, this, aGf);
 			fmap.put(key, fcta);
 			return fcta;
+		} else if (key instanceof ClassStatement cs) {
+			FluffyClassStatement fcs = new FluffyClassStatement(cs, this, aGf);
+			fmap.put(key, fcs);
+			return fcs;
+		} else if (key instanceof FunctionDef fd) {
+			FluffyFunctionDef ffd = new FluffyFunctionDef(fd, this, aGf);
+			fmap.put(key, ffd);
+			return ffd;
 		}
 
 		throw new NotImplementedException("bad class passed in");
