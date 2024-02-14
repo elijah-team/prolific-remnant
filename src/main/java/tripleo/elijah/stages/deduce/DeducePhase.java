@@ -13,6 +13,7 @@ import com.google.common.collect.*;
 import org.jdeferred2.*;
 import org.jdeferred2.impl.*;
 import org.jetbrains.annotations.*;
+//import tripleo.elijah.EventualRegister;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.diagnostic.*;
 import tripleo.elijah.lang.*;
@@ -37,7 +38,7 @@ import static tripleo.elijah.util.Helpers.*;
 /**
  * Created 12/24/20 3:59 AM
  */
-public class DeducePhase {
+public class DeducePhase /*extends DefaultEventualRegister implements EventualRegister*/ {
 
 	public final    ICodeRegistrar               codeRegistrar;
 	public final    GeneratePhase                generatePhase;
