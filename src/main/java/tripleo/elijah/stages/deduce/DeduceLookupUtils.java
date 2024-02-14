@@ -253,6 +253,10 @@ public class DeduceLookupUtils {
 		}
 	}
 
+	public static OS_Element lookup__(IExpression el2, Context ctx, DeduceTypes2 deduceTypes2) throws ResolveError {
+		return lookup(el2, ctx, deduceTypes2);
+	}
+
 	static class __deduceExpression_p {
 		private final DeferredObject<GenType, ResolveError, Void> typePromise = new DeferredObject<>();
 
