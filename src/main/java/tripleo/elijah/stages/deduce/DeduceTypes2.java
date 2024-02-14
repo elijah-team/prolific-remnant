@@ -12,6 +12,7 @@ package tripleo.elijah.stages.deduce;
 import org.jdeferred2.*;
 import org.jdeferred2.impl.*;
 import org.jetbrains.annotations.*;
+import tripleo.elijah.EventualRegister;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.*;
@@ -45,6 +46,7 @@ public class DeduceTypes2 {
 	@NotNull List<IStateRunnable> onRunnables = new ArrayList<>();
 	@NotNull PromiseExpectations          expectations = new PromiseExpectations();
 	private Map<Object,Object> fmap = new HashMap<>();
+	private DefaultEventualRegister mPromiseExpectationRegister;
 
 	/*public void deduceClasses(final @NotNull List<GeneratedNode> lgc) {
 		for (GeneratedNode generatedNode : lgc) {
@@ -2095,6 +2097,19 @@ public class DeduceTypes2 {
 
 	public void implement_calls__(BaseGeneratedFunction generatedFunction, Context parent, InstructionArgument arg, ProcTableEntry pte, int instructionIndex) {
 		implement_calls(generatedFunction, parent, arg, pte, instructionIndex);
+	}
+
+	public EventualRegister PromiseExpectationRegister() {
+		if (mPromiseExpectationRegister == null) {
+            mPromiseExpectationRegister = new DefaultEventualRegister(){
+                @Override
+                public void checkFinishEventuals() {
+                    super.checkFinishEventuals();
+					expectations.check();
+                }
+            };
+        }
+		return mPromiseExpectationRegister;
 	}
 
 	interface IElementProcessor {
