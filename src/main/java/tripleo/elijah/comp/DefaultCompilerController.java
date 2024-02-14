@@ -2,35 +2,16 @@ package tripleo.elijah.comp;
 
 import tripleo.elijah.comp.internal.CompilationBus;
 
-import java.util.List;
-
-public class DefaultCompilerController implements CompilerController {
-    List<String>   args;
-    String[]       args2;
-    CompilationBus cb;
-    private Compilation c;
-
-    @Override
-    public void printUsage() {
-        System.out.println("Usage: eljc [--showtree] [-sE|O] <directory or .ez file names>");
-    }
-
+public class DefaultCompilerController extends _AbstractCompilerController implements CompilerController {
     @Override
     public void processOptions() {
-        final OptionsProcessor             op  = new ApacheOptionsProcessor();
-        final CompilerInstructionsObserver cio = new CompilerInstructionsObserver(c, op, c._cis);
-        cb = new CompilationBus(c);
+        var cb2 = new CompilationBus(c);
 
-        try {
-            args2 = op.process(c, args, cb);
-        } catch (final Exception e) {
-            c.getErrSink().exception(e);
-            throw new RuntimeException(e);
-        }
+        _internal_processOptions(() -> cb2);
     }
 
-    @Override
-    public void runner() {
+//    @Override
+    public void __runner() {
         try {
             var ct = new CT_CompilationRunner(c, c._cis, cb, null);
             c.__cr = new CompilationRunner(ct);
@@ -39,10 +20,5 @@ public class DefaultCompilerController implements CompilerController {
             c.getErrSink().exception(e);
             throw new RuntimeException(e);
         }
-    }
-
-    public void _set(final Compilation aCompilation, final List<String> aArgs) {
-        c    = aCompilation;
-        args = aArgs;
     }
 }
