@@ -10,6 +10,7 @@ package tripleo.elijah.stages.gen_fn;
 
 import org.jetbrains.annotations.*;
 import org.junit.*;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.*;
@@ -100,7 +101,8 @@ public class GetIdentIAPathTest_ForC {
 		final AccessBus         ab            = new AccessBus(c);
 		final PipelineLogic     pl            = new PipelineLogic(ab);
 		final GeneratePhase     generatePhase = pl.generatePhase;
-		final GenerateFunctions gen           = generatePhase.getGenerateFunctions(mod);
+		final Eventual<GenerateFunctions> egf = generatePhase.getGenerateFunctions2(mod);
+		final GenerateFunctions gen           = EventualExtract.of(egf);
 		final Context           ctx           = mock(Context.class);
 		//
 		final DotExpression       expr = new DotExpression(x_ident, foo_ident);
@@ -131,7 +133,8 @@ public class GetIdentIAPathTest_ForC {
 		final AccessBus         ab            = new AccessBus(c);
 		final PipelineLogic     pl            = new PipelineLogic(ab);
 		final GeneratePhase     generatePhase = pl.generatePhase;
-		final GenerateFunctions gen           = generatePhase.getGenerateFunctions(mod);
+		final Eventual<GenerateFunctions> egf = generatePhase.getGenerateFunctions2(mod);
+		final GenerateFunctions gen           = EventualExtract.of(egf);
 		final Context           ctx           = mock(Context.class);
 		//
 		final OS_Type        type      = null;
@@ -216,8 +219,9 @@ public class GetIdentIAPathTest_ForC {
 
 		final AccessBus           ab            = new AccessBus(c);
 		final PipelineLogic       pl            = new PipelineLogic(ab);
-		final GeneratePhase       generatePhase = pl.generatePhase;
-		final GenerateFunctions   gen           = generatePhase.getGenerateFunctions(mod);
+		final GeneratePhase               generatePhase = pl.generatePhase;
+		final Eventual<GenerateFunctions> egf           = generatePhase.getGenerateFunctions2(mod);
+		final GenerateFunctions           gen           = EventualExtract.of(egf);
 		final InstructionArgument xx            = gen.simplify_expression(expr, gf, ctx);
 
 		//

@@ -10,12 +10,14 @@ package tripleo.elijah.stages.gen_fn;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.*;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.comp.internal.CompilationImpl;
 import tripleo.elijah.entrypoints.MainClassEntryPoint;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.stages.instructions.InstructionName;
+import tripleo.elijah.util.EventualExtract;
 import tripleo.elijah.work.WorkManager;
 
 import java.io.File;
@@ -60,8 +62,9 @@ public class TestGenFunction {
 
 		c.pipelineLogic = ab.__getPL();
 
-		final @NotNull GeneratePhase generatePhase1 = c.pipelineLogic.generatePhase;//new GeneratePhase();
-		final GenerateFunctions      gfm            = generatePhase1.getGenerateFunctions(m);
+		final @NotNull GeneratePhase      generatePhase1 = c.pipelineLogic.generatePhase;//new GeneratePhase();
+		final Eventual<GenerateFunctions> egf            = generatePhase1.getGenerateFunctions2(m);
+		final GenerateFunctions           gfm            = EventualExtract.of(egf);
 		final @NotNull DeducePhase   dp             = c.pipelineLogic.dp;//new DeducePhase(generatePhase1);
 		gfm.generateFromEntryPoints(m.entryPoints, dp);
 

@@ -9,12 +9,14 @@
 package tripleo.elijah.comp;
 
 import org.jetbrains.annotations.*;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.nextgen.inputtree.*;
 import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.gen_generic.*;
 import tripleo.elijah.stages.logging.*;
+import tripleo.elijah.util.EventualExtract;
 
 import java.io.*;
 import java.util.*;
@@ -128,14 +130,15 @@ public class PipelineLogic implements AccessBus.AB_ModuleListListener {
 //		__ab.subscribePipelineLogic((x) -> aModuleList._set_PL(x));
 
 		//
-		aModuleList.process__PL(this::getGenerateFunctions, this);
+		aModuleList.process__PL2(mod -> generatePhase.getGenerateFunctions2(mod), this);
 
 		dp.finish(dp.generatedClasses);
 //		dp.generatedClasses.addAll(lgc);
 	}
 
 	@NotNull GenerateFunctions getGenerateFunctions(final OS_Module mod) {
-		return generatePhase.getGenerateFunctions(mod);
+		final Eventual<GenerateFunctions> egf = generatePhase.getGenerateFunctions2(mod);
+		return EventualExtract.of(egf);
 	}
 
 	public GenerateResult getGR() {

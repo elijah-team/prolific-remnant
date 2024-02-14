@@ -10,6 +10,7 @@ package tripleo.elijah.stages.gen_fn;
 
 import org.jdeferred2.*;
 import org.jetbrains.annotations.*;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.stages.gen_generic.*;
@@ -26,6 +27,7 @@ public class WlGenerateFunction implements WorkJob {
 	private final ICodeRegistrar     codeRegistrar;
 	private       boolean            _isDone = false;
 	private       GeneratedFunction  result;
+	private final Eventual<GeneratedFunction> egf = new Eventual<>();
 
 	public WlGenerateFunction(final GenerateFunctions aGenerateFunctions, @NotNull final FunctionInvocation aFunctionInvocation, final ICodeRegistrar aCodeRegistrar) {
 		functionDef        = (FunctionDef) aFunctionInvocation.getFunction();
@@ -81,11 +83,13 @@ public class WlGenerateFunction implements WorkJob {
 					}
 				});
 			}
-			result = gf;
-			functionInvocation.setGenerated(result);
-			functionInvocation.generateDeferred().resolve(result);
+			egf.resolve(gf);
+			egf.then(result -> {
+				functionInvocation.setGenerated(result);
+				functionInvocation.generateDeferred().resolve(result);
+			});
 		} else {
-			result = (GeneratedFunction) functionInvocation.getGenerated();
+			egf.resolve((GeneratedFunction) functionInvocation.getGenerated()); // double, watch
 		}
 		_isDone = true;
 	}
@@ -95,8 +99,11 @@ public class WlGenerateFunction implements WorkJob {
 		return _isDone;
 	}
 
-	public GeneratedFunction getResult() {
-		return result;
+	@Deprecated public GeneratedFunction getResult() {
+		return EventualExtract.of(egf);
+	}
+	public Eventual<GeneratedFunction> getResultPromise() {
+		return egf;
 	}
 }
 

@@ -9,9 +9,11 @@
 package tripleo.elijah.stages.gen_fn;
 
 import org.jetbrains.annotations.*;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.stages.logging.*;
+import tripleo.elijah.util.EventualExtract;
 import tripleo.elijah.work.*;
 
 import java.util.*;
@@ -36,6 +38,12 @@ public class GeneratePhase {
 
 	@NotNull
 	public GenerateFunctions getGenerateFunctions(@NotNull final OS_Module mod) {
+		final Eventual<GenerateFunctions> egf = getGenerateFunctions2(mod);
+		return EventualExtract.of(egf);
+	}
+
+	public Eventual<GenerateFunctions> getGenerateFunctions2(final @NotNull OS_Module mod) {
+		final Eventual<GenerateFunctions> result = new Eventual<>();
 		final GenerateFunctions Result;
 		if (generateFunctions.containsKey(mod))
 			Result = generateFunctions.get(mod);
@@ -43,7 +51,8 @@ public class GeneratePhase {
 			Result = new GenerateFunctions(this, mod, pipelineLogic);
 			generateFunctions.put(mod, Result);
 		}
-		return Result;
+		result.resolve(Result);
+		return result;
 	}
 
 	public ElLog.Verbosity getVerbosity() {

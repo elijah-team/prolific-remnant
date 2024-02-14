@@ -14,6 +14,7 @@ import org.jdeferred2.*;
 import org.jdeferred2.impl.*;
 import org.jetbrains.annotations.*;
 //import tripleo.elijah.EventualRegister;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.diagnostic.*;
 import tripleo.elijah.lang.*;
@@ -164,7 +165,8 @@ public class DeducePhase /*extends DefaultEventualRegister implements EventualRe
 		// 3. Generate new GeneratedClass
 		final @NotNull WorkList  wl  = new WorkList();
 		final @NotNull OS_Module mod = Result.getKlass().getContext().module();
-		wl.addJob(new WlGenerateClass(generatePhase.getGenerateFunctions(mod), Result, generatedClasses, codeRegistrar)); // TODO why add now?
+		final Eventual<GenerateFunctions> egf = generatePhase.getGenerateFunctions2(mod);
+		wl.addJob(new WlGenerateClass(EventualExtract.of(egf), Result, generatedClasses, codeRegistrar)); // TODO why add now?
 		generatePhase.wm.addJobs(wl);
 		generatePhase.wm.drain(); // TODO find a better place to put this
 
@@ -190,7 +192,8 @@ public class DeducePhase /*extends DefaultEventualRegister implements EventualRe
 	}
 
 	public @NotNull DeduceTypes2 deduceModule(@NotNull final OS_Module m, final ElLog.Verbosity verbosity) {
-		generatePhase.getGenerateFunctions(m)
+		final Eventual<GenerateFunctions> egf = generatePhase.getGenerateFunctions2(m);
+		EventualExtract.of(egf)
 		             .generateFromEntryPoints(m.entryPoints, this);
 
 		final @NotNull List<GeneratedNode> lgf = new ArrayList<GeneratedNode>();

@@ -10,6 +10,7 @@ package tripleo.elijah.stages.gen_fn;
 
 import org.jetbrains.annotations.*;
 import org.junit.*;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.comp.internal.*;
 import tripleo.elijah.lang.*;
@@ -17,6 +18,7 @@ import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah.stages.logging.*;
 import tripleo.elijah.test_help.*;
+import tripleo.elijah.util.EventualExtract;
 
 import java.util.*;
 
@@ -44,7 +46,8 @@ public class TestIdentNormal {
 		final PipelineLogic   pl            = new PipelineLogic(ab);
 		final GeneratePhase   generatePhase = pl.generatePhase;
 //		GenerateFunctions generateFunctions = new GenerateFunctions(generatePhase, mod, pl);
-		final GenerateFunctions generateFunctions = generatePhase.getGenerateFunctions(mod);
+		final Eventual<GenerateFunctions> egf = generatePhase.getGenerateFunctions2(mod);
+		final GenerateFunctions generateFunctions = EventualExtract.of(egf);
 		final GeneratedFunction generatedFunction = new GeneratedFunction(fd);
 		final VariableSequence  seq               = new VariableSequence(ctx1);
 		final VariableStatement vs                = new VariableStatement(seq);
@@ -108,7 +111,8 @@ public class TestIdentNormal {
 		final GeneratePhase   generatePhase = pl.generatePhase;
 		final DeducePhase     phase         = pl.dp;
 
-		final GenerateFunctions generateFunctions = generatePhase.getGenerateFunctions(mod);
+		final Eventual<GenerateFunctions> egf               = generatePhase.getGenerateFunctions2(mod);
+		final GenerateFunctions           generateFunctions = EventualExtract.of(egf);
 
 		//
 		//
