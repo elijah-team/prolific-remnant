@@ -8,20 +8,21 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.*;
-import tripleo.elijah.entrypoints.*;
+import tripleo.elijah.comp.internal.CompilationImpl;
+import tripleo.elijah.entrypoints.MainClassEntryPoint;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.work.*;
+import tripleo.elijah.stages.instructions.InstructionName;
+import tripleo.elijah.work.WorkManager;
 
-import java.io.*;
+import java.io.File;
 import java.util.*;
 
-import static tripleo.elijah.util.Helpers.*;
+import static com.google.common.truth.Truth.assertThat;
+import static tripleo.elijah.util.Helpers.List_of;
 
 /**
  * Created 9/10/20 2:20 PM
@@ -299,6 +300,14 @@ public class TestGenFunction {
 
 		final String ff = "test/basic1/backlink3/";
 		c.feedCmdLine(List_of(ff));
+
+		assertThat(c.getOutputTree().namelist()).containsExactly(
+				"/backlink3/Main.c"
+				, "/backlink3/Foo.c"
+				, "/backlink3/Main.h"
+				, "/backlink3/Foo.h"
+		);
+
 	}
 }
 

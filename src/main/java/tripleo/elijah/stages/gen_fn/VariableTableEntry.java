@@ -134,7 +134,8 @@ public class VariableTableEntry extends BaseTableEntry1 implements Constructable
 	public void setConstructable(final ProcTableEntry aPte) {
 		if (constructable_pte != aPte) {
 			constructable_pte = aPte;
-			constructableDeferred.resolve(constructable_pte);
+			if (!constructableDeferred.isResolved())
+				constructableDeferred.resolve(constructable_pte);
 		}
 	}
 

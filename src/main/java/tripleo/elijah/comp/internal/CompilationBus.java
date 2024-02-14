@@ -22,7 +22,7 @@ public class CompilationBus implements ICompilationBus {
 		final CompilerInstructions compilerInstructions = aLazyCompilerInstructions.get();
 
 		//System.out.println("** [ci] " + compilerInstructions);
-		V.asv(V.e.CB_INST_CI, ""+compilerInstructions);
+		V.asv(V.e.CB_INST_CI, ""+compilerInstructions.getFilename());
 	}
 
 	public void add(final CB_Action action) {
