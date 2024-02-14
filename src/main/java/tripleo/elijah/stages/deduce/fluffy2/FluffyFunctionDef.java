@@ -50,9 +50,10 @@ public class FluffyFunctionDef {
                         assert ci != null;
                         vte.type.genTypeCI(ci);
                         ci.resolvePromise().then(vte::resolveTypeToClass);
+                    } /*else*/ { // ??
+                        deduceTypes2._LOG().err("2041 type already found " + vte);
+                        return; // type already found
                     }
-                    deduceTypes2._LOG().err("2041 type already found " + vte);
-                    return; // type already found
                 }
                 // I'm not sure if below is ever called
                 @NotNull final TypeTableEntry tte = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.TRANSIENT, deduceTypes2.gt__(aType), pte.expression, pte);
