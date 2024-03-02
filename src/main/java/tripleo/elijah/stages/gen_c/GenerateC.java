@@ -754,6 +754,25 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
 		}
 
 		public String FnCallArgs(final @NotNull FnCallArgs fca, final @NotNull BaseGeneratedFunction gf, final ElLog LOG) {
+			final Eventual<String> result = FnCallArgsP(fca, gf, LOG);
+
+			if (result.isPending()) {
+				return ""; // failure condition 1
+			}
+			if (result.isFailed()) {
+				return ""; // failure condition 2
+			}
+			if (result.isResolved()) {
+				return EventualExtract.of(result);
+			}
+
+			throw new
+
+			 ProgramIsLikelyWrong ()
+			;
+		}
+
+		private Eventual<String> FnCallArgsP(final @NotNull FnCallArgs fca, final @NotNull BaseGeneratedFunction gf, final ElLog LOG) {
 			final StringBuilder sb   = new StringBuilder();
 			final Instruction   inst = fca.getExpression();
 //			LOG.err("9000 "+inst.getName());
@@ -849,12 +868,7 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
 
 //			if (inst.getName() != InstructionName.NOP)
 //				assert result.isResolved();
-			final String s = EventualExtract.of(result);
-			if (s != null) {
-				return s;
-			} else {
-				return "";
-			}
+			return result;
 		}
 
 		@NotNull
