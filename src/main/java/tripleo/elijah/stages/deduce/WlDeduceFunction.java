@@ -3,16 +3,16 @@ package tripleo.elijah.stages.deduce;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.util.*;
 import tripleo.elijah.work.*;
-
-import java.util.*;
+import tripleo.elijah_prolific.eva.PR_EvaFunctionList;
 
 class WlDeduceFunction implements WorkJob {
-	private final WorkJob                     workJob;
-	private final List<BaseGeneratedFunction> coll;
-	private final DeduceTypes2                dt2;
-	private       boolean                     _isDone;
+	private final WorkJob            workJob;
+	private final PR_EvaFunctionList coll;
+	private final DeduceTypes2       dt2;
+	private       boolean _isDone;
+	final private Eventual<Ok>  donePromise = new Eventual<>();
 
-	public WlDeduceFunction(final WorkJob aWorkJob, final List<BaseGeneratedFunction> aColl, final DeduceTypes2 aDeduceTypes2) {
+	public WlDeduceFunction(final WorkJob aWorkJob, final PR_EvaFunctionList aColl, final DeduceTypes2 aDeduceTypes2) {
 		workJob = aWorkJob;
 		coll    = aColl;
 		dt2     = aDeduceTypes2;
@@ -46,7 +46,7 @@ class WlDeduceFunction implements WorkJob {
 		} else
 			throw new NotImplementedException();
 
-		assert coll.size() == 1;
+		assert coll.sizeAtLeast(1);
 
 		_isDone = true;
 	}
