@@ -12,6 +12,7 @@ import org.jdeferred2.*;
 import org.jetbrains.annotations.*;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.stages.deduce.*;
+import tripleo.elijah_prolific.eva.PR_GeneratedFunction;
 
 /**
  * Created 6/27/21 9:40 AM
@@ -134,6 +135,27 @@ public class GeneratedFunction extends BaseGeneratedFunction implements GNCoded 
 	@Override
 	public Role getRole() {
 		return Role.FUNCTION;
+	}
+
+	private PR_GeneratedFunction deduction;
+
+	public PR_GeneratedFunction deductionOf(final DeduceTypes2 dt2) {
+		final GeneratedFunction _c = this;
+
+		if (deduction == null) {
+			deduction = new PR_GeneratedFunction() {
+				@Override
+				public BaseGeneratedFunction getCarrier() {
+					return _c;
+				}
+			};
+
+			if (!_c.deducedAlready) {
+				dt2.deduce_generated_function(_c);
+			}
+			_c.deducedAlready = true;
+		}
+		return deduction;
 	}
 }
 

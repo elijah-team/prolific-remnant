@@ -22,34 +22,25 @@ class WlDeduceFunction implements WorkJob {
 	public void run(final WorkManager aWorkManager) {
 		// TODO assumes result is in the same file as this (DeduceTypes2)
 
-		if (workJob instanceof WlGenerateFunction) {
-			((WlGenerateFunction) workJob).getResultPromise().then((final GeneratedFunction generatedFunction1) -> {
+		if (workJob instanceof final WlGenerateFunction wlgf) {
+			wlgf.getResultPromise().then((final GeneratedFunction generatedFunction1) -> {
 				if (!coll.contains(generatedFunction1)) {
-					coll.add(generatedFunction1);
-					if (!generatedFunction1.deducedAlready) {
-						dt2.deduce_generated_function(generatedFunction1);
-					}
-					generatedFunction1.deducedAlready = true;
+					var generatedFunction2 = generatedFunction1.deductionOf(dt2);
+					coll.add(generatedFunction2.getCarrier()); // FIXME remove `carrier'
 				}
 			});
 		} else if (workJob instanceof WlGenerateDefaultCtor wlgdc) {
 			wlgdc.getResultPromise().then((final GeneratedConstructor generatedConstructor) -> {
 				if (!coll.contains(generatedConstructor)) {
-					coll.add(generatedConstructor);
-					if (!generatedConstructor.deducedAlready) {
-						dt2.deduce_generated_constructor(generatedConstructor);
-					}
-					generatedConstructor.deducedAlready = true;
+					var generatedFunction2 = generatedConstructor.deductionOf(dt2);
+					coll.add(generatedFunction2.getCarrier()); // FIXME remove `carrier'
 				}
 			});
 		} else if (workJob instanceof WlGenerateCtor wlgc) {
 			wlgc.getResultPromise().then((final GeneratedConstructor generatedConstructor) -> {
 				if (!coll.contains(generatedConstructor)) {
-					coll.add(generatedConstructor);
-					if (!generatedConstructor.deducedAlready) {
-						dt2.deduce_generated_constructor(generatedConstructor);
-					}
-					generatedConstructor.deducedAlready = true;
+					var generatedFunction2 = generatedConstructor.deductionOf(dt2);
+					coll.add(generatedFunction2.getCarrier()); // FIXME remove `carrier'
 				}
 			});
 		} else
