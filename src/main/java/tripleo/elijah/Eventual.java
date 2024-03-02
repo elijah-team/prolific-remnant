@@ -38,4 +38,8 @@ public class Eventual<P> {
     public boolean isFailed() {
 		return prom.isRejected();
     }
+
+	public boolean isPending() {
+		return prom.isPending();
+	}
 }
