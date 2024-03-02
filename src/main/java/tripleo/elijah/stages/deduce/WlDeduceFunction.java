@@ -1,21 +1,31 @@
 package tripleo.elijah.stages.deduce;
 
+import tripleo.elijah.Eventual;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.util.*;
 import tripleo.elijah.work.*;
-import tripleo.elijah_prolific.eva.PR_EvaFunctionList;
+import tripleo.elijah_prolific.eva.*;
 
 class WlDeduceFunction implements WorkJob {
-	private final WorkJob            workJob;
-	private final PR_EvaFunctionList coll;
-	private final DeduceTypes2       dt2;
-	private       boolean _isDone;
-	final private Eventual<Ok>  donePromise = new Eventual<>();
+	private final WorkJob                      workJob;
+	private final PR_EvaFunctionList           coll;
+	private final DeduceTypes2                 dt2;
 
+	private final Eventual<PR_EvaFunctionList> resultPromise = new Eventual<>();
+
+	final private Eventual<Ok>                 donePromise   = new Eventual<>();
 	public WlDeduceFunction(final WorkJob aWorkJob, final PR_EvaFunctionList aColl, final DeduceTypes2 aDeduceTypes2) {
 		workJob = aWorkJob;
-		coll    = aColl;
 		dt2     = aDeduceTypes2;
+		if (aColl == null) {
+			coll = PR_EvaFactory.newFunctionList();
+		} else {
+			coll = aColl;
+		}
+
+		donePromise.then(aOk -> {
+			resultPromise.resolve(coll);
+		});
 	}
 
 	@Override
@@ -48,11 +58,15 @@ class WlDeduceFunction implements WorkJob {
 
 		assert coll.sizeAtLeast(1);
 
-		_isDone = true;
+		donePromise.resolve(Ok.instance());
 	}
 
 	@Override
 	public boolean isDone() {
-		return _isDone;
+		return !donePromise.isPending();
+	}
+
+	public Eventual<PR_EvaFunctionList> getResultPromise() {
+		return resultPromise;
 	}
 }
