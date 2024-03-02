@@ -160,7 +160,7 @@ public class GenType {
 
 				final Zero_FuncExprType zfet = aDeduceTypes2.getZero(funcExprType);
 
-				node = zfet.genCIForGenType2(aDeduceTypes2);
+				zfet.genCIForGenType2(aDeduceTypes2, (x)->node=x);
 			} else if (resolved instanceof final OS_FuncType funcType) {
 				final int         y        = 2;
 			} else

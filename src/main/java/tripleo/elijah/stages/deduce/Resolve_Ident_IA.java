@@ -1,28 +1,20 @@
 package tripleo.elijah.stages.deduce;
 
 import org.jdeferred2.DoneCallback;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.*;
 import tripleo.elijah.DebugFlags;
 import tripleo.elijah.comp.ErrSink;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.OS_UserType;
-import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_ProcTableEntry;
-import tripleo.elijah.stages.deduce.post_bytecode.DeduceElement3_VariableTableEntry;
+import tripleo.elijah.stages.deduce.post_bytecode.*;
 import tripleo.elijah.stages.deduce.zero.ITE_Zero;
 import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.IdentIA;
-import tripleo.elijah.stages.instructions.InstructionArgument;
-import tripleo.elijah.stages.instructions.IntegerIA;
-import tripleo.elijah.stages.instructions.ProcIA;
+import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah.stages.logging.ElLog;
-import tripleo.elijah.util.NotImplementedException;
-import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
+import tripleo.elijah.util.*;
 import tripleo.elijah.work.WorkJob;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created 7/8/21 2:31 AM
@@ -34,7 +26,7 @@ public class Resolve_Ident_IA {
 	private final @NotNull FoundElement          foundElement;
 	private final @NotNull ErrSink               errSink;
 
-	private final @NotNull  DeduceTypes2.DeduceClient3 dc;
+	private final @NotNull DeduceTypes2.DeduceClient3 dc;
 	private final @NotNull DeducePhase                phase;
 
 	private final @NotNull ElLog      LOG;
@@ -268,42 +260,42 @@ public class Resolve_Ident_IA {
 
 	private void action_001(@NotNull final OS_Type aAttached) {
 		switch (aAttached.getType()) {
-			case USER_CLASS: {
-				final ClassStatement x = aAttached.getClassOf();
-				ectx = x.getContext();
-				break;
-			}
-			case FUNCTION: {
-				final int yy = 2;
-				LOG.err("1005");
-				@NotNull final FunctionDef x = (FunctionDef) aAttached.getElement();
-				ectx = x.getContext();
-				break;
-			}
-			case USER:
-				if (el instanceof MatchConditional.MatchArm_TypeMatch) {
-					// for example from match conditional
-					final TypeName tn = ((MatchConditional.MatchArm_TypeMatch) el).getTypeName();
-					try {
-						final @NotNull GenType ty = dc.resolve_type(new OS_UserType(tn), tn.getContext());
-						ectx = ty.resolved.getElement().getContext();
-					} catch (final ResolveError resolveError) {
-						resolveError.printStackTrace();
-						LOG.err("1182 Can't resolve " + tn);
-						throw new IllegalStateException("ResolveError.");
-					}
+		case USER_CLASS: {
+			final ClassStatement x = aAttached.getClassOf();
+			ectx = x.getContext();
+			break;
+		}
+		case FUNCTION: {
+			final int yy = 2;
+			LOG.err("1005");
+			@NotNull final FunctionDef x = (FunctionDef) aAttached.getElement();
+			ectx = x.getContext();
+			break;
+		}
+		case USER:
+			if (el instanceof MatchConditional.MatchArm_TypeMatch) {
+				// for example from match conditional
+				final TypeName tn = ((MatchConditional.MatchArm_TypeMatch) el).getTypeName();
+				try {
+					final @NotNull GenType ty = dc.resolve_type(new OS_UserType(tn), tn.getContext());
+					ectx = ty.resolved.getElement().getContext();
+				} catch (final ResolveError resolveError) {
+					resolveError.printStackTrace();
+					LOG.err("1182 Can't resolve " + tn);
+					throw new IllegalStateException("ResolveError.");
+				}
 //						ectx = el.getContext();
-				} else
-					ectx = aAttached.getTypeName().getContext(); // TODO is this right?
-				break;
-			case FUNC_EXPR: {
-				@NotNull final FuncExpr x = (FuncExpr) aAttached.getElement();
-				ectx = x.getContext();
-				break;
-			}
-			default:
-				LOG.err("1010 " + aAttached.getType());
-				throw new IllegalStateException("Don't know what you're doing here.");
+			} else
+				ectx = aAttached.getTypeName().getContext(); // TODO is this right?
+			break;
+		case FUNC_EXPR: {
+			@NotNull final FuncExpr x = (FuncExpr) aAttached.getElement();
+			ectx = x.getContext();
+			break;
+		}
+		default:
+			LOG.err("1010 " + aAttached.getType());
+			throw new IllegalStateException("Don't know what you're doing here.");
 		}
 	}
 
@@ -346,16 +338,19 @@ public class Resolve_Ident_IA {
 				genType.ci = ci;
 				assert ci.resolvePromise().isResolved();
 				ci.resolvePromise().then(result -> genType.node = result);
-				final @NotNull OS_Module         module            = ci.getKlass().getContext().module();
-				final @NotNull GenerateFunctions generateFunctions = dc.getGenerateFunctions(module);
-				final WorkJob                    j;
-				if (fi.getFunction() == ConstructorDef.defaultVirtualCtor)
-					j = new WlGenerateDefaultCtor(generateFunctions, fi, phase.codeRegistrar);
-				else
-					j = new WlGenerateCtor(generateFunctions, fi, null, phase.codeRegistrar);
-				dc.addJobs(j);
-//				generatedFunction.addDependentType(genType);
-//				generatedFunction.addDependentFunction(fi);
+				final @NotNull OS_Module module = ci.getKlass().getContext().module();
+				dc.getGenerateFunctions2(module).then(
+						(final @NotNull GenerateFunctions generateFunctions) -> {
+							final WorkJob j;
+							if (fi.getFunction() == ConstructorDef.defaultVirtualCtor)
+								j = new WlGenerateDefaultCtor(generateFunctions, fi, phase.codeRegistrar);
+							else
+								j = new WlGenerateCtor(generateFunctions, fi, null, phase.codeRegistrar);
+							dc.addJobs(j);
+//							generatedFunction.addDependentType(genType);
+//							generatedFunction.addDependentFunction(fi);
+						}
+				);
 			}
 		}
 	}

@@ -10,6 +10,7 @@ package tripleo.elijah.stages.gen_fn;
 
 import org.jdeferred2.*;
 import org.jetbrains.annotations.*;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.stages.gen_generic.*;
@@ -27,7 +28,7 @@ public class WlGenerateCtor implements WorkJob {
 	private final IdentExpression      constructorName;
 	private final ICodeRegistrar       codeRegistrar;
 	private       boolean              _isDone = false;
-	private       GeneratedConstructor result;
+	private Eventual<GeneratedConstructor> egc = new Eventual<>();
 
 	@Contract(pure = true)
 	public WlGenerateCtor(@NotNull final GenerateFunctions aGenerateFunctions,
@@ -153,7 +154,7 @@ public class WlGenerateCtor implements WorkJob {
 			functionInvocation.generateDeferred().resolve(gf);
 			functionInvocation.setGenerated(gf);
 
-			result = gf;
+			egc.resolve(gf);
 		}
 
 		_isDone = true;
@@ -168,8 +169,8 @@ public class WlGenerateCtor implements WorkJob {
 		return false;
 	}
 
-	public GeneratedConstructor getResult() {
-		return result;
+	public Eventual<GeneratedConstructor> getResultPromise() {
+		return egc;
 	}
 }
 

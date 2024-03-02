@@ -1,6 +1,7 @@
 package tripleo.elijah.nextgen.inputtree;
 
 import org.jetbrains.annotations.*;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.entrypoints.*;
 import tripleo.elijah.lang.*;
@@ -38,13 +39,32 @@ public class EIT_ModuleList {
 
 			final GenerateFunctions gfm = ggf.apply(mod);
 
-			final DeducePhase deducePhase = pipelineLogic.dp;
-			//final DeducePhase.@NotNull GeneratedClasses lgc            = deducePhase.generatedClasses;
-
-			final _ProcessParams plp = new _ProcessParams(mod, pipelineLogic, gfm, epl, deducePhase);
-
-			__process__PL__each(plp);
+			_process_PL__internal(pipelineLogic, mod, gfm, epl);
 		}
+	}
+
+	public void process__PL2(final Function<OS_Module, Eventual<GenerateFunctions>> ggf, final PipelineLogic pipelineLogic) {
+		for (final OS_Module mod : mods) {
+			final @NotNull EntryPointList epl = mod.entryPoints;
+
+			if (epl.size() == 0) {
+				continue;
+			}
+
+			final Eventual<GenerateFunctions> functionsEventual = ggf.apply(mod);
+			functionsEventual.then(gfm -> {
+				_process_PL__internal(pipelineLogic, mod, gfm, epl);
+			});
+		}
+	}
+
+	private void _process_PL__internal(final PipelineLogic pipelineLogic, final OS_Module mod, final GenerateFunctions gfm, final @NotNull EntryPointList epl) {
+		final DeducePhase deducePhase = pipelineLogic.dp;
+		//final DeducePhase.@NotNull GeneratedClasses lgc            = deducePhase.generatedClasses;
+
+		final _ProcessParams plp = new _ProcessParams(mod, pipelineLogic, gfm, epl, deducePhase);
+
+		__process__PL__each(plp);
 	}
 
 	private void __process__PL__each(final @NotNull _ProcessParams plp) {

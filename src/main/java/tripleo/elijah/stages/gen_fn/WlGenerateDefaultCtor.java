@@ -10,6 +10,7 @@ package tripleo.elijah.stages.gen_fn;
 
 import org.jdeferred2.*;
 import org.jetbrains.annotations.*;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.stages.gen_generic.*;
@@ -24,7 +25,7 @@ public class WlGenerateDefaultCtor implements WorkJob {
 	private final FunctionInvocation    functionInvocation;
 	private final ICodeRegistrar        codeRegistrar;
 	private       boolean               _isDone = false;
-	private       BaseGeneratedFunction Result;
+	private Eventual<GeneratedConstructor> egc = new Eventual<>();
 
 	@Contract(pure = true)
 	public WlGenerateDefaultCtor(@NotNull final GenerateFunctions aGenerateFunctions, final FunctionInvocation aFunctionInvocation, final ICodeRegistrar aCodeRegistrar) {
@@ -38,12 +39,7 @@ public class WlGenerateDefaultCtor implements WorkJob {
 		if (functionInvocation.generateDeferred().isPending()) {
 			final ClassStatement         klass     = functionInvocation.getClassInvocation().getKlass();
 			final Holder<GeneratedClass> hGenClass = new Holder<>();
-			functionInvocation.getClassInvocation().resolvePromise().then(new DoneCallback<GeneratedClass>() {
-				@Override
-				public void onDone(final GeneratedClass result) {
-					hGenClass.set(result);
-				}
-			});
+			functionInvocation.getClassInvocation().resolvePromise().then(hGenClass::set);
 			final GeneratedClass genClass = hGenClass.get();
 			assert genClass != null;
 
@@ -72,25 +68,17 @@ public class WlGenerateDefaultCtor implements WorkJob {
 //		lgf.add(gf);
 
 			final ClassInvocation ci = functionInvocation.getClassInvocation();
-			ci.resolvePromise().done(new DoneCallback<GeneratedClass>() {
-				@Override
-				public void onDone(final @NotNull GeneratedClass result) {
-					codeRegistrar.registerFunction(gf);
-					gf.setClass(result);
-					result.constructors.put(cd, gf);
-				}
+			ci.resolvePromise().done(result -> {
+				codeRegistrar.registerFunction(gf);
+				gf.setClass(result);
+				result.constructors.put(cd, gf);
 			});
 
 			functionInvocation.generateDeferred().resolve(gf);
 			functionInvocation.setGenerated(gf);
-			Result = gf;
+			egc.resolve(gf);
 		} else {
-			functionInvocation.generatePromise().then(new DoneCallback<BaseGeneratedFunction>() {
-				@Override
-				public void onDone(final BaseGeneratedFunction result) {
-					Result = result;
-				}
-			});
+			functionInvocation.generatePromise().then(p -> egc.resolve((GeneratedConstructor) p));
 		}
 
 		_isDone = true;
@@ -105,8 +93,8 @@ public class WlGenerateDefaultCtor implements WorkJob {
 		return false;
 	}
 
-	public BaseGeneratedFunction getResult() {
-		return Result;
+	public Eventual<GeneratedConstructor> getResultPromise() {
+		return egc;
 	}
 }
 

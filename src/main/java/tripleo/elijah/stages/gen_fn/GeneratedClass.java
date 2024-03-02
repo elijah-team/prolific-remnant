@@ -9,6 +9,7 @@
 package tripleo.elijah.stages.gen_fn;
 
 import org.jetbrains.annotations.*;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.*;
 import tripleo.elijah.stages.deduce.*;
@@ -131,7 +132,9 @@ public class GeneratedClass extends GeneratedContainerNC implements GNCoded {
 								}
 							}
 							xci = aDeducePhase.registerClassInvocation(xci);
-							@NotNull final GenerateFunctions gf  = aDeducePhase.generatePhase.getGenerateFunctions(xci.getKlass().getContext().module());
+							final @NotNull OS_Module          mod = xci.getKlass().getContext().module();
+							final Eventual<GenerateFunctions> egf = aDeducePhase.generatePhase.getGenerateFunctions2(mod);
+							@NotNull final GenerateFunctions  gf  = EventualExtract.of(egf);
 							final WlGenerateClass            wgc = new WlGenerateClass(gf, xci, aDeducePhase.generatedClasses, aDeducePhase.codeRegistrar);
 							wgc.run(null); // !
 							potentialType.genType.ci = xci; // just for completeness

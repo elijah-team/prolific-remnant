@@ -128,8 +128,11 @@ class Implement_construct {
 			if (tyn instanceof final @NotNull NormalTypeName tyn1) {
 				_implement_construct_type(co, constructorName, (NormalTypeName) tyn);
 			}
-		} else
-			throw new NotImplementedException();
+		} else {
+			//throw new NotImplementedException();
+			System.err.println("9997-0133 type is not USER in implement_construct_type for "+aTy.asString());
+			return;
+		}
 		if (co != null) {
 			co.setConstructable(pte);
 			final ClassInvocation best = pte.getClassInvocation();

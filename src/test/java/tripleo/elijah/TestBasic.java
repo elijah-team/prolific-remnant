@@ -8,23 +8,25 @@
  */
 package tripleo.elijah;
 
-import com.google.common.base.*;
-import com.google.common.io.*;
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
-import org.jetbrains.annotations.*;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+import org.jdeferred2.Promise;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.*;
+import tripleo.elijah.comp.internal.CompilationImpl;
 import tripleo.elijah.nextgen.outputstatement.*;
-import tripleo.elijah.nextgen.outputtree.*;
+import tripleo.elijah.nextgen.outputtree.EOT_OutputTree;
+import tripleo.elijah_prolific.v.V;
 
-import java.io.*;
+import java.io.File;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
-import static tripleo.elijah.util.Helpers.*;
+import static com.google.common.truth.Truth.assertThat;
+import static tripleo.elijah.util.Helpers.List_of;
 
 /**
  * @author Tripleo(envy)
@@ -94,8 +96,29 @@ public class TestBasic {
 		if (c.errorCount() != 0)
 			System.err.printf("Error count should be 0 but is %d for %s%n", c.errorCount(), s);
 
-		Assert.assertEquals(12, c.getOutputTree().list.size());
-		Assert.assertEquals(24, c.errorCount()); // TODO Error count obviously should be 0
+		final EOT_OutputTree outputTree = c.getOutputTree();
+		Assert.assertEquals(12, outputTree.list.size());
+		Assert.assertEquals(12, c.errorCount()); // TODO Error count obviously should be 0
+
+		assertThat(outputTree.namelist()).containsExactly(
+				"/listfolders3/Main.h"
+				, "/listfolders3/Main.c"
+
+				, "/prelude/Prelude/Integer64.h"
+				, "/prelude/Prelude/Integer64.c"
+
+				, "/listfolders3/wpkotlin_c.demo.list_folders/MainLogic.h"
+				, "/listfolders3/wpkotlin_c.demo.list_folders/MainLogic.c"
+
+				, "/listfolders3/wpkotlin_c.demo.list_folders/__MODULE__.h"
+				, "/listfolders3/wpkotlin_c.demo.list_folders/__MODULE__.c"
+
+				, "/prelude/Prelude/Boolean.h"
+				, "/prelude/Prelude/Boolean.c"
+
+				, "/prelude/Prelude/Arguments.h"
+				, "/prelude/Prelude/Arguments.c"
+		);
 	}
 
 	@Test
@@ -110,7 +133,28 @@ public class TestBasic {
 		if (c.errorCount() != 0)
 			System.err.printf("Error count should be 0 but is %d for %s%n", c.errorCount(), s);
 
-		Assert.assertEquals(22, c.errorCount()); // TODO Error count obviously should be 0
+		Assert.assertEquals(9, c.errorCount()); // TODO Error count obviously should be 0
+
+		final EOT_OutputTree outputTree = c.getOutputTree();
+		assertThat(outputTree.namelist()).containsExactly(
+				"/listfolders4/Main.h"
+				, "/listfolders4/Main.c"
+
+				, "/prelude/Prelude/Integer64.h"
+				, "/prelude/Prelude/Integer64.c"
+
+				, "/listfolders4/wpkotlin_c.demo.list_folders/MainLogic.h"
+				, "/listfolders4/wpkotlin_c.demo.list_folders/MainLogic.c"
+
+				, "/listfolders4/wpkotlin_c.demo.list_folders/__MODULE__.h"
+				, "/listfolders4/wpkotlin_c.demo.list_folders/__MODULE__.c"
+
+				, "/prelude/Prelude/Boolean.h"
+				, "/prelude/Prelude/Boolean.c"
+
+				, "/prelude/Prelude/Arguments.h"
+				, "/prelude/Prelude/Arguments.c"
+		);
 	}
 
 	@Test
@@ -129,17 +173,56 @@ public class TestBasic {
 
 		Assert.assertEquals(18, cot.list.size()); // TODO why not 6?
 
+		assertThat(cot.namelist())
+				.containsExactly(
+						"/main2/Main.h"
+						, "/main2/Main.c"
+
+						, "/prelude/Prelude/Prelude.h"
+						, "/prelude/Prelude/Prelude.c"
+
+						, "/prelude/Prelude/Boolean.h"
+						, "/prelude/Prelude/Boolean.c"
+
+						, "/main2/wprust.demo.fact/fact1.h"
+						, "/main2/wprust.demo.fact/fact1.c"
+
+						, "/prelude/Prelude/Arguments.h"
+						, "/prelude/Prelude/Arguments.c"
+
+						, "/prelude/Prelude/Integer64.h"
+						, "/prelude/Prelude/Integer64.c"
+
+						, "/prelude/Prelude/Unsigned64.h"
+						, "/prelude/Prelude/Unsigned64.c"
+
+						, "/prelude/Prelude/ConstString.h"
+						, "/prelude/Prelude/ConstString.c"
+
+						, "/prelude/Prelude/IPrintable.h"
+						, "/prelude/Prelude/IPrintable.c"
+				);
+
 		select(cot.list, f -> f.getFilename().equals("/main2/Main.h"))
-		  .then(f -> {
-			  System.out.println(((EG_SequenceStatement) f.getStatementSequence())._list().stream().map(EG_Statement::getText).collect(Collectors.toList()));
-		  });
+				.then(f -> {
+					final List<String> collect = ((EG_SequenceStatement) f.getStatementSequence())._list().stream().map(EG_Statement::getText).collect(Collectors.toList());
+//			  System.out.println(collect);
+					V.asv(V.e.TEST_TB_FACT1_168, "" + collect);
+				});
 		select(cot.list, f -> f.getFilename().equals("/main2/Main.c"))
-		  .then(f -> {
-			  System.out.println(((EG_SequenceStatement) f.getStatementSequence())._list().stream().map(EG_Statement::getText).collect(Collectors.toList()));
-		  });
+				.then(f -> {
+					final List<String> collect = ((EG_SequenceStatement) f.getStatementSequence())._list().stream().map(EG_Statement::getText).collect(Collectors.toList());
+//			  System.out.println(collect);
+					V.asv(V.e.TEST_TB_FACT1_173, "" + collect);
+				});
 
 		// TODO Error count obviously should be 0
-		Assert.assertEquals(123, c.errorCount()); // FIXME why 123?? 04/15
+		Assert.assertEquals(52, c.errorCount());
+
+//		assertThat(c.errorList())
+//				.containsExactly();
+
+		// FIXME enumerate all these errors and the (123-52) diags, infos and warnings
 	}
 }
 

@@ -9,6 +9,7 @@ import tripleo.elijah.diagnostic.*;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.nextgen.query.*;
 import tripleo.elijah.util.*;
+import tripleo.elijah_prolific.v.V;
 
 import java.io.*;
 import java.util.*;
@@ -90,7 +91,9 @@ class USE {
 	                                               final @NotNull String file_name,
 	                                               final boolean do_out,
 	                                               final @NotNull LibraryStatementPart lsp) {
-		System.out.printf("   %s%n", f.getAbsolutePath());
+		final String rp = f.getAbsolutePath();
+//		System.out.printf("   %s%n", rp);
+		V.asv(V.e.USE_MOD_ABSOLUTE_PATH, rp);
 
 		if (f.exists()) {
 			final Operation2<OS_Module> om = realParseElijjahFile2(file_name, f, do_out);

@@ -3,7 +3,6 @@ package tripleo.elijah.comp;
 import org.jetbrains.annotations.*;
 import tripleo.elijah.ci.*;
 import tripleo.elijah.comp.i.*;
-import tripleo.elijah.comp.internal.*;
 import tripleo.elijah.stages.deduce.post_bytecode.*;
 
 class CCI {
@@ -11,16 +10,10 @@ class CCI {
 	private final Compilation.CIS _cis;
 	private final IProgressSink   _ps;
 
-	@Contract(pure = true)
-	CCI(final @NotNull Compilation aCompilation, final Compilation.CIS aCis) {
-		this(aCompilation, aCis, new DefaultProgressSink());
-	}
-
-	@Contract(pure = true)
-	CCI(final @NotNull Compilation aCompilation, final Compilation.CIS aCis, final IProgressSink aProgressSink) {
+	public CCI(final CT_CompilationRunner ct) {
 		//compilation = aCompilation;
-		_cis = aCis;
-		_ps  = aProgressSink;
+		_cis = ct.cis();
+		_ps  = ct.ps();
 	}
 
 	public void accept(final @NotNull Maybe<ILazyCompilerInstructions> mcci) {

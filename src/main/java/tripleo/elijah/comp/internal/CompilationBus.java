@@ -1,7 +1,9 @@
 package tripleo.elijah.comp.internal;
 
 import org.jetbrains.annotations.*;
+import tripleo.elijah.ci.CompilerInstructions;
 import tripleo.elijah.comp.*;
+import tripleo.elijah_prolific.v.V;
 
 public class CompilationBus implements ICompilationBus {
 	private final Compilation c;
@@ -17,7 +19,10 @@ public class CompilationBus implements ICompilationBus {
 
 	@Override
 	public void inst(final @NotNull ILazyCompilerInstructions aLazyCompilerInstructions) {
-		System.out.println("** [ci] " + aLazyCompilerInstructions.get());
+		final CompilerInstructions compilerInstructions = aLazyCompilerInstructions.get();
+
+		//System.out.println("** [ci] " + compilerInstructions);
+		V.asv(V.e.CB_INST_CI, ""+compilerInstructions.getFilename());
 	}
 
 	public void add(final CB_Action action) {

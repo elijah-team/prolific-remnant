@@ -8,7 +8,10 @@
  */
 package tripleo.elijah.comp;
 
+import org.apache.commons.lang3.tuple.Pair;
 import tripleo.elijah.diagnostic.*;
+
+import java.util.List;
 
 public interface ErrSink {
 
@@ -23,10 +26,12 @@ public interface ErrSink {
 
 	void info(String format);
 
+	List<Pair<Errors, Object>> list();
+
 	void reportDiagnostic(Diagnostic diagnostic);
 
 	enum Errors {
-		ERROR, WARNING, INFO
+		ERROR, WARNING, DIAGNOSTIC, INFO
 	}
 }
 

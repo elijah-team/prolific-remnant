@@ -11,8 +11,10 @@ package tripleo.elijah.stages.deduce;
 import org.jdeferred2.*;
 import org.jdeferred2.impl.*;
 import org.jetbrains.annotations.*;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.stages.gen_fn.*;
+import tripleo.elijah.util.EventualExtract;
 
 import java.util.*;
 
@@ -68,24 +70,29 @@ public class FunctionInvocation {
 		if (module == null)
 			module = classInvocation.getKlass().getContext().module(); // README for constructors
 		if (fd == ConstructorDef.defaultVirtualCtor) {
-			@NotNull final WlGenerateDefaultCtor wlgdc = new WlGenerateDefaultCtor(generatePhase.getGenerateFunctions(module), this, aPhase.codeRegistrar);
+			final Eventual<GenerateFunctions> egf = generatePhase.getGenerateFunctions2(module);
+			@NotNull final WlGenerateDefaultCtor wlgdc = new WlGenerateDefaultCtor(EventualExtract.of(egf), this, aPhase.codeRegistrar);
 			wlgdc.run(null);
 //			GeneratedFunction gf = wlgdc.getResult();
 		} else {
-			@NotNull final WlGenerateFunction wlgf = new WlGenerateFunction(generatePhase.getGenerateFunctions(module), this, aPhase.codeRegistrar);
+			final Eventual<GenerateFunctions> egf1 = generatePhase.getGenerateFunctions2(module);
+			@NotNull final WlGenerateFunction wlgf = new WlGenerateFunction(EventualExtract.of(egf1), this, aPhase.codeRegistrar);
 			wlgf.run(null);
-			final GeneratedFunction gf = wlgf.getResult();
-			if (gf.getGenClass() == null) {
-				if (namespaceInvocation != null) {
+			final @Nullable OS_Module finalModule = module;
+			wlgf.getResultPromise().then(gf->{
+				if (gf.getGenClass() == null) {
+					if (namespaceInvocation != null) {
 //					namespaceInvocation = aPhase.registerNamespaceInvocation(namespaceInvocation.getNamespace());
-					@NotNull final WlGenerateNamespace wlgn = new WlGenerateNamespace(generatePhase.getGenerateFunctions(module),
-					  namespaceInvocation,
-					  aPhase.generatedClasses,
-					  aPhase.codeRegistrar);
-					wlgn.run(null);
-					final int y = 2;
+						final Eventual<GenerateFunctions> egf = generatePhase.getGenerateFunctions2(finalModule);
+						@NotNull final WlGenerateNamespace wlgn = new WlGenerateNamespace(EventualExtract.of(egf),
+								namespaceInvocation,
+								aPhase.generatedClasses,
+								aPhase.codeRegistrar);
+						wlgn.run(null);
+						final int y = 2;
+					}
 				}
-			}
+			});
 		}
 //		if (generateDeferred.isPending()) {
 //			generateDeferred.resolve(gf);

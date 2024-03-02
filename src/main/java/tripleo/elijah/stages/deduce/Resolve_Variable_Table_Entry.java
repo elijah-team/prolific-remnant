@@ -10,7 +10,7 @@ package tripleo.elijah.stages.deduce;
 
 import org.jdeferred2.*;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.DebugFlags;
+import tripleo.elijah.*;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.contexts.*;
 import tripleo.elijah.lang.*;
@@ -242,8 +242,9 @@ class Resolve_Variable_Table_Entry {
 //			tripleo.elijah.util.Stupidity.println_out("1630 "+mod_ns.getItems()); // element 0 is ctor$0
 			fd1.setName(IdentExpression.forString(String.format("$%d", mod_ns.getItems().size() + 1)));
 
-			@NotNull final WorkList            wl   = new WorkList();
-			@NotNull final GenerateFunctions   gen  = phase.generatePhase.getGenerateFunctions(mod1);
+			@NotNull final WorkList           wl  = new WorkList();
+			final Eventual<GenerateFunctions> egf = phase.generatePhase.getGenerateFunctions2(mod1);
+			@NotNull final GenerateFunctions  gen = EventualExtract.of(egf);
 			@NotNull final NamespaceInvocation modi = new NamespaceInvocation(mod_ns);
 			final @Nullable ProcTableEntry     pte  = findProcTableEntry(generatedFunction, aPotentialExpression);
 			assert pte != null;
@@ -256,23 +257,22 @@ class Resolve_Variable_Table_Entry {
 			wm.drain(); // TODO here?
 
 			aGenType.ci   = modi;
-			aGenType.node = wlgf.getResult();
+			wlgf.getResultPromise().then(gf1 -> {
+				aGenType.node = gf1;
 
-			final DeduceTypes2.@NotNull PromiseExpectation<GenType> pe = deduceTypes2.promiseExpectation(/*pot.genType.node*/new DeduceTypes2.ExpectationBase() {
-				@Override
-				public @NotNull String expectationString() {
-					return "FuncType..."; // TODO
-				}
-			}, "FuncType Result");
-			((GeneratedFunction) aGenType.node).onType(new DoneCallback<GenType>() {
-				@Override
-				public void onDone(final GenType result) {
+				final DeduceTypes2.@NotNull PromiseExpectation<GenType> pe = deduceTypes2.promiseExpectation(/*pot.genType.node*/new DeduceTypes2.ExpectationBase() {
+					@Override
+					public @NotNull String expectationString() {
+						return "FuncType..."; // TODO
+					}
+				}, "FuncType Result");
+				gf1.onType(result -> {
 					pe.satisfy(result);
 					vte.resolveType(result);
-				}
-			});
+				});
 
-			//vte.typeDeferred().resolve(pot.genType); // this is wrong
+				//vte.typeDeferred().resolve(pot.genType); // this is wrong
+			});
 		}
 
 		if (callable_pte != null)

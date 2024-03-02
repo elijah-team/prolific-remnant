@@ -7,10 +7,12 @@ import io.reactivex.rxjava3.subjects.*;
 import org.jdeferred2.*;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.*;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.diagnostic.*;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.nextgen.*;
 import tripleo.elijah.stages.gen_fn.*;
+import tripleo.elijah.util.EventualExtract;
 import tripleo.elijah.work.*;
 
 import java.util.*;
@@ -53,7 +55,8 @@ class Dependencies {
 		// TODO work this out further, maybe like a Deepin flavor
 		if (genType.resolvedn != null) {
 			@NotNull final OS_Module           mod = genType.resolvedn.getContext().module();
-			final @NotNull GenerateFunctions   gf  = deduceTypes2.phase.generatePhase.getGenerateFunctions(mod);
+			final Eventual<GenerateFunctions> egf = deduceTypes2.phase.generatePhase.getGenerateFunctions2(mod);
+			final @NotNull GenerateFunctions   gf  = EventualExtract.of(egf);
 			final NamespaceInvocation          ni  = deduceTypes2.phase.registerNamespaceInvocation(genType.resolvedn);
 			@NotNull final WlGenerateNamespace gen = new WlGenerateNamespace(gf, ni, deduceTypes2.phase.generatedClasses, deduceTypes2.phase.codeRegistrar);
 
@@ -76,8 +79,9 @@ class Dependencies {
 			}
 
 			final ClassStatement             c   = genType.resolved.getClassOf();
-			final @NotNull OS_Module         mod = c.getContext().module();
-			final @NotNull GenerateFunctions gf  = deduceTypes2.phase.generatePhase.getGenerateFunctions(mod);
+			final @NotNull OS_Module          mod = c.getContext().module();
+			final Eventual<GenerateFunctions> egf = deduceTypes2.phase.generatePhase.getGenerateFunctions2(mod);
+			final @NotNull GenerateFunctions  gf  = EventualExtract.of(egf);
 			@Nullable ClassInvocation        ci;
 			if (genType.ci == null) {
 				ci = new ClassInvocation(c, null);
@@ -107,7 +111,7 @@ class Dependencies {
 
 	public void action_function(@NotNull final FunctionInvocation aDependentFunction) {
 		final BaseFunctionDef    function = aDependentFunction.getFunction();
-		final WorkJob            gen;
+		final WorkJob[]          gen      = new WorkJob[1];
 		final @NotNull OS_Module mod;
 		if (function == ConstructorDef.defaultVirtualCtor) {
 			final ClassInvocation ci = aDependentFunction.getClassInvocation();
@@ -131,16 +135,18 @@ class Dependencies {
 					}
 				});
 			}
-			final @NotNull GenerateFunctions gf = deduceTypes2.getGenerateFunctions(mod);
-			gen = new WlGenerateDefaultCtor(gf, aDependentFunction, deduceTypes2._phase().codeRegistrar);
+			deduceTypes2.getGenerateFunctions2(mod).then((final @NotNull GenerateFunctions gf)->{
+				gen[0] = new WlGenerateDefaultCtor(gf, aDependentFunction, deduceTypes2._phase().codeRegistrar);
+			});
 		} else {
 			mod = function.getContext().module();
-			final @NotNull GenerateFunctions gf = deduceTypes2.getGenerateFunctions(mod);
-			gen = new WlGenerateFunction(gf, aDependentFunction, deduceTypes2._phase().codeRegistrar);
+			deduceTypes2.getGenerateFunctions2(mod).then((final @NotNull GenerateFunctions gf)->{
+				gen[0] = new WlGenerateFunction(gf, aDependentFunction, deduceTypes2._phase().codeRegistrar);
+			});
 		}
-		wl.addJob(gen);
+		wl.addJob(gen[0]);
 		final List<BaseGeneratedFunction> coll = new ArrayList<>();
-		wl.addJob(new WlDeduceFunction(gen, coll, deduceTypes2));
+		wl.addJob(new WlDeduceFunction(gen[0], coll, deduceTypes2));
 		wm.addJobs(wl);
 	}
 

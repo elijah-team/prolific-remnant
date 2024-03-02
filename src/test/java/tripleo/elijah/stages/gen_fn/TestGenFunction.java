@@ -8,20 +8,23 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 import org.junit.*;
+import tripleo.elijah.Eventual;
 import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.*;
-import tripleo.elijah.entrypoints.*;
+import tripleo.elijah.comp.internal.CompilationImpl;
+import tripleo.elijah.entrypoints.MainClassEntryPoint;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.work.*;
+import tripleo.elijah.stages.instructions.InstructionName;
+import tripleo.elijah.util.EventualExtract;
+import tripleo.elijah.work.WorkManager;
 
-import java.io.*;
+import java.io.File;
 import java.util.*;
 
-import static tripleo.elijah.util.Helpers.*;
+import static com.google.common.truth.Truth.assertThat;
+import static tripleo.elijah.util.Helpers.List_of;
 
 /**
  * Created 9/10/20 2:20 PM
@@ -59,8 +62,9 @@ public class TestGenFunction {
 
 		c.pipelineLogic = ab.__getPL();
 
-		final @NotNull GeneratePhase generatePhase1 = c.pipelineLogic.generatePhase;//new GeneratePhase();
-		final GenerateFunctions      gfm            = generatePhase1.getGenerateFunctions(m);
+		final @NotNull GeneratePhase      generatePhase1 = c.pipelineLogic.generatePhase;//new GeneratePhase();
+		final Eventual<GenerateFunctions> egf            = generatePhase1.getGenerateFunctions2(m);
+		final GenerateFunctions           gfm            = EventualExtract.of(egf);
 		final @NotNull DeducePhase   dp             = c.pipelineLogic.dp;//new DeducePhase(generatePhase1);
 		gfm.generateFromEntryPoints(m.entryPoints, dp);
 
@@ -199,7 +203,7 @@ public class TestGenFunction {
 		dp.finish(dp.generatedClasses);
 
 		Assert.assertEquals("Not all hooks ran", 4, ran_hooks.size());
-		Assert.assertEquals(108, c.errorCount());
+		Assert.assertEquals(60, c.errorCount());
 	}
 
 	@Test
@@ -299,6 +303,14 @@ public class TestGenFunction {
 
 		final String ff = "test/basic1/backlink3/";
 		c.feedCmdLine(List_of(ff));
+
+		assertThat(c.getOutputTree().namelist()).containsExactly(
+				"/backlink3/Main.c"
+				, "/backlink3/Foo.c"
+				, "/backlink3/Main.h"
+				, "/backlink3/Foo.h"
+		);
+
 	}
 }
 

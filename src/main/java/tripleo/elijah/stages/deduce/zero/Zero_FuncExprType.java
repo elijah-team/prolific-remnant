@@ -6,6 +6,8 @@ import tripleo.elijah.lang.types.*;
 import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.stages.gen_fn.*;
 
+import java.util.function.Consumer;
+
 public class Zero_FuncExprType implements IZero {
 	private final OS_FuncExprType funcExprType;
 
@@ -13,7 +15,7 @@ public class Zero_FuncExprType implements IZero {
 		funcExprType = aFuncExprType;
 	}
 
-	public GeneratedFunction genCIForGenType2(final DeduceTypes2 aDeduceTypes2) {
+	public void genCIForGenType2(final DeduceTypes2 aDeduceTypes2, Consumer<GeneratedFunction> gfc) {
 		final @NotNull GenerateFunctions genf = aDeduceTypes2.getGenerateFunctions(funcExprType.getElement().getContext().module());
 		final FunctionInvocation fi = new FunctionInvocation((BaseFunctionDef) funcExprType.getElement(),
 		  null,
@@ -21,6 +23,7 @@ public class Zero_FuncExprType implements IZero {
 		  aDeduceTypes2._phase().generatePhase);
 		final WlGenerateFunction gen = new WlGenerateFunction(genf, fi, aDeduceTypes2._phase().codeRegistrar);
 		gen.run(null);
-		return gen.getResult();
+		gen.getResultPromise().then(gfc::accept);
+		assert gen.getResultPromise().isResolved();
 	}
 }

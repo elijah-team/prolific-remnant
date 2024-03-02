@@ -9,6 +9,7 @@ import tripleo.elijah_prolific.v.V;
 
 import java.nio.file.*;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * @author olu
@@ -23,5 +24,10 @@ public class EOT_OutputTree {
 	public void _putSeq(final String aKey, final Path aPath, final EG_Statement aStatement) {
 //		System.err.printf("[_putSeq] %s %s {{%s}}%n", aKey, aPath, aStatement.getExplanation().getText());
 		V.asv(V.e._putSeq, aKey);
+	}
+
+	public Stream<String> namelist() {
+		return list.stream()
+				.map(eof -> eof.getFilename());
 	}
 }
