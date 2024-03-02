@@ -14,10 +14,12 @@ import tripleo.elijah.nextgen.*;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.util.EventualExtract;
 import tripleo.elijah.work.*;
+import tripleo.elijah_prolific.eva.*;
+import tripleo.elijah_prolific.util.PRU_ObserverAdapter;
 
 import java.util.*;
 
-class Dependencies {
+public class Dependencies {
 	final         WorkList     wl = new WorkList();
 	final         WorkManager  wm;
 	private final DeduceTypes2 deduceTypes2;
@@ -25,30 +27,6 @@ class Dependencies {
 	Dependencies(final DeduceTypes2 aDeduceTypes2, final WorkManager aWm) {
 		deduceTypes2 = aDeduceTypes2;
 		wm           = aWm;
-	}
-
-	public void subscribeTypes(final Subject<GenType> aDependentTypesSubject) {
-		aDependentTypesSubject.subscribe(new Observer<GenType>() {
-			@Override
-			public void onSubscribe(@NonNull final Disposable d) {
-
-			}
-
-			@Override
-			public void onNext(final GenType aGenType) {
-				action_type(aGenType);
-			}
-
-			@Override
-			public void onError(final Throwable aThrowable) {
-
-			}
-
-			@Override
-			public void onComplete() {
-
-			}
-		});
 	}
 
 	public void action_type(@NotNull final GenType genType) {
@@ -95,14 +73,11 @@ class Dependencies {
 
 			final Promise<ClassDefinition, Diagnostic, Void> pcd = deduceTypes2.phase.generateClass(gf, ci);
 
-			pcd.then(new DoneCallback<ClassDefinition>() {
-				@Override
-				public void onDone(final ClassDefinition result) {
-					final GeneratedClass genclass = result.getNode();
+			pcd.then((ClassDefinition aClassDefinition) -> {
+				final GeneratedClass genclass = aClassDefinition.getNode();
 
-					genType.node = genclass;
-					genclass.dependentTypes().add(genType);
-				}
+				genType.node = genclass;
+				genclass.dependentTypes().add(genType);
 			});
 		}
 		//
@@ -110,9 +85,13 @@ class Dependencies {
 	}
 
 	public void action_function(@NotNull final FunctionInvocation aDependentFunction) {
+		final var dependentFunction = PR_EvaFactory.newDependentFunction(aDependentFunction, this);
+
 		final BaseFunctionDef    function = aDependentFunction.getFunction();
-		final WorkJob[]          gen      = new WorkJob[1];
 		final @NotNull OS_Module mod;
+
+		final Eventual<WorkJob> ewj = new Eventual<>();
+
 		if (function == ConstructorDef.defaultVirtualCtor) {
 			final ClassInvocation ci = aDependentFunction.getClassInvocation();
 			if (ci == null) {
@@ -120,56 +99,48 @@ class Dependencies {
 				assert ni != null;
 				mod = ni.getNamespace().getContext().module();
 
-				ni.resolvePromise().then(new DoneCallback<GeneratedNamespace>() {
-					@Override
-					public void onDone(final GeneratedNamespace result) {
-						result.dependentFunctions().add(aDependentFunction);
-					}
-				});
+				ni.resolvePromise().then(aGeneratedNamespace -> dependentFunction.attachNamespace(aGeneratedNamespace, ni));
 			} else {
 				mod = ci.getKlass().getContext().module();
-				ci.resolvePromise().then(new DoneCallback<GeneratedClass>() {
-					@Override
-					public void onDone(final GeneratedClass result) {
-						result.dependentFunctions().add(aDependentFunction);
-					}
-				});
+				ci.resolvePromise().then(aGeneratedClass -> dependentFunction.attachClass(aGeneratedClass, ci));
 			}
 			deduceTypes2.getGenerateFunctions2(mod).then((final @NotNull GenerateFunctions gf)->{
-				gen[0] = new WlGenerateDefaultCtor(gf, aDependentFunction, deduceTypes2._phase().codeRegistrar);
+				final WlGenerateDefaultCtor wlGenerateDefaultCtor = new WlGenerateDefaultCtor(gf, aDependentFunction, deduceTypes2._phase().codeRegistrar);
+//				gen[0] = wlGenerateDefaultCtor;
+				ewj.resolve(wlGenerateDefaultCtor);
 			});
 		} else {
 			mod = function.getContext().module();
 			deduceTypes2.getGenerateFunctions2(mod).then((final @NotNull GenerateFunctions gf)->{
-				gen[0] = new WlGenerateFunction(gf, aDependentFunction, deduceTypes2._phase().codeRegistrar);
+				final WlGenerateFunction wlGenerateFunction = new WlGenerateFunction(gf, aDependentFunction, deduceTypes2._phase().codeRegistrar);
+//				gen[0] = wlGenerateFunction;
+				ewj.resolve(wlGenerateFunction);
 			});
 		}
-		wl.addJob(gen[0]);
-		final List<BaseGeneratedFunction> coll = new ArrayList<>();
-		wl.addJob(new WlDeduceFunction(gen[0], coll, deduceTypes2));
-		wm.addJobs(wl);
+
+		ewj.then(j -> {
+			wl.addJob(j);
+			wl.addJob(new WlDeduceFunction(j, null, deduceTypes2));
+			wm.addJobs(wl);
+		});
+
+		assert ewj.isResolved();
 	}
 
 	public void subscribeFunctions(final Subject<FunctionInvocation> aDependentFunctionSubject) {
-		aDependentFunctionSubject.subscribe(new Observer<FunctionInvocation>() {
-			@Override
-			public void onSubscribe(@NonNull final Disposable d) {
-
-			}
-
+		aDependentFunctionSubject.subscribe(new PRU_ObserverAdapter<>() { // not the look i was going for...
 			@Override
 			public void onNext(@NonNull final FunctionInvocation aFunctionInvocation) {
 				action_function(aFunctionInvocation);
 			}
+		});
+	}
 
+	public void subscribeTypes(final Subject<GenType> aDependentTypesSubject) {
+		aDependentTypesSubject.subscribe(new PRU_ObserverAdapter<>() { // not the look i was going for...
 			@Override
-			public void onError(@NonNull final Throwable e) {
-
-			}
-
-			@Override
-			public void onComplete() {
-
+			public void onNext(final GenType aGenType) {
+				action_type(aGenType);
 			}
 		});
 	}
