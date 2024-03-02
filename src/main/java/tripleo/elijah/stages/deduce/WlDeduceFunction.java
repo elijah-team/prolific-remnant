@@ -1,6 +1,6 @@
 package tripleo.elijah.stages.deduce;
 
-import tripleo.elijah.Eventual;
+import tripleo.elijah.util.Eventual;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.util.*;
 import tripleo.elijah.work.*;

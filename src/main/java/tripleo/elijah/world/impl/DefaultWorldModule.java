@@ -1,10 +1,10 @@
 package tripleo.elijah.world.impl;
 
-import tripleo.elijah.*;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.nextgen.inputtree.*;
 import tripleo.elijah.stages.deduce.*;
+import tripleo.elijah.util.Eventual;
 import tripleo.elijah.world.i.*;
 
 public class DefaultWorldModule implements WorldModule {

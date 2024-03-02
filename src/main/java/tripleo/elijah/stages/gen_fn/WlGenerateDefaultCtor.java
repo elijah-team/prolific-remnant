@@ -8,9 +8,8 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
-import org.jdeferred2.*;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.Eventual;
+import tripleo.elijah.util.Eventual;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.stages.gen_generic.*;

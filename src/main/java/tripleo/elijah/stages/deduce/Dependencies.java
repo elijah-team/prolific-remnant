@@ -1,13 +1,11 @@
 package tripleo.elijah.stages.deduce;
 
 import io.reactivex.rxjava3.annotations.*;
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.disposables.*;
 import io.reactivex.rxjava3.subjects.*;
 import org.jdeferred2.*;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.Eventual;
+import tripleo.elijah.util.Eventual;
 import tripleo.elijah.diagnostic.*;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.nextgen.*;
@@ -16,8 +14,6 @@ import tripleo.elijah.util.EventualExtract;
 import tripleo.elijah.work.*;
 import tripleo.elijah_prolific.eva.*;
 import tripleo.elijah_prolific.util.PRU_ObserverAdapter;
-
-import java.util.*;
 
 public class Dependencies {
 	final         WorkList     wl = new WorkList();
@@ -59,6 +55,8 @@ public class Dependencies {
 			final ClassStatement             c   = genType.resolved.getClassOf();
 			final @NotNull OS_Module          mod = c.getContext().module();
 			final Eventual<GenerateFunctions> egf = deduceTypes2.phase.generatePhase.getGenerateFunctions2(mod);
+
+
 			final @NotNull GenerateFunctions  gf  = EventualExtract.of(egf);
 			@Nullable ClassInvocation        ci;
 			if (genType.ci == null) {

@@ -2,7 +2,7 @@ package tripleo.elijah.stages.deduce.fluffy2;
 
 import org.jdeferred2.DoneCallback;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.Eventual;
+import tripleo.elijah.util.Eventual;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.*;
 import tripleo.elijah.lang2.BuiltInTypes;
