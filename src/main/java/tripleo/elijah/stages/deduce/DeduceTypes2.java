@@ -935,66 +935,9 @@ public class DeduceTypes2 {
 		w.calculateDeferredCalls(generatedFunction);
 	}
 
-	public void do_assign_normal(final @NotNull BaseGeneratedFunction generatedFunction, final Context aFd_ctx, final @NotNull Instruction instruction, final Context aContext) {
-		var env = new DT2_DAN_Env(generatedFunction, aFd_ctx, instruction, aContext, this);
-		// TODO doesn't account for __assign__
-		final InstructionArgument agn_lhs = instruction.getArg(0);
-		if (agn_lhs instanceof final @NotNull IntegerIA arg) {
-			final @NotNull VariableTableEntry vte = generatedFunction.getVarTableEntry(arg.getIndex());
-			final InstructionArgument         i2  = instruction.getArg(1);
-			if (i2 instanceof IntegerIA) {
-				final @NotNull VariableTableEntry vte2 = generatedFunction.getVarTableEntry(to_int(i2));
-				vte.addPotentialType(instruction.getIndex(), vte2.type);
-			} else if (i2 instanceof final @NotNull FnCallArgs fca) {
-				((FluffyFnCallArgs) getFluffy(fca, env.generatedFunction())).do_assign_call(aContext, vte, instruction);
-			} else if (i2 instanceof ConstTableIA ctia) {
-				((FluffyConstTableIA) getFluffy(ctia, env.generatedFunction())).do_assign_constant(instruction, vte);
-			} else if (i2 instanceof IdentIA) {
-				@NotNull final IdentTableEntry idte = generatedFunction.getIdentTableEntry(to_int(i2));
-				if (idte.type == null) {
-					final IdentIA identIA = new IdentIA(idte.getIndex(), generatedFunction);
-					resolveIdentIA_(aContext, identIA, generatedFunction, new FoundElement(phase) {
-
-						@Override
-						public void foundElement(final OS_Element e) {
-							found_element_for_ite(generatedFunction, idte, e, aContext);
-						}
-
-						@Override
-						public void noFoundElement() {
-							// TODO: log error
-						}
-					});
-				}
-				assert idte.type != null;
-				assert idte.getResolvedElement() != null;
-				vte.addPotentialType(instruction.getIndex(), idte.type);
-			} else if (i2 instanceof ProcIA) {
-				throw new NotImplementedException();
-			} else
-				throw new NotImplementedException();
-		} else if (agn_lhs instanceof final @NotNull IdentIA arg) {
-			final @NotNull IdentTableEntry idte = arg.getEntry();
-			final InstructionArgument      i2   = instruction.getArg(1);
-			if (i2 instanceof IntegerIA) {
-				final @NotNull VariableTableEntry vte2 = generatedFunction.getVarTableEntry(to_int(i2));
-				idte.addPotentialType(instruction.getIndex(), vte2.type);
-			} else if (i2 instanceof final @NotNull FnCallArgs fca) {
-				do_assign_call(generatedFunction, aFd_ctx, idte, fca, instruction.getIndex());
-			} else if (i2 instanceof IdentIA) {
-				if (idte.getResolvedElement() instanceof VariableStatement) {
-					do_assign_normal_ident_deferred(generatedFunction, aFd_ctx, idte);
-				}
-				@NotNull final IdentTableEntry idte2 = generatedFunction.getIdentTableEntry(to_int(i2));
-				do_assign_normal_ident_deferred(generatedFunction, aFd_ctx, idte2);
-				idte.addPotentialType(instruction.getIndex(), idte2.type);
-			} else if (i2 instanceof ConstTableIA ctia) {
-				((FluffyConstTableIA) getFluffy(ctia, env.generatedFunction())).do_assign_constant(instruction, idte);
-			} else if (i2 instanceof ProcIA) {
-				throw new NotImplementedException();
-			} else
-				throw new NotImplementedException();
-		}
+	public void do_assign_normal(final @NotNull BaseGeneratedFunction generatedFunction, final Context aFd_ctx, final PRD_Instruction instruction, final Context aContext) {
+		var w = new __WORK_do_assign_normal(this);
+		w.action(generatedFunction, aFd_ctx, instruction, aContext);
 	}
 
 	public Object getFluffy(Object key, @NotNull BaseGeneratedFunction aGf) {
