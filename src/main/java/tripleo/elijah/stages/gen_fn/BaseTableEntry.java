@@ -21,8 +21,8 @@ import java.util.*;
 public abstract class BaseTableEntry {
 	// region resolved_element
 
-	private final DeferredObject2<OS_Element, Diagnostic, Void> elementPromise = new DeferredObject2<OS_Element, Diagnostic, Void>();
-	private final List<StatusListener> statusListenerList = new ArrayList<StatusListener>();
+	protected final DeferredObject2<OS_Element, Diagnostic, Void> elementPromise     = new DeferredObject2<OS_Element, Diagnostic, Void>();
+	private final   List<StatusListener>                          statusListenerList = new ArrayList<StatusListener>();
 	protected OS_Element resolved_element;
 	// region status
 	protected     Status               status             = Status.UNCHECKED;

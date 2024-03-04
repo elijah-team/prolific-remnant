@@ -404,7 +404,7 @@ public class DeduceTypes2 {
 //		return true;
 //	}
 
-	private @NotNull String getPTEString(@Nullable final ProcTableEntry pte) {
+	@NotNull String getPTEString(@Nullable final ProcTableEntry pte) {
 		final String pte_string;
 		if (pte == null)
 			pte_string = "[]";
@@ -1621,11 +1621,11 @@ public class DeduceTypes2 {
 		throw new NotImplementedException();
 	}
 
-	private void do_assign_call(final @NotNull BaseGeneratedFunction generatedFunction,
-	                            final @NotNull Context ctx,
-	                            final @NotNull IdentTableEntry idte,
-	                            final @NotNull FnCallArgs fca,
-	                            final int instructionIndex) {
+	void do_assign_call(final @NotNull BaseGeneratedFunction generatedFunction,
+	                    final @NotNull Context ctx,
+	                    final @NotNull IdentTableEntry idte,
+	                    final @NotNull FnCallArgs fca,
+	                    final int instructionIndex) {
 		final @NotNull ProcTableEntry pte = generatedFunction.getProcTableEntry(to_int(fca.getArg(0)));
 		for (final @NotNull TypeTableEntry tte : pte.getArgs()) {
 			LOG.info("771 " + tte);
@@ -1809,11 +1809,11 @@ public class DeduceTypes2 {
 		implement_calls_(gf, context, i2, fn1, pc);
 	}
 
-	private void implement_calls_(final @NotNull BaseGeneratedFunction gf,
-	                              final @NotNull Context context,
-	                              final InstructionArgument i2,
-	                              final @NotNull ProcTableEntry pte,
-	                              final int pc) {
+	void implement_calls_(final @NotNull BaseGeneratedFunction gf,
+	                      final @NotNull Context context,
+	                      final InstructionArgument i2,
+	                      final @NotNull ProcTableEntry pte,
+	                      final int pc) {
 		final Implement_Calls_ ic = new Implement_Calls_(this, gf, context, i2, pte, pc);
 		ic.action();
 	}
@@ -2753,7 +2753,7 @@ public class DeduceTypes2 {
 		}
 	}
 
-	class DeduceClient4 {
+	public class DeduceClient4 {
 		private final DeduceTypes2 deduceTypes2;
 
 		public DeduceClient4(final DeduceTypes2 aDeduceTypes2) {
