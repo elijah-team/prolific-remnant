@@ -644,6 +644,8 @@ public class DoAssignCall {
 
 		}
 	}
+
+	int zero;
 }
 
 //
