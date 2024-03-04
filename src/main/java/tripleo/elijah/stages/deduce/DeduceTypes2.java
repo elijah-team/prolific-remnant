@@ -26,6 +26,7 @@ import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah.stages.logging.ElLog;
 import tripleo.elijah.util.*;
 import tripleo.elijah.work.*;
+import tripleo.elijah_prolific.deduce.*;
 import tripleo.elijah_prolific.v.V;
 
 import java.util.*;
