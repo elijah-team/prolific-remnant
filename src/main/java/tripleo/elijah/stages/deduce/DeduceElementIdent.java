@@ -84,13 +84,17 @@ public class DeduceElementIdent {
 	}
 
 	public OS_Element getResolvedElement() {
-		if (_resolvedElementPromise.isResolved()) {
+		if #()) {
 			final OS_Element[] R = new OS_Element[1];
 			_resolvedElementPromise.then(r -> R[0] = r);
 			return R[0];
 		}
 
 		return null;
+	}
+
+	public boolean isElementPromiseResolved() {
+		return _resolvedElementPromise.isResolved();
 	}
 }
 
