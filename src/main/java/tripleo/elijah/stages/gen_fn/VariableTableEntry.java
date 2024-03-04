@@ -8,6 +8,7 @@
  */
 package tripleo.elijah.stages.gen_fn;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.jdeferred2.*;
 import org.jdeferred2.impl.*;
 import org.jetbrains.annotations.*;
@@ -41,9 +42,9 @@ public class VariableTableEntry extends BaseTableEntry1 implements Constructable
 	// endregion constructable
 	@Nullable             GenType                                    _resolveTypeCalled    = null;
 
-	private GeneratedNode _resolvedType;
+	private GeneratedNode                     _resolvedType;
 	private DeduceElement3_VariableTableEntry _de3;
-	private VTE_Zero _zero;
+	private VTE_Zero                          _zero;
 
 	public VariableTableEntry(final int aIndex, final VariableTableType aVtt, final String aName, final TypeTableEntry aTTE, final OS_Element el) {
 		this.index = aIndex;
@@ -73,13 +74,13 @@ public class VariableTableEntry extends BaseTableEntry1 implements Constructable
 	@Override
 	public @NotNull String toString() {
 		return "VariableTableEntry{" +
-		  "index=" + index +
-		  ", name='" + name + '\'' +
-		  ", status=" + status +
-		  ", type=" + type.index +
-		  ", vtt=" + vtt +
-		  ", potentialTypes=" + potentialTypes +
-		  '}';
+				"index=" + index +
+				", name='" + name + '\'' +
+				", status=" + status +
+				", type=" + type.index +
+				", vtt=" + vtt +
+				", potentialTypes=" + potentialTypes +
+				'}';
 	}
 
 	public Promise<GenType, Void, Void> typePromise() {
@@ -191,9 +192,9 @@ public class VariableTableEntry extends BaseTableEntry1 implements Constructable
 	@Override
 	public @NotNull String expectationString() {
 		return "VariableTableEntry{" +
-		  "index=" + index +
-		  ", name='" + name + '\'' +
-		  "}";
+				"index=" + index +
+				", name='" + name + '\'' +
+				"}";
 	}
 
 	public void setDeduceTypes2(final DeduceTypes2 aDeduceTypes2, final Context aContext, final BaseGeneratedFunction aGeneratedFunction) {
@@ -245,17 +246,22 @@ public class VariableTableEntry extends BaseTableEntry1 implements Constructable
 	@Override
 	public void triggerStatus(final Class<? extends PRN_vteTrigger> aTriggerClass, final PRD_Env aEnv) {
 		if (Objects.equals(aTriggerClass, PRD_vteTrigger_do_assign_call.class)) {
-			final DeduceTypes2            deduceTypes2 = aEnv.deduceTypes2();
-			final @NotNull ProcTableEntry pte          = null; //aEnv.
-			final Context                 ctx          = aEnv.ctx();
-			final VariableTableEntry      vte          = (VariableTableEntry) aEnv.extra();
+			final @NotNull DeduceTypes2       deduceTypes2 = aEnv.deduceTypes2();
+			final @NotNull Context            ctx          = aEnv.ctx();
+			final @NotNull VariableTableEntry vte          = (VariableTableEntry) ((Pair) aEnv.extra()).getLeft();
+			final @NotNull ProcTableEntry     pte          = (ProcTableEntry) ((Pair) aEnv.extra()).getRight();
 
-			var x = new PRD_vteTrigger_do_assign_call();
+			var x = new PRD_vteTrigger_do_assign_call(deduceTypes2);
+			//noinspection SwitchStatementWithTooFewBranches
 			switch (x.getPolicy()) {
 			case UNCHECKED:
+				assert vte.getStatus() == Status.UNCHECKED;
+				x.extracted111(ctx, vte, pte);
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + x.getPolicy());
 			}
 
-			x.extracted111(ctx, vte, pte, deduceTypes2, deduceTypes2._errSink());
 		} else {
 			assert false;
 		}
