@@ -11,12 +11,14 @@ package tripleo.elijah.stages.gen_fn;
 import org.jetbrains.annotations.*;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.stages.deduce.*;
+import tripleo.elijah_prolific.eva.*;
 
 /**
  * Created 6/27/21 9:45 AM
  */
 public class GeneratedConstructor extends BaseGeneratedFunction {
-	public final @Nullable ConstructorDef cd;
+	public final @Nullable ConstructorDef          cd;
+	private                PR_GeneratedConstructor deduction;
 
 	public GeneratedConstructor(final @Nullable ConstructorDef aConstructorDef) {
 		cd = aConstructorDef;
@@ -78,6 +80,24 @@ public class GeneratedConstructor extends BaseGeneratedFunction {
 			return null;
 	}
 
+	public PR_GeneratedConstructor deductionOf(final DeduceTypes2 dt2) {
+		final GeneratedConstructor _c = this;
+
+		if (deduction == null) {
+			deduction = new PR_GeneratedConstructor() {
+				@Override
+				public GeneratedConstructor getCarrier() {
+					return _c;
+				}
+			};
+
+			if (!_c.deducedAlready) {
+				dt2.deduce_generated_constructor(_c);
+			}
+			_c.deducedAlready = true;
+		}
+		return deduction;
+	}
 }
 
 //

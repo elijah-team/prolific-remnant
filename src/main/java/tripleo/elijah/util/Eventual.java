@@ -1,4 +1,4 @@
-package tripleo.elijah;
+package tripleo.elijah.util;
 
 import org.jdeferred2.*;
 import org.jdeferred2.impl.*;
@@ -38,4 +38,12 @@ public class Eventual<P> {
     public boolean isFailed() {
 		return prom.isRejected();
     }
+
+	public boolean isPending() {
+		return prom.isPending();
+	}
+
+	public void onFail(final FailCallback<Diagnostic> fcb) {
+		prom.fail(fcb);
+	}
 }

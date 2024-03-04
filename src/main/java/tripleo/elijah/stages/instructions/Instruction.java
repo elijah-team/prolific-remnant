@@ -8,8 +8,8 @@
  */
 package tripleo.elijah.stages.instructions;
 
-import tripleo.elijah.Eventual;
-import tripleo.elijah._ElTaggableMixin;
+import tripleo.elijah.util.Eventual;
+import tripleo.elijah.util._ElTaggableMixin;
 import tripleo.elijah.comp.diagnostic.ExceptionDiagnostic;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.stages.deduce.*;

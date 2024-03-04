@@ -2,7 +2,7 @@ package tripleo.elijah.stages.deduce.fluffy2;
 
 import org.jdeferred2.DoneCallback;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.Eventual;
+import tripleo.elijah.util.Eventual;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.*;
 import tripleo.elijah.lang2.BuiltInTypes;
@@ -10,6 +10,7 @@ import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah_prolific.deduce.*;
 import tripleo.elijah_prolific.v.V;
 
 import java.util.*;
@@ -27,7 +28,7 @@ public class FluffyFnCallArgs {
 
     public void do_assign_call(final @NotNull Context ctx,
                                final @NotNull VariableTableEntry vte,
-                               final @NotNull Instruction instruction) {
+                               final @NotNull PRD_Instruction instruction) {
         final int                           instructionIndex = instruction.getIndex();
         final Optional<InstructionArgument> oia              = fca.getArg2(0);
 
@@ -88,7 +89,7 @@ public class FluffyFnCallArgs {
 
     private void _do_assign_call__post(final @NotNull Context ctx,
                                        final @NotNull VariableTableEntry vte,
-                                       final @NotNull Instruction instruction,
+                                       final @NotNull PRD_Instruction instruction,
                                        final @NotNull ProcTableEntry pte,
                                        final int instructionIndex,
                                        final /*@NotNull*/ IdentIA identIA) {

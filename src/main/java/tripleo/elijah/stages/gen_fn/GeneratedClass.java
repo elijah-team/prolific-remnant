@@ -9,7 +9,7 @@
 package tripleo.elijah.stages.gen_fn;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.Eventual;
+import tripleo.elijah.util.Eventual;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.*;
 import tripleo.elijah.stages.deduce.*;

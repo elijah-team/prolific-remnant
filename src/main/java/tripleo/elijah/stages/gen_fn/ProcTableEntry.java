@@ -13,7 +13,6 @@ import org.jdeferred2.Promise;
 import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tripleo.elijah.Eventual;
 import tripleo.elijah.comp.ErrSink;
 import tripleo.elijah.lang.Context;
 import tripleo.elijah.lang.IExpression;
@@ -28,10 +27,14 @@ import tripleo.elijah.stages.deduce.post_bytecode.IDeduceElement3;
 import tripleo.elijah.stages.deduce.zero.PTE_Zero;
 import tripleo.elijah.stages.instructions.InstructionArgument;
 import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah.util.Eventual;
 import tripleo.elijah.util.Helpers;
 import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah.util.ProgramIsLikelyWrong;
 import tripleo.elijah.util.SimplePrintLoggerToRemoveSoon;
 import tripleo.elijah_prolific.deduce.DT_Element3;
+import tripleo.elijah_prolific.deduce.PRD_Env;
+import tripleo.elijah_prolific.gen_fn.PRN_vteTrigger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -249,6 +252,11 @@ public class ProcTableEntry extends BaseTableEntry implements TableEntryIV {
 
 	public void onResolvedElement(final Consumer<DT_Element3> cb) {
 		_p_resolvedElement.then(cb::accept);
+	}
+
+	@Override
+	public void triggerStatus(final Class<? extends PRN_vteTrigger> aTriggerClass, final PRD_Env aEnv) {
+		throw new ProgramIsLikelyWrong(); // if you are here
 	}
 
 	private static class __DT_Element3 implements DT_Element3 {

@@ -20,6 +20,8 @@ import tripleo.elijah.stages.deduce.post_bytecode.*;
 import tripleo.elijah.stages.deduce.zero.*;
 import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah.util.*;
+import tripleo.elijah_prolific.deduce.PRD_Env;
+import tripleo.elijah_prolific.gen_fn.PRN_vteTrigger;
 
 import java.util.*;
 
@@ -244,6 +246,15 @@ public class IdentTableEntry extends BaseTableEntry1 implements Constructable, T
 			_zero = new ITE_Zero(this);
 		}
 		return _zero;
+	}
+
+	@Override
+	public void triggerStatus(final Class<? extends PRN_vteTrigger> aTriggerClass, final PRD_Env aEnv) {
+		throw new ProgramIsLikelyWrong(); // if you are here
+	}
+
+	public boolean simpleHasResolvedElement() {
+		return dei.isElementPromiseResolved();
 	}
 
 //	private final DeferredObject<GenType, Void, Void> typeDeferred = new DeferredObject<GenType, Void, Void>();

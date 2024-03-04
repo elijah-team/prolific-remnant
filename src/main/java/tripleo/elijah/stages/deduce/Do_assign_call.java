@@ -1,5 +1,6 @@
 package tripleo.elijah.stages.deduce;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.jdeferred2.*;
 import org.jetbrains.annotations.*;
 import tripleo.elijah.lang.*;
@@ -8,11 +9,15 @@ import tripleo.elijah.lang2.*;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah.util.*;
+import tripleo.elijah_prolific.deduce.PRD_Env;
+import tripleo.elijah_prolific.deduce.PRD_Instruction;
+import tripleo.elijah_prolific.deduce.PRD_vteTrigger_do_assign_call;
 
 import java.util.*;
 
 class Do_assign_call {
 	private final DeduceTypes2 deduceTypes2;
+	int zero;
 
 	public Do_assign_call(final DeduceTypes2 aDeduceTypes2) {
 		deduceTypes2 = aDeduceTypes2;
@@ -22,38 +27,17 @@ class Do_assign_call {
 	                           final @NotNull Context ctx,
 	                           final @NotNull VariableTableEntry vte,
 	                           final @NotNull FnCallArgs fca,
-	                           final @NotNull Instruction instruction) {
+	                           final @NotNull PRD_Instruction instruction) {
 		final int                     instructionIndex = instruction.getIndex();
 		final @NotNull ProcTableEntry pte              = generatedFunction.getProcTableEntry(DeduceTypes2.to_int(fca.getArg(0)));
-		@NotNull final IdentIA        identIA          = (IdentIA) pte.expression_num;
+		final @NotNull IdentIA        identIA          = (IdentIA) pte.expression_num;
 
-		if (vte.getStatus() == BaseTableEntry.Status.UNCHECKED) {
-			pte.typePromise().then(new DoneCallback<GenType>() {
-				@Override
-				public void onDone(final GenType result) {
-					vte.resolveType(result);
-				}
-			});
-			if (vte.getResolvedElement() != null) {
-				try {
-					final OS_Element el;
-					if (vte.getResolvedElement() instanceof IdentExpression)
-						el = DeduceLookupUtils.lookup((IdentExpression) vte.getResolvedElement(), ctx, deduceTypes2);
-					else
-						el = DeduceLookupUtils.lookup(((VariableStatement) vte.getResolvedElement()).getNameToken(), ctx, deduceTypes2);
-					vte.setStatus(BaseTableEntry.Status.KNOWN, new GenericElementHolder(el));
-				} catch (final ResolveError aResolveError) {
-					deduceTypes2.errSink.reportDiagnostic(aResolveError);
-					return;
-				}
-			}
-		}
+		vte.triggerStatus(PRD_vteTrigger_do_assign_call.class, new PRD_Env(deduceTypes2, ctx, Pair.of(vte, pte)));
 
 		if (identIA != null) {
 //			LOG.info("594 "+identIA.getEntry().getStatus());
 
 			deduceTypes2.resolveIdentIA_(ctx, identIA, generatedFunction, new FoundElement(deduceTypes2.phase) {
-
 				final String xx = generatedFunction.getIdentIAPathNormal(identIA);
 
 				@Override
@@ -64,26 +48,16 @@ class Do_assign_call {
 					assert e == resolved_element;
 //					set_resolved_element_pte(identIA, e, pte);
 					pte.setStatus(BaseTableEntry.Status.KNOWN, new ConstructableElementHolder(e, identIA));
-					pte.onFunctionInvocation(new DoneCallback<FunctionInvocation>() {
-						@Override
-						public void onDone(@NotNull final FunctionInvocation result) {
-							result.generateDeferred().done(new DoneCallback<BaseGeneratedFunction>() {
-								@Override
-								public void onDone(@NotNull final BaseGeneratedFunction bgf) {
-									@NotNull final DeduceTypes2.PromiseExpectation<GenType> pe = deduceTypes2.promiseExpectation(bgf, "Function Result type");
-									bgf.onType(new DoneCallback<GenType>() {
-										@Override
-										public void onDone(@NotNull final GenType result) {
-											pe.satisfy(result);
-											@NotNull final TypeTableEntry tte = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.TRANSIENT, result.resolved); // TODO there has to be a better way
-											tte.genType.copy(result);
-											vte.addPotentialType(instructionIndex, tte);
-										}
-									});
-								}
-							});
-						}
-					});
+					pte.onFunctionInvocation(result -> result.generateDeferred().done(bgf -> {
+						// Make Eventual here
+						@NotNull final DeduceTypes2.PromiseExpectation<GenType> pe = deduceTypes2.promiseExpectation(bgf, "Function Result type");
+						bgf.onType(result1 -> {
+							pe.satisfy(result1);
+							@NotNull final TypeTableEntry tte = generatedFunction.newTypeTableEntry(TypeTableEntry.Type.TRANSIENT, result1.resolved); // TODO there has to be a better way
+							tte.genType.copy(result1);
+							vte.addPotentialType(instructionIndex, tte);
+						});
+					}));
 				}
 
 				@Override
