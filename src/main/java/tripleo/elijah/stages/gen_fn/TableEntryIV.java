@@ -9,10 +9,14 @@
 
 package tripleo.elijah.stages.gen_fn;
 
+import tripleo.elijah_prolific.deduce.*;
+import tripleo.elijah_prolific.gen_fn.PRN_vteTrigger;
+
 /**
  * Created 4/17/21 7:14 AM
  */
 public interface TableEntryIV {
+	void triggerStatus(Class<? extends PRN_vteTrigger> aTriggerClass, PRD_Env aEnv);
 }
 
 //

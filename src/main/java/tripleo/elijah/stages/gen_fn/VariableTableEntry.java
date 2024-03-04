@@ -239,6 +239,25 @@ public class VariableTableEntry extends BaseTableEntry1 implements Constructable
 
 	}
 
+	@Override
+	public void triggerStatus(final Class<? extends PRN_vteTrigger> aTriggerClass, final PRD_Env aEnv) {
+		if (Objects.equals(aTriggerClass, PRD_vteTrigger_do_assign_call.class)) {
+			final DeduceTypes2            deduceTypes2 = aEnv.deduceTypes2();
+			final @NotNull ProcTableEntry pte          = null; //aEnv.
+			final Context                 ctx          = aEnv.ctx();
+			final VariableTableEntry      vte          = (VariableTableEntry) aEnv.extra();
+
+			var x = new PRD_vteTrigger_do_assign_call();
+			switch (x.getPolicy()) {
+			case UNCHECKED:
+			}
+
+			x.extracted111(ctx, vte, pte, deduceTypes2, deduceTypes2._errSink());
+		} else {
+			assert false;
+		}
+	}
+
 //	public Promise<GenType, Void, Void> typeResolvePromise() {
 //		return typeDeferred.promise();
 //	}

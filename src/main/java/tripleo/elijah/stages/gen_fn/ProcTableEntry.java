@@ -251,6 +251,11 @@ public class ProcTableEntry extends BaseTableEntry implements TableEntryIV {
 		_p_resolvedElement.then(cb::accept);
 	}
 
+	@Override
+	public void triggerStatus(final Class<? extends PRN_vteTrigger> aTriggerClass, final PRD_Env aEnv) {
+		throw new ProgramIsLikelyWrong(); // if you are here
+	}
+
 	private static class __DT_Element3 implements DT_Element3 {
 		private final OS_Element            p;
 		private       DeduceTypes2          deduceTypes2;

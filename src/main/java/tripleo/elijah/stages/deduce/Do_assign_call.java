@@ -27,27 +27,7 @@ class Do_assign_call {
 		final @NotNull ProcTableEntry pte              = generatedFunction.getProcTableEntry(DeduceTypes2.to_int(fca.getArg(0)));
 		@NotNull final IdentIA        identIA          = (IdentIA) pte.expression_num;
 
-		if (vte.getStatus() == BaseTableEntry.Status.UNCHECKED) {
-			pte.typePromise().then(new DoneCallback<GenType>() {
-				@Override
-				public void onDone(final GenType result) {
-					vte.resolveType(result);
-				}
-			});
-			if (vte.getResolvedElement() != null) {
-				try {
-					final OS_Element el;
-					if (vte.getResolvedElement() instanceof IdentExpression)
-						el = DeduceLookupUtils.lookup((IdentExpression) vte.getResolvedElement(), ctx, deduceTypes2);
-					else
-						el = DeduceLookupUtils.lookup(((VariableStatement) vte.getResolvedElement()).getNameToken(), ctx, deduceTypes2);
-					vte.setStatus(BaseTableEntry.Status.KNOWN, new GenericElementHolder(el));
-				} catch (final ResolveError aResolveError) {
-					deduceTypes2.errSink.reportDiagnostic(aResolveError);
-					return;
-				}
-			}
-		}
+		vte.triggerStatus(PRD_vteTrigger_do_assign_call.class, new PRD_Env(deduceTypes2, ctx, vte));
 
 		if (identIA != null) {
 //			LOG.info("594 "+identIA.getEntry().getStatus());

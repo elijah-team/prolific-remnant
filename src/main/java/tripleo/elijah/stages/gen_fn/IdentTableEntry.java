@@ -246,6 +246,15 @@ public class IdentTableEntry extends BaseTableEntry1 implements Constructable, T
 		return _zero;
 	}
 
+	@Override
+	public void triggerStatus(final Class<? extends PRN_vteTrigger> aTriggerClass, final PRD_Env aEnv) {
+		throw new ProgramIsLikelyWrong(); // if you are here
+	}
+
+	public boolean simpleHasResolvedElement() {
+		return dei.isElementPromiseResolved();
+	}
+
 //	private final DeferredObject<GenType, Void, Void> typeDeferred = new DeferredObject<GenType, Void, Void>();
 //
 //	public Promise<GenType, Void, Void> typeResolvePromise() {
