@@ -8,6 +8,9 @@ import tripleo.elijah.lang2.*;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah.util.*;
+import tripleo.elijah_prolific.deduce.PRD_Env;
+import tripleo.elijah_prolific.deduce.PRD_Instruction;
+import tripleo.elijah_prolific.deduce.PRD_vteTrigger_do_assign_call;
 
 import java.util.*;
 

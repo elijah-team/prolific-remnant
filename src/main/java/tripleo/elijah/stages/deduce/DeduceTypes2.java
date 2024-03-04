@@ -47,6 +47,7 @@ public class DeduceTypes2 {
 	@NotNull               PromiseExpectations      expectations        = new PromiseExpectations();
 	private                Map<Object, Object>      fmap                = new HashMap<>();
 	private                DefaultEventualRegister  mPromiseExpectationRegister;
+	private PRD_Factory _factory=new PRD_Factory(this);
 
 	/*public void deduceClasses(final @NotNull List<GeneratedNode> lgc) {
 		for (GeneratedNode generatedNode : lgc) {
@@ -1907,6 +1908,10 @@ public class DeduceTypes2 {
 			};
 		}
 		return mPromiseExpectationRegister;
+	}
+
+	public PRD_Factory factory() {
+		return _factory;
 	}
 
 	interface IElementProcessor {

@@ -17,6 +17,9 @@ import tripleo.elijah.stages.deduce.post_bytecode.*;
 import tripleo.elijah.stages.deduce.zero.*;
 import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah.util.*;
+import tripleo.elijah_prolific.deduce.PRD_Env;
+import tripleo.elijah_prolific.deduce.PRD_vteTrigger_do_assign_call;
+import tripleo.elijah_prolific.gen_fn.PRN_vteTrigger;
 
 import java.util.*;
 
