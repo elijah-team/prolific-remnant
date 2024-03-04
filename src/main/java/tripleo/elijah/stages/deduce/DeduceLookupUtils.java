@@ -11,6 +11,7 @@ package tripleo.elijah.stages.deduce;
 import org.jdeferred2.*;
 import org.jdeferred2.impl.*;
 import org.jetbrains.annotations.*;
+import tripleo.elijah.comp.diagnostic.ExceptionDiagnostic;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.*;
 import tripleo.elijah.lang2.*;
@@ -133,11 +134,10 @@ public class DeduceLookupUtils {
 	/**
 	 * @param de The {@link DotExpression} to turn into a {@link Stack}
 	 * @return a "flat" {@link Stack<IExpression>} of expressions
-	 * @see {@link tripleo.elijah.stages.deduce.DotExpressionToStackTest}
 	 */
 	@NotNull
 	static Stack<IExpression> dot_expression_to_stack(final @NotNull DotExpression de) {
-		final @NotNull Stack<IExpression> right_stack = new Stack<IExpression>();
+		final @NotNull Stack<IExpression> right_stack = new Stack<>();
 		IExpression                       right       = de.getRight();
 		right_stack.push(de.getLeft());
 		while (right instanceof DotExpression) {
@@ -232,25 +232,63 @@ public class DeduceLookupUtils {
 	}
 
 	static @Nullable OS_Element lookup(@NotNull final IExpression expression, @NotNull final Context ctx, @NotNull final DeduceTypes2 deduceTypes2) throws ResolveError {
-		switch (expression.getKind()) {
-		case IDENT:
-			final LookupResultList lrl = ctx.lookup(((IdentExpression) expression).getText());
-			@Nullable final OS_Element best = lrl.chooseBest(null);
-			return best;
-		case PROCEDURE_CALL:
-			final LookupResultList lrl2 = lookupExpression(expression.getLeft(), ctx, deduceTypes2);
-			@Nullable final OS_Element best2 = lrl2.chooseBest(null);
-			return best2;
-		case DOT_EXP:
-			final LookupResultList lrl3 = lookupExpression(expression, ctx, deduceTypes2);
-			@Nullable final OS_Element best3 = lrl3.chooseBest(null);
-			return best3;
-//		default:
-//			tripleo.elijah.util.Stupidity.println_err2("1242 "+expression);
-//			throw new NotImplementedException();
-		default:
-			throw new IllegalStateException("1242 Unexpected value: " + expression.getKind());
+		var r = lookupP(expression, ctx, deduceTypes2);
+		assert r.isResolved()|| r.isFailed(); // should be automatic intention, just based on analysis
+		return EventualExtract.of(r);
+	}
+
+	public static Eventual<OS_Element> lookupP(final IdentExpression expression,
+	                                           final Context ctx,
+	                                           final DeduceTypes2 ignoredDeduceTypes2) {
+		final Eventual<OS_Element> result = new Eventual<>();
+//		try {
+			switch (expression.getKind()) {
+			case IDENT:
+				final LookupResultList lrl = ctx.lookup(expression.getText());
+				@Nullable final OS_Element best = lrl.chooseBest(null);
+				result.resolve(best);
+			case PROCEDURE_CALL:
+				assert false;
+			case DOT_EXP:
+				assert false;
+			default:
+				assert false;
+			}
+//		} catch (ResolveError aRe) {
+//			result.fail(aRe);
+//		}
+		assert !result.isPending();
+		return result;
+	}
+
+	private static Eventual<OS_Element> lookupP(final IExpression expression,
+	                                            final Context ctx,
+	                                            final DeduceTypes2 deduceTypes2) {
+		final Eventual<OS_Element> result = new Eventual<>();
+
+		try {
+			switch (expression.getKind()) {
+			case IDENT:
+				final LookupResultList lrl = ctx.lookup(((IdentExpression) expression).getText());
+				@Nullable final OS_Element best = lrl.chooseBest(null);
+				result.resolve(best);
+			case PROCEDURE_CALL:
+				final LookupResultList lrl2 = lookupExpression(expression.getLeft(), ctx, deduceTypes2);
+				@Nullable final OS_Element best2 = lrl2.chooseBest(null);
+				result.resolve(best2);
+			case DOT_EXP:
+				final LookupResultList lrl3 = lookupExpression(expression, ctx, deduceTypes2);
+				@Nullable final OS_Element best3 = lrl3.chooseBest(null);
+				result.resolve(best3);
+			default:
+				final IllegalStateException exc = new IllegalStateException("1242 Unexpected value: " + expression.getKind());
+				result.fail(new ExceptionDiagnostic(exc));
+			}
+		} catch (ResolveError aRe) {
+			result.fail(aRe);
 		}
+		assert !result.isPending();
+		return result;
 	}
 
 	public static OS_Element lookup__(IExpression el2, Context ctx, DeduceTypes2 deduceTypes2) throws ResolveError {
