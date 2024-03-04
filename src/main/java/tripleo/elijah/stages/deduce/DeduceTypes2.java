@@ -14,6 +14,7 @@ import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.*;
 import tripleo.elijah.comp.*;
 import tripleo.elijah.contexts.ClassContext;
+import tripleo.elijah.diagnostic.Diagnostic;
 import tripleo.elijah.lang.*;
 import tripleo.elijah.lang.types.*;
 import tripleo.elijah.lang2.*;
@@ -1946,7 +1947,9 @@ public class DeduceTypes2 {
 			type = aType;
 		}
 
-		public void doResolveType(final OS_Module module, final Context aCtx, final DeduceTypes2 aDeduceTypes2) {
+		public void doResolveType(final OS_Module module,
+		                          final Context aCtx,
+		                          final DeduceTypes2 aDeduceTypes2) {
 			final ElLog LOG = aDeduceTypes2._LOG();
 
 			@NotNull final GenType R = new GenType();
@@ -2769,7 +2772,7 @@ public class DeduceTypes2 {
 			return DeduceLookupUtils.lookup(aElement, aContext, deduceTypes2);
 		}
 
-		public void reportDiagnostic(final ResolveError aResolveError) {
+		public void reportDiagnostic(final Diagnostic aResolveError) { // hmm
 			deduceTypes2.errSink.reportDiagnostic(aResolveError);
 		}
 
