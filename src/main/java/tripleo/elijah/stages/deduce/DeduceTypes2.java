@@ -1291,7 +1291,7 @@ public class DeduceTypes2 {
 		generatedFunction.addDependentType(genType);
 	}
 
-	private void implement_is_a(final @NotNull BaseGeneratedFunction gf, final @NotNull Instruction instruction) {
+	void implement_is_a(final @NotNull BaseGeneratedFunction gf, final PRD_Instruction instruction) {
 		final InstructionArgument arg = instruction.getArg(0);
 		if (arg instanceof IdentIA ia) {
 			System.err.println("9997-1265 ident instead of integer in implement_is_a " + ia.getEntry().getIdent());
@@ -1839,13 +1839,13 @@ public class DeduceTypes2 {
 		}
 	}
 
-	void implement_construct(final BaseGeneratedFunction generatedFunction, final Instruction instruction) {
+	void implement_construct(final BaseGeneratedFunction generatedFunction, final PRD_Instruction instruction) {
 		final @NotNull Implement_construct ic = newImplement_construct(generatedFunction, instruction);
 		ic.action();
 	}
 
 	@NotNull
-	public Implement_construct newImplement_construct(final BaseGeneratedFunction generatedFunction, final Instruction instruction) {
+	public Implement_construct newImplement_construct(final BaseGeneratedFunction generatedFunction, final PRD_Instruction instruction) {
 		return new Implement_construct(this, generatedFunction, instruction);
 	}
 

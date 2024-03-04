@@ -7,7 +7,7 @@ import tripleo.elijah.stages.gen_fn.ConstantTableEntry;
 import tripleo.elijah.stages.gen_fn.IdentTableEntry;
 import tripleo.elijah.stages.gen_fn.VariableTableEntry;
 import tripleo.elijah.stages.instructions.ConstTableIA;
-import tripleo.elijah.stages.instructions.Instruction;
+import tripleo.elijah_prolific.deduce.*;
 
 public class FluffyConstTableIA {
     private final ConstTableIA          cta;
@@ -20,7 +20,7 @@ public class FluffyConstTableIA {
         this.generatedFunction = aBaseGeneratedFunction;
     }
 
-    public void do_assign_constant(final @NotNull Instruction aInstruction, final @NotNull VariableTableEntry aVariableTableEntry) {
+    public void do_assign_constant(final PRD_Instruction aInstruction, final @NotNull VariableTableEntry aVariableTableEntry) {
         if (aVariableTableEntry.type.getAttached() != null) {
             // TODO check types
         }
@@ -34,7 +34,7 @@ public class FluffyConstTableIA {
         aInstruction.putExt(FluffyRider.class, new _FluffyConstTableIA_DAC_Rider(aInstruction, aVariableTableEntry, null, this));
     }
 
-    public void do_assign_constant(final @NotNull Instruction aInstruction, final @NotNull IdentTableEntry aIdentTableEntry) {
+    public void do_assign_constant(final PRD_Instruction aInstruction, final @NotNull IdentTableEntry aIdentTableEntry) {
         if (aIdentTableEntry.type != null && aIdentTableEntry.type.getAttached() != null) {
             // TODO check types
         }
@@ -42,6 +42,7 @@ public class FluffyConstTableIA {
         if (cte.type.getAttached() == null) {
             deduceTypes2._LOG().err("*** ERROR: Null type in CTE " + cte);
         }
+
         // aIdentTableEntry.type may be null, but we still addPotentialType here
         aIdentTableEntry.addPotentialType(aInstruction.getIndex(), cte.type);
 

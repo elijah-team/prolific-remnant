@@ -22,6 +22,7 @@ import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah.stages.logging.*;
 import tripleo.elijah.util.*;
+import tripleo.elijah_prolific.deduce.PRD_Instruction;
 
 import java.util.*;
 
@@ -46,7 +47,7 @@ public class DoAssignCall {
 		errSink = dc.getErrSink();
 	}
 
-	void do_assign_call(final @NotNull Instruction instruction,
+	void do_assign_call(final @NotNull PRD_Instruction instruction,
 	                    final @NotNull VariableTableEntry vte,
 	                    final @NotNull FnCallArgs fca,
 	                    final @NotNull Context ctx) {

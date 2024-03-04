@@ -7,6 +7,7 @@ import tripleo.elijah.lang.types.*;
 import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah.util.*;
+import tripleo.elijah_prolific.deduce.PRD_Instruction;
 
 import java.util.*;
 
@@ -14,12 +15,15 @@ class Implement_construct {
 
 	private final DeduceTypes2          deduceTypes2;
 	private final BaseGeneratedFunction generatedFunction;
-	private final Instruction           instruction;
+	@SuppressWarnings("FieldCanBeLocal")
+	private final PRD_Instruction       instruction;
 	private final InstructionArgument   expression;
 
 	private final @NotNull ProcTableEntry pte;
 
-	public Implement_construct(final DeduceTypes2 aDeduceTypes2, final BaseGeneratedFunction aGeneratedFunction, final Instruction aInstruction) {
+	public Implement_construct(final DeduceTypes2 aDeduceTypes2,
+	                           final BaseGeneratedFunction aGeneratedFunction,
+	                           final PRD_Instruction aInstruction) {
 		deduceTypes2      = aDeduceTypes2;
 		generatedFunction = aGeneratedFunction;
 		instruction       = aInstruction;

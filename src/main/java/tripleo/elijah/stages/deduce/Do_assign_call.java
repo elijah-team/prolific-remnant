@@ -22,7 +22,7 @@ class Do_assign_call {
 	                           final @NotNull Context ctx,
 	                           final @NotNull VariableTableEntry vte,
 	                           final @NotNull FnCallArgs fca,
-	                           final @NotNull Instruction instruction) {
+	                           final @NotNull PRD_Instruction instruction) {
 		final int                     instructionIndex = instruction.getIndex();
 		final @NotNull ProcTableEntry pte              = generatedFunction.getProcTableEntry(DeduceTypes2.to_int(fca.getArg(0)));
 		@NotNull final IdentIA        identIA          = (IdentIA) pte.expression_num;
