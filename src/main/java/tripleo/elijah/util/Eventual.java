@@ -42,4 +42,8 @@ public class Eventual<P> {
 	public boolean isPending() {
 		return prom.isPending();
 	}
+
+	public void onFail(final FailCallback<Diagnostic> fcb) {
+		prom.fail(fcb);
+	}
 }
