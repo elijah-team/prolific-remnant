@@ -272,17 +272,21 @@ public class DeduceLookupUtils {
 				final LookupResultList lrl = ctx.lookup(((IdentExpression) expression).getText());
 				@Nullable final OS_Element best = lrl.chooseBest(null);
 				result.resolve(best);
+				break;
 			case PROCEDURE_CALL:
 				final LookupResultList lrl2 = lookupExpression(expression.getLeft(), ctx, deduceTypes2);
 				@Nullable final OS_Element best2 = lrl2.chooseBest(null);
 				result.resolve(best2);
+				break;
 			case DOT_EXP:
 				final LookupResultList lrl3 = lookupExpression(expression, ctx, deduceTypes2);
 				@Nullable final OS_Element best3 = lrl3.chooseBest(null);
 				result.resolve(best3);
+				break;
 			default:
 				final IllegalStateException exc = new IllegalStateException("1242 Unexpected value: " + expression.getKind());
 				result.fail(new ExceptionDiagnostic(exc));
+				break;
 			}
 		} catch (ResolveError aRe) {
 			result.fail(aRe);
