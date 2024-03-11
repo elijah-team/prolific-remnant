@@ -57,7 +57,9 @@ class WlDeduceFunction implements WorkJob {
 
 		assert coll.sizeAtLeast(1);
 
+		if (!donePromise.isResolved())
 		donePromise.resolve(Ok.instance());
+		else System.err.println("already resolved at 9997-0062");
 	}
 
 	@Override
