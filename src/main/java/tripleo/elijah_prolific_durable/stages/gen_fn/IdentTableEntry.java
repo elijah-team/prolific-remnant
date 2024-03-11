@@ -7,7 +7,7 @@
  * http://www.gnu.org/licenses/lgpl.html from `Version 3, 29 June 2007'
  *
  */
-package tripleo.elijah.stages.gen_fn;
+package tripleo.elijah_prolific_durable.stages.gen_fn;
 
 //import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -16,6 +16,12 @@ import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific.deduce.PRD_Env;
 import tripleo.elijah_prolific.gen_fn.PRN_vteTrigger;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.stages.deduce.*;
+import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.*;
+import tripleo.elijah_prolific_durable.stages.deduce.zero.ITE_Zero;
+import tripleo.elijah_prolific_durable.stages.instructions.*;
+import tripleo.elijah_prolific_durable.util.*;
 
 import java.util.*;
 
@@ -30,7 +36,7 @@ public class IdentTableEntry extends BaseTableEntry1 implements Constructable, T
 	private final         IdentExpression                                 ident;
 	private final         Context                                         pc;
 	private final         DeduceElementIdent                              dei                   = new DeduceElementIdent(this);
-	private final DeferredObject<GenType, Void, Void> fefiDone = new DeferredObject<GenType, Void, Void>();
+	private final         DeferredObject<GenType, Void, Void>             fefiDone              = new DeferredObject<GenType, Void, Void>();
 	public                boolean                                         preUpdateStatusListenerAdded;
 	public                TypeTableEntry                                  type;
 	public                GeneratedNode                                   externalRef;
@@ -60,6 +66,14 @@ public class IdentTableEntry extends BaseTableEntry1 implements Constructable, T
 
 	@Override
 	public OS_Element getResolvedElement() {
+/*
+		//triggerResolve ... ?? // mb not necc
+		//return EventualExtract.of(elementPromise);
+		Holder<OS_Element> holder = new Holder<>();
+		elementPromise.then(holder::set);
+		return holder.get(); // will fail if not already set
+*/
+
 		// short circuit
 		if (resolved_element != null)
 			return resolved_element;
