@@ -9,17 +9,15 @@
 package tripleo.elijah;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.gen.*;
-import tripleo.elijah.gen.nodes.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah_prolific_durable.comp.GenBuffer;
+import tripleo.elijah_prolific_durable.gen.*;
+import tripleo.elijah_prolific_durable.gen.nodes.*;
+import tripleo.elijah_prolific_durable.lang.NumericExpression;
+import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
+import tripleo.elijah_prolific_durable.util.NotImplementedException;
 import tripleo.util.buffer.*;
 
 import java.util.*;
-
-import static tripleo.elijah.util.Helpers.*;
 
 /**
  * @author Tripleo(sb)

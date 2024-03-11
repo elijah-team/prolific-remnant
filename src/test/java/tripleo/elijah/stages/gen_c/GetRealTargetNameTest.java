@@ -11,14 +11,15 @@ package tripleo.elijah.stages.gen_c;
 
 import org.jetbrains.annotations.*;
 import org.junit.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah_prolific_durable.comp.*;
+import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.stages.gen_c.*;
+import tripleo.elijah_prolific_durable.stages.gen_fn.*;
+import tripleo.elijah_prolific_durable.stages.gen_generic.OutputFileFactoryParams;
+import tripleo.elijah_prolific_durable.stages.instructions.*;
+import tripleo.elijah_prolific_durable.stages.logging.ElLog;
+import tripleo.elijah_prolific_durable.util.Helpers;
 
 import static org.easymock.EasyMock.*;
 

@@ -9,12 +9,10 @@
 package tripleo.elijah;
 
 import org.junit.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.gen.*;
-import tripleo.elijah.gen.nodes.*;
+import tripleo.elijah_prolific_durable.comp.GenBuffer;
+import tripleo.elijah_prolific_durable.gen.*;
+import tripleo.elijah_prolific_durable.gen.nodes.*;
 import tripleo.util.buffer.*;
-
-import static tripleo.elijah.util.Helpers.*;
 
 public class FactorialDotElijahTest {
 

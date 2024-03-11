@@ -1,6 +1,6 @@
 package tripleo.elijah.ut;
 
-import tripleo.elijah.comp.*;
+import tripleo.elijah_prolific_durable.comp.*;
 
 import java.util.List;
 

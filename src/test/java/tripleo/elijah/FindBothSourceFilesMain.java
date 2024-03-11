@@ -11,8 +11,8 @@
  */
 package tripleo.elijah;
 
-import tripleo.elijah.comp.*;
-import tripleo.elijah.gen.*;
+import tripleo.elijah_prolific_durable.comp.GenBuffer;
+import tripleo.elijah_prolific_durable.gen.CompilerContext;
 
 import java.io.*;
 

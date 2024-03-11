@@ -9,11 +9,11 @@
 package tripleo.elijah.stages.deduce;
 
 import org.junit.Test;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.CompilationImpl;
+import tripleo.elijah_prolific_durable.comp.*;
+import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
 
 import static com.google.common.truth.Truth.assertThat;
-import static tripleo.elijah.util.Helpers.List_of;
+import static tripleo.elijah_prolific_durable.util.Helpers.List_of;
 
 /**
  * Created 9/9/21 4:16 AM

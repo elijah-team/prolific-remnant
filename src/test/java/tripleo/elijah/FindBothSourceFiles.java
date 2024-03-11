@@ -9,13 +9,12 @@
 package tripleo.elijah;
 
 import org.junit.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.*;
+import tripleo.elijah_prolific_durable.Main;
+import tripleo.elijah_prolific_durable.comp.*;
+import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
 
 import java.io.*;
 import java.util.*;
-
-import static tripleo.elijah.util.Helpers.*;
 
 /**
  * @author Tripleo(sb)
@@ -25,7 +24,7 @@ public class FindBothSourceFiles {
 	/**
 	 * Compiler should find both parse files
 	 * <p>
-	 * Test method for {@link tripleo.elijah.Main#parseFile(java.lang.String, java.io.InputStream)}.
+	 * Test method for {@link Main#parseFile(java.lang.String, java.io.InputStream)}.
 	 *
 	 * @throws Exception
 	 */

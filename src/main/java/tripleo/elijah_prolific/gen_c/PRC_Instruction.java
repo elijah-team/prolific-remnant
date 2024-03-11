@@ -1,9 +1,9 @@
 package tripleo.elijah_prolific.gen_c;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.stages.gen_fn.BaseGeneratedFunction;
-import tripleo.elijah.stages.instructions.Instruction;
-import tripleo.elijah.stages.logging.ElLog;
+import tripleo.elijah_prolific_durable.stages.gen_fn.BaseGeneratedFunction;
+import tripleo.elijah_prolific_durable.stages.instructions.Instruction;
+import tripleo.elijah_prolific_durable.stages.logging.ElLog;
 
 import java.util.List;
 

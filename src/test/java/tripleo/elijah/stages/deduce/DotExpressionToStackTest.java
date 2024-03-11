@@ -11,8 +11,9 @@ package tripleo.elijah.stages.deduce;
 
 import org.jetbrains.annotations.*;
 import org.junit.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.stages.deduce.DeduceLookupUtils;
+import tripleo.elijah_prolific_durable.util.Helpers;
 
 import java.util.*;
 

@@ -1,10 +1,10 @@
 package tripleo.elijah_prolific.deduce;
 
-import tripleo.elijah.comp.ErrSink;
-import tripleo.elijah.lang.Context;
-import tripleo.elijah.lang.OS_Element;
-import tripleo.elijah.stages.deduce.DeduceTypes2;
-import tripleo.elijah.stages.gen_fn.BaseGeneratedFunction;
+import tripleo.elijah_prolific_durable.comp.ErrSink;
+import tripleo.elijah_prolific_durable.lang.Context;
+import tripleo.elijah_prolific_durable.lang.OS_Element;
+import tripleo.elijah_prolific_durable.stages.deduce.DeduceTypes2;
+import tripleo.elijah_prolific_durable.stages.gen_fn.BaseGeneratedFunction;
 
 public interface DT_Element3 {
 	OS_Element getResolvedElement();

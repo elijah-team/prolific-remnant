@@ -10,15 +10,16 @@ package tripleo.elijah.stages.gen_fn;
 
 import org.jetbrains.annotations.*;
 import org.junit.*;
-import tripleo.elijah.util.Eventual;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.test_help.*;
-import tripleo.elijah.util.EventualExtract;
+import tripleo.elijah_prolific_durable.comp.*;
+import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.stages.deduce.*;
+import tripleo.elijah_prolific_durable.stages.gen_fn.*;
+import tripleo.elijah_prolific_durable.stages.instructions.*;
+import tripleo.elijah_prolific_durable.stages.logging.ElLog;
+import tripleo.elijah_prolific_durable.test_help.Boilerplate;
+import tripleo.elijah_prolific_durable.util.Eventual;
+import tripleo.elijah_prolific_durable.util.EventualExtract;
 
 import java.util.*;
 

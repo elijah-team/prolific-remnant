@@ -10,17 +10,16 @@ package tripleo.elijah.stages.gen_fn;
 
 import org.jetbrains.annotations.*;
 import org.junit.*;
-import tripleo.elijah.util.Eventual;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.stages.gen_c.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.test_help.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah_prolific_durable.comp.*;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.lang.types.OS_UserClassType;
+import tripleo.elijah_prolific_durable.stages.gen_c.*;
+import tripleo.elijah_prolific_durable.stages.gen_fn.*;
+import tripleo.elijah_prolific_durable.stages.instructions.*;
+import tripleo.elijah_prolific_durable.test_help.Boilerplate;
+import tripleo.elijah_prolific_durable.util.*;
 
 import static org.easymock.EasyMock.*;
-import static tripleo.elijah.util.Helpers.*;
 
 @Ignore
 public class GetIdentIAPathTest_ForC {
@@ -98,12 +97,12 @@ public class GetIdentIAPathTest_ForC {
 		final Compilation c = b.comp;
 //		final OS_Module mod = b.defaultMod();
 
-		final AccessBus         ab            = new AccessBus(c);
-		final PipelineLogic     pl            = new PipelineLogic(ab);
-		final GeneratePhase     generatePhase = pl.generatePhase;
-		final Eventual<GenerateFunctions> egf = generatePhase.getGenerateFunctions2(mod);
-		final GenerateFunctions gen           = EventualExtract.of(egf);
-		final Context           ctx           = mock(Context.class);
+		final AccessBus                   ab            = new AccessBus(c);
+		final PipelineLogic               pl            = new PipelineLogic(ab);
+		final GeneratePhase               generatePhase = pl.generatePhase;
+		final Eventual<GenerateFunctions> egf           = generatePhase.getGenerateFunctions2(mod);
+		final GenerateFunctions           gen           = EventualExtract.of(egf);
+		final Context                     ctx           = mock(Context.class);
 		//
 		final DotExpression       expr = new DotExpression(x_ident, foo_ident);
 		final InstructionArgument xx   = gen.simplify_expression(expr, gf, ctx);

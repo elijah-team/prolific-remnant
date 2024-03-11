@@ -1,9 +1,9 @@
 package tripleo.elijah;
 
 import org.junit.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah_prolific_durable.comp.*;
+import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
+import tripleo.elijah_prolific_durable.util.Helpers;
 
 import static org.junit.Assert.*;
 

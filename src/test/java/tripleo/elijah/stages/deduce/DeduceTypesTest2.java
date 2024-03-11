@@ -9,14 +9,15 @@
 package tripleo.elijah.stages.deduce;
 
 import org.junit.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.test_help.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah_prolific_durable.comp.*;
+import tripleo.elijah_prolific_durable.contexts.*;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.lang.types.OS_UserType;
+import tripleo.elijah_prolific_durable.stages.deduce.*;
+import tripleo.elijah_prolific_durable.stages.gen_fn.GenType;
+import tripleo.elijah_prolific_durable.stages.logging.ElLog;
+import tripleo.elijah_prolific_durable.test_help.Boilerplate;
+import tripleo.elijah_prolific_durable.util.Helpers;
 
 public class DeduceTypesTest2 {
 

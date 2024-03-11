@@ -1,21 +1,21 @@
 package tripleo.elijah.stages.deduce;
 
 import org.junit.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah_prolific_durable.comp.*;
+import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
+import tripleo.elijah_prolific_durable.contexts.FunctionContext;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.lang.types.*;
+import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
+import tripleo.elijah_prolific_durable.stages.deduce.*;
+import tripleo.elijah_prolific_durable.stages.gen_fn.*;
+import tripleo.elijah_prolific_durable.stages.instructions.VariableTableType;
+import tripleo.elijah_prolific_durable.stages.logging.ElLog;
+import tripleo.elijah_prolific_durable.util.Helpers;
 
 import java.util.*;
 
 import static org.easymock.EasyMock.*;
-import static tripleo.elijah.stages.logging.ElLog.Verbosity.*;
 
 public class DoAssignCall_ArgsIdent1_Test {
 	/*

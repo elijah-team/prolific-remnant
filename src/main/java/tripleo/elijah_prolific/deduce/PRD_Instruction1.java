@@ -1,8 +1,7 @@
 package tripleo.elijah_prolific.deduce;
 
-import tripleo.elijah.stages.deduce.fluffy2.Fluffy2Rider;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.NotImplementedException;
+import tripleo.elijah_prolific_durable.stages.deduce.fluffy2.Fluffy2Rider;
+import tripleo.elijah_prolific_durable.stages.instructions.*;
 
 public class PRD_Instruction1 implements PRD_Instruction {
 	private final Instruction carrier;

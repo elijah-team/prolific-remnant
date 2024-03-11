@@ -11,13 +11,14 @@ package tripleo.elijah.stages.deduce;
 import org.jdeferred2.*;
 import org.jetbrains.annotations.*;
 import org.junit.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.test_help.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah_prolific_durable.comp.Compilation;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.lang.types.*;
+import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
+import tripleo.elijah_prolific_durable.stages.deduce.*;
+import tripleo.elijah_prolific_durable.stages.gen_fn.GenType;
+import tripleo.elijah_prolific_durable.test_help.Boilerplate;
+import tripleo.elijah_prolific_durable.util.Helpers;
 
 /**
  * Useless tests. We really want to know if a TypeName will resolve to the same types

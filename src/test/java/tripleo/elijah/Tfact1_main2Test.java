@@ -5,7 +5,6 @@ import org.junit.*;
 import java.util.*;
 
 import static org.junit.Assert.*;
-import static tripleo.elijah.util.Helpers.*;
 
 public class Tfact1_main2Test {
 
