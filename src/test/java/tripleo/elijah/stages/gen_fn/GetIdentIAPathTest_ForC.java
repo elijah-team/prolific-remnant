@@ -20,6 +20,7 @@ import tripleo.elijah_prolific_durable.test_help.Boilerplate;
 import tripleo.elijah_prolific_durable.util.*;
 
 import static org.easymock.EasyMock.*;
+import static tripleo.elijah_prolific_durable.util.Helpers.List_of;
 
 @Ignore
 public class GetIdentIAPathTest_ForC {
@@ -52,7 +53,7 @@ public class GetIdentIAPathTest_ForC {
 		final int             ite_index = gf.addIdentTableEntry(foo_ident, null);
 		final IdentTableEntry ite       = gf.getIdentTableEntry(ite_index);
 		ite.setResolvedElement(foo_vs);
-		ite.backlink = new IntegerIA(int_index, gf);
+		ite.setBacklink (new IntegerIA(int_index, gf));
 		final IdentIA ident_ia = new IdentIA(ite_index, gf);
 		final String  x        = getIdentIAPath(ident_ia, gf);
 		Assert.assertEquals("vvx->vmfoo", x);

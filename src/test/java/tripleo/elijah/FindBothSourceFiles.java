@@ -13,6 +13,8 @@ import tripleo.elijah_prolific_durable.Main;
 import tripleo.elijah_prolific_durable.comp.*;
 import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
 
+import static tripleo.elijah_prolific_durable.util.Helpers.List_of;
+
 import java.io.*;
 import java.util.*;
 

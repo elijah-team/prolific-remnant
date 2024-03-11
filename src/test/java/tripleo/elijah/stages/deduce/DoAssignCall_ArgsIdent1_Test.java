@@ -11,6 +11,7 @@ import tripleo.elijah_prolific_durable.stages.deduce.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.instructions.VariableTableType;
 import tripleo.elijah_prolific_durable.stages.logging.ElLog;
+import tripleo.elijah_prolific_durable.stages.logging.ElLog.Verbosity;
 import tripleo.elijah_prolific_durable.util.Helpers;
 
 import java.util.*;
@@ -29,7 +30,7 @@ public class DoAssignCall_ArgsIdent1_Test {
 		final CompilationImpl c             = new CompilationImpl(new StdErrSink(), new IO());
 		final OS_Module       mod           = mock(OS_Module.class);
 		final PipelineLogic   pipelineLogic = new PipelineLogic(new AccessBus(c));
-		final GeneratePhase   generatePhase = new GeneratePhase(VERBOSE, pipelineLogic, c);
+		final GeneratePhase   generatePhase = new GeneratePhase(Verbosity.VERBOSE, pipelineLogic, c);
 		final DeducePhase     phase         = new DeducePhase(generatePhase, pipelineLogic, ElLog.Verbosity.VERBOSE, c);
 
 		expect(mod.getCompilation()).andReturn(c);
