@@ -1,11 +1,8 @@
 package tripleo.elijah_prolific_durable.stages.deduce;
 
+import tripleo.elijah_prolific.eva.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.util.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.work.*;
-import tripleo.elijah_prolific.eva.*;
 import tripleo.elijah_prolific_durable.work.*;
 
 class WlDeduceFunction implements WorkJob {

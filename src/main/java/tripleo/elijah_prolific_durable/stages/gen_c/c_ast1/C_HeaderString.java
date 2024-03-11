@@ -1,12 +1,10 @@
 package tripleo.elijah_prolific_durable.stages.gen_c.c_ast1;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.logging.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.logging.ElLog;
 
-import java.util.function.*;
+import java.util.function.Supplier;
 
 public class C_HeaderString {
 	private final String result;

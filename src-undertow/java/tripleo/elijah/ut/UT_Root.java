@@ -7,6 +7,8 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.*;
 
+import static tripleo.elijah_prolific_durable.util.Helpers.List_of;
+
 class UT_Root {
 	private final Map<String, ICompilationBus.CB_Action> dcs = new HashMap<>();
 	List<Path> paths = List_of();

@@ -9,19 +9,10 @@
  */
 package tripleo.elijah_prolific_durable.stages.deduce;
 
-import com.google.common.base.*;
-import com.google.common.collect.*;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import org.jdeferred2.*;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.stages.deduce.declarations.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific.deduce.PRD_Instruction;
 import tripleo.elijah_prolific_durable.comp.ErrSink;
 import tripleo.elijah_prolific_durable.lang.*;

@@ -1,15 +1,12 @@
 package tripleo.elijah_prolific_durable.comp;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.gen_generic.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.gen_generic.ICodeRegistrar;
 
 import java.util.*;
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
 public class Coder {
 	private final ICodeRegistrar codeRegistrar;

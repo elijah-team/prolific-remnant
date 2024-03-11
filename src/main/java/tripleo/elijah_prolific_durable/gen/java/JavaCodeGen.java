@@ -2,9 +2,9 @@ package tripleo.elijah_prolific_durable.gen.java;
 
 //import javassist.ClassPool;
 //import javassist.CtClass;
-//import tripleo.elijah.gen.ICodeGen;
-//import tripleo.elijah.lang.*;
-//import tripleo.elijah.util.NotImplementedException;
+//import tripleo.elijah_prolific_durable.gen.ICodeGen;
+//import tripleo.elijah_prolific_durable.lang.*;
+//import tripleo.elijah_prolific_durable.util.NotImplementedException;
 //
 //import java.util.ArrayList;
 //import java.util.List;

@@ -9,7 +9,7 @@
 
 package tripleo.elijah_prolific_durable.diagnostic;
 
-import java.io.*;
+import java.io.File;
 
 /**
  * Locate a Token or Token range<br><br>

@@ -8,11 +8,9 @@
  */
 package tripleo.elijah_prolific_durable.stages.deduce;
 
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jdeferred2.Promise;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.lang.NamespaceStatement;
 import tripleo.elijah_prolific_durable.stages.gen_fn.GeneratedNamespace;
 

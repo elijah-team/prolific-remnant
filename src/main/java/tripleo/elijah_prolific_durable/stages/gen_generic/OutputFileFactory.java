@@ -1,12 +1,10 @@
 package tripleo.elijah_prolific_durable.stages.gen_generic;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.stages.gen_c.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.stages.gen_c.GenerateC;
 import tripleo.elijah_prolific_durable.util.NotImplementedException;
 
-import java.util.*;
+import java.util.Objects;
 
 public final class OutputFileFactory {
 	private OutputFileFactory() {

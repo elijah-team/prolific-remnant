@@ -4,7 +4,7 @@ package tripleo.elijjah;
 
 import antlr.*;
 import antlr.collections.impl.BitSet;
-import tripleo.elijah.lang.*;
+import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.Out;
 import tripleo.elijah_prolific_durable.contexts.*;
 import tripleo.elijah_prolific_durable.lang.*;

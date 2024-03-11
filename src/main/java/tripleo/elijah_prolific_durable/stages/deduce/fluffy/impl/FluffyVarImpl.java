@@ -1,9 +1,6 @@
 package tripleo.elijah_prolific_durable.stages.deduce.fluffy.impl;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.nextgen.composable.*;
-import tripleo.elijah.stages.deduce.fluffy.i.*;
+import org.jetbrains.annotations.Nullable;
 import tripleo.elijah_prolific_durable.diagnostic.Locatable;
 import tripleo.elijah_prolific_durable.nextgen.composable.IComposable;
 import tripleo.elijah_prolific_durable.stages.deduce.fluffy.i.*;

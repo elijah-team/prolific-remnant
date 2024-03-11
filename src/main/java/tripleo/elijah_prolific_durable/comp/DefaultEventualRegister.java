@@ -1,10 +1,8 @@
 package tripleo.elijah_prolific_durable.comp;
 
-import tripleo.elijah_prolific_durable.util.Eventual;
-import tripleo.elijah_prolific_durable.util.EventualRegister;
+import tripleo.elijah_prolific_durable.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public abstract class DefaultEventualRegister implements EventualRegister {
     final List<Eventual<?>> _eventuals = new ArrayList<>();

@@ -1,15 +1,12 @@
 package tripleo.elijah_prolific_durable.comp;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.query.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.diagnostic.*;
 import tripleo.elijah_prolific_durable.lang.OS_Module;
 import tripleo.elijah_prolific_durable.nextgen.query.Operation2;
 
-import java.io.*;
-import java.util.*;
+import java.io.PrintStream;
+import java.util.List;
 
 class UnknownExceptionDiagnostic implements Diagnostic {
 	private final Operation2<OS_Module> m;

@@ -1,7 +1,5 @@
 package tripleo.elijah_prolific_durable.comp.caches;
 
-import tripleo.elijah.comp.specs.*;
-import tripleo.elijah.lang.*;
 import tripleo.elijah_prolific_durable.comp.specs.*;
 import tripleo.elijah_prolific_durable.lang.OS_Module;
 

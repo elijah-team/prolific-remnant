@@ -11,8 +11,6 @@
  */
 package tripleo.elijah_prolific_durable.gen.nodes;
 
-import tripleo.elijah.gen.*;
-import tripleo.elijah.lang.*;
 import tripleo.elijah_prolific_durable.gen.TypeRef;
 import tripleo.elijah_prolific_durable.lang.IdentExpression;
 

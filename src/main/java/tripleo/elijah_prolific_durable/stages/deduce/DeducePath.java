@@ -12,16 +12,12 @@ package tripleo.elijah_prolific_durable.stages.deduce;
 import org.jdeferred2.*;
 import org.jetbrains.annotations.*;
 import tripleo.elijah_prolific_durable.DebugFlags;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah_prolific_durable.diagnostic.Diagnostic;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.instructions.*;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Created 7/9/21 6:10 AM

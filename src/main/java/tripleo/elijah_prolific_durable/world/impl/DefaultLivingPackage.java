@@ -1,7 +1,5 @@
 package tripleo.elijah_prolific_durable.world.impl;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.world.i.*;
 import tripleo.elijah_prolific_durable.lang.OS_Package;
 import tripleo.elijah_prolific_durable.world.i.LivingPackage;
 

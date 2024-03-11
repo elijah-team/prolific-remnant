@@ -9,15 +9,12 @@
  */
 package tripleo.elijah_prolific_durable.stages.deduce;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.BaseGeneratedFunction;
 import tripleo.elijah_prolific_durable.stages.instructions.*;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Created 12/11/21 9:27 PM

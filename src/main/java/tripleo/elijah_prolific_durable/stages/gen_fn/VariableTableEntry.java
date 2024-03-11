@@ -9,17 +9,10 @@
 package tripleo.elijah_prolific_durable.stages.gen_fn;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
+import org.jdeferred2.Promise;
+import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.deduce.zero.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah_prolific.deduce.PRD_Env;
-import tripleo.elijah_prolific.deduce.PRD_vteTrigger_do_assign_call;
+import tripleo.elijah_prolific.deduce.*;
 import tripleo.elijah_prolific.gen_fn.PRN_vteTrigger;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.deduce.*;

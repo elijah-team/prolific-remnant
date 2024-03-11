@@ -9,12 +9,6 @@
 package tripleo.elijah_prolific_durable.comp.internal;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.nextgen.outputtree.*;
-import tripleo.elijah.stages.deduce.fluffy.i.*;
-import tripleo.elijah.stages.deduce.fluffy.impl.*;
-import tripleo.elijah.testing.comp.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.comp.*;
 import tripleo.elijah_prolific_durable.nextgen.outputtree.EOT_OutputTree;
 import tripleo.elijah_prolific_durable.stages.deduce.fluffy.i.FluffyComp;
@@ -22,7 +16,7 @@ import tripleo.elijah_prolific_durable.stages.deduce.fluffy.impl.FluffyCompImpl;
 import tripleo.elijah_prolific_durable.testing.comp.IFunctionMapHook;
 import tripleo.elijah_prolific_durable.util.NotImplementedException;
 
-import java.util.*;
+import java.util.List;
 
 public class CompilationImpl extends Compilation {
 

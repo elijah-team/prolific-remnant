@@ -11,41 +11,27 @@ package tripleo.elijah_prolific_durable.stages.deduce;
 
 import com.google.common.collect.*;
 import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
+import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.*;
-//import tripleo.elijah.util.EventualRegister;
 import tripleo.elijah_prolific_durable.comp.*;
-import tripleo.elijah_prolific_durable.nextgen.ClassDefinition;
-import tripleo.elijah_prolific_durable.stages.gen_fn.*;
-import tripleo.elijah_prolific_durable.stages.gen_generic.ICodeRegistrar;
-import tripleo.elijah_prolific_durable.stages.logging.ElLog;
-import tripleo.elijah_prolific_durable.util.Eventual;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.nextgen.*;
-import tripleo.elijah.nextgen.diagnostic.*;
-import tripleo.elijah.stages.deduce.declarations.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.work.*;
 import tripleo.elijah_prolific_durable.diagnostic.Diagnostic;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.lang.types.OS_UnknownType;
+import tripleo.elijah_prolific_durable.nextgen.ClassDefinition;
 import tripleo.elijah_prolific_durable.nextgen.diagnostic.CouldntGenerateClass;
 import tripleo.elijah_prolific_durable.stages.deduce.declarations.*;
 import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.*;
+import tripleo.elijah_prolific_durable.stages.gen_fn.*;
+import tripleo.elijah_prolific_durable.stages.gen_generic.ICodeRegistrar;
+import tripleo.elijah_prolific_durable.stages.logging.ElLog;
+import tripleo.elijah_prolific_durable.util.Helpers;
 import tripleo.elijah_prolific_durable.util.*;
 import tripleo.elijah_prolific_durable.work.WorkList;
 
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.function.*;
-import java.util.stream.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Created 12/24/20 3:59 AM

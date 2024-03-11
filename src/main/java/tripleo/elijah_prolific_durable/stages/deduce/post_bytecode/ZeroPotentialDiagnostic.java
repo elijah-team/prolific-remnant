@@ -1,13 +1,11 @@
 package tripleo.elijah_prolific_durable.stages.deduce.post_bytecode;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.diagnostic.*;
 import tripleo.elijah_prolific_durable.util.NotImplementedException;
 
-import java.io.*;
-import java.util.*;
+import java.io.PrintStream;
+import java.util.List;
 
 public class ZeroPotentialDiagnostic implements Diagnostic {
 	@Override

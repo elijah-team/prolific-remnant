@@ -11,10 +11,7 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import antlr.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.util.*;
+import antlr.Token;
 import tripleo.elijah_prolific_durable.contexts.*;
 import tripleo.elijah_prolific_durable.lang2.ElElementVisitor;
 import tripleo.elijah_prolific_durable.util.*;

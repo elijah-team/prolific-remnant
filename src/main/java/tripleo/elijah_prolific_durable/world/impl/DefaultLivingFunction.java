@@ -1,8 +1,5 @@
 package tripleo.elijah_prolific_durable.world.impl;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.world.i.*;
 import tripleo.elijah_prolific_durable.lang.BaseFunctionDef;
 import tripleo.elijah_prolific_durable.stages.gen_fn.BaseGeneratedFunction;
 import tripleo.elijah_prolific_durable.world.i.LivingFunction;

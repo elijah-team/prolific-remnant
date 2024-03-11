@@ -9,10 +9,9 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import com.google.common.base.*;
-import com.google.common.collect.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.util.*;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import org.jetbrains.annotations.Nullable;
 import tripleo.elijah_prolific_durable.util.Helpers;
 
 import java.util.*;

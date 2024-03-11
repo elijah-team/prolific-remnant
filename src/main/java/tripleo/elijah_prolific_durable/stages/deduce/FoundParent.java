@@ -2,13 +2,6 @@ package tripleo.elijah_prolific_durable.stages.deduce;
 
 import org.jdeferred2.*;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.stages.deduce.zero.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.comp.ErrSink;
 import tripleo.elijah_prolific_durable.diagnostic.Diagnostic;
 import tripleo.elijah_prolific_durable.lang.*;
@@ -17,7 +10,7 @@ import tripleo.elijah_prolific_durable.stages.deduce.zero.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.util.NotImplementedException;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class FoundParent implements BaseTableEntry.StatusListener {
 	private final DeduceTypes2          deduceTypes2;

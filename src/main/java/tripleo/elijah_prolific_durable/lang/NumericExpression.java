@@ -14,14 +14,12 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import antlr.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.util.*;
+import antlr.Token;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.diagnostic.Locatable;
 import tripleo.elijah_prolific_durable.util.*;
 
-import java.io.*;
+import java.io.File;
 
 public class NumericExpression implements IExpression, Locatable {
 

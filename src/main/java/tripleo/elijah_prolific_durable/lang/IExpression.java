@@ -15,7 +15,7 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.Contract;
 
 
 public interface IExpression {

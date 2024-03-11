@@ -1,6 +1,6 @@
 package tripleo.elijah_prolific_durable.lang;
 
-import antlr.*;
+import antlr.Token;
 
 /**
  * Created 8/30/20 2:54 PM

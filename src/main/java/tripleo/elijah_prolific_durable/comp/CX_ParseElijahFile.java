@@ -1,10 +1,6 @@
 package tripleo.elijah_prolific_durable.comp;
 
 import antlr.*;
-import tripleo.elijah.comp.specs.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.query.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.Out;
 import tripleo.elijah_prolific_durable.comp.specs.*;
 import tripleo.elijah_prolific_durable.lang.OS_Module;

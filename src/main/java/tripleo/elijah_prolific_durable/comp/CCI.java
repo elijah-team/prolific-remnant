@@ -1,9 +1,6 @@
 package tripleo.elijah_prolific_durable.comp;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.ci.*;
-import tripleo.elijah.comp.i.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.ci.CompilerInstructions;
 import tripleo.elijah_prolific_durable.comp.i.*;
 import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.Maybe;

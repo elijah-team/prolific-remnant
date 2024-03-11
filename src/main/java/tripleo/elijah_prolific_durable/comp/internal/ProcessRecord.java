@@ -1,7 +1,6 @@
 package tripleo.elijah_prolific_durable.comp.internal;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.comp.*;
 
 public class ProcessRecord {

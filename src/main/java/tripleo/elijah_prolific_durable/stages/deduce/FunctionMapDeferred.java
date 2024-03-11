@@ -9,7 +9,6 @@
  */
 package tripleo.elijah_prolific_durable.stages.deduce;
 
-import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.GeneratedFunction;
 
 /**

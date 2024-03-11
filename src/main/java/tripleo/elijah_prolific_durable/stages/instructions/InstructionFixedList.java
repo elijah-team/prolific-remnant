@@ -1,6 +1,5 @@
 package tripleo.elijah_prolific_durable.stages.instructions;
 
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.util.IFixedList;
 
 public class InstructionFixedList implements IFixedList<InstructionArgument> {

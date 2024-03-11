@@ -1,9 +1,6 @@
 package tripleo.elijah_prolific_durable.stages.gen_generic;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.nextgen.model.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.work.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.nextgen.model.SM_Node;
 import tripleo.elijah_prolific_durable.stages.gen_fn.GeneratedNode;
 import tripleo.elijah_prolific_durable.work.WorkManager;

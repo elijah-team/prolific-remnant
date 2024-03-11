@@ -9,9 +9,8 @@
 
 package tripleo.elijah_prolific_durable.lang;
 
-import antlr.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.contexts.*;
+import antlr.Token;
+import org.jetbrains.annotations.Contract;
 import tripleo.elijah_prolific_durable.contexts.IfConditionalContext;
 
 import java.util.*;

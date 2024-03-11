@@ -8,9 +8,7 @@
  */
 package tripleo.elijah_prolific_durable.gen.nodes;
 
-import org.eclipse.jdt.annotation.*;
-import tripleo.elijah.gen.*;
-import tripleo.elijah.lang.*;
+import org.eclipse.jdt.annotation.NonNull;
 import tripleo.elijah_prolific_durable.gen.CompilerContext;
 import tripleo.elijah_prolific_durable.lang.NumericExpression;
 

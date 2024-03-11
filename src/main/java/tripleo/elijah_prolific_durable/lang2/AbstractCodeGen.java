@@ -9,8 +9,6 @@
  */
 package tripleo.elijah_prolific_durable.lang2;
 
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
 import tripleo.elijah_prolific_durable.contexts.ClassContext;
 import tripleo.elijah_prolific_durable.lang.*;
 

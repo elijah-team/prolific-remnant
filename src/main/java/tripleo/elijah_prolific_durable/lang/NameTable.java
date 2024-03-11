@@ -3,7 +3,6 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.util.SimplePrintLoggerToRemoveSoon;
 
 import java.util.*;

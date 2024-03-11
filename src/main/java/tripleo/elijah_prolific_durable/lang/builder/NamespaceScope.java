@@ -8,8 +8,7 @@
  */
 package tripleo.elijah_prolific_durable.lang.builder;
 
-import antlr.*;
-import tripleo.elijah.lang.*;
+import antlr.Token;
 import tripleo.elijah_prolific_durable.lang.*;
 
 import java.util.*;

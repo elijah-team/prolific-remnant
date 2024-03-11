@@ -8,8 +8,7 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang2.*;
+import org.jetbrains.annotations.Nullable;
 import tripleo.elijah_prolific_durable.lang2.ElElementVisitor;
 
 import java.util.*;

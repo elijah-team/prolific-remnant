@@ -8,9 +8,7 @@
  */
 package tripleo.elijah_prolific_durable.lang.builder;
 
-import antlr.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
+import antlr.Token;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.util.NotImplementedException;
 

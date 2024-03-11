@@ -8,10 +8,9 @@
  */
 package tripleo.elijah_prolific_durable.lang.types;
 
-import tripleo.elijah.lang.*;
 import tripleo.elijah_prolific_durable.lang.*;
 
-import java.text.*;
+import java.text.MessageFormat;
 
 
 /**

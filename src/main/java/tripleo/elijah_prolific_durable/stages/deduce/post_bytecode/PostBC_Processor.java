@@ -1,14 +1,8 @@
 package tripleo.elijah_prolific_durable.stages.deduce.post_bytecode;
 
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
+import org.jdeferred2.Promise;
+import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.comp.ErrSink;
 import tripleo.elijah_prolific_durable.diagnostic.Diagnostic;
 import tripleo.elijah_prolific_durable.lang.*;
@@ -16,7 +10,7 @@ import tripleo.elijah_prolific_durable.stages.deduce.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.util.*;
 
-import java.util.function.*;
+import java.util.function.Supplier;
 
 public interface PostBC_Processor {
 	@Contract("_, _, _ -> new")

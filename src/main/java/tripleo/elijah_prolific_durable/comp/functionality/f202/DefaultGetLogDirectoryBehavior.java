@@ -8,12 +8,10 @@
  */
 package tripleo.elijah_prolific_durable.comp.functionality.f202;
 
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.functionality.f203.*;
 import tripleo.elijah_prolific_durable.comp.Compilation;
 import tripleo.elijah_prolific_durable.comp.functionality.f203.F203;
 
-import java.io.*;
+import java.io.File;
 
 /**
  * Created 8/11/21 5:55 AM

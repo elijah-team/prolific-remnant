@@ -9,14 +9,7 @@
  */
 package tripleo.elijah_prolific_durable.stages.gen_c;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.lang.types.*;
 import tripleo.elijah_prolific_durable.stages.deduce.*;

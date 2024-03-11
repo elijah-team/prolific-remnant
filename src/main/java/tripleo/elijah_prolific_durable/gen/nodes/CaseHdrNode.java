@@ -14,8 +14,7 @@
  */
 package tripleo.elijah_prolific_durable.gen.nodes;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.gen.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.gen.Node;
 
 public class CaseHdrNode implements Node {

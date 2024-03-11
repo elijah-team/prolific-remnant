@@ -8,8 +8,7 @@
  */
 package tripleo.elijah_prolific_durable.comp.functionality.f202;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.stages.logging.*;
+import org.jetbrains.annotations.Contract;
 import tripleo.elijah_prolific_durable.stages.logging.ElLog;
 
 /**

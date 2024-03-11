@@ -8,36 +8,21 @@
  */
 package tripleo.elijah_prolific_durable.stages.gen_fn;
 
-import org.jdeferred2.DoneCallback;
-import org.jdeferred2.Promise;
+import org.jdeferred2.*;
 import org.jdeferred2.impl.DeferredObject;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.*;
+import tripleo.elijah_prolific.deduce.*;
+import tripleo.elijah_prolific.gen_fn.PRN_vteTrigger;
 import tripleo.elijah_prolific_durable.comp.ErrSink;
-import tripleo.elijah_prolific_durable.lang.Context;
-import tripleo.elijah_prolific_durable.lang.IExpression;
-import tripleo.elijah_prolific_durable.lang.OS_Element;
-import tripleo.elijah_prolific_durable.lang.OS_Type;
-import tripleo.elijah_prolific_durable.stages.deduce.ClassInvocation;
-import tripleo.elijah_prolific_durable.stages.deduce.DeduceProcCall;
-import tripleo.elijah_prolific_durable.stages.deduce.DeduceTypes2;
-import tripleo.elijah_prolific_durable.stages.deduce.FunctionInvocation;
-import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.DeduceElement3_ProcTableEntry;
-import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.IDeduceElement3;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.stages.deduce.*;
+import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.*;
 import tripleo.elijah_prolific_durable.stages.deduce.zero.PTE_Zero;
 import tripleo.elijah_prolific_durable.stages.instructions.InstructionArgument;
 import tripleo.elijah_prolific_durable.stages.logging.ElLog;
-import tripleo.elijah_prolific_durable.util.Eventual;
-import tripleo.elijah_prolific_durable.util.Helpers;
-import tripleo.elijah_prolific_durable.util.NotImplementedException;
-import tripleo.elijah_prolific_durable.util.ProgramIsLikelyWrong;
-import tripleo.elijah_prolific_durable.util.SimplePrintLoggerToRemoveSoon;
-import tripleo.elijah_prolific.deduce.DT_Element3;
-import tripleo.elijah_prolific.deduce.PRD_Env;
-import tripleo.elijah_prolific.gen_fn.PRN_vteTrigger;
+import tripleo.elijah_prolific_durable.util.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**

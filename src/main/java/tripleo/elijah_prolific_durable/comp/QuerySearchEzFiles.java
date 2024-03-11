@@ -1,16 +1,13 @@
 package tripleo.elijah_prolific_durable.comp;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.ci.*;
-import tripleo.elijah.comp.specs.*;
-import tripleo.elijah.nextgen.query.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.ci.CompilerInstructions;
 import tripleo.elijah_prolific_durable.comp.specs.EzSpec;
 import tripleo.elijah_prolific_durable.nextgen.query.Operation2;
 
 import java.io.*;
 import java.util.*;
-import java.util.regex.*;
+import java.util.regex.Pattern;
 
 class QuerySearchEzFiles {
 	final FilenameFilter ez_files_filter = new FilenameFilter() {

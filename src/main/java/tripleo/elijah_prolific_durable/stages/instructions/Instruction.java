@@ -8,13 +8,10 @@
  */
 package tripleo.elijah_prolific_durable.stages.instructions;
 
-import tripleo.elijah_prolific_durable.util.Eventual;
-import tripleo.elijah_prolific_durable.util._ElTaggableMixin;
 import tripleo.elijah_prolific_durable.comp.diagnostic.ExceptionDiagnostic;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah_prolific_durable.lang.Context;
 import tripleo.elijah_prolific_durable.stages.deduce.DeduceElement;
+import tripleo.elijah_prolific_durable.util.*;
 
 import java.util.*;
 

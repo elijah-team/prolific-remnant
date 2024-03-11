@@ -15,6 +15,8 @@ import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
 import java.io.*;
 import java.util.*;
 
+import static tripleo.elijah_prolific_durable.util.Helpers.List_of;
+
 /**
  * @author Tripleo(envy)
  */

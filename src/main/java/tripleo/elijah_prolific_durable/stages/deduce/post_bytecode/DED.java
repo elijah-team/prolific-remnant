@@ -1,7 +1,6 @@
 package tripleo.elijah_prolific_durable.stages.deduce.post_bytecode;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 
 public interface DED {

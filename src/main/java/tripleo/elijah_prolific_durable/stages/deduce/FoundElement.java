@@ -8,8 +8,7 @@
  */
 package tripleo.elijah_prolific_durable.stages.deduce;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.lang.OS_Element;
 
 /**

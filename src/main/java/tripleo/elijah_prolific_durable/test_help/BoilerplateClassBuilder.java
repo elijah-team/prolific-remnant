@@ -1,15 +1,12 @@
 package tripleo.elijah_prolific_durable.test_help;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.contexts.ModuleContext;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.util.Helpers;
 
 import java.util.*;
-import java.util.function.*;
+import java.util.function.Consumer;
 
 public class BoilerplateClassBuilder {
 	final private List<BCB_Child> children = new ArrayList<>();

@@ -8,9 +8,7 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import antlr.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang2.*;
+import antlr.Token;
 import tripleo.elijah_prolific_durable.contexts.WithContext;
 import tripleo.elijah_prolific_durable.lang2.ElElementVisitor;
 

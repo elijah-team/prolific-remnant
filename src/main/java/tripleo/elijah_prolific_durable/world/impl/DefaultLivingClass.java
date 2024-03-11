@@ -1,9 +1,6 @@
 package tripleo.elijah_prolific_durable.world.impl;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.world.i.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.lang.ClassStatement;
 import tripleo.elijah_prolific_durable.stages.gen_fn.GeneratedClass;
 import tripleo.elijah_prolific_durable.world.i.LivingClass;

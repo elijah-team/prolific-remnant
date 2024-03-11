@@ -8,23 +8,16 @@
  */
 package tripleo.elijah_prolific_durable.comp;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah_prolific_durable.stages.gen_fn.*;
-import tripleo.elijah_prolific_durable.util.Eventual;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.inputtree.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah_prolific_durable.util.EventualExtract;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.lang.OS_Module;
 import tripleo.elijah_prolific_durable.nextgen.inputtree.EIT_ModuleList;
 import tripleo.elijah_prolific_durable.stages.deduce.DeducePhase;
+import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.gen_generic.*;
 import tripleo.elijah_prolific_durable.stages.logging.ElLog;
+import tripleo.elijah_prolific_durable.util.*;
 
-import java.io.*;
+import java.io.PrintStream;
 import java.util.*;
 
 /**

@@ -8,7 +8,6 @@
  */
 package tripleo.elijah_prolific_durable.stages.logging;
 
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.util.SimplePrintLoggerToRemoveSoon;
 
 import java.util.*;

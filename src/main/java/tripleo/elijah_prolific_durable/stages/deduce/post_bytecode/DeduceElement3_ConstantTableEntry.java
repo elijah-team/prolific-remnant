@@ -1,16 +1,10 @@
 package tripleo.elijah_prolific_durable.stages.deduce.post_bytecode;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah_prolific_durable.diagnostic.Diagnostic;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.deduce.*;
-import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.DED.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.DED.DED_CTE;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.instructions.IdentIA;
 import tripleo.elijah_prolific_durable.util.NotImplementedException;

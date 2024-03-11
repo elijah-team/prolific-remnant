@@ -9,11 +9,9 @@
 
 package tripleo.elijah_prolific_durable.stages.gen_fn;
 
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
+import org.jdeferred2.DoneCallback;
+import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.lang.types.OS_UserType;
 

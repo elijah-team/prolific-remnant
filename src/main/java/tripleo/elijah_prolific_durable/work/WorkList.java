@@ -9,7 +9,7 @@
  */
 package tripleo.elijah_prolific_durable.work;
 
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableList;
 
 import java.util.*;
 

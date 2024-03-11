@@ -4,7 +4,7 @@
  */
 package tripleo.elijah_prolific_durable.nextgen.outputstatement;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Tripleo Nova

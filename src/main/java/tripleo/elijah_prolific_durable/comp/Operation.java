@@ -1,6 +1,5 @@
 package tripleo.elijah_prolific_durable.comp;
 
-import tripleo.elijah.nextgen.query.*;
 import tripleo.elijah_prolific_durable.nextgen.query.Mode;
 
 /**

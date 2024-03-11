@@ -10,12 +10,6 @@
 package tripleo.elijah_prolific_durable.stages.deduce;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.contexts.ClassContext;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.lang.types.*;

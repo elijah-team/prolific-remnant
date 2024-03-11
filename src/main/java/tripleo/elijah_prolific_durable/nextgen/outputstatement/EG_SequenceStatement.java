@@ -1,10 +1,9 @@
 package tripleo.elijah_prolific_durable.nextgen.outputstatement;
 
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.util.Helpers;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EG_SequenceStatement implements EG_Statement {
 	private final EG_Naming          naming;

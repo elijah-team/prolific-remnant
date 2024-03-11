@@ -10,6 +10,8 @@ import tripleo.elijah_prolific_durable.stages.logging.ElLog;
 
 import java.util.*;
 
+import static tripleo.elijah_prolific_durable.util.Helpers.List_of;
+
 public class SX_NodeTest extends TestCase {
 
 	public void testFullText() {
@@ -23,7 +25,7 @@ public class SX_NodeTest extends TestCase {
 		                          .addToCompilation()
 		                          .build();
 		final OutputFileFactoryParams p    = new OutputFileFactoryParams(mod, errSink, ElLog.Verbosity.SILENT, pipelineLogic);
-		final GenerateFiles           fgen = OutputFileFactory.create(CompilationAlways.defaultPrelude(), p);
+		final GenerateFiles           fgen = OutputFileFactory.create(Compilation.CompilationAlways.defaultPrelude(), p);
 
 		final SM_ClassDeclaration node = new SM_ClassDeclaration() {
 			@Override

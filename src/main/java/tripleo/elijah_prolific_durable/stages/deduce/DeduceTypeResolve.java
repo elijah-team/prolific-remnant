@@ -10,14 +10,8 @@
 package tripleo.elijah_prolific_durable.stages.deduce;
 
 import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
+import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.lang.types.OS_UserType;
 import tripleo.elijah_prolific_durable.lang2.AbstractCodeGen;

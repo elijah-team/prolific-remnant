@@ -2,7 +2,7 @@ package tripleo.elijah_prolific_durable.stages.gen_generic;
 
 import org.jetbrains.annotations.*;
 
-import java.util.function.*;
+import java.util.function.Consumer;
 
 public class DoubleLatch<T> {
 	private final @NotNull Consumer<T> action;

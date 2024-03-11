@@ -14,8 +14,7 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.comp.Compilation;
 
 public class ParserClosure extends ProgramClosure {

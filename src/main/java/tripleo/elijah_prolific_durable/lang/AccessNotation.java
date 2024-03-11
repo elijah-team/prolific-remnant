@@ -8,12 +8,10 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import antlr.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.util.*;
+import antlr.Token;
 import tripleo.elijah_prolific_durable.lang2.ElElementVisitor;
 import tripleo.elijah_prolific_durable.util.NotImplementedException;
-import tripleo.elijjah.*;
+import tripleo.elijjah.ElijjahTokenTypes;
 
 /**
  * Created 9/22/20 1:39 AM

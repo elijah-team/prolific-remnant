@@ -3,7 +3,7 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * @author Tripleo(sb)

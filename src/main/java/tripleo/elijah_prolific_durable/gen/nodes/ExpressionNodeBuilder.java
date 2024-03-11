@@ -15,17 +15,14 @@
 package tripleo.elijah_prolific_durable.gen.nodes;
 
 import antlr.*;
-import com.google.common.base.*;
-import com.google.common.collect.*;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.gen.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.gen.*;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.util.NotImplementedException;
 
-import java.util.*;
+import java.util.List;
 
 import static tripleo.elijah_prolific_durable.gen.TypeRef.*;
 

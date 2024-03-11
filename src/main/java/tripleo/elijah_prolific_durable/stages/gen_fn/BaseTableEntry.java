@@ -9,9 +9,6 @@
 package tripleo.elijah_prolific_durable.stages.gen_fn;
 
 import org.jdeferred2.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah_prolific_durable.diagnostic.Diagnostic;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.deduce.*;

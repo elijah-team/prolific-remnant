@@ -9,7 +9,6 @@
 package tripleo.elijah_prolific_durable.comp;
 
 import org.apache.commons.lang3.tuple.Pair;
-import tripleo.elijah.diagnostic.*;
 import tripleo.elijah_prolific_durable.diagnostic.Diagnostic;
 
 import java.util.List;

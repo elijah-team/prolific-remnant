@@ -1,19 +1,14 @@
 package tripleo.elijah_prolific_durable.stages.deduce;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.lang2.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.instructions.*;
 import tripleo.elijah_prolific_durable.util.NotImplementedException;
 
-import java.util.*;
-import java.util.regex.*;
+import java.util.List;
+import java.util.regex.Pattern;
 
 class Implement_Calls_ {
 	private final DeduceTypes2          deduceTypes2;

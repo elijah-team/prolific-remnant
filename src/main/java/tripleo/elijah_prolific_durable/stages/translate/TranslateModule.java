@@ -1,8 +1,5 @@
 package tripleo.elijah_prolific_durable.stages.translate;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
 import tripleo.elijah_prolific_durable.util.*;

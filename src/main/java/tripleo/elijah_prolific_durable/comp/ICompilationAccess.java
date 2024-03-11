@@ -1,11 +1,9 @@
 package tripleo.elijah_prolific_durable.comp;
 
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.logging.*;
 import tripleo.elijah_prolific_durable.stages.deduce.FunctionMapHook;
 import tripleo.elijah_prolific_durable.stages.logging.ElLog;
 
-import java.util.*;
+import java.util.List;
 
 public interface ICompilationAccess {
 	void setPipelineLogic(final PipelineLogic pl);

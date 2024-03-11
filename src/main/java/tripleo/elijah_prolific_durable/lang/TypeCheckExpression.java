@@ -8,8 +8,6 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.lang2.*;
 import tripleo.elijah_prolific_durable.lang.types.OS_BuiltinType;
 import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
 

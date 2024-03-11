@@ -9,7 +9,6 @@
 package tripleo.elijah_prolific_durable.lang;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang2.*;
 import tripleo.elijah_prolific_durable.lang2.ElElementVisitor;
 
 public interface OS_Element {

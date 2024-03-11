@@ -1,11 +1,10 @@
 package tripleo.elijah_prolific_durable.comp;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.ci.*;
 import tripleo.elijah_prolific_durable.ci.CompilerInstructions;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.Objects;
 
 public interface ILazyCompilerInstructions {
 	@Contract(value = "_ -> new", pure = true)

@@ -1,15 +1,12 @@
 package tripleo.elijah_prolific_durable.stages.deduce;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah_prolific.deduce.PRD_Instruction;
+import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.deduce.fluffy2.FluffyConstTableIA;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.instructions.*;
 import tripleo.elijah_prolific_durable.stages.logging.ElLog;
-import tripleo.elijah_prolific.deduce.*;
-import tripleo.elijah_prolific_durable.lang.*;
 
 class __WORK_deduce_generated_function_base {
 //	private final DeduceTypes2          deduceTypes2;

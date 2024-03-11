@@ -4,7 +4,6 @@
  */
 package tripleo.elijah_prolific_durable.nextgen.outputstatement;
 
-import tripleo.elijah.nextgen.small.*;
 import tripleo.elijah_prolific_durable.nextgen.small.*;
 
 /**

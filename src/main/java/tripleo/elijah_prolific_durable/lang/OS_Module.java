@@ -14,18 +14,11 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import antlr.*;
-import com.google.common.base.*;
-import com.google.common.collect.*;
+import antlr.Token;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import org.eclipse.jdt.annotation.Nullable;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.ci.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.entrypoints.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.stages.deduce.fluffy.i.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.ci.LibraryStatementPart;
 import tripleo.elijah_prolific_durable.comp.Compilation;
 import tripleo.elijah_prolific_durable.contexts.ModuleContext;

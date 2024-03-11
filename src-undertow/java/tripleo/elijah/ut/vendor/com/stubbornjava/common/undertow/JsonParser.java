@@ -2,7 +2,7 @@ package tripleo.elijah.ut.vendor.com.stubbornjava.common.undertow;
 
 import com.fasterxml.jackson.core.type.*;
 import io.undertow.server.*;
-import tripleo.elijah.ut.vendor.com.stubbornjava.common.*;
+import tripleo.elijah.ut.vendor.com.stubbornjava.common.Json;
 
 public interface JsonParser {
 

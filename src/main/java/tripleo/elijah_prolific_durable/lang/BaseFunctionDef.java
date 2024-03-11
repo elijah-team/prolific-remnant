@@ -8,9 +8,8 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import antlr.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.contexts.*;
+import antlr.Token;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.contexts.FunctionContext;
 
 import java.util.*;

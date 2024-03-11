@@ -8,9 +8,7 @@
  */
 package tripleo.elijah_prolific_durable.stages.gen_fn;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.lang.IExpression;
 import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.DeduceElement3_ConstantTableEntry;
 

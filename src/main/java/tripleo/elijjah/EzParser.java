@@ -5,7 +5,7 @@ package tripleo.elijjah;
 import antlr.*;
 import antlr.collections.impl.*;
 import tripleo.elijah_prolific_durable.ci.*;
-import tripleo.elijah.lang.*;
+import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.ci.IndexingStatement;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.lang.types.OS_BuiltinType;

@@ -14,12 +14,12 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+import java.io.File;
 import java.util.*;
 
-import static tripleo.elijah_prolific_durable.util.Helpers.*;
+import static tripleo.elijah_prolific_durable.util.Helpers.List_of;
 
 public class VariableTypeName extends AbstractTypeName implements NormalTypeName {
 

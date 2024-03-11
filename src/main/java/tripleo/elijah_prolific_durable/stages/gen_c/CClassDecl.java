@@ -8,14 +8,11 @@
  */
 package tripleo.elijah_prolific_durable.stages.gen_c;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.GeneratedClass;
 import tripleo.elijah_prolific_durable.util.*;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Created 12/24/20 7:42 AM

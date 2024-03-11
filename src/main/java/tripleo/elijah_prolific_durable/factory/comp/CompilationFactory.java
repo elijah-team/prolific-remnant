@@ -1,14 +1,11 @@
 package tripleo.elijah_prolific_durable.factory.comp;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.*;
-import tripleo.elijah.testing.comp.*;
 import tripleo.elijah_prolific_durable.comp.*;
 import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
 import tripleo.elijah_prolific_durable.testing.comp.IFunctionMapHook;
 
-import java.util.*;
+import java.util.List;
 
 public class CompilationFactory {
 

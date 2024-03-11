@@ -2,7 +2,7 @@ package tripleo.elijah.ut.vendor.com.stubbornjava.common.undertow;
 
 import io.undertow.server.*;
 import okhttp3.*;
-import tripleo.elijah.ut.vendor.com.stubbornjava.common.*;
+import tripleo.elijah.ut.vendor.com.stubbornjava.common.HttpUrls;
 
 public interface Urls {
 

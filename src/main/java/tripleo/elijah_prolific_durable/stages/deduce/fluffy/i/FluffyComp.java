@@ -1,11 +1,10 @@
 package tripleo.elijah_prolific_durable.stages.deduce.fluffy.i;
 
 import com.google.common.collect.*;
-import tripleo.elijah.lang.*;
 import tripleo.elijah_prolific_durable.lang.*;
 
 import java.util.*;
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
 public interface FluffyComp {
 	default void find_multiple_items(final OS_Module aModule) {

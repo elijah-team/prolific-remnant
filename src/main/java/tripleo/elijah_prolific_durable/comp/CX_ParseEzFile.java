@@ -1,10 +1,7 @@
 package tripleo.elijah_prolific_durable.comp;
 
 import antlr.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.ci.*;
-import tripleo.elijah.comp.specs.*;
-import tripleo.elijah.nextgen.query.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.ci.CompilerInstructions;
 import tripleo.elijah_prolific_durable.comp.specs.*;
 import tripleo.elijah_prolific_durable.nextgen.query.Mode;

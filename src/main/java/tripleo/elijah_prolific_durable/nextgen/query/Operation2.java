@@ -1,6 +1,5 @@
 package tripleo.elijah_prolific_durable.nextgen.query;
 
-import tripleo.elijah.diagnostic.*;
 import tripleo.elijah_prolific_durable.diagnostic.Diagnostic;
 
 /**

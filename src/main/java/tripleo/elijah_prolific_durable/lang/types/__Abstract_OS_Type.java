@@ -1,7 +1,5 @@
 package tripleo.elijah_prolific_durable.lang.types;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang2.*;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
 

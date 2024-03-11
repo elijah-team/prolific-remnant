@@ -1,10 +1,9 @@
 package tripleo.elijah_prolific_durable.test_help;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.lang.*;
 
-import java.util.function.*;
+import java.util.function.Consumer;
 
 public class BoilerplateModuleBuilder {
 	private final OS_Module mod;

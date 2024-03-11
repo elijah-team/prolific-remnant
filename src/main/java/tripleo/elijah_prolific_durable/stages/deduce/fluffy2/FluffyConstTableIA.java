@@ -1,13 +1,10 @@
 package tripleo.elijah_prolific_durable.stages.deduce.fluffy2;
 
 import org.jetbrains.annotations.NotNull;
+import tripleo.elijah_prolific.deduce.PRD_Instruction;
 import tripleo.elijah_prolific_durable.stages.deduce.DeduceTypes2;
-import tripleo.elijah_prolific_durable.stages.gen_fn.BaseGeneratedFunction;
-import tripleo.elijah_prolific_durable.stages.gen_fn.ConstantTableEntry;
-import tripleo.elijah_prolific_durable.stages.gen_fn.IdentTableEntry;
-import tripleo.elijah_prolific_durable.stages.gen_fn.VariableTableEntry;
+import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.instructions.ConstTableIA;
-import tripleo.elijah_prolific.deduce.*;
 
 public class FluffyConstTableIA {
     private final ConstTableIA          cta;

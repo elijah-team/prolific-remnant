@@ -1,7 +1,5 @@
 package tripleo.elijah_prolific_durable.stages.deduce.fluffy.i;
 
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.nextgen.composable.*;
 import tripleo.elijah_prolific_durable.diagnostic.Locatable;
 import tripleo.elijah_prolific_durable.nextgen.composable.IComposable;
 

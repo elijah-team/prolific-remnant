@@ -8,7 +8,6 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import tripleo.elijah.diagnostic.*;
 import tripleo.elijah_prolific_durable.diagnostic.Locatable;
 
 /**

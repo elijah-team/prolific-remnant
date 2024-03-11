@@ -1,17 +1,13 @@
 package tripleo.elijah_prolific_durable.lang.types;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.comp.ErrSink;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.deduce.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.GenType;
 
-import java.text.*;
-import java.util.*;
+import java.text.MessageFormat;
+import java.util.List;
 
 public class OS_UserClassType extends __Abstract_OS_Type {
 	private final ClassStatement _classStatement;

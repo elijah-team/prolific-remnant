@@ -8,8 +8,6 @@
  */
 package tripleo.elijah_prolific_durable.comp.functionality.f202;
 
-import tripleo.elijah.comp.*;
-import tripleo.elijah.stages.logging.*;
 import tripleo.elijah_prolific_durable.comp.ErrSink;
 import tripleo.elijah_prolific_durable.stages.logging.LogEntry;
 

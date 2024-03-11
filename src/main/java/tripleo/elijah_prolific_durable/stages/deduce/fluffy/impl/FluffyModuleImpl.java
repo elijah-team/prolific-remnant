@@ -1,17 +1,13 @@
 package tripleo.elijah_prolific_durable.stages.deduce.fluffy.impl;
 
-import tripleo.elijah.comp.*;
-import tripleo.elijah.entrypoints.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.fluffy.i.*;
 import tripleo.elijah_prolific_durable.comp.Compilation;
 import tripleo.elijah_prolific_durable.entrypoints.MainClassEntryPoint;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.deduce.fluffy.i.*;
 
 import java.util.*;
-import java.util.function.*;
-import java.util.stream.*;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public class FluffyModuleImpl implements FluffyModule {
 	private final OS_Module   module;

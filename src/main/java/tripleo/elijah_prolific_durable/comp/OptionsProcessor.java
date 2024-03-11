@@ -1,8 +1,8 @@
 package tripleo.elijah_prolific_durable.comp;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.List;
 
 //@FunctionalInterface
 public interface OptionsProcessor {

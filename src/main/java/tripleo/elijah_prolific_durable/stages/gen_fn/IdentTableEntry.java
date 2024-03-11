@@ -12,14 +12,8 @@ package tripleo.elijah.stages.gen_fn;
 //import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.deduce.zero.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific.deduce.PRD_Env;
 import tripleo.elijah_prolific.gen_fn.PRN_vteTrigger;
 

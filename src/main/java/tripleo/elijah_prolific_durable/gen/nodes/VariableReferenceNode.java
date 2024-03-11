@@ -8,9 +8,6 @@
  */
 package tripleo.elijah_prolific_durable.gen.nodes;
 
-import tripleo.elijah.gen.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.gen.CompilerContext;
 import tripleo.elijah_prolific_durable.lang.VariableReference;
 import tripleo.elijah_prolific_durable.util.NotImplementedException;

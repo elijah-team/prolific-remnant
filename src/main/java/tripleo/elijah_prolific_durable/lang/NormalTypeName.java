@@ -11,7 +11,7 @@ package tripleo.elijah_prolific_durable.lang;
 // Referenced classes of package pak2:
 //			TypeNameList
 
-import java.util.*;
+import java.util.Collection;
 
 public interface NormalTypeName extends TypeName, Resolvable {
 

@@ -9,7 +9,7 @@
 
 package tripleo.elijah_prolific_durable.stages.gen_fn;
 
-import tripleo.elijah_prolific.deduce.*;
+import tripleo.elijah_prolific.deduce.PRD_Env;
 import tripleo.elijah_prolific.gen_fn.PRN_vteTrigger;
 
 /**

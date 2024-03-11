@@ -1,9 +1,5 @@
 package tripleo.elijah_prolific_durable.test_help;
 
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.contexts.FunctionContext;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.deduce.DeduceTypeWatcher;

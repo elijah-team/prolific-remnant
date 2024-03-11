@@ -8,17 +8,8 @@
  */
 package tripleo.elijah_prolific_durable.stages.deduce;
 
-import org.jdeferred2.*;
+import org.jdeferred2.DoneCallback;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.work.*;
 import tripleo.elijah_prolific_durable.DebugFlags;
 import tripleo.elijah_prolific_durable.comp.ErrSink;
 import tripleo.elijah_prolific_durable.contexts.FunctionContext;
@@ -30,7 +21,7 @@ import tripleo.elijah_prolific_durable.stages.logging.ElLog;
 import tripleo.elijah_prolific_durable.util.*;
 import tripleo.elijah_prolific_durable.work.*;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Created 9/5/21 2:54 AM

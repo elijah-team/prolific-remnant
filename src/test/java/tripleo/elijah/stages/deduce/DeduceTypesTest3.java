@@ -11,13 +11,13 @@ package tripleo.elijah.stages.deduce;
 //import org.junit.Assert;
 //import org.junit.Before;
 //import org.junit.Test;
-//import tripleo.elijah.comp.Compilation;
-//import tripleo.elijah.comp.IO;
-//import tripleo.elijah.comp.StdErrSink;
-//import tripleo.elijah.contexts.FunctionContext;
-//import tripleo.elijah.contexts.ModuleContext;
-//import tripleo.elijah.lang.*;
-//import tripleo.elijah.util.Helpers;
+//import tripleo.elijah_prolific_durable.comp.Compilation;
+//import tripleo.elijah_prolific_durable.comp.IO;
+//import tripleo.elijah_prolific_durable.comp.StdErrSink;
+//import tripleo.elijah_prolific_durable.contexts.FunctionContext;
+//import tripleo.elijah_prolific_durable.contexts.ModuleContext;
+//import tripleo.elijah_prolific_durable.lang.*;
+//import tripleo.elijah_prolific_durable.util.Helpers;
 //
 
 /**

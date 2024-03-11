@@ -1,10 +1,5 @@
 package tripleo.elijah_prolific_durable.world.impl;
 
-import tripleo.elijah.entrypoints.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.world.i.*;
 import tripleo.elijah_prolific_durable.entrypoints.MainClassEntryPoint;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;

@@ -1,6 +1,5 @@
 package tripleo.elijah_prolific_durable.stages.deduce;
 
-import tripleo.elijah.stages.deduce.post_bytecode.*;
 import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.*;
 
 public interface IStateRunnable extends Stateful {

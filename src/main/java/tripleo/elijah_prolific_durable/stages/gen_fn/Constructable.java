@@ -9,7 +9,7 @@
 
 package tripleo.elijah_prolific_durable.stages.gen_fn;
 
-import org.jdeferred2.*;
+import org.jdeferred2.Promise;
 
 /**
  * Created 4/13/21 11:43 AM

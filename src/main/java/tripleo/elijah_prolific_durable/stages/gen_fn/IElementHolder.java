@@ -8,7 +8,6 @@
  */
 package tripleo.elijah_prolific_durable.stages.gen_fn;
 
-import tripleo.elijah.lang.*;
 import tripleo.elijah_prolific_durable.lang.OS_Element;
 
 /**

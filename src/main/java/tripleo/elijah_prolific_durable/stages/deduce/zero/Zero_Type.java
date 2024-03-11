@@ -1,7 +1,6 @@
 package tripleo.elijah_prolific_durable.stages.deduce.zero;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jetbrains.annotations.Contract;
 import tripleo.elijah_prolific_durable.stages.gen_fn.GenType;
 
 class Zero_Type {

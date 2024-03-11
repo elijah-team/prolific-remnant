@@ -1,9 +1,8 @@
 package tripleo.elijah_prolific_durable.comp;
 
-import tripleo.elijah.stages.deduce.post_bytecode.*;
 import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.Maybe;
 
-import java.io.*;
+import java.io.File;
 
 public class CompilerInput {
 	private final String                           inp;

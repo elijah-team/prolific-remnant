@@ -1,15 +1,12 @@
 package tripleo.elijah_prolific_durable.entrypoints;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.work.*;
 import tripleo.elijah_prolific_durable.stages.deduce.DeducePhase;
 import tripleo.elijah_prolific_durable.stages.gen_fn.GenerateFunctions;
 import tripleo.elijah_prolific_durable.work.*;
 
 import java.util.*;
-import java.util.function.*;
+import java.util.function.Supplier;
 
 public class EntryPointList {
 

@@ -1,10 +1,6 @@
 package tripleo.elijah_prolific_durable.stages.deduce.fluffy.impl;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.internal.*;
-import tripleo.elijah.entrypoints.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.fluffy.i.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
 import tripleo.elijah_prolific_durable.entrypoints.MainClassEntryPoint;
 import tripleo.elijah_prolific_durable.lang.*;

@@ -9,11 +9,7 @@
  */
 package tripleo.elijah_prolific_durable.nextgen;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.composable.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.lang.ClassStatement;
 import tripleo.elijah_prolific_durable.nextgen.composable.IComposable;
 import tripleo.elijah_prolific_durable.stages.deduce.ClassInvocation;

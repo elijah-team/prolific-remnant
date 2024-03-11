@@ -17,8 +17,7 @@ import tripleo.elijah_prolific_durable.DebugFlags;
 import tripleo.elijah_prolific_durable.diagnostic.Diagnostic;
 import tripleo.elijah_prolific_durable.util.SimplePrintLoggerToRemoveSoon;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author tripleo(sb)

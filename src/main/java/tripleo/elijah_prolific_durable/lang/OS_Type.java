@@ -1,6 +1,5 @@
 package tripleo.elijah_prolific_durable.lang;
 
-import tripleo.elijah.lang2.*;
 import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
 
 public interface OS_Type {

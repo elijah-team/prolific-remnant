@@ -1,9 +1,5 @@
 package tripleo.elijah_prolific_durable.stages.deduce.zero;
 
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.lang.OS_Type;
 import tripleo.elijah_prolific_durable.stages.deduce.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.GenType;

@@ -8,8 +8,6 @@
  */
 package tripleo.elijah_prolific_durable;
 
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.*;
 import tripleo.elijah_prolific_durable.comp.*;
 import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
 

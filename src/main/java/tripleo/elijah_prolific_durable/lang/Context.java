@@ -9,8 +9,6 @@
 package tripleo.elijah_prolific_durable.lang;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.contexts.*;
 import tripleo.elijah_prolific_durable.comp.Compilation;
 import tripleo.elijah_prolific_durable.contexts.ModuleContext;
 

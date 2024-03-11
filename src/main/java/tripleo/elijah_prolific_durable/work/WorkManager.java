@@ -8,7 +8,7 @@
  */
 package tripleo.elijah_prolific_durable.work;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 

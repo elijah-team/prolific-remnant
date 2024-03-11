@@ -3,26 +3,18 @@ package tripleo.elijah_prolific_durable.comp;
 import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.ci.CompilerInstructions;
 import tripleo.elijah_prolific_durable.comp.caches.DefaultEzCache;
-import tripleo.elijah_prolific_durable.comp.diagnostic.TooManyEz_ActuallyNone;
-import tripleo.elijah_prolific_durable.comp.diagnostic.TooManyEz_BeSpecific;
-import tripleo.elijah_prolific_durable.comp.i.IProgressSink;
-import tripleo.elijah_prolific_durable.comp.i.ProgressSinkComponent;
-import tripleo.elijah_prolific_durable.comp.internal.DefaultProgressSink;
-import tripleo.elijah_prolific_durable.comp.internal.ProcessRecord;
-import tripleo.elijah_prolific_durable.comp.specs.EzCache;
-import tripleo.elijah_prolific_durable.comp.specs.EzSpec;
+import tripleo.elijah_prolific_durable.comp.diagnostic.*;
+import tripleo.elijah_prolific_durable.comp.i.*;
+import tripleo.elijah_prolific_durable.comp.internal.*;
+import tripleo.elijah_prolific_durable.comp.specs.*;
 import tripleo.elijah_prolific_durable.diagnostic.Diagnostic;
-import tripleo.elijah_prolific_durable.nextgen.query.Mode;
-import tripleo.elijah_prolific_durable.nextgen.query.Operation2;
+import tripleo.elijah_prolific_durable.nextgen.query.*;
 import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.Maybe;
 import tripleo.elijah_prolific_durable.util.Helpers;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.text.MessageFormat;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class CompilationRunner {

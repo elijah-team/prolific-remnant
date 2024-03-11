@@ -1,16 +1,10 @@
 package tripleo.elijah_prolific_durable.stages.deduce.post_bytecode;
 
-import org.jdeferred2.*;
+import org.jdeferred2.DoneCallback;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.query.*;
-import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.nextgen.query.Operation2;
 import tripleo.elijah_prolific_durable.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.instructions.IdentIA;
 import tripleo.elijah_prolific_durable.util.*;

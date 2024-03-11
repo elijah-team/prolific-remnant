@@ -9,20 +9,15 @@
  */
 package tripleo.elijah_prolific_durable.nextgen.diagnostic;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.nextgen.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.diagnostic.*;
 import tripleo.elijah_prolific_durable.nextgen.ClassDefinition;
 import tripleo.elijah_prolific_durable.stages.deduce.ClassInvocation;
 import tripleo.elijah_prolific_durable.stages.gen_fn.GenerateFunctions;
 import tripleo.elijah_prolific_durable.util.NotImplementedException;
 
-import java.io.*;
-import java.util.*;
+import java.io.PrintStream;
+import java.util.List;
 
 /**
  * Created 3/5/22 4:55 PM

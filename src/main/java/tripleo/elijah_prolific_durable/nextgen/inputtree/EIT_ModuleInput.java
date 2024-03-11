@@ -1,13 +1,6 @@
 package tripleo.elijah_prolific_durable.nextgen.inputtree;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.ci.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.work.*;
 import tripleo.elijah_prolific_durable.ci.*;
 import tripleo.elijah_prolific_durable.comp.*;
 import tripleo.elijah_prolific_durable.lang.OS_Module;
@@ -16,8 +9,8 @@ import tripleo.elijah_prolific_durable.stages.gen_generic.*;
 import tripleo.elijah_prolific_durable.stages.logging.ElLog;
 import tripleo.elijah_prolific_durable.work.WorkManager;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class EIT_ModuleInput implements EIT_Input {
 	private final OS_Module   module;

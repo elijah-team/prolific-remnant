@@ -1,23 +1,16 @@
 package tripleo.elijah_prolific_durable.stages.deduce;
 
-import io.reactivex.rxjava3.annotations.*;
-import io.reactivex.rxjava3.subjects.*;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.subjects.Subject;
 import org.jdeferred2.*;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.*;
-import tripleo.elijah_prolific_durable.nextgen.ClassDefinition;
-import tripleo.elijah_prolific_durable.stages.gen_fn.*;
-import tripleo.elijah_prolific_durable.util.Eventual;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah_prolific_durable.util.EventualExtract;
-import tripleo.elijah.work.*;
-import tripleo.elijah_prolific.eva.*;
+import tripleo.elijah_prolific.eva.PR_EvaFactory;
 import tripleo.elijah_prolific.util.PRU_ObserverAdapter;
 import tripleo.elijah_prolific_durable.diagnostic.Diagnostic;
 import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.nextgen.ClassDefinition;
+import tripleo.elijah_prolific_durable.stages.gen_fn.*;
+import tripleo.elijah_prolific_durable.util.*;
 import tripleo.elijah_prolific_durable.work.*;
 
 public class Dependencies {

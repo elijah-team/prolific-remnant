@@ -1,15 +1,13 @@
 package tripleo.elijah_prolific_durable.stages.deduce;
 
-import com.google.common.base.*;
+import com.google.common.base.Predicate;
 import com.google.common.collect.*;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.util.*;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created 8/3/20 8:41 AM

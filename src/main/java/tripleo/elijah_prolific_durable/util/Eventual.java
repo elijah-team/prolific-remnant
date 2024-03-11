@@ -1,9 +1,8 @@
 package tripleo.elijah_prolific_durable.util;
 
 import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
+import org.jdeferred2.impl.DeferredObject;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.diagnostic.Diagnostic;
 
 public class Eventual<P> {

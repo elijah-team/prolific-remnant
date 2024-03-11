@@ -8,11 +8,10 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import antlr.*;
-import tripleo.elijah.diagnostic.*;
+import antlr.Token;
 import tripleo.elijah_prolific_durable.diagnostic.Locatable;
 
-import java.io.*;
+import java.io.File;
 import java.util.*;
 
 /*

@@ -1,6 +1,5 @@
 package tripleo.elijah_prolific_durable.lang;
 
-import tripleo.elijah.lang2.*;
 import tripleo.elijah_prolific_durable.lang2.ElElementVisitor;
 
 public class StatementWrapper implements StatementItem, FunctionItem, OS_Element {

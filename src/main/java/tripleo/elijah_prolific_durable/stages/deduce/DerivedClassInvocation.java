@@ -9,7 +9,6 @@
  */
 package tripleo.elijah_prolific_durable.stages.deduce;
 
-import tripleo.elijah.lang.*;
 import tripleo.elijah_prolific_durable.lang.ClassStatement;
 
 /**

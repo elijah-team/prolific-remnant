@@ -8,9 +8,8 @@
  */
 package tripleo.elijah_prolific_durable.stages.instructions;
 
-import org.jdeferred2.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jdeferred2.Promise;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 
 /**

@@ -1,6 +1,6 @@
 package tripleo.elijah_prolific_durable.comp;
 
-import java.util.*;
+import java.util.List;
 
 public interface ICompilationBus {
 	void option(CompilationChange aChange);

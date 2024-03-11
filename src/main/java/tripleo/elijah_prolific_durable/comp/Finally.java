@@ -1,7 +1,6 @@
 package tripleo.elijah_prolific_durable.comp;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.nextgen.outputtree.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.nextgen.outputtree.EOT_OutputFile;
 
 import java.util.*;

@@ -2,21 +2,15 @@ package tripleo.elijah_prolific_durable.stages.deduce.fluffy2;
 
 import org.jdeferred2.DoneCallback;
 import org.jetbrains.annotations.*;
-import tripleo.elijah_prolific_durable.stages.gen_fn.*;
-import tripleo.elijah_prolific_durable.stages.instructions.*;
-import tripleo.elijah_prolific_durable.util.Eventual;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah_prolific_durable.util.NotImplementedException;
-import tripleo.elijah_prolific.deduce.*;
+import tripleo.elijah_prolific.deduce.PRD_Instruction;
 import tripleo.elijah_prolific.v.V;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.lang.types.*;
+import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
 import tripleo.elijah_prolific_durable.stages.deduce.*;
+import tripleo.elijah_prolific_durable.stages.gen_fn.*;
+import tripleo.elijah_prolific_durable.stages.instructions.*;
+import tripleo.elijah_prolific_durable.util.*;
 
 import java.util.*;
 

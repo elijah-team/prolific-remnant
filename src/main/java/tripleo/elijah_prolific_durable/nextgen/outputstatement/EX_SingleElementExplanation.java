@@ -1,7 +1,6 @@
 package tripleo.elijah_prolific_durable.nextgen.outputstatement;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
 import tripleo.elijah_prolific_durable.lang.OS_Element;
 
 public class EX_SingleElementExplanation implements EX_Explanation {

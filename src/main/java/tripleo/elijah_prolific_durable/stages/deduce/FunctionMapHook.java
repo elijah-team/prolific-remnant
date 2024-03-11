@@ -8,7 +8,6 @@
  */
 package tripleo.elijah_prolific_durable.stages.deduce;
 
-import tripleo.elijah.testing.comp.*;
 import tripleo.elijah_prolific_durable.testing.comp.IFunctionMapHook;
 
 /**

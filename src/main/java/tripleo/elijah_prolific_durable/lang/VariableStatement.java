@@ -9,14 +9,11 @@
 package tripleo.elijah_prolific_durable.lang;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah_prolific_durable.diagnostic.Locatable;
 import tripleo.elijah_prolific_durable.lang2.ElElementVisitor;
 import tripleo.elijah_prolific_durable.stages.deduce.DeduceTypeWatcher;
 
-import java.io.*;
+import java.io.File;
 import java.util.*;
 
 // Referenced classes of package pak:

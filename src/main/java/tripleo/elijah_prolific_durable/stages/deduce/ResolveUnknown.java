@@ -8,12 +8,11 @@
  */
 package tripleo.elijah_prolific_durable.stages.deduce;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.diagnostic.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.PrintStream;
+import java.util.List;
 
 /**
  * Created 9/9/21 6:25 AM

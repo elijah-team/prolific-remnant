@@ -1,10 +1,9 @@
 package tripleo.elijah_prolific_durable.nextgen.outputstatement;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.util.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.util.Helpers;
 
-import java.util.*;
+import java.util.List;
 
 public class EG_DottedStatement implements EG_Statement {
 	private final String         separator;

@@ -1,16 +1,12 @@
 package tripleo.elijah_prolific_durable.stages.gen_c;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.instructions.*;
 import tripleo.elijah_prolific_durable.util.*;
 
-import java.util.*;
+import java.util.List;
 
 class CReference_getIdentIAPath_IdentIAHelper {
 	private final InstructionArgument   ia_next;

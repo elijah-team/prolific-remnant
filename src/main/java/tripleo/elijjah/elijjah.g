@@ -5,12 +5,12 @@ header {
 {
 import java.util.List;
 import java.util.ArrayList;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.builder.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.imports.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.*;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.lang.builder.*;
+import tripleo.elijah_prolific_durable.contexts.*;
+import tripleo.elijah_prolific_durable.lang.imports.*;
+import tripleo.elijah_prolific_durable.lang2.*;
+import tripleo.elijah_prolific_durable.*;
 }
 
 class ElijjahParser extends Parser;

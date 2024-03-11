@@ -1,7 +1,5 @@
 package tripleo.elijah_prolific_durable.gen;
 
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
 import tripleo.elijah_prolific_durable.contexts.ClassContext;
 import tripleo.elijah_prolific_durable.lang.*;
 

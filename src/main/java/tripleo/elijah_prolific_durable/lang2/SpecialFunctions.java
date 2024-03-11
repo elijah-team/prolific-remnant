@@ -9,8 +9,6 @@
 package tripleo.elijah_prolific_durable.lang2;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.lang.ExpressionKind;
 import tripleo.elijah_prolific_durable.util.SimplePrintLoggerToRemoveSoon;
 

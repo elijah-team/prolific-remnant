@@ -1,17 +1,9 @@
 package tripleo.elijah_prolific_durable.stages.deduce;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.jdeferred2.*;
+import org.jdeferred2.DoneCallback;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah_prolific.deduce.PRD_Env;
-import tripleo.elijah_prolific.deduce.PRD_Instruction;
-import tripleo.elijah_prolific.deduce.PRD_vteTrigger_do_assign_call;
+import tripleo.elijah_prolific.deduce.*;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.lang.types.*;
 import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
@@ -19,7 +11,7 @@ import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.instructions.*;
 import tripleo.elijah_prolific_durable.util.NotImplementedException;
 
-import java.util.*;
+import java.util.List;
 
 class Do_assign_call {
 	private final DeduceTypes2 deduceTypes2;

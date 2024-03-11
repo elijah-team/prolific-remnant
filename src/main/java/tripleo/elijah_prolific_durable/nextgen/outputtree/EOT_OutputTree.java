@@ -4,12 +4,11 @@
  */
 package tripleo.elijah_prolific_durable.nextgen.outputtree;
 
-import tripleo.elijah.nextgen.outputstatement.*;
 import tripleo.elijah_prolific.v.V;
 import tripleo.elijah_prolific_durable.nextgen.outputstatement.EG_Statement;
 
-import java.nio.file.*;
-import java.util.*;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**

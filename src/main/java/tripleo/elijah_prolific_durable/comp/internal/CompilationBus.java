@@ -1,9 +1,8 @@
 package tripleo.elijah_prolific_durable.comp.internal;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah_prolific_durable.ci.CompilerInstructions;
-import tripleo.elijah.comp.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific.v.V;
+import tripleo.elijah_prolific_durable.ci.CompilerInstructions;
 import tripleo.elijah_prolific_durable.comp.*;
 
 public class CompilationBus implements ICompilationBus {

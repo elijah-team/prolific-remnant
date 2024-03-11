@@ -1,6 +1,5 @@
 package tripleo.elijah_prolific_durable.comp.internal;
 
-import tripleo.elijah.comp.i.*;
 import tripleo.elijah_prolific_durable.comp.i.*;
 
 public class DefaultProgressSink implements IProgressSink {

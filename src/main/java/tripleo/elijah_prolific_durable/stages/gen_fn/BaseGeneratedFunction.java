@@ -8,22 +8,15 @@
  */
 package tripleo.elijah_prolific_durable.stages.gen_fn;
 
-import tripleo.elijah_prolific_durable.stages.deduce.OnGenClass;
-import org.jdeferred2.*;
-import org.jdeferred2.impl.*;
+import org.jdeferred2.DoneCallback;
+import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.world.i.*;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.deduce.*;
 import tripleo.elijah_prolific_durable.stages.gen_generic.*;
 import tripleo.elijah_prolific_durable.stages.instructions.*;
 import tripleo.elijah_prolific_durable.util.*;
 import tripleo.elijah_prolific_durable.world.i.LivingFunction;
-import tripleo.elijah.stages.deduce.*;
 import tripleo.util.range.Range;
 
 import java.util.*;

@@ -1,14 +1,6 @@
 package tripleo.elijah_prolific_durable.comp;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.ci.*;
-import tripleo.elijah.comp.caches.*;
-import tripleo.elijah.comp.diagnostic.*;
-import tripleo.elijah.comp.specs.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.query.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific.v.V;
 import tripleo.elijah_prolific_durable.ci.*;
 import tripleo.elijah_prolific_durable.comp.caches.DefaultElijahCache;
@@ -20,8 +12,8 @@ import tripleo.elijah_prolific_durable.nextgen.query.*;
 import tripleo.elijah_prolific_durable.util.Helpers;
 
 import java.io.*;
-import java.util.*;
-import java.util.regex.*;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 @SuppressWarnings("UnnecessaryLocalVariable")
 class USE {

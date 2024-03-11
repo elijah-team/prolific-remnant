@@ -1,13 +1,6 @@
 package tripleo.elijah_prolific_durable.stages.deduce.post_bytecode;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific.deduce.DT_Element3;
 import tripleo.elijah_prolific.v.V;
 import tripleo.elijah_prolific_durable.comp.ErrSink;

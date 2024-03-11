@@ -8,8 +8,6 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.world.*;
 import tripleo.elijah_prolific_durable.contexts.PackageContext;
 import tripleo.elijah_prolific_durable.world.WorldGlobals;
 

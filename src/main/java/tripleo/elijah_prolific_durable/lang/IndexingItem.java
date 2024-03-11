@@ -11,7 +11,7 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import antlr.*;
+import antlr.Token;
 
 /**
  * @author Tripleo(sb)

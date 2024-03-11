@@ -8,7 +8,6 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import tripleo.elijah.gen.*;
 import tripleo.elijah_prolific_durable.gen.Node;
 
 /*

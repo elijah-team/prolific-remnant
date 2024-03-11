@@ -8,18 +8,14 @@
  */
 package tripleo.elijah_prolific_durable.stages.instructions;
 
-import com.google.common.base.*;
-import com.google.common.collect.*;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.stages.deduce.DeduceTypes2;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.util.Helpers;
 
 import java.util.*;
-import java.util.Optional;
 
 /**
  * Created 9/10/20 3:36 PM

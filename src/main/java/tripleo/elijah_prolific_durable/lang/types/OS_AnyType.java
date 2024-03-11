@@ -9,9 +9,7 @@
 package tripleo.elijah_prolific_durable.lang.types;
 
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang2.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
 

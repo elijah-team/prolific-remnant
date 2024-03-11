@@ -8,12 +8,10 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang2.*;
 import tripleo.elijah_prolific_durable.contexts.ImportContext;
 import tripleo.elijah_prolific_durable.lang2.ElElementVisitor;
 
-import java.util.*;
+import java.util.List;
 
 public interface ImportStatement extends ModuleItem, ClassItem, StatementItem {
 

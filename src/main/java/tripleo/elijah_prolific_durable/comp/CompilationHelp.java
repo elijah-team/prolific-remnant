@@ -8,10 +8,9 @@
  */
 package tripleo.elijah_prolific_durable.comp;
 
-import com.google.common.base.*;
+import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.*;
 import tripleo.elijah_prolific_durable.DebugFlags;
-import tripleo.elijah.comp.internal.*;
 import tripleo.elijah_prolific_durable.comp.internal.ProcessRecord;
 import tripleo.vendor.mal.*;
 

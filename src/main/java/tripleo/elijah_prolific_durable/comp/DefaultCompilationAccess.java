@@ -1,11 +1,7 @@
 package tripleo.elijah_prolific_durable.comp;
 
 import com.google.common.collect.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.functionality.f202.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.logging.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.comp.functionality.f202.F202;
 import tripleo.elijah_prolific_durable.stages.deduce.FunctionMapHook;
 import tripleo.elijah_prolific_durable.stages.gen_fn.DeferredObject2;

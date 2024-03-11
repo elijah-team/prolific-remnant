@@ -3,7 +3,7 @@ package tripleo.elijah_prolific_durable.comp;
 import org.apache.commons.cli.*;
 import org.jetbrains.annotations.*;
 
-import java.util.*;
+import java.util.List;
 
 public class ApacheOptionsProcessor implements OptionsProcessor {
 	final Options           options = new Options();

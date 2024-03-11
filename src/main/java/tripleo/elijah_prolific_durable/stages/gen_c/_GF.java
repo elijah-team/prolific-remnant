@@ -1,12 +1,6 @@
 package tripleo.elijah_prolific_durable.stages.gen_c;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.outputstatement.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.util.*;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.nextgen.outputstatement.*;
 import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.*;
@@ -14,7 +8,7 @@ import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 import tripleo.elijah_prolific_durable.stages.instructions.*;
 import tripleo.elijah_prolific_durable.util.*;
 
-import java.util.*;
+import java.util.List;
 
 public class _GF {
 	@Contract("null, _ -> fail")

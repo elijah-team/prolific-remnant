@@ -12,11 +12,10 @@
 package tripleo.elijah_prolific_durable.lang;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.contexts.*;
 import tripleo.elijah_prolific_durable.contexts.ContextInfo;
 
 import java.util.*;
-import java.util.function.*;
+import java.util.function.Predicate;
 
 /**
  * @author Tripleo(sb)

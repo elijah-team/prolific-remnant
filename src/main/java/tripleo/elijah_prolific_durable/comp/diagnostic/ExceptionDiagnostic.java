@@ -1,11 +1,10 @@
 package tripleo.elijah_prolific_durable.comp.diagnostic;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.diagnostic.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.PrintStream;
+import java.util.List;
 
 public class ExceptionDiagnostic implements Diagnostic {
 	private final Exception e;

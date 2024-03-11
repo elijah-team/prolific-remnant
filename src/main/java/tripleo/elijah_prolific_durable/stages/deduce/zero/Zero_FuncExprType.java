@@ -1,10 +1,6 @@
 package tripleo.elijah_prolific_durable.stages.deduce.zero;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.lang.BaseFunctionDef;
 import tripleo.elijah_prolific_durable.lang.types.OS_FuncExprType;
 import tripleo.elijah_prolific_durable.stages.deduce.*;

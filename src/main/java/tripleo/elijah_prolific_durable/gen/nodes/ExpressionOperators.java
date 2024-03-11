@@ -11,7 +11,7 @@
  */
 package tripleo.elijah_prolific_durable.gen.nodes;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Tripleo(sb)

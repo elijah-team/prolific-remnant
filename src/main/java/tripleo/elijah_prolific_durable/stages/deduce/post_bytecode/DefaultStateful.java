@@ -1,6 +1,6 @@
 package tripleo.elijah_prolific_durable.stages.deduce.post_bytecode;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class DefaultStateful implements Stateful {
 	private State _state;

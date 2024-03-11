@@ -8,14 +8,8 @@
  */
 package tripleo.elijah_prolific_durable.comp;
 
-import com.google.common.base.*;
-import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.inputtree.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.work.*;
+import com.google.common.base.Preconditions;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.lang.OS_Module;
 import tripleo.elijah_prolific_durable.nextgen.inputtree.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.GeneratedNode;
@@ -23,8 +17,8 @@ import tripleo.elijah_prolific_durable.stages.gen_generic.GenerateResult;
 import tripleo.elijah_prolific_durable.stages.logging.ElLog;
 import tripleo.elijah_prolific_durable.work.WorkManager;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created 8/21/21 10:16 PM

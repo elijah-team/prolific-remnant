@@ -1,8 +1,6 @@
 package tripleo.elijah_prolific_durable.stages.gen_c;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.nextgen.outputstatement.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.nextgen.outputstatement.EX_Explanation;
 import tripleo.elijah_prolific_durable.stages.deduce.post_bytecode.DeduceElement3_ProcTableEntry;
 

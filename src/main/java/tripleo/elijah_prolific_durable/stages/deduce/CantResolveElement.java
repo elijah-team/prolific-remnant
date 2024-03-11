@@ -1,13 +1,11 @@
 package tripleo.elijah_prolific_durable.stages.deduce;
 
-import org.jetbrains.annotations.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.stages.gen_fn.*;
+import org.jetbrains.annotations.NotNull;
 import tripleo.elijah_prolific_durable.diagnostic.*;
 import tripleo.elijah_prolific_durable.stages.gen_fn.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.PrintStream;
+import java.util.List;
 
 public class CantResolveElement implements Diagnostic {
 	private final String                message;

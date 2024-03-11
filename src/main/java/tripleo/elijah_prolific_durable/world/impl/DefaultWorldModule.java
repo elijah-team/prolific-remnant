@@ -1,15 +1,10 @@
 package tripleo.elijah_prolific_durable.world.impl;
 
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.nextgen.inputtree.*;
-import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah_prolific_durable.comp.CompilationEnclosure;
+import tripleo.elijah_prolific_durable.lang.OS_Module;
 import tripleo.elijah_prolific_durable.nextgen.inputtree.EIT_ModuleInput;
 import tripleo.elijah_prolific_durable.stages.deduce.DeducePhase;
 import tripleo.elijah_prolific_durable.util.Eventual;
-import tripleo.elijah.world.i.*;
-import tripleo.elijah_prolific_durable.lang.OS_Module;
 import tripleo.elijah_prolific_durable.world.i.WorldModule;
 
 public class DefaultWorldModule implements WorldModule {

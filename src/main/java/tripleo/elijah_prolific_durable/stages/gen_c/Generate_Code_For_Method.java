@@ -9,23 +9,8 @@
 package tripleo.elijah_prolific_durable.stages.gen_c;
 
 import com.google.common.base.*;
-import com.google.common.collect.*;
+import com.google.common.collect.Collections2;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.ci.*;
-import tripleo.elijah.diagnostic.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.nextgen.outputstatement.*;
-import tripleo.elijah.nextgen.query.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.deduce.post_bytecode.*;
-import tripleo.elijah.stages.gen_c.c_ast1.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.gen_generic.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.*;
-import tripleo.elijah.util.*;
-import tripleo.elijah.work.*;
 import tripleo.elijah_prolific_durable.ci.LibraryStatementPart;
 import tripleo.elijah_prolific_durable.diagnostic.*;
 import tripleo.elijah_prolific_durable.lang.*;
@@ -41,11 +26,11 @@ import tripleo.elijah_prolific_durable.stages.instructions.*;
 import tripleo.elijah_prolific_durable.stages.logging.ElLog;
 import tripleo.elijah_prolific_durable.util.*;
 import tripleo.elijah_prolific_durable.work.WorkList;
-import tripleo.util.buffer.*;
+import tripleo.util.buffer.Buffer;
 
-import java.io.*;
+import java.io.PrintStream;
 import java.util.*;
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
 /**
  * Created 6/21/21 5:53 AM
@@ -507,14 +492,14 @@ public class Generate_Code_For_Method {
 			final GCFM_Diagnostic diag  = (GCFM_Diagnostic) diag_;
 
 			switch (diag.severity()) {
-			case Diagnostic.Severity.INFO:
+			case INFO:
 				LOG.info(diag._message());
 				break;
-			case Diagnostic.Severity.ERROR:
+			case ERROR:
 				LOG.err(diag._message());
 				break;
-			case Diagnostic.Severity.LINT:
-			case Diagnostic.Severity.WARN:
+			case LINT:
+			case WARN:
 			default:
 				throw new NotImplementedException();
 			}

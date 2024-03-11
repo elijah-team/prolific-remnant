@@ -8,12 +8,10 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import antlr.*;
+import antlr.Token;
 import com.google.common.base.*;
-import com.google.common.collect.*;
+import com.google.common.collect.Collections2;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang2.*;
 import tripleo.elijah_prolific_durable.contexts.SyntacticBlockContext;
 import tripleo.elijah_prolific_durable.lang2.ElElementVisitor;
 

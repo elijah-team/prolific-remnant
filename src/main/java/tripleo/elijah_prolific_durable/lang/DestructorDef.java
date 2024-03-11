@@ -8,8 +8,6 @@
  */
 package tripleo.elijah_prolific_durable.lang;
 
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang2.*;
 import tripleo.elijah_prolific_durable.contexts.FunctionContext;
 import tripleo.elijah_prolific_durable.lang2.ElElementVisitor;
 

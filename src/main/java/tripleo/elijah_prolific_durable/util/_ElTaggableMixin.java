@@ -2,8 +2,7 @@ package tripleo.elijah_prolific_durable.util;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public abstract class _ElTaggableMixin implements _ElTaggable {
     private final Map<Object, Object> exts = new HashMap<>();

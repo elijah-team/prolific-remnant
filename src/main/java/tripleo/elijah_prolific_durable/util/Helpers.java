@@ -9,19 +9,17 @@
 package tripleo.elijah_prolific_durable.util;
 
 import antlr.*;
-import org.apache.commons.codec.digest.*;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.lang.*;
 import tripleo.elijah_prolific_durable.comp.ErrSink;
 import tripleo.elijah_prolific_durable.lang.*;
-import tripleo.elijjah.*;
+import tripleo.elijjah.ElijjahTokenTypes;
 
 import java.io.*;
 import java.security.*;
 import java.util.*;
 
-import static org.apache.commons.codec.digest.MessageDigestAlgorithms.*;
+import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_256;
 
 /**
  * Created 9/10/20 3:44 PM

@@ -8,10 +8,8 @@
  */
 package tripleo.elijah_prolific_durable.stages.gen_fn;
 
-import org.jdeferred2.*;
+import org.jdeferred2.Promise;
 import org.jetbrains.annotations.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
 import tripleo.elijah_prolific.eva.PR_GeneratedFunction;
 import tripleo.elijah_prolific_durable.lang.*;
 import tripleo.elijah_prolific_durable.stages.deduce.*;
