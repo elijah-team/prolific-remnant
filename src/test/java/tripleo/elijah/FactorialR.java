@@ -9,17 +9,15 @@
 package tripleo.elijah;
 
 import org.jetbrains.annotations.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.gen.*;
-import tripleo.elijah.gen.nodes.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.util.*;
+import tripleo.elijah_prolific_durable.comp.GenBuffer;
+import tripleo.elijah_prolific_durable.gen.*;
+import tripleo.elijah_prolific_durable.gen.nodes.*;
+import tripleo.elijah_prolific_durable.lang.NumericExpression;
+import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
+import tripleo.elijah_prolific_durable.util.NotImplementedException;
 import tripleo.util.buffer.*;
 
 import java.util.*;
-
-import static tripleo.elijah.util.Helpers.*;
 
 /**
  * @author Tripleo(sb)
@@ -86,7 +84,7 @@ public class FactorialR /* extends TestCase */ {
 		gbn.GenImportStmt(cctx, impn);
 
 		final ClassDeclNode cdn = new ClassDeclNode("Main", null,
-		  List_of(new Inherited("Arguments", false))); // gen inh code
+				tripleo.elijah_prolific_durable.util.Helpers.List_of(new Inherited("Arguments", false))); // gen inh code
 		cdn.GenClassDecl(cctx, gbn);
 
 		final MethHdrNode mhn = new MethHdrNode(null, cdn.type(), "main", null, 1000);
@@ -98,7 +96,7 @@ public class FactorialR /* extends TestCase */ {
 
 		final LocalDeclAgnNode ldan_a1 = new LocalDeclAgnNode("a1", sys_int,
 		  ExpressionNodeBuilder.fncall("argument",
-			convertToLocalAgnTmpNode(List_of(ExpressionNodeBuilder.integer(1)))));
+			convertToLocalAgnTmpNode(tripleo.elijah_prolific_durable.util.Helpers.List_of(ExpressionNodeBuilder.integer(1)))));
 		gbn.GenLocalDeclAgn(cctx, ldan_a1);
 
 		final TmpSSACtxNode latn = new TmpSSACtxNode(cctx);
@@ -113,10 +111,10 @@ public class FactorialR /* extends TestCase */ {
 		ifn.CloseIfCtx(cctx, gbn);
 
 		final LocalDeclAgnNode ldan_f1 = new LocalDeclAgnNode("f1",
-		  convertToLocalAgnTmpNode2(ExpressionNodeBuilder.fncall("factorial", List_of(new LocalAgnTmpNode("b1")))));
+		  convertToLocalAgnTmpNode2(ExpressionNodeBuilder.fncall("factorial", tripleo.elijah_prolific_durable.util.Helpers.List_of(new LocalAgnTmpNode("b1")))));
 		gbn.GenLocalAgn(cctx, ldan_f1);
 
-		final SimpleFnCall sfc = new SimpleFnCall("print", List_of("f1"));
+		final SimpleFnCall sfc = new SimpleFnCall("print", tripleo.elijah_prolific_durable.util.Helpers.List_of("f1"));
 		sfc.GenFnCall(cctx, gbn);
 		mhn.EndMeth(cctx, gbn);
 		cdn.CloseClassDecl(cctx, gbn);
@@ -142,7 +140,7 @@ public class FactorialR /* extends TestCase */ {
 
 
 		final MethHdrNode mhn = new MethHdrNode(u64, main_k, "factorial_r",
-		  List_of(new ArgumentNode("i", u64)), 1000);
+				tripleo.elijah_prolific_durable.util.Helpers.List_of(new ArgumentNode("i", u64)), 1000);
 		GenMethHdr(cctx, mhn, gbn);
 		BeginMeth(cctx, mhn, gbn);
 
@@ -171,7 +169,7 @@ public class FactorialR /* extends TestCase */ {
 
 		final TmpSSACtxNode tccssan2 = new TmpSSACtxNode(cctx);
 		final LocalAgnTmpNode latn2 = new LocalAgnTmpNode(tccssan2, ExpressionNodeBuilder.fncall(
-		  "factorial_r", List_of(lamn)));
+		  "factorial_r", tripleo.elijah_prolific_durable.util.Helpers.List_of(lamn)));
 		GenLocalAgn(cctx, latn2, gbn);
 
 		final TmpSSACtxNode tccssan3 = new TmpSSACtxNode(cctx);

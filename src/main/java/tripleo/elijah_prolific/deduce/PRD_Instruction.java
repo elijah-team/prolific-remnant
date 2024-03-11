@@ -1,7 +1,7 @@
 package tripleo.elijah_prolific.deduce;
 
-import tripleo.elijah.stages.deduce.fluffy2.*;
-import tripleo.elijah.stages.instructions.*;
+import tripleo.elijah_prolific_durable.stages.deduce.fluffy2.Fluffy2Rider;
+import tripleo.elijah_prolific_durable.stages.instructions.*;
 
 public interface PRD_Instruction {
 	int getIndex();

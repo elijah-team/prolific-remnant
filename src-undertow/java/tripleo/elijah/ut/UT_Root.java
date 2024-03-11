@@ -1,13 +1,13 @@
 package tripleo.elijah.ut;
 
-import tripleo.elijah.comp.*;
+import tripleo.elijah_prolific_durable.comp.ICompilationBus;
 
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.*;
 
-import static tripleo.elijah.util.Helpers.*;
+import static tripleo.elijah_prolific_durable.util.Helpers.List_of;
 
 class UT_Root {
 	private final Map<String, ICompilationBus.CB_Action> dcs = new HashMap<>();

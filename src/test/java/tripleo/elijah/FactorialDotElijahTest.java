@@ -8,13 +8,13 @@
  */
 package tripleo.elijah;
 
-import org.junit.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.gen.*;
-import tripleo.elijah.gen.nodes.*;
-import tripleo.util.buffer.*;
+import static tripleo.elijah_prolific_durable.util.Helpers.List_of;
 
-import static tripleo.elijah.util.Helpers.*;
+import org.junit.*;
+import tripleo.elijah_prolific_durable.comp.GenBuffer;
+import tripleo.elijah_prolific_durable.gen.*;
+import tripleo.elijah_prolific_durable.gen.nodes.*;
+import tripleo.util.buffer.*;
 
 public class FactorialDotElijahTest {
 
@@ -30,7 +30,7 @@ public class FactorialDotElijahTest {
 		Assert.assertEquals("vai", argumentNode.getGenName());
 
 		final MethHdrNode mhn = new MethHdrNode(u64, main_k, "factorial_r",
-		  List_of(argumentNode), 1000);
+				List_of(argumentNode), 1000);
 		Assert.assertEquals("z100factorial_r", mhn.genName());
 	}
 

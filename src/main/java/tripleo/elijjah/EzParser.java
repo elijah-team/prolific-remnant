@@ -4,11 +4,12 @@ package tripleo.elijjah;
 
 import antlr.*;
 import antlr.collections.impl.*;
-import tripleo.elijah.ci.IndexingStatement;
-import tripleo.elijah.ci.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.lang2.*;
+import tripleo.elijah_prolific_durable.ci.*;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.ci.IndexingStatement;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.lang.types.OS_BuiltinType;
+import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
 
 public class EzParser extends antlr.LLkParser implements EzTokenTypes {
 

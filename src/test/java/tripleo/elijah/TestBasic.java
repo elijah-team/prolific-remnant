@@ -14,10 +14,10 @@ import org.jdeferred2.Promise;
 import org.jdeferred2.impl.DeferredObject;
 import org.jetbrains.annotations.NotNull;
 import org.junit.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.CompilationImpl;
-import tripleo.elijah.nextgen.outputstatement.*;
-import tripleo.elijah.nextgen.outputtree.EOT_OutputTree;
+import tripleo.elijah_prolific_durable.comp.*;
+import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
+import tripleo.elijah_prolific_durable.nextgen.outputstatement.*;
+import tripleo.elijah_prolific_durable.nextgen.outputtree.EOT_OutputTree;
 import tripleo.elijah_prolific.v.V;
 
 import java.io.File;
@@ -26,7 +26,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static com.google.common.truth.Truth.assertThat;
-import static tripleo.elijah.util.Helpers.List_of;
+import static tripleo.elijah_prolific_durable.util.Helpers.List_of;
 
 /**
  * @author Tripleo(envy)

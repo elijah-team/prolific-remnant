@@ -1,6 +1,6 @@
 package tripleo.elijah_prolific.v;
 
-import tripleo.elijah.stages.gen_generic.*;
+import tripleo.elijah_prolific_durable.stages.gen_generic.*;
 
 import java.io.PrintStream;
 

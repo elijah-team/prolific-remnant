@@ -1,18 +1,18 @@
 package tripleo.elijah_prolific.gen_c;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang2.BuiltInTypes;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.gen_c.*;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.stages.instructions.*;
-import tripleo.elijah.stages.logging.ElLog;
-import tripleo.elijah.util.*;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
+import tripleo.elijah_prolific_durable.stages.deduce.*;
+import tripleo.elijah_prolific_durable.stages.gen_c.*;
+import tripleo.elijah_prolific_durable.stages.gen_fn.*;
+import tripleo.elijah_prolific_durable.stages.instructions.*;
+import tripleo.elijah_prolific_durable.stages.logging.ElLog;
+import tripleo.elijah_prolific_durable.util.*;
 
 import java.util.*;
 
-import static tripleo.elijah.stages.deduce.DeduceTypes2.to_int;
+import static tripleo.elijah_prolific_durable.stages.deduce.DeduceTypes2.to_int;
 
 public class GetAssignmentValue {
 

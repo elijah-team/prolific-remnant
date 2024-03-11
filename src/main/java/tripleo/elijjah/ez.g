@@ -3,12 +3,12 @@ header {
 }
 
 {
-import tripleo.elijah.lang.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.ci.*;
-import tripleo.elijah.ci.IndexingStatement;
-import tripleo.elijah.lang2.*;
-import tripleo.elijah.*;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.contexts.*;
+import tripleo.elijah_prolific_durable.ci.*;
+import tripleo.elijah_prolific_durable.ci.IndexingStatement;
+import tripleo.elijah_prolific_durable.lang2.*;
+import tripleo.elijah_prolific_durable.*;
 }
 
 //----------------------------------------------------------------------------

@@ -10,21 +10,22 @@ package tripleo.elijah.stages.gen_fn;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.*;
-import tripleo.elijah.util.Eventual;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.CompilationImpl;
-import tripleo.elijah.entrypoints.MainClassEntryPoint;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.stages.deduce.*;
-import tripleo.elijah.stages.instructions.InstructionName;
-import tripleo.elijah.util.EventualExtract;
-import tripleo.elijah.work.WorkManager;
+import tripleo.elijah_prolific_durable.comp.*;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.stages.deduce.*;
+import tripleo.elijah_prolific_durable.stages.gen_fn.*;
+import tripleo.elijah_prolific_durable.util.Eventual;
+import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
+import tripleo.elijah_prolific_durable.entrypoints.MainClassEntryPoint;
+import tripleo.elijah_prolific_durable.stages.instructions.InstructionName;
+import tripleo.elijah_prolific_durable.util.EventualExtract;
+import tripleo.elijah_prolific_durable.work.WorkManager;
 
 import java.io.File;
 import java.util.*;
 
 import static com.google.common.truth.Truth.assertThat;
-import static tripleo.elijah.util.Helpers.List_of;
+import static tripleo.elijah_prolific_durable.util.Helpers.List_of;
 
 /**
  * Created 9/10/20 2:20 PM
@@ -65,7 +66,7 @@ public class TestGenFunction {
 		final @NotNull GeneratePhase      generatePhase1 = c.pipelineLogic.generatePhase;//new GeneratePhase();
 		final Eventual<GenerateFunctions> egf            = generatePhase1.getGenerateFunctions2(m);
 		final GenerateFunctions           gfm            = EventualExtract.of(egf);
-		final @NotNull DeducePhase   dp             = c.pipelineLogic.dp;//new DeducePhase(generatePhase1);
+		final @NotNull DeducePhase        dp             = c.pipelineLogic.dp;//new DeducePhase(generatePhase1);
 		gfm.generateFromEntryPoints(m.entryPoints, dp);
 
 		final DeducePhase.@NotNull GeneratedClasses lgc = dp.generatedClasses; //new ArrayList<>();

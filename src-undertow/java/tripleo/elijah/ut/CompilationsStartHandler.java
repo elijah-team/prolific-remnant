@@ -3,15 +3,15 @@ package tripleo.elijah.ut;
 import com.google.common.base.*;
 import io.undertow.server.*;
 import io.undertow.util.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.factory.comp.*;
+import tripleo.elijah_prolific_durable.comp.*;
+import tripleo.elijah_prolific_durable.factory.comp.CompilationFactory;
 
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.*;
 
-import static tripleo.elijah.util.Helpers.*;
+import static tripleo.elijah_prolific_durable.util.Helpers.List_of;
 
 public class CompilationsStartHandler implements HttpHandler {
 

@@ -2,7 +2,7 @@ package tripleo.elijah.ut;
 
 import io.undertow.server.*;
 import io.undertow.util.*;
-import tripleo.elijah.comp.*;
+import tripleo.elijah_prolific_durable.comp.ICompilationBus;
 
 public class DoContinuationsHandler implements HttpHandler {
 

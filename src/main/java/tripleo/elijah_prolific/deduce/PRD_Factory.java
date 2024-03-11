@@ -1,7 +1,7 @@
 package tripleo.elijah_prolific.deduce;
 
-import tripleo.elijah.stages.deduce.DeduceTypes2;
-import tripleo.elijah.stages.instructions.Instruction;
+import tripleo.elijah_prolific_durable.stages.deduce.DeduceTypes2;
+import tripleo.elijah_prolific_durable.stages.instructions.Instruction;
 
 public class PRD_Factory {
 	private final DeduceTypes2 deduceTypes2; // ??

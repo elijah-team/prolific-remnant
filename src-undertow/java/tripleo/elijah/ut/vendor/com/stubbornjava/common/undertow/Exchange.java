@@ -52,7 +52,7 @@ public class Exchange {
 	}
 
 	public static interface BodyImpl extends
-	  ContentTypeSenders
+			ContentTypeSenders
 	  , JsonSender
 	  , JsonParser
 	  , HtmlTemplateSender {

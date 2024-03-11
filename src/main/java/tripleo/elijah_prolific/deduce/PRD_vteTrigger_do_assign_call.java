@@ -1,15 +1,15 @@
 package tripleo.elijah_prolific.deduce;
 
 import org.jetbrains.annotations.NotNull;
-import tripleo.elijah.comp.ErrSink;
-import tripleo.elijah.lang.Context;
-import tripleo.elijah.lang.OS_Element;
-import tripleo.elijah.lang.IdentExpression;
-import tripleo.elijah.lang.VariableStatement;
-import tripleo.elijah.stages.deduce.DeduceLookupUtils;
-import tripleo.elijah.stages.deduce.DeduceTypes2;
-import tripleo.elijah.stages.gen_fn.*;
-import tripleo.elijah.util.Eventual;
+import tripleo.elijah_prolific_durable.lang.Context;
+import tripleo.elijah_prolific_durable.lang.OS_Element;
+import tripleo.elijah_prolific_durable.lang.IdentExpression;
+import tripleo.elijah_prolific_durable.lang.VariableStatement;
+import tripleo.elijah_prolific_durable.stages.deduce.DeduceLookupUtils;
+import tripleo.elijah_prolific_durable.stages.deduce.DeduceTypes2;
+import tripleo.elijah_prolific_durable.stages.gen_fn.*;
+import tripleo.elijah_prolific_durable.stages.gen_fn.*;
+import tripleo.elijah_prolific_durable.util.Eventual;
 import tripleo.elijah_prolific.gen_fn.PRN_vteTrigger;
 
 public class PRD_vteTrigger_do_assign_call implements PRN_vteTrigger {

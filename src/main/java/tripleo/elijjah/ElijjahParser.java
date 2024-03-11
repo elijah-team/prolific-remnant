@@ -4,13 +4,14 @@ package tripleo.elijjah;
 
 import antlr.*;
 import antlr.collections.impl.BitSet;
-import tripleo.elijah.*;
-import tripleo.elijah.contexts.*;
-import tripleo.elijah.lang.*;
-import tripleo.elijah.lang.builder.*;
-import tripleo.elijah.lang.imports.*;
-import tripleo.elijah.lang.types.*;
-import tripleo.elijah.lang2.*;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.Out;
+import tripleo.elijah_prolific_durable.contexts.*;
+import tripleo.elijah_prolific_durable.lang.*;
+import tripleo.elijah_prolific_durable.lang.builder.*;
+import tripleo.elijah_prolific_durable.lang.imports.*;
+import tripleo.elijah_prolific_durable.lang.types.OS_BuiltinType;
+import tripleo.elijah_prolific_durable.lang2.BuiltInTypes;
 
 import java.util.*;
 
@@ -244,7 +245,7 @@ public class ElijjahParser extends antlr.LLkParser implements ElijjahTokenTypes 
 	public static final BitSet _tokenSet_98 = new BitSet(mk_tokenSet_98());
 	public static final BitSet _tokenSet_99 = new BitSet(mk_tokenSet_99());
 	public static final BitSet _tokenSet_100 = new BitSet(mk_tokenSet_100());
-	public Out out;
+	public              Out    out;
 	Qualident xy;
 	IExpression expr;
 	Context     cur;

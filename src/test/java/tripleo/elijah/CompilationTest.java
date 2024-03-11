@@ -9,13 +9,13 @@
 package tripleo.elijah;
 
 import org.junit.*;
-import tripleo.elijah.comp.*;
-import tripleo.elijah.comp.internal.*;
+import tripleo.elijah_prolific_durable.comp.*;
+import tripleo.elijah_prolific_durable.comp.internal.CompilationImpl;
 
 import java.io.*;
 import java.util.*;
 
-import static tripleo.elijah.util.Helpers.*;
+import static tripleo.elijah_prolific_durable.util.Helpers.List_of;
 
 /**
  * @author Tripleo(envy)
@@ -25,8 +25,8 @@ public class CompilationTest {
 	@Test
 	public final void testEz() throws Exception {
 		final List<String> args = List_of("test/comp_test/main3", "-sE"/*, "-out"*/);
-		final ErrSink      eee  = new StdErrSink();
-		final Compilation  c    = new CompilationImpl(eee, new IO());
+		final ErrSink     eee = new StdErrSink();
+		final Compilation c   = new CompilationImpl(eee, new IO());
 
 		c.feedCmdLine(args);
 
