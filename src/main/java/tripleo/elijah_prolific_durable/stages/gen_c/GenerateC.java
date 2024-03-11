@@ -515,7 +515,7 @@ public class GenerateC implements CodeGenerator, GenerateFiles {
 		return getRealTargetName(gf, varTableEntry);
 	}
 
-	String getRealTargetName(final @NotNull BaseGeneratedFunction gf, final @NotNull IdentIA target, final Generate_Code_For_Method.AOG aog, final String value) {
+	public String getRealTargetName(final @NotNull BaseGeneratedFunction gf, final @NotNull IdentIA target, final Generate_Code_For_Method.AOG aog, final String value) {
 		int                      state           = 0, code = -1;
 		final IdentTableEntry    identTableEntry = gf.getIdentTableEntry(target.getIndex());
 		final LinkedList<String> ls              = new LinkedList<String>();

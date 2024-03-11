@@ -2043,7 +2043,8 @@ public class GenerateFunctions {
 		return Result;
 	}
 
-	@NotNull GeneratedFunction generateFunction(@NotNull final FunctionDef fd,
+	@NotNull
+	public GeneratedFunction generateFunction(@NotNull final FunctionDef fd,
 	                                            final OS_Element parent,
 	                                            @NotNull final FunctionInvocation aFunctionInvocation) {
 //		LOG.err("601.1 fn "+fd.name() + " " + parent);
@@ -2225,7 +2226,7 @@ public class GenerateFunctions {
 		}
 	}
 
-	InstructionArgument simplify_expression(@NotNull final IExpression expression, final @NotNull BaseGeneratedFunction gf, final Context cctx) {
+	public InstructionArgument simplify_expression(@NotNull final IExpression expression, final @NotNull BaseGeneratedFunction gf, final Context cctx) {
 		final ExpressionKind expressionKind = expression.getKind();
 		switch (expressionKind) {
 		case PROCEDURE_CALL:

@@ -136,6 +136,7 @@ public class DeduceLookupUtils {
 	 * @return a "flat" {@link Stack<IExpression>} of expressions
 	 */
 	@NotNull
+	public
 	static Stack<IExpression> dot_expression_to_stack(final @NotNull DotExpression de) {
 		final @NotNull Stack<IExpression> right_stack = new Stack<>();
 		IExpression                       right       = de.getRight();

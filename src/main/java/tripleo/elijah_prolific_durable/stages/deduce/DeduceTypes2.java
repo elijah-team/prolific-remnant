@@ -1541,7 +1541,7 @@ public class DeduceTypes2 {
 //		return null;
 //	}
 
-	void do_assign_call_args_ident(@NotNull final BaseGeneratedFunction generatedFunction,
+	public void do_assign_call_args_ident(@NotNull final BaseGeneratedFunction generatedFunction,
 	                               @NotNull final Context ctx,
 	                               @NotNull final VariableTableEntry vte,
 	                               final int aInstructionIndex,
